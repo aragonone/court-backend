@@ -1,0 +1,7 @@
+{
+  "name": "@aragon/court-backend-monorepo",
+  "version": "0.0.1",
+  "devDependencies": {
+    "lerna": "^3.14.1"
+  }
+}
