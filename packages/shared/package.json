@@ -1,0 +1,12 @@
+{
+  "name": "@aragon/court-backend-shared",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@aragon/court": "^1.0.0",
+    "@aragon/minime": "^1.0.0",
+    "@aragon/truffle-config-v5": "^1.0.0",
+    "@truffle/contract": "^4.0.32",
+    "web3": "^0.20.7"
+  }
+}
