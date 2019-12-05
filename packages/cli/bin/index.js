@@ -3,7 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const yargs = require('yargs')
-const Logger = require('../src/helpers/logger')
+const Logger = require('@aragon/court-backend-shared/helpers/logger')
 const errorHandler = require('../src/helpers/errorHandler')
 
 const DEFAULT_OPTIONS = {

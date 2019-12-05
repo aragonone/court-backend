@@ -1,4 +1,4 @@
-const logger = require('../helpers/logger')('Minter')
+const logger = require('@aragon/court-backend-shared/helpers/logger')('mint')
 const { bigExp } = require('@aragon/court-backend-shared/helpers/numbers')
 const CourtProvider = require('../models/CourtProvider')
 
@@ -6,23 +6,24 @@ const command = 'mint'
 const describe = 'Mint tokens for a certain address'
 
 const builder = {
-  to: { alias: 'r', describe: 'Recipient address', type: 'string', demand: true },
-  token: { alias: 't', describe: 'Token symbol', type: 'string', demand: true },
-  amount: { alias: 'a', describe: 'Amount to mint', type: 'string', demand: true },
+  token: { alias: 't', describe: 'Token symbol (ANJ or FEE)', type: 'string', demand: true },
+  amount: { alias: 'a', describe: 'Amount to mint (without decimals)', type: 'string', demand: true },
+  recipient: { alias: 'r', describe: 'Recipient address (will use default address if missing)', type: 'string' },
 }
 
-const handlerAsync = async ({ network, from, to, token: symbol, amount }) => {
+const handlerAsync = async ({ network, from, recipient, token: symbol, amount }) => {
   const court = await CourtProvider.for(network, from)
+  const to = recipient || await court.environment.getSender()
 
-  if (symbol.toLowerCase() === 'anj') {
-    logger.info(`Minting ${symbol} ${amount} to ${to} ...`)
-    const token = await court.anj()
-    const decimals = await token.decimals()
-    await token.generateTokens(to, bigExp(amount, decimals))
-    logger.success(`Minted ${symbol} ${amount} to ${to}`)
-  } else {
-    throw new Error(`Minting ${symbol} is not supported yet`)
-  }
+  let token
+  if (symbol.toLowerCase() === 'anj') token = await court.anj()
+  if (symbol.toLowerCase() === 'fee') token = await court.feeToken()
+  if (!token) throw new Error(`Minting ${symbol} is not supported yet`)
+
+  logger.info(`Minting ${symbol} ${amount} to ${to}...`)
+  const decimals = await token.decimals()
+  await token.generateTokens(to, bigExp(amount, decimals))
+  logger.success(`Minted ${symbol} ${amount} to ${to}`)
 }
 
 module.exports = {

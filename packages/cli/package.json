@@ -2,12 +2,17 @@
   "name": "@aragon/court-backend-cli",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "rpc:mint": "node ./bin/index.js mint -n rpc --verbose",
+    "rpc:heartbeat": "node ./bin/index.js heartbeat -n rpc --verbose",
+    "rpc:subscribe": "node ./bin/index.js subscribe -n rpc --verbose",
+    "rpc:dispute": "node ./bin/index.js dispute -n rpc --verbose"
+  },
   "dependencies": {
     "@aragon/court": "^1.0.0",
     "@aragon/court-backend-shared": "^0.0.1",
     "@aragon/minime": "^1.0.0",
     "@aragon/truffle-config-v5": "^1.0.0",
-    "chalk": "^2.4.2",
     "web3": "^1.2.1",
     "yargs": "^14.0.0"
   }
