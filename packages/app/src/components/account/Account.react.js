@@ -16,7 +16,7 @@ export default class Account extends React.Component {
   render() {
     const { address } = this.state
     return (
-      <p ref="account" className="labeled">{address}</p>
+      <p ref="account">{address}</p>
     )
   }
 

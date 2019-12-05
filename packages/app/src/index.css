@@ -8,11 +8,13 @@ html {
   border: 1px #eeeeee solid;
   padding: 10px;
   margin-top: 5px;
+  overflow: auto;
+  min-height: 500px;
 }
 
 nav {
   border: 1px #eeeeee solid;
-  padding: 5px;
+  padding: 5px 10px;
   height: 30px;
 }
 
@@ -38,6 +40,7 @@ nav .account {
   width: 25%;
   float: right;
   font-size: 10px;
+  text-align: right;
 }
 
 a {
@@ -69,4 +72,10 @@ table thead tr th {
   margin-top: -15px;
   margin-right: 5px;
   cursor: pointer;
+}
+
+.home .balances, .home .config {
+  width: 50%;
+  float: left;
+  font-size: 15px;
 }

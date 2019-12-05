@@ -6,6 +6,7 @@ const BUILDS = {
   },
   '@aragon/court': {
     'AragonCourt': require('@aragon/court/build/contracts/AragonCourt'),
+    'DisputeManager': require('@aragon/court/build/contracts/DisputeManager'),
     'JurorsRegistry': require('@aragon/court/build/contracts/JurorsRegistry'),
     'CourtSubscriptions': require('@aragon/court/build/contracts/CourtSubscriptions'),
   }

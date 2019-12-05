@@ -16,7 +16,7 @@ export default class AccountBalances extends React.Component {
   render() {
     const { address, eth, anj, fee } = this.state
     return (
-      <div ref="accountBalances">
+      <div ref="accountBalances" className="balances">
         <h3>Your Account</h3>
         { !address ? 'Loading...' :
           <div>
