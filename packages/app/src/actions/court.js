@@ -39,8 +39,6 @@ const CourtActions = {
           }
         }`)
 
-        console.log(result)
-
         const court = await Network.getCourt()
         const neededTransitions = await court.neededTransitions()
         const config = { ...result.courtConfig, neededTransitions }

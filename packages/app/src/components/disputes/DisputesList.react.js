@@ -24,9 +24,13 @@ export default class DisputesList extends React.Component {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Creator</th>
+                <th>Subject</th>
+                <th>Metadata</th>
                 <th>Term ID</th>
+                <th>Possible rulings</th>
                 <th>State</th>
+                <th>Rounds</th>
+                <th>Final ruling</th>
               </tr>
             </thead>
             <tbody>
@@ -47,9 +51,13 @@ export default class DisputesList extends React.Component {
               <b>#{dispute.id}</b>
             </Link>
           </td>
-          <td>2</td>
-          <td>3</td>
-          <td>4</td>
+          <td>{dispute.subject.id}</td>
+          <td>{dispute.metadata}</td>
+          <td>{dispute.createTermId}</td>
+          <td>{dispute.possibleRulings}</td>
+          <td>{dispute.state}</td>
+          <td>{parseInt(dispute.lastRoundId) + 1}</td>
+          <td>{dispute.finalRuling}</td>
         </tr>
       )
     })

@@ -1,13 +1,13 @@
 import React from 'react'
 
 class Modal extends React.Component {
+  static getDerivedStateFromProps(nextProps) {
+    return { open: nextProps.open, message: nextProps.message }
+  }
+
   constructor(props){
     super(props)
     this.state = { open: this.props.open, message: this.props.message, progressBar: this.props.progressBar }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({ open: nextProps.open, message: nextProps.message })
   }
 
   render() {

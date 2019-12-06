@@ -1,11 +1,53 @@
 import ErrorActions from './errors'
 import * as ActionTypes from '../actions/types'
+import Network from "../web3/Network";
 
 const DisputeActions = {
   find(id) {
     return async function(dispatch) {
       try {
-        dispatch(DisputeActions.receiveDispute({ id }))
+        const result = await Network.query(`{
+          dispute (id: "${id}") {
+            id
+            createTermId
+            possibleRulings
+            finalRuling
+            lastRoundId
+            state
+            metadata
+            subject {
+              id
+              evidence
+            }
+            rounds {
+              state
+              number
+              draftTermId
+              jurorsNumber
+              settledPenalties
+              jurorFees
+              delayedTerms
+              selectedJurors
+              coherentJurors
+              settledJurors
+              collectedTokens
+              jurors {
+                address
+                weight
+                rewarded
+              }
+              appeal {
+                id
+                maker
+                appealedRuling
+                taker
+                opposedRuling
+                settled
+              }
+            }
+          }
+        }`)
+        dispatch(DisputeActions.receiveDispute(result.dispute))
       } catch(error) {
         dispatch(ErrorActions.show(error))
       }
@@ -15,7 +57,21 @@ const DisputeActions = {
   findAll() {
     return async function(dispatch) {
       try {
-        dispatch(DisputeActions.receiveAll([ { id: 1 }]))
+        const result = await Network.query(`{
+          disputes {
+            id
+            createTermId
+            possibleRulings
+            finalRuling
+            lastRoundId
+            state
+            metadata
+            subject {
+              id
+            }
+          }
+        }`)
+        dispatch(DisputeActions.receiveAll(result.disputes))
       } catch(error) {
         dispatch(ErrorActions.show(error))
       }
@@ -26,8 +82,8 @@ const DisputeActions = {
     return { type: ActionTypes.RECEIVE_DISPUTES_LIST, list }
   },
 
-  receiveDispute(investment) {
-    return { type: ActionTypes.RECEIVE_DISPUTE, investment }
+  receiveDispute(dispute) {
+    return { type: ActionTypes.RECEIVE_DISPUTE, dispute }
   },
 }
 
