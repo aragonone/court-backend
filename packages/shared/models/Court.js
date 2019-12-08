@@ -91,6 +91,14 @@ module.exports = class {
     await registry.stakeFor(juror, bigExp(amount, decimals), data)
   }
 
+  async unstake(amount, data = '0x') {
+    const anj = await this.anj()
+    const decimals = await anj.decimals()
+    const registry = await this.registry()
+    logger.info(`Unstaking ANJ ${amount} for ${await this.environment.getSender()}...`)
+    await registry.unstake(bigExp(amount, decimals), data)
+  }
+
   async activate(amount) {
     const anj = await this.anj()
     const decimals = await anj.decimals()
@@ -140,7 +148,7 @@ module.exports = class {
     const disputeManager = await this.disputeManager()
     const { subject, lastRoundId } = await disputeManager.getDispute(disputeId)
     const { draftTerm } = await disputeManager.getRound(disputeId, lastRoundId)
-    const currentTermId  = await this.instance.getCurrentTermId()
+    const currentTermId = await this.instance.getCurrentTermId()
 
     if (draftTerm.gt(currentTermId)) {
       logger.info(`Closing evidence period for dispute #${disputeId} ...`)
