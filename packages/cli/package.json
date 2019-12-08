@@ -12,7 +12,8 @@
     "rpc:dispute": "node ./bin/index.js dispute -n rpc --verbose",
     "rpc:draft": "node ./bin/index.js draft -n rpc --verbose",
     "rpc:commit": "node ./bin/index.js commit -n rpc --verbose",
-    "rpc:reveal": "node ./bin/index.js reveal -n rpc --verbose"
+    "rpc:reveal": "node ./bin/index.js reveal -n rpc --verbose",
+    "rpc:appeal": "node ./bin/index.js appeal -n rpc --verbose"
   },
   "dependencies": {
     "@aragon/court": "^1.0.0",

@@ -173,6 +173,18 @@ module.exports = class {
     await voting.reveal(voteId, outcome, soliditySha3(password))
   }
 
+  async appeal(disputeId, outcome) {
+    const disputeManager = await this.disputeManager()
+    const { lastRoundId } = await disputeManager.getDispute(disputeId)
+
+    const feeToken = await this.feeToken()
+    const { appealDeposit } = await disputeManager.getNextRoundDetails(disputeId, lastRoundId)
+    await this._approve(feeToken, appealDeposit, disputeManager.address)
+
+    logger.info(`Appealing dispute #${disputeId} and round #${lastRoundId} in favour of outcome ${outcome}...`)
+    await disputeManager.createAppeal(disputeId, lastRoundId, outcome)
+  }
+
   async _approve(token, amount, recipient) {
     const allowance = await token.allowance(await this.environment.getSender(), recipient)
     if (allowance.gt(bn(0))) {
