@@ -1,7 +1,6 @@
 import Web3 from 'web3'
 import CourtProvider from './CourtProvider'
 
-const COURT_ADDRESS = process.env.REACT_APP_COURT_ADDRESS
 const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT
 const WEB3_HTTP_PROVIDER = process.env.REACT_APP_WEB3_HTTP_PROVIDER
 
@@ -16,8 +15,8 @@ const Network = {
     return json.data
   },
 
-  async getCourt() {
-    if (!this.court) this.court = await CourtProvider.for(this.getProvider(), COURT_ADDRESS)
+  async getCourt(address) {
+    if (!this.court) this.court = await CourtProvider.for(this.getProvider(), address)
     return this.court
   },
 

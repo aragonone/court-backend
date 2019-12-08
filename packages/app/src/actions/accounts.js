@@ -1,5 +1,6 @@
 import Network from '../web3/Network'
 import ErrorActions from './errors'
+import CourtActions from './court'
 import * as ActionTypes from '../actions/types'
 import { fromWei } from 'web3-utils'
 
@@ -8,10 +9,11 @@ const AccountActions = {
     return async function(dispatch) {
       try {
         const account = await Network.getAccount()
+        const courtAddress = await CourtActions.findCourt()
         dispatch(AccountActions.receive(account))
         dispatch(AccountActions.updateEthBalance(account))
-        dispatch(AccountActions.updateAnjBalance(account))
-        dispatch(AccountActions.updateFeeBalance(account))
+        dispatch(AccountActions.updateAnjBalance(account, courtAddress))
+        dispatch(AccountActions.updateFeeBalance(account, courtAddress))
       } catch(error) {
         dispatch(ErrorActions.show(error))
       }
@@ -30,10 +32,10 @@ const AccountActions = {
     }
   },
 
-  updateAnjBalance(account) {
+  updateAnjBalance(account, courtAddress) {
     return async function(dispatch) {
       try {
-        const court = await Network.getCourt()
+        const court = await Network.getCourt(courtAddress)
         const anj = await court.anj()
         const symbol = await anj.symbol()
         const anjBalance = await anj.balanceOf(account)
@@ -45,10 +47,10 @@ const AccountActions = {
     }
   },
 
-  updateFeeBalance(account) {
+  updateFeeBalance(account, courtAddress) {
     return async function(dispatch) {
       try {
-        const court = await Network.getCourt()
+        const court = await Network.getCourt(courtAddress)
         const feeToken = await court.feeToken()
         const symbol = await feeToken.symbol()
         const feeBalance = await feeToken.balanceOf(account)

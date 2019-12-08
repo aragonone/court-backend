@@ -3,11 +3,19 @@ import ErrorActions from './errors'
 import * as ActionTypes from '../actions/types'
 
 const CourtActions = {
+  async findCourt() {
+    const result = await Network.query('{ courtConfigs { id } }')
+    if (result.courtConfigs.length === 0) throw Error('Missing Aragon Court deployment')
+    if (result.courtConfigs.length > 1) throw Error('Found more than Aragon Court deployment')
+    return result.courtConfigs[0].id
+  },
+
   findConfig() {
     return async function(dispatch) {
       try {
+        const courtAddress = await CourtActions.findCourt()
         const result = await Network.query(`{
-          courtConfig(id: "${process.env.REACT_APP_COURT_ADDRESS}") {
+          courtConfig(id: "${courtAddress}") {
             id
             termDuration
             currentTerm
@@ -39,7 +47,7 @@ const CourtActions = {
           }
         }`)
 
-        const court = await Network.getCourt()
+        const court = await Network.getCourt(courtAddress)
         const neededTransitions = await court.neededTransitions()
         const config = { ...result.courtConfig, neededTransitions }
 
