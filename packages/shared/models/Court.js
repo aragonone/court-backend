@@ -1,10 +1,10 @@
 const logger = require('../helpers/logger')('Court')
 const { bn, bigExp } = require('../helpers/numbers')
 const { fromWei, fromAscii, soliditySha3 } = require('web3-utils')
-const { getEventArgument } = require('@aragon/test-helpers/events')
 const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
 const { getVoteId, hashVote } = require('@aragon/court/test/helpers/utils/crvoting')
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
+const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
 
 module.exports = class {
   constructor(instance, environment) {
@@ -158,7 +158,33 @@ module.exports = class {
     }
 
     logger.info(`Drafting dispute #${disputeId} ...`)
-    await disputeManager.draft(disputeId)
+    const receipt = await disputeManager.draft(disputeId)
+
+    // TODO: fix once minor update has been released
+    const abi = {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          name: "disputeId",
+          type: "uint256"
+        },
+        {
+          indexed: true,
+          name: "roundId",
+          type: "uint256"
+        },
+        {
+          indexed: true,
+          name: "juror",
+          type: "address"
+        }
+      ],
+      name: "JurorDrafted",
+      type: "event"
+    }
+    const logs = decodeEventsOfType(receipt, [abi], 'JurorDrafted')
+    return getEvents({ logs }, 'JurorDrafted').map(event => event.args.juror)
   }
 
   async commit(disputeId, outcome, password) {

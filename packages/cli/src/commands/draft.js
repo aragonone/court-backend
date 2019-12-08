@@ -10,8 +10,8 @@ const builder = {
 
 const handlerAsync = async ({ network, from, dispute }) => {
   const court = await CourtProvider.for(network, from)
-  await court.draft(dispute)
-  logger.success(`Drafted dispute #${dispute}`)
+  const jurors = await court.draft(dispute)
+  logger.success(`Drafted dispute #${dispute} with jurors ${jurors.join(', ')}`)
 }
 
 module.exports = {
