@@ -9,7 +9,8 @@
     "rpc:arbitrable": "node ./bin/index.js arbitrable -n rpc --verbose",
     "rpc:heartbeat": "node ./bin/index.js heartbeat -n rpc --verbose",
     "rpc:subscribe": "node ./bin/index.js subscribe -n rpc --verbose",
-    "rpc:dispute": "node ./bin/index.js dispute -n rpc --verbose"
+    "rpc:dispute": "node ./bin/index.js dispute -n rpc --verbose",
+    "rpc:draft": "node ./bin/index.js draft -n rpc --verbose"
   },
   "dependencies": {
     "@aragon/court": "^1.0.0",

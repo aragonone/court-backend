@@ -1,9 +1,9 @@
 const logger = require('../helpers/logger')('Court')
 const { bn, bigExp } = require('../helpers/numbers')
 const { fromWei, fromAscii } = require('web3-utils')
-const { getEventArgument } = require('@aragon/test-helpers/events')
 const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
+const { getEvents, getEventArgument } = require('@aragon/test-helpers/events')
 
 module.exports = class {
   constructor(instance, environment) {
@@ -38,6 +38,15 @@ module.exports = class {
       this._registry = await JurorsRegistry.at(address)
     }
     return this._registry
+  }
+
+  async disputeManager() {
+    if (!this._disputeManager) {
+      const address = await this.instance.getDisputeManager()
+      const DisputeManager = await this.environment.getArtifact('DisputeManager', '@aragon/court')
+      this._disputeManager = await DisputeManager.at(address)
+    }
+    return this._disputeManager
   }
 
   async subscriptions() {
@@ -80,12 +89,6 @@ module.exports = class {
     await registry.activate(bigExp(amount, decimals))
   }
 
-  async deployArbitrable() {
-    logger.info('Creating new Arbitrable instance...')
-    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
-    return Arbitrable.new(this.instance.address)
-  }
-
   async createDispute(subject, rulings = 2, metadata = '', evidence = []) {
     logger.info(`Creating new dispute for subject ${subject} ...`)
     const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
@@ -101,6 +104,29 @@ module.exports = class {
     }
 
     return disputeId
+  }
+
+  async draft(disputeId) {
+    const disputeManager = await this.disputeManager()
+    const { subject, lastRoundId } = await disputeManager.getDispute(disputeId)
+    const { draftTerm } = await disputeManager.getRound(disputeId, lastRoundId)
+    const currentTermId  = await this.instance.getCurrentTermId()
+
+    if (draftTerm.gt(currentTermId)) {
+      logger.info(`Closing evidence period for dispute #${disputeId} ...`)
+      const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
+      const arbitrable = await Arbitrable.at(subject)
+      await arbitrable.submitEvidence(disputeId, fromAscii('closing evidence submission period'), true)
+    }
+
+    logger.info(`Drafting dispute #${disputeId} ...`)
+    await disputeManager.draft(disputeId)
+  }
+
+  async deployArbitrable() {
+    logger.info('Creating new Arbitrable instance...')
+    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
+    return Arbitrable.new(this.instance.address)
   }
 
   async subscribe(address, periods = 1) {
