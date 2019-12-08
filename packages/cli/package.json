@@ -12,6 +12,7 @@
     "@aragon/court": "^1.0.0",
     "@aragon/court-backend-shared": "^0.0.1",
     "@aragon/minime": "^1.0.0",
+    "@truffle/contract": "^4.0.32",
     "@aragon/truffle-config-v5": "^1.0.0",
     "web3": "^1.2.1",
     "yargs": "^14.0.0"
