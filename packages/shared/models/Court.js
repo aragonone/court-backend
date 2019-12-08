@@ -56,7 +56,7 @@ module.exports = class {
   async heartbeat(transitions = undefined) {
     const needed = await this.neededTransitions()
     logger.info(`Required ${needed} transitions`)
-    if (needed === 0) return needed
+    if (needed.eq(bn(0))) return needed
     const heartbeats = transitions || needed
     logger.info(`Calling heartbeat with ${heartbeats} max transitions...`)
     await this.instance.heartbeat(heartbeats)
