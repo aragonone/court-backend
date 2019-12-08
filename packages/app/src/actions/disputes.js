@@ -15,6 +15,7 @@ const DisputeActions = {
             lastRoundId
             state
             metadata
+            createdAt
             subject {
               id
               evidence
@@ -29,12 +30,15 @@ const DisputeActions = {
               delayedTerms
               selectedJurors
               coherentJurors
-              settledJurors
               collectedTokens
+              createdAt
               jurors {
-                address
+                outcome
+                commitment
+                leaker
                 weight
                 rewarded
+                createdAt
               }
               appeal {
                 id
@@ -43,6 +47,7 @@ const DisputeActions = {
                 taker
                 opposedRuling
                 settled
+                createdAt
               }
             }
           }
@@ -66,6 +71,7 @@ const DisputeActions = {
             lastRoundId
             state
             metadata
+            createdAt
             subject {
               id
             }

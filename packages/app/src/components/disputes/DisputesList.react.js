@@ -32,6 +32,7 @@ export default class DisputesList extends React.Component {
                 <th>State</th>
                 <th>Rounds</th>
                 <th>Final ruling</th>
+                <th>Created at</th>
               </tr>
             </thead>
             <tbody>
@@ -59,6 +60,7 @@ export default class DisputesList extends React.Component {
           <td>{dispute.state}</td>
           <td>{parseInt(dispute.lastRoundId) + 1}</td>
           <td>{dispute.finalRuling}</td>
+          <td>{new Date(dispute.createdAt * 1000).toString()}</td>
         </tr>
       )
     })

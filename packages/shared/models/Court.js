@@ -63,6 +63,12 @@ module.exports = class {
     return heartbeats
   }
 
+  async deployArbitrable() {
+    logger.info('Creating new Arbitrable instance...')
+    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
+    return Arbitrable.new(this.instance.address)
+  }
+
   async createDispute(subject, rulings = 2, metadata = '', evidence = []) {
     logger.info(`Creating new dispute for subject ${subject} ...`)
     const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
@@ -74,20 +80,15 @@ module.exports = class {
 
     for (const data of evidence) {
       logger.info(`Submitting evidence ${data} for dispute #${disputeId} ...`)
-      await arbitrable.submitEvidence(disputeId, data, false)
+      await arbitrable.submitEvidence(disputeId, fromAscii(data), false)
     }
 
     return disputeId
   }
 
-  async subscribe(periods = 1, address = undefined) {
-    let arbitrable
+  async subscribe(address, periods = 1) {
     const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
-    if (address) arbitrable = await Arbitrable.at(address)
-    else {
-      logger.info('Creating new Arbitrable instance...')
-      arbitrable = await Arbitrable.new(this.instance.address)
-    }
+    const arbitrable = await Arbitrable.at(address)
 
     const { recipient, feeToken, feeAmount } = await this.instance.getSubscriptionFees(arbitrable.address)
     const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
@@ -97,7 +98,6 @@ module.exports = class {
     const subscriptions = await this.subscriptions()
     logger.info(`Paying fees for ${periods} periods to ${subscriptions.address}...`)
     await subscriptions.payFees(arbitrable.address, periods)
-    return arbitrable
   }
 
   async _approve(token, amount, recipient) {

@@ -26,6 +26,7 @@ export default class DisputeDetail extends React.Component {
               <p>Possible rulings: {dispute.possibleRulings}</p>
               <p>State: {dispute.state}</p>
               <p>Final ruling: {dispute.finalRuling}</p>
+              <p>Created at: {new Date(dispute.createdAt).toString()}</p>
               <p>Evidence:</p>
               <ul>{this._buildEvidenceList()}</ul>
               <p>Rounds:</p>
@@ -54,6 +55,7 @@ export default class DisputeDetail extends React.Component {
             <li>Coherent jurors: {round.coherentJurors}</li>
             <li>Settled jurors: {round.settledJurors}</li>
             <li>Collected tokens: {round.collectedTokens}</li>
+            <li>Created at: {new Date(round.createdAt * 1000).toString()}</li>
             <li>Appeal:
               {!round.appeal ? ' None' : (
                 <ul>
@@ -62,6 +64,7 @@ export default class DisputeDetail extends React.Component {
                   <li>Appeal taker: {round.appeal.taker}</li>
                   <li>Appeal taker ruling: {round.appeal.opposedRuling}</li>
                   <li>Appeal settled: {round.appeal.settled}</li>
+                  <li>Appeal created at: {new Date(round.appeal.createdAt * 1000).toString()}</li>
                 </ul>
               )}
             </li>
