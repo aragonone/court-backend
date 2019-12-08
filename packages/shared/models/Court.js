@@ -1,9 +1,10 @@
 const logger = require('../helpers/logger')('Court')
 const { bn, bigExp } = require('../helpers/numbers')
-const { fromWei, fromAscii } = require('web3-utils')
+const { fromWei, fromAscii, soliditySha3 } = require('web3-utils')
+const { getEventArgument } = require('@aragon/test-helpers/events')
 const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
+const { getVoteId, hashVote } = require('@aragon/court/test/helpers/utils/crvoting')
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
-const { getEvents, getEventArgument } = require('@aragon/test-helpers/events')
 
 module.exports = class {
   constructor(instance, environment) {
@@ -49,6 +50,15 @@ module.exports = class {
     return this._disputeManager
   }
 
+  async voting() {
+    if (!this._voting) {
+      const address = await this.instance.getVoting()
+      const Voting = await this.environment.getArtifact('CRVoting', '@aragon/court')
+      this._voting = await Voting.at(address)
+    }
+    return this._voting
+  }
+
   async subscriptions() {
     if (!this._subscriptions) {
       const address = await this.instance.getSubscriptions()
@@ -89,6 +99,26 @@ module.exports = class {
     await registry.activate(bigExp(amount, decimals))
   }
 
+  async deployArbitrable() {
+    logger.info('Creating new Arbitrable instance...')
+    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
+    return Arbitrable.new(this.instance.address)
+  }
+
+  async subscribe(address, periods = 1) {
+    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
+    const arbitrable = await Arbitrable.at(address)
+
+    const { recipient, feeToken, feeAmount } = await this.instance.getSubscriptionFees(arbitrable.address)
+    const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
+    const token = await ERC20.at(feeToken)
+
+    await this._approve(token, feeAmount, recipient)
+    const subscriptions = await this.subscriptions()
+    logger.info(`Paying fees for ${periods} periods to ${subscriptions.address}...`)
+    await subscriptions.payFees(arbitrable.address, periods)
+  }
+
   async createDispute(subject, rulings = 2, metadata = '', evidence = []) {
     logger.info(`Creating new dispute for subject ${subject} ...`)
     const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
@@ -123,24 +153,24 @@ module.exports = class {
     await disputeManager.draft(disputeId)
   }
 
-  async deployArbitrable() {
-    logger.info('Creating new Arbitrable instance...')
-    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
-    return Arbitrable.new(this.instance.address)
+  async commit(disputeId, outcome, password) {
+    const disputeManager = await this.disputeManager()
+    const { lastRoundId } = await disputeManager.getDispute(disputeId)
+    const voteId = getVoteId(disputeId, lastRoundId)
+
+    logger.info(`Committing a vote for dispute #${disputeId} and round #${lastRoundId}...`)
+    const voting = await this.voting()
+    await voting.commit(voteId, hashVote(outcome, soliditySha3(password)))
   }
 
-  async subscribe(address, periods = 1) {
-    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
-    const arbitrable = await Arbitrable.at(address)
+  async reveal(disputeId, outcome, password) {
+    const disputeManager = await this.disputeManager()
+    const { lastRoundId } = await disputeManager.getDispute(disputeId)
+    const voteId = getVoteId(disputeId, lastRoundId)
 
-    const { recipient, feeToken, feeAmount } = await this.instance.getSubscriptionFees(arbitrable.address)
-    const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
-    const token = await ERC20.at(feeToken)
-
-    await this._approve(token, feeAmount, recipient)
-    const subscriptions = await this.subscriptions()
-    logger.info(`Paying fees for ${periods} periods to ${subscriptions.address}...`)
-    await subscriptions.payFees(arbitrable.address, periods)
+    logger.info(`Revealing vote for dispute #${disputeId} and round #${lastRoundId}...`)
+    const voting = await this.voting()
+    await voting.reveal(voteId, outcome, soliditySha3(password))
   }
 
   async _approve(token, amount, recipient) {
