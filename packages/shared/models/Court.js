@@ -212,6 +212,19 @@ module.exports = class {
     }
   }
 
+  async settleJuror(disputeId, juror) {
+    const disputeManager = await this.disputeManager()
+    const { lastRoundId } = await disputeManager.getDispute(disputeId)
+
+    for (let roundId = 0; roundId <= lastRoundId; roundId++) {
+      const { weight } = await disputeManager.getJuror(disputeId, roundId, juror)
+      if (weight.gt(bn(0))) {
+        logger.info(`Settling rewards of juror ${juror} for dispute #${disputeId} and round #${roundId}...`)
+        await disputeManager.settleReward(disputeId, roundId, juror)
+      }
+    }
+  }
+
   async _approve(token, amount, recipient) {
     const allowance = await token.allowance(await this.environment.getSender(), recipient)
     if (allowance.gt(bn(0))) {
