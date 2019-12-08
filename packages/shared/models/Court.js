@@ -107,6 +107,14 @@ module.exports = class {
     await registry.activate(bigExp(amount, decimals))
   }
 
+  async deactivate(amount) {
+    const anj = await this.anj()
+    const decimals = await anj.decimals()
+    const registry = await this.registry()
+    logger.info(`Requesting ANJ ${amount} from ${await this.environment.getSender()} for deactivation...`)
+    await registry.deactivate(bigExp(amount, decimals))
+  }
+
   async deployArbitrable() {
     logger.info('Creating new Arbitrable instance...')
     const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
