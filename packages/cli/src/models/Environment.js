@@ -22,17 +22,15 @@ module.exports = class {
     return this.artifacts
   }
 
+  async getAccounts() {
+    const web3 = this.getWeb3()
+    return web3.eth.getAccounts()
+  }
+
   async getSender() {
     if (!this.sender) {
       const { from } = this._getNetworkConfig()
-      if (from) {
-        this.sender = from
-      }
-      else {
-        const web3 = this.getWeb3()
-        const accounts = await web3.eth.getAccounts()
-        this.sender = accounts[0]
-      }
+      this.sender = from ? from : (await this.getAccounts())[0]
     }
     return this.sender
   }
