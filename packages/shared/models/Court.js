@@ -225,6 +225,11 @@ module.exports = class {
     }
   }
 
+  async execute(disputeId) {
+    logger.info(`Executing ruling of dispute #${disputeId}...`)
+    await this.instance.executeRuling(disputeId)
+  }
+
   async _approve(token, amount, recipient) {
     const allowance = await token.allowance(await this.environment.getSender(), recipient)
     if (allowance.gt(bn(0))) {
