@@ -10,6 +10,7 @@ const handlerAsync = async ({ network, from }) => {
   const court = await CourtProvider.for(network, from)
   const arbitrable = await court.deployArbitrable()
   logger.success(`Created Arbitrable instance ${arbitrable.address}`)
+  console.log(arbitrable.address)
 }
 
 module.exports = {
