@@ -185,6 +185,18 @@ module.exports = class {
     await disputeManager.createAppeal(disputeId, lastRoundId, outcome)
   }
 
+  async confirmAppeal(disputeId, outcome) {
+    const disputeManager = await this.disputeManager()
+    const { lastRoundId } = await disputeManager.getDispute(disputeId)
+
+    const feeToken = await this.feeToken()
+    const { confirmAppealDeposit } = await disputeManager.getNextRoundDetails(disputeId, lastRoundId)
+    await this._approve(feeToken, confirmAppealDeposit, disputeManager.address)
+
+    logger.info(`Confirming appeal for dispute #${disputeId} and round #${lastRoundId} in favour of outcome ${outcome}...`)
+    await disputeManager.confirmAppeal(disputeId, lastRoundId, outcome)
+  }
+
   async _approve(token, amount, recipient) {
     const allowance = await token.allowance(await this.environment.getSender(), recipient)
     if (allowance.gt(bn(0))) {
