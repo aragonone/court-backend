@@ -1,5 +1,5 @@
 const logger = require('../helpers/logger')('Court')
-const { bn } = require('../helpers/numbers')
+const { bn, bigExp } = require('../helpers/numbers')
 const { fromWei, fromAscii } = require('web3-utils')
 const { getEventArgument } = require('@aragon/test-helpers/events')
 const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
@@ -61,6 +61,15 @@ module.exports = class {
     logger.info(`Calling heartbeat with ${heartbeats} max transitions...`)
     await this.instance.heartbeat(heartbeats)
     return heartbeats
+  }
+
+  async stake(juror, amount, data = '0x') {
+    const anj = await this.anj()
+    const decimals = await anj.decimals()
+    const registry = await this.registry()
+    await this._approve(anj, bigExp(amount, decimals), registry.address)
+    logger.info(`Staking ANJ ${amount} for ${juror}...`)
+    await registry.stakeFor(juror, bigExp(amount, decimals), data)
   }
 
   async deployArbitrable() {
