@@ -6,7 +6,7 @@ import DisputeActions from '../../actions/disputes'
 export default class DisputesList extends React.Component {
   constructor(props){
     super(props)
-    this.state = { disputes: [] }
+    this.state = { disputes: null }
   }
 
   componentDidMount() {
@@ -15,11 +15,12 @@ export default class DisputesList extends React.Component {
   }
 
   render() {
+    const { disputes } = this.state
     return (
       <div ref="disputesList">
         <h3>Disputes</h3>
-        { this.state.disputes.length === 0 ?
-          <em>Loading...</em> :
+        { (!disputes) ? <em>Loading...</em> : disputes.length === 0 ?
+          <em>None</em> :
           <table>
             <thead>
               <tr>
