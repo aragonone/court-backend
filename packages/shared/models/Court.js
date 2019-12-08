@@ -72,6 +72,14 @@ module.exports = class {
     await registry.stakeFor(juror, bigExp(amount, decimals), data)
   }
 
+  async activate(amount) {
+    const anj = await this.anj()
+    const decimals = await anj.decimals()
+    const registry = await this.registry()
+    logger.info(`Activating ANJ ${amount} for ${await this.environment.getSender()}...`)
+    await registry.activate(bigExp(amount, decimals))
+  }
+
   async deployArbitrable() {
     logger.info('Creating new Arbitrable instance...')
     const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
