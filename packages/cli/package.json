@@ -14,7 +14,8 @@
     "rpc:commit": "node ./bin/index.js commit -n rpc --verbose",
     "rpc:reveal": "node ./bin/index.js reveal -n rpc --verbose",
     "rpc:appeal": "node ./bin/index.js appeal -n rpc --verbose",
-    "rpc:confirm-appeal": "node ./bin/index.js confirm-appeal -n rpc --verbose"
+    "rpc:confirm-appeal": "node ./bin/index.js confirm-appeal -n rpc --verbose",
+    "rpc:settle-round": "node ./bin/index.js settle-round -n rpc --verbose"
   },
   "dependencies": {
     "@aragon/court": "^1.0.0",

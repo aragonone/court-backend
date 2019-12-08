@@ -197,6 +197,21 @@ module.exports = class {
     await disputeManager.confirmAppeal(disputeId, lastRoundId, outcome)
   }
 
+  async settleRound(disputeId) {
+    const disputeManager = await this.disputeManager()
+    const { lastRoundId } = await disputeManager.getDispute(disputeId)
+
+    for (let roundId = 0; roundId <= lastRoundId; roundId++) {
+      logger.info(`Settling penalties for dispute #${disputeId} and round #${roundId}...`)
+      await disputeManager.settlePenalties(disputeId, roundId, 0)
+
+      if (lastRoundId > roundId) {
+        logger.info(`Settling appeal deposits for dispute #${disputeId} and round #${roundId}...`)
+        await disputeManager.settleAppealDeposit(disputeId, roundId)
+      }
+    }
+  }
+
   async _approve(token, amount, recipient) {
     const allowance = await token.allowance(await this.environment.getSender(), recipient)
     if (allowance.gt(bn(0))) {
