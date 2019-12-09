@@ -2,6 +2,7 @@ import React from 'react'
 import Store from '../../store/store'
 import { Link } from 'react-router-dom'
 import { toDate } from '../../helpers/toDate'
+import { hexToAscii } from 'web3-utils'
 import DisputeActions from '../../actions/disputes'
 
 export default class DisputeDetail extends React.Component {
@@ -40,51 +41,58 @@ export default class DisputeDetail extends React.Component {
   }
 
   _buildEvidenceList() {
-    return this.state.dispute.subject.evidence.map((link, index) => <a key={index} href={link}>link</a>)
+    return this.state.dispute.subject.evidence.map((evidence, index) =>
+      <li key={index}>
+        Evidence #{evidence.id}
+        <ul>
+          <li>Data: {hexToAscii(evidence.data)}</li>
+          <li>Submitter: {evidence.submitter}</li>
+          <li>Created at: {toDate(evidence.createdAt)}</li>
+        </ul>
+      </li>
+    )
   }
 
   _buildRoundsDetail() {
-    return this.state.dispute.rounds.map((round, index) => {
-      return (
-        <li key={index}>
-          Round #{parseInt(round.number) + 1}
-          <ul>
-            <li>State: {round.state}</li>
-            <li>Delayed terms: {round.delayedTerms}</li>
-            <li>Draft term ID: {round.draftTermId}</li>
-            <li>Jurors number: {round.jurorsNumber}</li>
-            <li>Selected jurors: {round.selectedJurors}</li>
-            <li>Coherent jurors: {round.coherentJurors}</li>
-            <li>Settled jurors: {round.settledJurors}</li>
-            <li>Collected tokens: {round.collectedTokens}</li>
-            <li>Created at: {toDate(round.createdAt)}</li>
-            <li>Appeal:
-              {!round.appeal ? ' None' : (
-                <ul>
-                  <li>Appeal maker: {round.appeal.maker}</li>
-                  <li>Appeal maker ruling: {round.appeal.appealedRuling}</li>
-                  <li>Appeal taker: {round.appeal.taker}</li>
-                  <li>Appeal taker ruling: {round.appeal.opposedRuling}</li>
-                  <li>Appeal settled: {round.appeal.settled}</li>
-                  <li>Appeal created at: {toDate(round.appeal.createdAt)}</li>
-                </ul>
-              )}
-            </li>
-            <li>Jurors:
-              {round.jurors.length === 0 ? ' None' : (
-                <ul>
-                  {round.jurors.map((juror, index) =>
-                    <li key={index}>
-                      <Link to={`/jurors/${juror.juror.id}`}>{juror.juror.id}</Link>
-                    </li>
-                  )}
-                </ul>
-              )}
-            </li>
-          </ul>
-        </li>
-      )
-    })
+    return this.state.dispute.rounds.map((round, index) =>
+      <li key={index}>
+        Round #{parseInt(round.number) + 1}
+        <ul>
+          <li>State: {round.state}</li>
+          <li>Delayed terms: {round.delayedTerms}</li>
+          <li>Draft term ID: {round.draftTermId}</li>
+          <li>Jurors number: {round.jurorsNumber}</li>
+          <li>Selected jurors: {round.selectedJurors}</li>
+          <li>Coherent jurors: {round.coherentJurors}</li>
+          <li>Settled jurors: {round.settledJurors}</li>
+          <li>Collected tokens: {round.collectedTokens}</li>
+          <li>Created at: {toDate(round.createdAt)}</li>
+          <li>Appeal:
+            {!round.appeal ? ' None' : (
+              <ul>
+                <li>Appeal maker: {round.appeal.maker}</li>
+                <li>Appeal maker ruling: {round.appeal.appealedRuling}</li>
+                <li>Appeal taker: {round.appeal.taker}</li>
+                <li>Appeal taker ruling: {round.appeal.opposedRuling}</li>
+                <li>Appeal settled: {round.appeal.settled}</li>
+                <li>Appeal created at: {toDate(round.appeal.createdAt)}</li>
+              </ul>
+            )}
+          </li>
+          <li>Jurors:
+            {round.jurors.length === 0 ? ' None' : (
+              <ul>
+                {round.jurors.map((juror, index) =>
+                  <li key={index}>
+                    <Link to={`/jurors/${juror.juror.id}`}>{juror.juror.id}</Link>
+                  </li>
+                )}
+              </ul>
+            )}
+          </li>
+        </ul>
+      </li>
+    )
   }
 
   _onChange() {
