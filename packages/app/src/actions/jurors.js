@@ -3,6 +3,27 @@ import Network from '../web3/Network'
 import * as ActionTypes from '../actions/types'
 
 const JurorsActions = {
+  find(address) {
+    return async function(dispatch) {
+      try {
+        const result = await Network.query(`{
+          juror (id: "${address}") {
+            id
+            activeBalance
+            lockedBalance
+            availableBalance
+            deactivationBalance
+            withdrawalsLockTermId
+            createdAt
+          }
+        }`)
+        dispatch(JurorsActions.receiveJuror(result.juror))
+      } catch(error) {
+        dispatch(ErrorActions.show(error))
+      }
+    }
+  },
+
   findAll() {
     return async function(dispatch) {
       try {
@@ -74,6 +95,10 @@ const JurorsActions = {
         dispatch(ErrorActions.show(error))
       }
     }
+  },
+
+  receiveJuror(juror) {
+    return { type: ActionTypes.RECEIVE_JUROR, juror }
   },
 
   receiveAll(list) {

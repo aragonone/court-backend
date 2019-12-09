@@ -1,7 +1,8 @@
 import React from 'react'
 import Store from '../../store/store'
-import DisputeActions from '../../actions/disputes'
+import { Link } from 'react-router-dom'
 import { toDate } from '../../helpers/toDate'
+import DisputeActions from '../../actions/disputes'
 
 export default class DisputeDetail extends React.Component {
   constructor(props){
@@ -72,7 +73,11 @@ export default class DisputeDetail extends React.Component {
             <li>Jurors:
               {round.jurors.length === 0 ? ' None' : (
                 <ul>
-                  {round.jurors.map((juror, index) => <li key={index}>{juror.juror.id}</li>)}
+                  {round.jurors.map((juror, index) =>
+                    <li key={index}>
+                      <Link to={`/jurors/${juror.juror.id}`}>{juror.juror.id}</Link>
+                    </li>
+                  )}
                 </ul>
               )}
             </li>

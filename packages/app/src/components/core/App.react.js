@@ -5,6 +5,7 @@ import Modal from '../common/Modal.react'
 import Error from '../common/Error.react'
 import Navbar from './Navbar.react'
 import JurorsList from '../jurors/JurorsList.react'
+import JurorDetail from '../jurors/JurorDetail.react'
 import JurorDraftsList from '../jurors/JurorDraftsList.react'
 import JurorAccountingList from '../jurors/JurorAccountingList.react'
 import DraftsList from '../drafts/DraftsList.react'
@@ -36,6 +37,7 @@ export default class App extends React.Component {
             <Route path="/disputes/" exact component={DisputesList}/>
             <Route path="/dispute/:id" component={DisputeDetail}/>
             <Route path="/jurors/" exact component={JurorsList}/>
+            <Route path="/jurors/:address/detail" component={JurorDetail}/>
             <Route path="/jurors/:address/drafts" component={JurorDraftsList}/>
             <Route path="/jurors/:address/accounting" component={JurorAccountingList}/>
             <Route path="/drafts/" component={DraftsList}/>

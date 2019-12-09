@@ -31,7 +31,6 @@ export default class JurorsList extends React.Component {
                 <th>Locked ANJ</th>
                 <th>Staked ANJ</th>
                 <th>Deactivating ANJ</th>
-                <th>Withdrawals lock term ID</th>
                 <th>Created at</th>
                 <th>Actions</th>
               </tr>
@@ -49,12 +48,11 @@ export default class JurorsList extends React.Component {
     return this.state.jurors.map((juror, index) => {
       return (
         <tr key={index}>
-          <td>{juror.id}</td>
+          <td><Link to={`/jurors/${juror.id}/detail`}><b>{juror.id}</b></Link></td>
           <td>{fromWei(juror.activeBalance)}</td>
           <td>{fromWei(juror.lockedBalance)}</td>
           <td>{fromWei(juror.availableBalance)}</td>
           <td>{fromWei(juror.deactivationBalance)}</td>
-          <td>{juror.withdrawalsLockTermId}</td>
           <td>{toDate(juror.createdAt)}</td>
           <td>
             <Link to={`/jurors/${juror.id}/drafts`}><b>drafts</b></Link> | <Link to={`/jurors/${juror.id}/accounting`}><b>accounting</b></Link>
