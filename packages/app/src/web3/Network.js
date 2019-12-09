@@ -22,6 +22,7 @@ const Network = {
 
   async getAccount() {
     const accounts = await this.getAccounts()
+    if (accounts.length === 0) throw Error('No accounts were provided in your web3 provider, please add one to read account related information.')
     return accounts[0]
   },
 
