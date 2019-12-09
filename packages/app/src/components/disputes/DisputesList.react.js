@@ -2,6 +2,7 @@ import React from 'react'
 import Store from '../../store/store'
 import { Link } from 'react-router-dom'
 import DisputeActions from '../../actions/disputes'
+import { toDate } from '../../helpers/toDate'
 
 export default class DisputesList extends React.Component {
   constructor(props){
@@ -60,7 +61,7 @@ export default class DisputesList extends React.Component {
           <td>{dispute.state}</td>
           <td>{parseInt(dispute.lastRoundId) + 1}</td>
           <td>{dispute.finalRuling}</td>
-          <td>{new Date(dispute.createdAt * 1000).toString()}</td>
+          <td>{toDate(dispute.createdAt)}</td>
         </tr>
       )
     })

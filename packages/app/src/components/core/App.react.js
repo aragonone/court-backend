@@ -4,6 +4,10 @@ import Store from '../../store/store'
 import Modal from '../common/Modal.react'
 import Error from '../common/Error.react'
 import Navbar from './Navbar.react'
+import JurorsList from '../jurors/JurorsList.react'
+import JurorDraftsList from '../jurors/JurorDraftsList.react'
+import JurorAccountingList from '../jurors/JurorAccountingList.react'
+import DraftsList from '../drafts/DraftsList.react'
 import DisputesList from '../disputes/DisputesList.react'
 import DisputeDetail from '../disputes/DisputeDetail.react'
 import ANJBalancesList from '../anj/ANJBalancesList.react'
@@ -29,10 +33,14 @@ export default class App extends React.Component {
           <Error/>
           <Switch>
             <Route path="/" exact component={Home}/>
-            <Route path="/anj-balances/" exact component={ANJBalancesList}/>
-            <Route path="/anj-transfers/:address" component={ANJTransfersList}/>
             <Route path="/disputes/" exact component={DisputesList}/>
             <Route path="/dispute/:id" component={DisputeDetail}/>
+            <Route path="/jurors/" exact component={JurorsList}/>
+            <Route path="/jurors/:address/drafts" component={JurorDraftsList}/>
+            <Route path="/jurors/:address/accounting" component={JurorAccountingList}/>
+            <Route path="/drafts/" component={DraftsList}/>
+            <Route path="/anj-balances/" exact component={ANJBalancesList}/>
+            <Route path="/anj-transfers/:address" component={ANJTransfersList}/>
           </Switch>
         </div>
         <Modal open={fetching} progressBar message={fetching}/>

@@ -1,6 +1,6 @@
 import ErrorActions from './errors'
+import Network from '../web3/Network'
 import * as ActionTypes from '../actions/types'
-import Network from "../web3/Network";
 
 const DisputeActions = {
   find(id) {
@@ -33,12 +33,9 @@ const DisputeActions = {
               collectedTokens
               createdAt
               jurors {
-                outcome
-                commitment
-                leaker
-                weight
-                rewarded
-                createdAt
+                juror {
+                  id
+                }
               }
               appeal {
                 id
