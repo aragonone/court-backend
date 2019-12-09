@@ -94,9 +94,12 @@ You can also use the `rpc:setup` NPM command to populate your local Aragon Court
 ##### 7. Test Aragon Court's back-office app 
 
 Optionally, you can try the back-office app to see all your actions on a UI. 
-To do that, open a separate terminal on the cloned `aragon-court-backend` repo and run the following commands:
- 
+To do that, open a separate terminal on the cloned `aragon-court-backend` repo and go to the `packages/app` dir.
+After that make sure you provide a `.env` file as follows before starting the app:
+
 ```bash
-  cd packages/app
-  npm start
+REACT_APP_HTTP_WEB3_PROVIDER=
+REACT_APP_GRAPHQL_ENDPOINT=
 ```
+
+Finally, you can simply run `npm start` to start playing with it.
