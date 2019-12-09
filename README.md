@@ -89,6 +89,8 @@ You can now start playing with the available CLI commands:
 - `settle-juror`: Settle juror for a dispute
 - `execute`: Execute ruling for a dispute
 
+You can also use the `rpc:setup` NPM command to populate your local Aragon Court instance with jurors and disputes.
+
 ##### 7. Test Aragon Court's back-office app 
 
 Optionally, you can try the back-office app to see all your actions on a UI. 
