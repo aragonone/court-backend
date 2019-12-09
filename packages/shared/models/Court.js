@@ -24,10 +24,10 @@ module.exports = class {
 
   async feeToken() {
     if (!this._feeToken) {
-      const subscriptions = await this.subscriptions()
-      const address = await subscriptions.currentFeeToken()
+      const currentTermId = await this.instance.getCurrentTermId()
+      const { feeToken } = await this.instance.getConfig(currentTermId)
       const MiniMeToken = await this.environment.getArtifact('MiniMeToken', '@aragon/minime')
-      this._feeToken = await MiniMeToken.at(address)
+      this._feeToken = await MiniMeToken.at(feeToken)
     }
     return this._feeToken
   }

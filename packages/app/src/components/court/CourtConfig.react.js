@@ -30,6 +30,7 @@ export default class CourtConfig extends React.Component {
       currentTerm,
       termDuration,
       neededTransitions,
+      anjToken,
       feeToken,
       jurorFee,
       draftFee,
@@ -59,7 +60,8 @@ export default class CourtConfig extends React.Component {
         <p>Term duration: {bn(termDuration).div(bn(60)).toString()} minutes</p>
         <p>Current term: #{currentTerm}</p>
         <p>Needed transitions: {neededTransitions.toString()}</p>
-        <p>Fee token: {feeToken}</p>
+        <p>ANJ token: {anjToken.id}</p>
+        <p>Fee token: {feeToken.id}</p>
         <p>Juror fee: {fromWei(jurorFee.toString())}</p>
         <p>Draft fee: {fromWei(draftFee.toString())}</p>
         <p>Settle fee: {fromWei(settleFee.toString())}</p>

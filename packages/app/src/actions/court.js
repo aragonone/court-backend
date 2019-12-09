@@ -19,7 +19,18 @@ const CourtActions = {
             id
             termDuration
             currentTerm
-            feeToken
+            feeToken {
+              id 
+              symbol
+              name
+              decimals
+            }
+            anjToken {
+              id
+              symbol
+              name
+              decimals 
+            }
             jurorFee
             draftFee
             settleFee
