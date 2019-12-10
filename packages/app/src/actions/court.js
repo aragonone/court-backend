@@ -54,6 +54,7 @@ const CourtActions = {
             modules {
               id
               address
+              type
             }
           }
         }`)

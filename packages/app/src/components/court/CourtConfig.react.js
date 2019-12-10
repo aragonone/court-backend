@@ -84,7 +84,7 @@ export default class CourtConfig extends React.Component {
         <p>Modules governor: {modulesGovernor}</p>
         <p>Modules: </p>
         <ul>
-          {modules.map((module, index) => <li key={index}>{module.id}: {module.address}</li>)}
+          {modules.map((module, index) => <li key={index}>{module.type}: {module.address}</li>)}
         </ul>
       </div>
     )
