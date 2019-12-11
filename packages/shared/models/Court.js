@@ -167,32 +167,8 @@ module.exports = class {
 
     logger.info(`Drafting dispute #${disputeId} ...`)
     const receipt = await disputeManager.draft(disputeId)
-
-    // TODO: fix once minor update has been released
-    const abi = {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          name: "disputeId",
-          type: "uint256"
-        },
-        {
-          indexed: true,
-          name: "roundId",
-          type: "uint256"
-        },
-        {
-          indexed: true,
-          name: "juror",
-          type: "address"
-        }
-      ],
-      name: "JurorDrafted",
-      type: "event"
-    }
-    const logs = decodeEventsOfType(receipt, [abi], 'JurorDrafted')
-    return getEvents({ logs }, 'JurorDrafted').map(event => event.args.juror)
+    const logs = decodeEventsOfType(receipt, disputeManager.abi, DISPUTE_MANAGER_EVENTS.JUROR_DRAFTED)
+    return getEvents({ logs }, DISPUTE_MANAGER_EVENTS.JUROR_DRAFTED).map(event => event.args.juror)
   }
 
   async commit(disputeId, outcome, password) {

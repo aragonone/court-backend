@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "@aragon/court": "^1.0.0",
-    "@aragon/minime": "^1.0.0",
+    "@aragon/court": "1.1.0-rc.1",
+    "@aragon/minime": "1.0.0",
     "@aragon/court-backend-shared": "^0.0.1",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
