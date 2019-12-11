@@ -15,7 +15,7 @@ Currently, there is no deployed instance of this app. However, you can run the f
 After that make sure you provide a `.env` file as follows before starting the app:
 
 ```bash
-REACT_APP_HTTP_WEB3_PROVIDER=
+REACT_APP_WEB3_HTTP_PROVIDER=
 REACT_APP_GRAPHQL_ENDPOINT=
 ```
 

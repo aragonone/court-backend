@@ -91,7 +91,7 @@ To do that, open a separate terminal on the cloned `aragon-court-backend` repo a
 After that make sure you provide a `.env` file as follows before starting the app:
 
 ```bash
-REACT_APP_HTTP_WEB3_PROVIDER=
+REACT_APP_WEB3_HTTP_PROVIDER=
 REACT_APP_GRAPHQL_ENDPOINT=
 ```
 
