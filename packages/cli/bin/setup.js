@@ -3,11 +3,11 @@ const { execSync } = require('child_process')
 const Environment = require('../src/models/Environment')
 const errorHandler = require('../src/helpers/errorHandler')
 
-const { network, jurors, disputes } = yargs
+const { network, jurors: jurorsNumber, disputes } = yargs
   .help()
   .option('network', { alias: 'n', describe: 'Network name', type: 'string', demand: true })
-  .option('jurors', { alias: 'j', describe: 'Number of jurors to activate', type: 'string', demand: true, default: 5 })
-  .option('disputes', { alias: 'd', describe: 'Number of disputes to create', type: 'string', demand: true, default: 5 })
+  .option('jurors', { alias: 'j', describe: 'Number of jurors to activate', type: 'string', default: 5 })
+  .option('disputes', { alias: 'd', describe: 'Number of disputes to create', type: 'string', default: 5 })
   .strict()
   .argv
 
@@ -15,7 +15,7 @@ async function setup() {
   const environment = new Environment(network)
   const allAccounts = await environment.getAccounts()
   const sender = allAccounts[0]
-  const jurors = allAccounts.slice(1, Math.min(jurors, allAccounts.length))
+  const jurors = allAccounts.slice(1, Math.min(jurorsNumber, allAccounts.length))
 
   // update term if necessary
   execSync('npm run rpc:heartbeat')
