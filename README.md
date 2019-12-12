@@ -1,5 +1,12 @@
 # Aragon Court backend
 
+### Remote
+
+1. Mainnet (WIP)
+2. Staging (WIP)
+3. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
+4. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
+
 ### Local
 
 To test Aragon Court locally please do the following tasks:
