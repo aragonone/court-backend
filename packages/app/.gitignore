@@ -2,3 +2,7 @@
 
 # Env files
 .env
+
+# Production files
+build
+.firebase
