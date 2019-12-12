@@ -32,8 +32,8 @@ export default class AccountBalances extends React.Component {
           <div>
             <p>Address: {address}</p>
             <p>{eth.symbol} balance: {eth.balance}</p>
-            <p>{anj.symbol} balance: {anj.balance}</p>
-            <p>{fee.symbol} balance: {fee.balance}</p>
+            { anj.symbol ? <p>{anj.symbol} balance: {anj.balance}</p> : '' }
+            { fee.symbol ? <p>{fee.symbol} balance: {fee.balance}</p> : '' }
           </div>
         }
       </div>
@@ -42,7 +42,7 @@ export default class AccountBalances extends React.Component {
 
   _renderEnabling() {
     return window.ethereum
-      ? <div>Your web3 provider is disabled. <a onClick={this._enable}>Click here to enable it.</a></div>
+      ? <div>Your web3 provider is disabled. Click <span onClick={this._enable} style={{cursor: 'pointer', textDecorationLine: 'underline'}}>here</span> to enable it, and reload the site.</div>
       : <em>No web3 provider detected. Please make sure you provide one to access your account information.</em>
   }
 

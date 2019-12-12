@@ -3,9 +3,9 @@
 ### Remote
 
 1. Mainnet (WIP)
-2. Staging (WIP)
-3. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
-4. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
+2. Rinkeby (WIP)
+3. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
+4. [Staging](https://aragon-court-staging.firebaseapp.com/)
 
 ### Local
 

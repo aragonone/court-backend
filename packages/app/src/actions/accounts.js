@@ -8,7 +8,7 @@ const AccountActions = {
   findCurrent() {
     return async function(dispatch) {
       try {
-        const enabled = Network.isEnabled()
+        const enabled = await Network.isEnabled()
         dispatch(AccountActions.receiveEnabled(enabled))
 
         if (enabled) {
@@ -40,12 +40,16 @@ const AccountActions = {
   updateAnjBalance(account, courtAddress) {
     return async function(dispatch) {
       try {
-        const court = await Network.getCourt(courtAddress)
-        const anj = await court.anj()
-        const symbol = await anj.symbol()
-        const anjBalance = await anj.balanceOf(account)
-        const balance = fromWei(anjBalance.toString()) // TODO: assuming 18 decimals
-        dispatch(AccountActions.receiveAnjBalance({ symbol, balance }))
+        if (await Network.isCourtAt(courtAddress)) {
+          const court = await Network.getCourt(courtAddress)
+          const anj = await court.anj()
+          const symbol = await anj.symbol()
+          const anjBalance = await anj.balanceOf(account)
+          const balance = fromWei(anjBalance.toString()) // TODO: assuming 18 decimals
+          dispatch(AccountActions.receiveAnjBalance({ symbol, balance }))
+        } else {
+          dispatch(ErrorActions.show(new Error(`Could not find Court at ${courtAddress}, please make sure you're in the right network`)))
+        }
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
@@ -55,12 +59,16 @@ const AccountActions = {
   updateFeeBalance(account, courtAddress) {
     return async function(dispatch) {
       try {
-        const court = await Network.getCourt(courtAddress)
-        const feeToken = await court.feeToken()
-        const symbol = await feeToken.symbol()
-        const feeBalance = await feeToken.balanceOf(account)
-        const balance = fromWei(feeBalance.toString()) // TODO: assuming 18 decimals
-        dispatch(AccountActions.receiveFeeBalance({ symbol, balance }))
+        if (await Network.isCourtAt(courtAddress)) {
+          const court = await Network.getCourt(courtAddress)
+          const feeToken = await court.feeToken()
+          const symbol = await feeToken.symbol()
+          const feeBalance = await feeToken.balanceOf(account)
+          const balance = fromWei(feeBalance.toString()) // TODO: assuming 18 decimals
+          dispatch(AccountActions.receiveFeeBalance({ symbol, balance }))
+        } else {
+          dispatch(ErrorActions.show(new Error(`Could not find Court at ${courtAddress}, please make sure you're in the right network`)))
+        }
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
