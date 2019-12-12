@@ -8,12 +8,17 @@ const AccountActions = {
   findCurrent() {
     return async function(dispatch) {
       try {
-        const account = await Network.getAccount()
-        const courtAddress = await CourtActions.findCourt()
-        dispatch(AccountActions.receive(account))
-        dispatch(AccountActions.updateEthBalance(account))
-        dispatch(AccountActions.updateAnjBalance(account, courtAddress))
-        dispatch(AccountActions.updateFeeBalance(account, courtAddress))
+        const enabled = Network.isEnabled()
+        dispatch(AccountActions.receiveEnabled(enabled))
+
+        if (enabled) {
+          const account = await Network.getAccount()
+          const courtAddress = await CourtActions.findCourt()
+          dispatch(AccountActions.receive(account))
+          dispatch(AccountActions.updateEthBalance(account))
+          dispatch(AccountActions.updateAnjBalance(account, courtAddress))
+          dispatch(AccountActions.updateFeeBalance(account, courtAddress))
+        }
       } catch(error) {
         dispatch(ErrorActions.show(error))
       }
@@ -64,6 +69,10 @@ const AccountActions = {
 
   receive(address) {
     return { type: ActionTypes.RECEIVE_ACCOUNT, address }
+  },
+
+  receiveEnabled(enabled) {
+    return { type: ActionTypes.RECEIVE_WEB3_ENABLED, enabled }
   },
 
   receiveEthBalance({ symbol, balance }) {

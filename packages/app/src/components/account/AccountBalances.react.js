@@ -5,7 +5,7 @@ import AccountActions from '../../actions/accounts'
 export default class AccountBalances extends React.Component {
   constructor(props){
     super(props)
-    this.state = { address: '', eth: {}, anj: {}, fee: {} }
+    this.state = { enabled: undefined, address: '', eth: {}, anj: {}, fee: {} }
   }
 
   componentDidMount() {
@@ -14,10 +14,20 @@ export default class AccountBalances extends React.Component {
   }
 
   render() {
-    const { address, eth, anj, fee } = this.state
+    const { enabled } = this.state
     return (
       <div ref="accountBalances" className="balances">
         <h3>Your Account</h3>
+        { enabled === undefined ? 'Loading...' :
+          (enabled ? this._renderAccount() : this._renderEnabling())}
+      </div>
+    )
+  }
+
+  _renderAccount() {
+    const { address, eth, anj, fee } = this.state
+    return (
+      <div>
         { !address ? 'Loading...' :
           <div>
             <p>Address: {address}</p>
@@ -30,10 +40,21 @@ export default class AccountBalances extends React.Component {
     )
   }
 
+  _renderEnabling() {
+    return window.ethereum
+      ? <div>Your web3 provider is disabled. <a onClick={this._enable}>Click here to enable it.</a></div>
+      : <em>No web3 provider detected. Please make sure you provide one to access your account information.</em>
+  }
+
+  _enable() {
+    window.ethereum.enable()
+    Store.dispatch(AccountActions.findCurrent())
+  }
+
   _onChange() {
     if(this.refs.accountBalances) {
-      const { address, eth, anj, fee } = Store.getState().account
-      this.setState({ address, eth, anj, fee })
+      const { account } = Store.getState()
+      this.setState(account)
     }
   }
 }

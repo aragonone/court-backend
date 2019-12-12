@@ -1,6 +1,6 @@
 import * as ActionTypes from '../actions/types'
 
-const initialState = { address: '', eth: {}, anj: {}, fee: {} }
+const initialState = { enabled: undefined, address: '', eth: {}, anj: {}, fee: {} }
 
 const AccountsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -12,6 +12,8 @@ const AccountsReducer = (state = initialState, action) => {
       return Object.assign({}, state, { anj: { symbol: action.symbol, balance: action.balance }})
     case ActionTypes.RECEIVE_FEE_BALANCE:
       return Object.assign({}, state, { fee: { symbol: action.symbol, balance: action.balance }})
+    case ActionTypes.RECEIVE_WEB3_ENABLED:
+      return Object.assign({}, state, { enabled: action.enabled })
     default:
       return state
   }
