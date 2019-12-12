@@ -88,11 +88,11 @@ You can also use the `rpc:setup` NPM command to populate your local Aragon Court
 
 Optionally, you can try the back-office app to see all your actions on a UI. 
 To do that, open a separate terminal on the cloned `aragon-court-backend` repo and go to the `packages/app` dir.
-After that make sure you provide a `.env` file as follows before starting the app:
+After that, make sure you provide a `.env` file with a GraphQL endpoint for your Aragon Court subgraph before starting the app.
+For example, the next `.env` file will work for a local environment:
 
 ```bash
-REACT_APP_WEB3_HTTP_PROVIDER=
-REACT_APP_GRAPHQL_ENDPOINT=
+REACT_APP_GRAPHQL_ENDPOINT=http://localhost:8000/subgraphs/name/aragon/aragon-court-rpc
 ```
 
 Finally, you can simply run `npm start` to start playing with it.

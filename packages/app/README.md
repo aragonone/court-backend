@@ -12,11 +12,11 @@ Currently, there is no deployed instance of this app. However, you can run the f
   cd packages/app
 ```
  
-After that make sure you provide a `.env` file as follows before starting the app:
+After that, make sure you provide a `.env` file with a GraphQL endpoint for your Aragon Court subgraph before starting the app.
+For example, the next `.env` file will work for a local environment:
 
 ```bash
-REACT_APP_WEB3_HTTP_PROVIDER=
-REACT_APP_GRAPHQL_ENDPOINT=
+REACT_APP_GRAPHQL_ENDPOINT=http://localhost:8000/subgraphs/name/aragon/aragon-court-rpc
 ```
 
 Finally, you can simply run `npm start` to start playing with it.
