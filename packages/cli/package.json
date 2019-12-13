@@ -23,7 +23,7 @@
     "rpc:setup": "node ./bin/setup.js -n rpc"
   },
   "dependencies": {
-    "@aragon/court": "1.1.0-rc.1",
+    "@aragon/court": "1.1.0",
     "@aragon/court-backend-shared": "^0.0.1",
     "@aragon/minime": "1.0.0",
     "@truffle/config": "^1.2.7",
