@@ -1,6 +1,6 @@
 const logger = require('../helpers/logger')('Court')
 const { bn, bigExp } = require('../helpers/numbers')
-const { fromWei, fromAscii, soliditySha3 } = require('web3-utils')
+const { sha3, fromWei, fromAscii, soliditySha3 } = require('web3-utils')
 const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
 const { getVoteId, hashVote } = require('@aragon/court/test/helpers/utils/crvoting')
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
@@ -24,7 +24,7 @@ module.exports = class {
 
   async feeToken() {
     if (!this._feeToken) {
-      const currentTermId = await this.instance.getCurrentTermId()
+      const currentTermId = await this.currentTerm()
       const { feeToken } = await this.instance.getConfig(currentTermId)
       const MiniMeToken = await this.environment.getArtifact('MiniMeToken', '@aragon/minime')
       this._feeToken = await MiniMeToken.at(feeToken)
@@ -68,8 +68,12 @@ module.exports = class {
     return this._subscriptions
   }
 
+  async currentTerm() {
+    return this.instance.getCurrentTermId()
+  }
+
   async neededTransitions() {
-    return await this.instance.getNeededTermTransitions()
+    return this.instance.getNeededTermTransitions()
   }
 
   async heartbeat(transitions = undefined) {
@@ -88,7 +92,7 @@ module.exports = class {
     const registry = await this.registry()
     await this._approve(anj, bigExp(amount, decimals), registry.address)
     logger.info(`Staking ANJ ${amount} for ${juror}...`)
-    await registry.stakeFor(juror, bigExp(amount, decimals), data)
+    return registry.stakeFor(juror, bigExp(amount, decimals), data)
   }
 
   async unstake(amount, data = '0x') {
@@ -96,7 +100,7 @@ module.exports = class {
     const decimals = await anj.decimals()
     const registry = await this.registry()
     logger.info(`Unstaking ANJ ${amount} for ${await this.environment.getSender()}...`)
-    await registry.unstake(bigExp(amount, decimals), data)
+    return registry.unstake(bigExp(amount, decimals), data)
   }
 
   async activate(amount) {
@@ -104,7 +108,17 @@ module.exports = class {
     const decimals = await anj.decimals()
     const registry = await this.registry()
     logger.info(`Activating ANJ ${amount} for ${await this.environment.getSender()}...`)
-    await registry.activate(bigExp(amount, decimals))
+    return registry.activate(bigExp(amount, decimals))
+  }
+
+  async activateFor(address, amount) {
+    const anj = await this.anj()
+    const decimals = await anj.decimals()
+    const registry = await this.registry()
+    await this._approve(anj, bigExp(amount, decimals), registry.address)
+    const ACTIVATE_DATA = sha3('activate(uint256)').slice(0, 10)
+    logger.info(`Activating ANJ ${amount} for ${address}...`)
+    return registry.stakeFor(address, bigExp(amount, decimals), ACTIVATE_DATA)
   }
 
   async deactivate(amount) {
@@ -112,7 +126,7 @@ module.exports = class {
     const decimals = await anj.decimals()
     const registry = await this.registry()
     logger.info(`Requesting ANJ ${amount} from ${await this.environment.getSender()} for deactivation...`)
-    await registry.deactivate(bigExp(amount, decimals))
+    return registry.deactivate(bigExp(amount, decimals))
   }
 
   async deployArbitrable() {
@@ -132,7 +146,7 @@ module.exports = class {
     await this._approve(token, feeAmount, recipient)
     const subscriptions = await this.subscriptions()
     logger.info(`Paying fees for ${periods} periods to ${subscriptions.address}...`)
-    await subscriptions.payFees(arbitrable.address, periods)
+    return subscriptions.payFees(arbitrable.address, periods)
   }
 
   async createDispute(subject, rulings = 2, metadata = '', evidence = []) {
@@ -156,7 +170,7 @@ module.exports = class {
     const disputeManager = await this.disputeManager()
     const { subject, lastRoundId } = await disputeManager.getDispute(disputeId)
     const { draftTerm } = await disputeManager.getRound(disputeId, lastRoundId)
-    const currentTermId = await this.instance.getCurrentTermId()
+    const currentTermId = await this.currentTerm()
 
     if (draftTerm.gt(currentTermId)) {
       logger.info(`Closing evidence period for dispute #${disputeId} ...`)
@@ -178,7 +192,7 @@ module.exports = class {
 
     logger.info(`Committing a vote for dispute #${disputeId} and round #${lastRoundId}...`)
     const voting = await this.voting()
-    await voting.commit(voteId, hashVote(outcome, soliditySha3(password)))
+    return voting.commit(voteId, hashVote(outcome, soliditySha3(password)))
   }
 
   async reveal(disputeId, outcome, password) {
@@ -188,7 +202,7 @@ module.exports = class {
 
     logger.info(`Revealing vote for dispute #${disputeId} and round #${lastRoundId}...`)
     const voting = await this.voting()
-    await voting.reveal(voteId, outcome, soliditySha3(password))
+    return voting.reveal(voteId, outcome, soliditySha3(password))
   }
 
   async appeal(disputeId, outcome) {
@@ -200,7 +214,7 @@ module.exports = class {
     await this._approve(feeToken, appealDeposit, disputeManager.address)
 
     logger.info(`Appealing dispute #${disputeId} and round #${lastRoundId} in favour of outcome ${outcome}...`)
-    await disputeManager.createAppeal(disputeId, lastRoundId, outcome)
+    return disputeManager.createAppeal(disputeId, lastRoundId, outcome)
   }
 
   async confirmAppeal(disputeId, outcome) {
@@ -212,7 +226,7 @@ module.exports = class {
     await this._approve(feeToken, confirmAppealDeposit, disputeManager.address)
 
     logger.info(`Confirming appeal for dispute #${disputeId} and round #${lastRoundId} in favour of outcome ${outcome}...`)
-    await disputeManager.confirmAppeal(disputeId, lastRoundId, outcome)
+    return disputeManager.confirmAppeal(disputeId, lastRoundId, outcome)
   }
 
   async settleRound(disputeId) {
@@ -245,7 +259,7 @@ module.exports = class {
 
   async execute(disputeId) {
     logger.info(`Executing ruling of dispute #${disputeId}...`)
-    await this.instance.executeRuling(disputeId)
+    return this.instance.executeRuling(disputeId)
   }
 
   async _approve(token, amount, recipient) {
