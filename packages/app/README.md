@@ -1,8 +1,18 @@
 # Aragon Court backoffice app
 
 This is a React app that aims to serve a UI to read data from an Aragon Court instance.
-It only needs an Aragon Court subgraph and a Web3 provider to work. 
-Currently, there is no deployed instance of this app. However, you can run the following commands to run it locally:
+
+### Remote
+
+1. [Mainnet](https://aragon-court.firebaseapp.com/)
+2. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
+3. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
+4. [Staging](https://aragon-court-staging.firebaseapp.com/)
+
+### Local
+
+To work locally, you only need an Aragon Court subgraph and a Web3 provider. 
+You can run the following commands to build it locally:
 
 ```bash
   git clone https://github.com/aragon/aragon-court-backend/

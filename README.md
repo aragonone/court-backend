@@ -2,8 +2,8 @@
 
 ### Remote
 
-1. Mainnet (WIP)
-2. Rinkeby (WIP)
+1. [Mainnet](https://aragon-court.firebaseapp.com/)
+2. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
 3. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
 4. [Staging](https://aragon-court-staging.firebaseapp.com/)
 
