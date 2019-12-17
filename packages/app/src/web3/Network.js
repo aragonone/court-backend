@@ -1,8 +1,22 @@
 import Web3 from 'web3'
 import sleep from '../helpers/sleep'
+import Environment from './Environment'
 import CourtProvider from './CourtProvider'
 
 const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT
+
+const FAUCET = {
+  staging: '0x7E9152F2eFDF6a862FeecDc8b0fb892dA6f60dEe',
+  ropsten: '0x83c1ECDC6fAAb783d9e3ac2C714C0eEce3349638',
+  rinkeby: '0x3b86Fd8C30445Ddcbed79CE7eB052fe935D34Fd2'
+}
+
+const ANT = {
+  staging: '0xd6257606740DE4A457B97D5DD469021ED72b6Ae7',
+  ropsten: '0x0cb95D9537c8Fb0C947eD48FDafc66A7b72EfC86',
+  rinkeby: '0x5cC7986D7A793b9930BD80067ca54c3E6D2F261B',
+  mainnet: '0x960b236A07cf122663c4303350609A66A7B288C0'
+}
 
 const Network = {
   async query(query) {
@@ -25,6 +39,36 @@ const Network = {
       this.court = await CourtProvider.for(provider, address)
     }
     return this.court
+  },
+
+  async getANT() {
+    const antAddress = ANT[this.getNetworkName()]
+    if (!this.ant && antAddress) {
+      const environment = await this.getEnvironment()
+      const MiniMeToken = await environment.getArtifact('MiniMeToken', '@aragon/minime')
+      this.ant = await MiniMeToken.at(antAddress)
+    }
+    return this.ant
+  },
+
+  async getFaucet() {
+    const faucetAddress = FAUCET[this.getNetworkName()]
+    if (!this.faucet && faucetAddress) {
+      const environment = await this.getEnvironment()
+      const ERC20Faucet = await environment.getArtifact('ERC20Faucet', '@aragon/erc20-faucet')
+      this.faucet = await ERC20Faucet.at(faucetAddress)
+    }
+    return this.faucet
+  },
+
+  async isFaucetAvailable() {
+    try {
+      await this.getFaucet()
+      return true
+    } catch (error) {
+      if (error.message.includes(`no code at address`)) return false
+      else throw error
+    }
   },
 
   async isCourtAt(address) {
@@ -61,11 +105,27 @@ const Network = {
     return this.provider
   },
 
+  async getEnvironment() {
+    if (!this.environment) {
+      const sender = await this.getAccount()
+      const provider = await this.getProvider()
+      this.environment = new Environment(provider, sender)
+    }
+    return this.environment
+  },
+
   async isEnabled() {
     await sleep(2)
     const { web3 } = window
     return !!(web3 && web3.currentProvider && web3.currentProvider.selectedAddress)
   },
+
+  getNetworkName() {
+    if (GRAPHQL_ENDPOINT.includes('staging')) return 'staging'
+    else if (GRAPHQL_ENDPOINT.includes('ropsten')) return 'ropsten'
+    else if (GRAPHQL_ENDPOINT.includes('rinkeby')) return 'rinkeby'
+    else return 'mainnet'
+  }
 }
 
 export default Network

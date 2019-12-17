@@ -27,6 +27,7 @@ export default class CourtConfig extends React.Component {
 
   _renderConfig() {
     const {
+      address,
       currentTerm,
       termDuration,
       neededTransitions,
@@ -57,6 +58,7 @@ export default class CourtConfig extends React.Component {
 
     return (
       <div>
+        <p>Address: {address}</p>
         <p>Term duration: {bn(termDuration).div(bn(60)).toString()} minutes</p>
         <p>Current term: #{currentTerm}</p>
         <p>Needed transitions: {neededTransitions.toString()}</p>

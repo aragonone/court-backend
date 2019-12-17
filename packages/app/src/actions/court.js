@@ -68,7 +68,7 @@ const CourtActions = {
           dispatch(ErrorActions.show(new Error(`Could not find Court at ${courtAddress}, please make sure you're in the right network`)))
         }
 
-        const config = { ...result.courtConfig, neededTransitions }
+        const config = { ...result.courtConfig, neededTransitions, address: courtAddress }
         dispatch(CourtActions.receiveConfig(config))
       } catch(error) {
         dispatch(ErrorActions.show(error))
