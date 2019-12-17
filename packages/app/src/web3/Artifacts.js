@@ -1,6 +1,9 @@
 import TruffleContract from '@truffle/contract'
 
 const BUILDS = {
+  '@aragon/erc20-faucet': {
+    'ERC20Faucet': require('@aragon/erc20-faucet/build/contracts/ERC20Faucet'),
+  },
   '@aragon/minime': {
     'MiniMeToken': require('@aragon/minime/build/contracts/MiniMeToken')
   },

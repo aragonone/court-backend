@@ -1,11 +1,12 @@
 import React from 'react'
 import Store from '../../store/store'
+import Faucet from './Faucet.react'
 import AccountActions from '../../actions/accounts'
 
 export default class AccountBalances extends React.Component {
   constructor(props){
     super(props)
-    this.state = { enabled: undefined, address: '', eth: {}, anj: {}, fee: {} }
+    this.state = { enabled: undefined, address: '', eth: {}, anj: {}, ant: {}, fee: {} }
   }
 
   componentDidMount() {
@@ -25,15 +26,19 @@ export default class AccountBalances extends React.Component {
   }
 
   _renderAccount() {
-    const { address, eth, anj, fee } = this.state
+    const { address, eth, anj, ant, fee } = this.state
     return (
       <div>
         { !address ? 'Loading...' :
           <div>
-            <p>Address: {address}</p>
-            <p>{eth.symbol} balance: {eth.balance}</p>
-            { anj.symbol ? <p>{anj.symbol} balance: {anj.balance}</p> : '' }
-            { fee.symbol ? <p>{fee.symbol} balance: {fee.balance}</p> : '' }
+            <div>
+              <p>Address: {address}</p>
+              <p>{eth.symbol} balance: {eth.balance}</p>
+              { ant.symbol ? <p>{ant.symbol} balance: {ant.balance}</p> : '' }
+              { anj.symbol ? <p>{anj.symbol} balance: {anj.balance}</p> : '' }
+              { fee.symbol ? <p>{fee.symbol} balance: {fee.balance}</p> : '' }
+            </div>
+            <Faucet/>
           </div>
         }
       </div>

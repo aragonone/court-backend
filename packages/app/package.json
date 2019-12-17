@@ -2,10 +2,13 @@
   "name": "@aragon/court-backend-app2",
   "version": "0.0.1",
   "private": true,
+  "author": "Aragon One",
+  "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "dependencies": {
     "@aragon/court": "1.1.0",
     "@aragon/minime": "1.0.0",
     "@aragon/court-backend-shared": "^0.0.1",
+    "@aragon/erc20-faucet": "https://github.com/aragonone/erc20-faucet",
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
     "@truffle/contract": "^4.1.1",

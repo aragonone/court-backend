@@ -16,8 +16,14 @@ const AccountActions = {
           const courtAddress = await CourtActions.findCourt()
           dispatch(AccountActions.receive(account))
           dispatch(AccountActions.updateEthBalance(account))
-          dispatch(AccountActions.updateAnjBalance(account, courtAddress))
-          dispatch(AccountActions.updateFeeBalance(account, courtAddress))
+
+          if (await Network.isCourtAt(courtAddress)) {
+            dispatch(AccountActions.updateAntBalance(account))
+            dispatch(AccountActions.updateAnjBalance(account, courtAddress))
+            dispatch(AccountActions.updateFeeBalance(account, courtAddress))
+          } else {
+            dispatch(ErrorActions.show(new Error(`Could not find Court at ${courtAddress}, please make sure you're in the right network`)))
+          }
         }
       } catch(error) {
         dispatch(ErrorActions.show(error))
@@ -37,19 +43,29 @@ const AccountActions = {
     }
   },
 
+  updateAntBalance(account) {
+    return async function(dispatch) {
+      try {
+        const ant = await Network.getANT()
+        const symbol = await ant.symbol()
+        const antBalance = await ant.balanceOf(account)
+        const balance = fromWei(antBalance.toString()) // TODO: assuming 18 decimals
+        dispatch(AccountActions.receiveAntBalance({ symbol, balance, address: ant.address }))
+      } catch (error) {
+        dispatch(ErrorActions.show(error))
+      }
+    }
+  },
+
   updateAnjBalance(account, courtAddress) {
     return async function(dispatch) {
       try {
-        if (await Network.isCourtAt(courtAddress)) {
-          const court = await Network.getCourt(courtAddress)
-          const anj = await court.anj()
-          const symbol = await anj.symbol()
-          const anjBalance = await anj.balanceOf(account)
-          const balance = fromWei(anjBalance.toString()) // TODO: assuming 18 decimals
-          dispatch(AccountActions.receiveAnjBalance({ symbol, balance }))
-        } else {
-          dispatch(ErrorActions.show(new Error(`Could not find Court at ${courtAddress}, please make sure you're in the right network`)))
-        }
+        const court = await Network.getCourt(courtAddress)
+        const anj = await court.anj()
+        const symbol = await anj.symbol()
+        const anjBalance = await anj.balanceOf(account)
+        const balance = fromWei(anjBalance.toString()) // TODO: assuming 18 decimals
+        dispatch(AccountActions.receiveAnjBalance({ symbol, balance, address: anj.address }))
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
@@ -59,16 +75,12 @@ const AccountActions = {
   updateFeeBalance(account, courtAddress) {
     return async function(dispatch) {
       try {
-        if (await Network.isCourtAt(courtAddress)) {
-          const court = await Network.getCourt(courtAddress)
-          const feeToken = await court.feeToken()
-          const symbol = await feeToken.symbol()
-          const feeBalance = await feeToken.balanceOf(account)
-          const balance = fromWei(feeBalance.toString()) // TODO: assuming 18 decimals
-          dispatch(AccountActions.receiveFeeBalance({ symbol, balance }))
-        } else {
-          dispatch(ErrorActions.show(new Error(`Could not find Court at ${courtAddress}, please make sure you're in the right network`)))
-        }
+        const court = await Network.getCourt(courtAddress)
+        const feeToken = await court.feeToken()
+        const symbol = await feeToken.symbol()
+        const feeBalance = await feeToken.balanceOf(account)
+        const balance = fromWei(feeBalance.toString()) // TODO: assuming 18 decimals
+        dispatch(AccountActions.receiveFeeBalance({ symbol, balance, address: feeToken.address }))
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
@@ -87,12 +99,16 @@ const AccountActions = {
     return { type: ActionTypes.RECEIVE_ETH_BALANCE, symbol, balance }
   },
 
-  receiveAnjBalance({ symbol, balance }) {
-    return { type: ActionTypes.RECEIVE_ANJ_BALANCE, symbol, balance }
+  receiveAntBalance({ symbol, balance, address }) {
+    return { type: ActionTypes.RECEIVE_ANT_BALANCE, symbol, balance, address }
   },
 
-  receiveFeeBalance({ symbol, balance }) {
-    return { type: ActionTypes.RECEIVE_FEE_BALANCE, symbol, balance }
+  receiveAnjBalance({ symbol, balance, address }) {
+    return { type: ActionTypes.RECEIVE_ANJ_BALANCE, symbol, balance, address }
+  },
+
+  receiveFeeBalance({ symbol, balance, address }) {
+    return { type: ActionTypes.RECEIVE_FEE_BALANCE, symbol, balance, address }
   },
 }
 

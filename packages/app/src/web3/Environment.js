@@ -1,8 +1,9 @@
 import Artifacts from './Artifacts'
 
 export default class {
-  constructor(provider) {
+  constructor(provider, from) {
     this.provider = provider
+    this.from = from
   }
 
   async getArtifact(contractName, dependency = undefined) {
@@ -11,7 +12,7 @@ export default class {
   }
 
   async getArtifacts() {
-    if (!this.artifacts) this.artifacts = new Artifacts(this.provider)
+    if (!this.artifacts) this.artifacts = new Artifacts(this.provider, { from: this.from })
     return this.artifacts
   }
 }
