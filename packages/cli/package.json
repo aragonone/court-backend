@@ -2,6 +2,8 @@
   "name": "@aragon/court-backend-cli",
   "version": "0.0.1",
   "private": true,
+  "author": "Aragon One",
+  "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "scripts": {
     "rpc:mint": "node ./bin/index.js mint -n rpc --verbose",
     "rpc:stake": "node ./bin/index.js stake -n rpc --verbose",
