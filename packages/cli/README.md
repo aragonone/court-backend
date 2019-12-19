@@ -4,8 +4,8 @@ This tool aims to provide a set of commands to interact with an Aragon Court ins
 Currently, there is no published version of it. However, you can run the following commands to install it locally:
 
 ```bash
-  git clone https://github.com/aragon/aragon-court-backend/
-  cd aragon-court-backend
+  git clone https://github.com/aragonone/court-backend/
+  cd court-backend
   npm i
   npx lerna bootstrap
   cd packages/cli

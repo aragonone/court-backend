@@ -62,8 +62,8 @@ You can use Aragon Court's backend CLI to start playing with your deployed insta
 First, open a separate terminal, clone this repo and install dependencies:
 
 ```bash
-  git clone https://github.com/aragon/aragon-court-backend/
-  cd aragon-court-backend
+  git clone https://github.com/aragonone/court-backend/
+  cd court-backend
   npm i
   npx lerna bootstrap
 ```

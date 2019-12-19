@@ -15,8 +15,8 @@ To work locally, you only need an Aragon Court subgraph and a Web3 provider.
 You can run the following commands to build it locally:
 
 ```bash
-  git clone https://github.com/aragon/aragon-court-backend/
-  cd aragon-court-backend
+  git clone https://github.com/aragonone/court-backend/
+  cd court-backend
   npm i
   npx lerna bootstrap
   cd packages/app
