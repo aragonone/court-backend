@@ -4,11 +4,20 @@ This server aims to provide different kind of services to complement the logic i
 
 ## Setup
 
+First clone this repo and install dependencies:
+
+````bash
+git clone https://github.com/aragonone/court-backend/
+cd court-backend
+npm i
+npx lerna bootstrap
+cd packages/server
+````
+
 To run the server simply create your own `.env` file, feel free to follow the provided `.env.sample` template.
 Once you have done that, make sure you have postgres installed and running and simply run the following commands:
 
 ```bash
-npm i
 npx sequelize db:create
 npx sequelize db:migrate
 npm start
