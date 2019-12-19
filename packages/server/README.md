@@ -5,10 +5,12 @@ This server aims to provide different kind of services to complement the logic i
 ## Setup
 
 To run the server simply create your own `.env` file, feel free to follow the provided `.env.sample` template.
-Once you have done that, simply run the following commands:
+Once you have done that, make sure you have postgres installed and running and simply run the following commands:
 
 ```bash
 npm i
+npx sequelize db:create
+npx sequelize db:migrate
 npm start
 ```
 
