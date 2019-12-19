@@ -1,10 +1,21 @@
 import routes from './src/routes'
+import cors from 'cors'
 import morgan from 'morgan'
 import express from 'express'
 import bodyParser from 'body-parser'
 import errorHandler from './src/helpers/error-handler'
 
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log(origin)
+    const whitelist = process.env.CORS_WHITELIST.split(',')
+    if (whitelist.indexOf(origin) !== -1) callback(null, true)
+    else callback(new Error('Not allowed by CORS'))
+  }
+}
+
 const app = express()
+app.use(cors(corsOptions))
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
