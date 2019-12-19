@@ -21,7 +21,7 @@ async function setup() {
   const environment = court.environment
   const allAccounts = await environment.getAccounts()
   const sender = allAccounts[0]
-  const jurors = allAccounts.slice(1, Math.min(jurorsNumber, allAccounts.length))
+  const jurors = allAccounts.slice(1, Math.min(parseInt(jurorsNumber) + 1, allAccounts.length))
 
   // update term if necessary
   execSync('npm run rpc:heartbeat')
