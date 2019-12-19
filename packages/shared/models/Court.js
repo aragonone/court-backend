@@ -83,7 +83,7 @@ module.exports = class {
     const heartbeats = transitions || needed
     logger.info(`Calling heartbeat with ${heartbeats} max transitions...`)
     await this.instance.heartbeat(heartbeats)
-    return heartbeats
+    return Math.min(heartbeats, needed)
   }
 
   async stake(juror, amount, data = '0x') {
