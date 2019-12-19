@@ -38,7 +38,6 @@ All the provided endpoints are `Content-Type: application/json`
 - Body: 
   - email: Email address, string mandatory
   - address: Ethereum address, string not mandatory
-  - amount: Amount of ANJ converted, string not mandatory
 - Response: 
   - Code: 200
   - Content: 
@@ -47,7 +46,6 @@ All the provided endpoints are `Content-Type: application/json`
         "id": 4,
         "email": "bla@gmail.com",
         "address": "0xd5931f0a36FE76845a5330f6D0cd7a378401e34d",
-        "amount": "10000000",
         "updatedAt":"2019-12-19T16:00:18.208Z",
         "createdAt":"2019-12-19T16:00:18.208Z"
       }
