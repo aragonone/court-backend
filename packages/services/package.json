@@ -1,0 +1,29 @@
+{
+  "name": "@aragon/court-backend-services",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Aragon One",
+  "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node ./bin/main.js"
+  },
+  "dependencies": {
+    "@aragon/court": "1.1.0",
+    "@aragon/court-backend-server": "^0.0.1",
+    "@aragon/court-backend-shared": "^0.0.1",
+    "@aragon/minime": "1.0.0",
+    "@truffle/contract": "^4.0.32",
+    "dotenv": "^8.2.0",
+    "pg": "^7.15.1",
+    "sequelize": "^5.21.3",
+    "web3": "^1.2.4",
+    "web3-utils": "^1.2.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/preset-env": "^7.7.7"
+  }
+}
