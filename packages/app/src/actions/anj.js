@@ -25,11 +25,12 @@ const ANJActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          anjtransfers(where: { from: "${account}" }) {
+          anjtransfers(where: { from: "${account}" }, orderBy: createdAt, orderDirection: desc) {
             id
             from
             to
             amount
+            createdAt
           }
         }`)
         dispatch(ANJActions.receiveTransfers(result.anjtransfers))

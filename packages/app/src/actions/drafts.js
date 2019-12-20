@@ -38,7 +38,7 @@ const DraftActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          jurorDrafts {
+          jurorDrafts (orderBy: createdAt, orderDirection: desc) {
             id
             weight
             rewarded

@@ -25,7 +25,7 @@ const DisputeActions = {
                 createdAt
               }
             }
-            rounds {
+            rounds (orderBy: number, orderDirection: desc) {
               state
               number
               draftTermId
@@ -65,7 +65,7 @@ const DisputeActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          disputes {
+          disputes (orderBy: createdAt, orderDirection: desc) {
             id
             createTermId
             possibleRulings
