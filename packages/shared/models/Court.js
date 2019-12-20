@@ -1,10 +1,10 @@
 const logger = require('../helpers/logger')('Court')
 const { bn, bigExp } = require('../helpers/numbers')
-const { sha3, fromWei, fromAscii, soliditySha3 } = require('web3-utils')
 const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
 const { getVoteId, hashVote } = require('@aragon/court/test/helpers/utils/crvoting')
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
 const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
+const { sha3, fromWei, fromAscii, soliditySha3, BN, padLeft, toHex } = require('web3-utils')
 
 module.exports = class {
   constructor(instance, environment) {
@@ -74,6 +74,38 @@ module.exports = class {
 
   async neededTransitions() {
     return this.instance.getNeededTermTransitions()
+  }
+
+  async existsVote(voteId) {
+    const voting = await this.voting()
+    const maxAllowedOutcomes = await voting.getMaxAllowedOutcome(voteId)
+    return !maxAllowedOutcomes.eq(bn(0))
+  }
+
+  async isValidOutcome(voteId, outcome) {
+    const voting = await this.voting()
+    const exists = await this.existsVote(voteId)
+    return exists && (await voting.isValidOutcome(voteId, outcome))
+  }
+
+  async getCommitment(voteId, voter) {
+    const voting = await this.voting()
+    const web3 = await this.environment.getWeb3()
+
+    // The vote records are stored at the second storage index of the voting contract
+    const voteRecordsSlot = padLeft(1, 64)
+    // Parse vote ID en hexadecimal and pad 64
+    const voteIdHex = padLeft(toHex(voteId), 64)
+    // The vote records variable is a mapping indexed by vote IDs
+    const voteSlot = soliditySha3(voteIdHex + voteRecordsSlot.slice(2))
+    // Each vote record is a struct where the cast votes mapping is its second element, thus we add 1 to the vote slot
+    const castVoteSlot = new BN(voteSlot.slice(2), 16).add(bn(1)).toString(16)
+    // Each cast vote mapping is indexed by the address of the voter
+    const voterCastVoteSlot = soliditySha3(padLeft(voter, 64) + castVoteSlot)
+    // Each cast vote object has the commitment as its first element, thus we don't need to add another value here
+    const commitmentVoteSlot = voterCastVoteSlot
+
+    return web3.eth.getStorageAt(voting.address, commitmentVoteSlot)
   }
 
   async heartbeat(transitions = undefined) {

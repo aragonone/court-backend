@@ -1,8 +1,7 @@
 import http from 'http'
 import app from '../app'
-import dotenv from 'dotenv'
 
-dotenv.config()
+require('dotenv').config()
 
 const port = parseInt(process.env.PORT, 10) || 8000
 app.set('port', port)

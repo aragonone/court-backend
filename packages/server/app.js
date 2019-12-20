@@ -7,7 +7,6 @@ import errorHandler from './src/helpers/error-handler'
 
 const corsOptions = {
   origin: function (origin, callback) {
-    console.log(origin)
     const whitelist = process.env.CORS_WHITELIST.split(',')
     if (whitelist.indexOf(origin) !== -1) callback(null, true)
     else callback(new Error('Not allowed by CORS'))

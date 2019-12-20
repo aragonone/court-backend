@@ -84,7 +84,7 @@ export default class DisputeDetail extends React.Component {
               <ul>
                 {round.jurors.map((juror, index) =>
                   <li key={index}>
-                    <Link to={`/jurors/${juror.juror.id}`}>{juror.juror.id}</Link>
+                    <Link to={`/jurors/${juror.juror.id}/detail`}>{juror.juror.id}</Link>
                   </li>
                 )}
               </ul>
