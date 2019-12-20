@@ -1,7 +1,7 @@
 import Web3 from 'web3'
 import sleep from '../helpers/sleep'
 import Environment from './Environment'
-import CourtProvider from './CourtProvider'
+import Court from "@aragon/court-backend-shared/models/Court";
 
 const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT
 
@@ -35,8 +35,10 @@ const Network = {
 
   async getCourt(address) {
     if (!this.court) {
-      const provider = await this.getProvider()
-      this.court = await CourtProvider.for(provider, address)
+      const environment = await this.getEnvironment()
+      const AragonCourt = await environment.getArtifact('AragonCourt', '@aragon/court')
+      const court = await AragonCourt.at(address)
+      this.court = new Court(court, environment)
     }
     return this.court
   },
