@@ -1,9 +1,9 @@
-import routes from './src/routes'
+import routes from './routes'
 import cors from 'cors'
 import morgan from 'morgan'
 import express from 'express'
 import bodyParser from 'body-parser'
-import errorHandler from './src/helpers/error-handler'
+import errorHandler from './helpers/error-handler'
 
 const corsOptions = {
   origin: function (origin, callback) {
