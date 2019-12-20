@@ -28,7 +28,7 @@ const JurorsActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          jurors {
+          jurors (orderBy: createdAt, orderDirection: asc) {
             id
             activeBalance
             lockedBalance
@@ -81,7 +81,7 @@ const JurorsActions = {
         const result = await Network.query(`{
           juror (id: "${id}") {
             id
-            movements {
+            movements (orderBy: createdAt, orderDirection: desc) {
               id
               type
               amount
