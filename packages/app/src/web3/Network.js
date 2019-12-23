@@ -1,7 +1,7 @@
 import Web3 from 'web3'
-import sleep from '../helpers/sleep'
 import Environment from './Environment'
-import Court from "@aragon/court-backend-shared/models/Court";
+import Court from '@aragon/court-backend-shared/models/Court'
+import sleep from '@aragon/court-backend-shared/helpers/sleep'
 
 const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT
 
