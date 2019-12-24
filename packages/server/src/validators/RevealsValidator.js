@@ -6,11 +6,11 @@ const { hashVote } = require('@aragon/court/test/helpers/utils/crvoting')
 const { Reveal } = Models
 
 class RevealsValidator extends BaseValidator {
-  async validateForCreate({ juror, round, outcome, salt }) {
+  async validateForCreate({ juror, voteId, outcome, salt }) {
     this._validateJuror(juror)
-    await this._validateRound(juror, round)
-    await this._validateOutcome(round, outcome)
-    await this._validateSalt(juror, round, outcome, salt)
+    await this._validateVoteId(juror, voteId)
+    await this._validateOutcome(voteId, outcome)
+    await this._validateSalt(juror, voteId, outcome, salt)
     return this.resetErrors()
   }
 
@@ -18,35 +18,35 @@ class RevealsValidator extends BaseValidator {
     if (!juror) return this.addError({ juror: 'A juror address value must be given' })
   }
 
-  async _validateRound(juror, round) {
-    if (!round) return this.addError({ round: 'A round ID must be given' })
+  async _validateVoteId(juror, voteId) {
+    if (!voteId) return this.addError({ voteId: 'A vote ID must be given' })
 
     const court = await Network.getCourt()
-    const exists = await court.existsVote(round)
-    if (!exists) this.addError({ round: `Round with ID ${round} does not exist` })
+    const exists = await court.existsVote(voteId)
+    if (!exists) this.addError({ voteId: `Vote with ID ${voteId} does not exist` })
 
     if (juror) {
-      const reveal = await Reveal.findOne({ attributes: ['id'], where: { juror, round } })
-      if (reveal !== null) this.addError({ round: `Round with ID ${round} was already registered to be revealed for juror ${juror}` })
+      const reveal = await Reveal.findOne({ attributes: ['id'], where: { juror, voteId } })
+      if (reveal !== null) this.addError({ voteId: `Vote with ID ${voteId} was already registered to be revealed for juror ${juror}` })
     }
   }
 
-  async _validateOutcome(round, outcome) {
+  async _validateOutcome(voteId, outcome) {
     if (!outcome) return this.addError({ outcome: 'An outcome must be given' })
 
-    if (round) {
+    if (voteId) {
       const court = await Network.getCourt()
-      const isValid = await court.isValidOutcome(round, outcome)
-      if (!isValid) this.addError({ outcome: `Outcome ${outcome} is not valid for the given round` })
+      const isValid = await court.isValidOutcome(voteId, outcome)
+      if (!isValid) this.addError({ outcome: `Outcome ${outcome} is not valid for the given voteId` })
     }
   }
 
-  async _validateSalt(juror, round, outcome, salt) {
+  async _validateSalt(juror, voteId, outcome, salt) {
     if (!salt) return this.addError({ salt: 'A salt value must be given' })
 
-    if (juror && round && outcome) {
+    if (juror && voteId && outcome) {
       const court = await Network.getCourt()
-      const actualCommitment = await court.getCommitment(round, juror)
+      const actualCommitment = await court.getCommitment(voteId, juror)
       const expectedCommitment = hashVote(outcome, salt)
       if (expectedCommitment !== actualCommitment) this.addError({ salt: 'Signature does not correspond to the juror address provided' })
     }
