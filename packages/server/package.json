@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "babel ./src --out-dir ./build --source-maps --copy-files",
-    "start": "nodemon --exec babel-node ./bin/www"
+    "start": "nodemon --ignore ./build --exec babel-node ./bin/www"
   },
   "dependencies": {
     "@aragon/court": "1.1.0",
