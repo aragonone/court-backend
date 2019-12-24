@@ -4,9 +4,7 @@ const DynamicArtifacts = require('../artifacts/DynamicArtifacts')
 
 class TruffleEnvironment extends Environment {
   constructor(network, sender = undefined) {
-    super()
-    this.network = network
-    this.sender = sender
+    super(network, sender)
   }
 
   async getCourt(address = undefined) {

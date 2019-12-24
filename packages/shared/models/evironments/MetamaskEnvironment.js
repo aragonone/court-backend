@@ -3,6 +3,10 @@ const Environment = require('./Environment')
 const StaticArtifacts = require('../artifacts/StaticArtifacts')
 
 class MetamaskEnvironment extends Environment {
+  constructor(network) {
+    super(network)
+  }
+
   async isEnabled() {
     await sleep(2)
     const { web3 } = window
