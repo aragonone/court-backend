@@ -4,15 +4,16 @@ const command = 'reveal'
 const describe = 'Reveal committed vote'
 
 const builder = {
+  juror: { alias: 'j', describe: 'Address of the juror revealing for', type: 'string' },
   dispute: { alias: 'd', describe: 'Dispute identification number', type: 'string', demand: true },
   outcome: { alias: 'o', describe: 'Committed outcome to reveal', type: 'string', demand: true },
   password: { alias: 'p', describe: 'Password used to commit the vote', type: 'string', demand: true },
 }
 
-const handlerAsync = async (environment, { dispute, outcome, password }) => {
+const handlerAsync = async (environment, { from, juror, dispute, outcome, password }) => {
   const court = await environment.getCourt()
-  await court.reveal(dispute, outcome, password)
-  logger.success(`Vote revealed for dispute #${dispute}`)
+  await court.reveal(dispute, from || juror, outcome, password)
+  logger.success(`Vote revealed for dispute #${dispute} for juror ${from || juror}`)
 }
 
 module.exports = {
