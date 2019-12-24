@@ -1,5 +1,6 @@
 const Web3 = require('web3')
 const Court = require('../Court')
+const fetch = require('node-fetch')
 
 class Environment {
   async getCourt(address) {
