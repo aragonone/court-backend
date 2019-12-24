@@ -8,13 +8,21 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER
         },
+        voteId: {
+          allowNull: false,
+          type: Sequelize.STRING,
+        },
         juror: {
           allowNull: false,
           type: Sequelize.STRING,
         },
-        round: {
+        disputeId: {
           allowNull: false,
           type: Sequelize.STRING,
+        },
+        roundNumber: {
+          allowNull: false,
+          type: Sequelize.INTEGER,
         },
         outcome: {
           allowNull: false,
@@ -23,6 +31,25 @@ module.exports = {
         salt: {
           allowNull: false,
           type: Sequelize.STRING,
+        },
+        revealed: {
+          allowNull: false,
+          type: Sequelize.BOOLEAN,
+          default: false,
+        },
+        tries: {
+          allowNull: false,
+          type: Sequelize.INTEGER,
+          default: 0,
+        },
+        errorId: {
+          allowNull: true,
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'ErrorLogs',
+            key: 'id',
+            as: 'errorId',
+          },
         },
         createdAt: {
           allowNull: false,
@@ -35,9 +62,9 @@ module.exports = {
       }
     )
 
-    return queryInterface.addConstraint('Reveals', ['juror', 'round'], {
+    return queryInterface.addConstraint('Reveals', ['juror', 'voteId'], {
       type: 'unique',
-      name: 'unique_juror_round'
+      name: 'unique_juror_vote'
     })
   },
 

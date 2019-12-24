@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) =>
-  sequelize.define('Reveal',
+module.exports = (sequelize, DataTypes) => {
+  const Reveal = sequelize.define('Reveal',
     {
       juror: {
         type: DataTypes.STRING,
@@ -29,8 +29,23 @@ module.exports = (sequelize, DataTypes) =>
           notEmpty: true,
         }
       },
+      revealed: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        default: false,
+      },
+      tries: {
+        type: DataTypes.NUMBER,
+        allowNull: false,
+        default: 0,
+      },
     },
     {
+      classMethods: {
+        associate: models => {
+          Reveal.belongsTo(models.ErrorLogs, { as: 'error' })
+        },
+      },
       indexes: [
         {
           unique: true,
@@ -39,3 +54,5 @@ module.exports = (sequelize, DataTypes) =>
       ],
     }
   )
+  return Reveal
+}
