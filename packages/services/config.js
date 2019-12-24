@@ -18,6 +18,14 @@ const workers = [
     tries: 3,
     repeat: ONE_MINUTE,
   },
+  {
+    name: 'disputes',
+    path: './src/workers/disputes',
+    processes: 1,
+    times: 0,
+    tries: 3,
+    repeat: ONE_MINUTE,
+  },
 ]
 
 export {

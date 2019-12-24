@@ -8,6 +8,11 @@ class Environment {
     return new Court(court, this)
   }
 
+  async getLastBlock() {
+    const web3 = await this.getWeb3()
+    return web3.eth.getBlock('latest')
+  }
+
   async getWeb3() {
     if (!this.web3) this.web3 = new Web3(await this.getProvider())
     return this.web3
