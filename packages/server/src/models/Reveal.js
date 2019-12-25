@@ -64,5 +64,10 @@ module.exports = (sequelize, DataTypes) => {
       ],
     }
   )
+
+  Reveal.associate = models => {
+    Reveal.belongsTo(models.ErrorLog, { foreignKey: 'errorId', constraints: false, as: 'error' })
+  }
+
   return Reveal
 }

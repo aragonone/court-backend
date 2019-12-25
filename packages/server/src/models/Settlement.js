@@ -33,8 +33,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   )
 
-  Settlement.lastBlockNumber = () => {
-    return Settlement.findOne({ attributes: ['blockNumber'], group: ['id'], order: [sequelize.fn('max', sequelize.col('blockNumber'))] })
+  Settlement.associate = models => {
+    Settlement.belongsTo(models.ErrorLog, { foreignKey: 'errorId', constraints: false, as: 'error' })
+  }
+
+  Settlement.lastBlockNumber = async () => {
+    const settlement = await Settlement.findOne({ attributes: ['blockNumber'], group: ['id'], order: [sequelize.fn('max', sequelize.col('blockNumber'))] })
+    return settlement ? settlement.blockNumber : null
   }
 
   return Settlement

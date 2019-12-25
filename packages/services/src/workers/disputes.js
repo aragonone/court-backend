@@ -11,8 +11,8 @@ export default async function (worker, job, tries, logger) {
   try {
     const court = await Network.getCourt()
     const disputeManager = await court.disputeManager()
-    const result = await Settlement.lastBlockNumber()
-    const fromBlock = result ? parseInt(result.dataValues.blockNumber) + 1 : INITIAL_BLOCK_NUMBER
+    const lastBlockNumber = await Settlement.lastBlockNumber()
+    const fromBlock = lastBlockNumber ? parseInt(lastBlockNumber) + 1 : INITIAL_BLOCK_NUMBER
     const { number: toBlock } = await Network.environment.getLastBlock()
     logger.info(`Listening NewDispute events from block ${fromBlock} to block ${toBlock}`)
 
