@@ -6,7 +6,7 @@ const PASSWORD = process.env.ADMIN_PASSWORD
 
 module.exports = {
   up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert('Users', [{
+    return queryInterface.bulkInsert('Admins', [{
       email: EMAIL,
       password: bcrypt.hashSync(PASSWORD),
       createdAt: Sequelize.literal('NOW()'),

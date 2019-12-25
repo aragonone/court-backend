@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import Models from '../models'
 
-const { User } = Models
+const { Admin } = Models
 const SECRET_KEY = process.env.SECRET_KEY
 
 export default async function (request, response, next) {
@@ -10,10 +10,10 @@ export default async function (request, response, next) {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY)
-    const user = await User.findOne({ attributes: ['id', 'email'], where: { email: decoded.user }})
-    if (!user) return response.status(400).send({ error: 'Authentication failed, user not found' })
+    const admin = await Admin.findOne({ attributes: ['id', 'email'], where: { email: decoded.admin }})
+    if (!admin) return response.status(400).send({ error: 'Authentication failed, admin not found' })
     request.token = token
-    request.currentUser = user
+    request.currentAdmin = admin
     next()
   } catch (error) {
     return response.status(403).send({ error: 'Failed to authenticate token' })

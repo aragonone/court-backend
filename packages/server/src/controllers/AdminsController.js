@@ -1,17 +1,17 @@
 import jwt from 'jsonwebtoken'
 import Models from '../models'
-import UserValidator from '../validators/UserValidator'
+import AdminValidator from '../validators/AdminValidator'
 
-const { User } = Models
+const { Admin } = Models
 const SECRET_KEY = process.env.SECRET_KEY
 
 export default {
   async login(request, response, next) {
     try {
-      const errors = await UserValidator.validateForLogin(request.body)
+      const errors = await AdminValidator.validateForLogin(request.body)
       if (errors.length > 0) return response.status(400).send({ errors: errors })
 
-      const token = jwt.sign({ user: request.body.email }, SECRET_KEY, { expiresIn: 3600 })
+      const token = jwt.sign({ admin: request.body.email }, SECRET_KEY, { expiresIn: 3600 })
       return response.status(200).send({ token })
     } catch(error) {
       next(error)
@@ -25,8 +25,8 @@ export default {
       const limit = query.limit || 20
       const offset = page * limit
 
-      const users = await User.findAll({ limit, offset, order: [['createdAt', 'DESC']] })
-      response.status(200).send({ users })
+      const admins = await Admin.findAll({ limit, offset, order: [['createdAt', 'DESC']] })
+      response.status(200).send({ admins })
     } catch(error) {
       next(error)
     }
@@ -34,12 +34,12 @@ export default {
 
   async create(request, response, next) {
     try {
-      const errors = await UserValidator.validateForCreate(request.body)
+      const errors = await AdminValidator.validateForCreate(request.body)
       if (errors.length > 0) return response.status(400).send({ errors: errors })
 
-      const user = await User.create(request.body)
-      user.password = undefined
-      response.status(200).send(user)
+      const admin = await Admin.create(request.body)
+      admin.password = undefined
+      response.status(200).send(admin)
     } catch(error) {
       next(error)
     }
@@ -48,11 +48,11 @@ export default {
   async delete(request, response, next) {
     try {
       const id = request.params.id
-      const errors = await UserValidator.validateForDelete(id)
+      const errors = await AdminValidator.validateForDelete(id)
       if (errors.length > 0) return response.status(400).send({ errors: errors })
 
-      const user = await User.findById(id)
-      await user.destroy()
+      const admin = await Admin.findById(id)
+      await admin.destroy()
       response.status(200).send()
     } catch(error) {
       next(error)

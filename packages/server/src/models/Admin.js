@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs')
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User',
+  const Admin = sequelize.define('Admin',
     {
       email: {
         type: DataTypes.STRING,
@@ -22,11 +22,11 @@ module.exports = (sequelize, DataTypes) => {
     },
   )
 
-  const hashPassword = (user, options) => {
-    if (user.changed('password')) user.password = bcrypt.hashSync(user.password)
+  const hashPassword = (admin, options) => {
+    if (admin.changed('password')) admin.password = bcrypt.hashSync(admin.password)
   }
 
-  User.beforeCreate(hashPassword).beforeUpdate(hashPassword)
+  Admin.beforeCreate(hashPassword).beforeUpdate(hashPassword)
 
-  return User
+  return Admin
 }

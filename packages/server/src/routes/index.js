@@ -1,9 +1,9 @@
 import authenticate from './authenticate'
 import asyncMiddleware from '../helpers/async-middleware'
-import { users, errors, settlements, subscriptions, reveals } from '../controllers'
+import { admins, errors, settlements, subscriptions, reveals } from '../controllers'
 
 export default app => {
-  app.post('/login', asyncMiddleware(users.login))
+  app.post('/login', asyncMiddleware(admins.login))
   app.get('/reveal', asyncMiddleware(reveals.show))
   app.post('/reveals', asyncMiddleware(reveals.create))
   app.post('/subscriptions', asyncMiddleware(subscriptions.create))
@@ -11,9 +11,9 @@ export default app => {
   // Following routes must be authenticated
   app.use(asyncMiddleware((req, res, next) => authenticate(req, res, next)))
 
-  app.get('/users', asyncMiddleware(users.all))
-  app.post('/users', asyncMiddleware(users.create))
-  app.delete('/users/:id', asyncMiddleware(users.delete))
+  app.get('/admins', asyncMiddleware(admins.all))
+  app.post('/admins', asyncMiddleware(admins.create))
+  app.delete('/admins/:id', asyncMiddleware(admins.delete))
 
   app.get('/errors', asyncMiddleware(errors.all))
   app.get('/reveals', asyncMiddleware(reveals.all))

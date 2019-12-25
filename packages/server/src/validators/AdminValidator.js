@@ -2,9 +2,9 @@ import bcrypt from 'bcryptjs'
 import Models from '../models'
 import BaseValidator from './BaseValidator'
 
-const { User } = Models
+const { Admin } = Models
 
-class UserValidator extends BaseValidator {
+class AdminValidator extends BaseValidator {
   async validateForLogin({ email, password }) {
     console.log(email, password)
     await this._validateEmail(email)
@@ -20,7 +20,7 @@ class UserValidator extends BaseValidator {
   }
 
   async validateForDelete({ id }) {
-    await this._validateUserId(id)
+    await this._validateAdminId(id)
     return this.resetErrors()
   }
 
@@ -34,23 +34,23 @@ class UserValidator extends BaseValidator {
 
   async _validateUniqueEmail(email) {
     if (!email) return this.addError({ email: 'An email must be given' })
-    const count = await User.count({ where: { email }})
+    const count = await Admin.count({ where: { email }})
     if (count > 0) this.addError({ email: 'Given email is already used' })
   }
 
   async _validateEmailAndPassword(email, password) {
     if (email && password) {
-      const user = await User.findOne({ where: { email }})
-      const matches = user ? bcrypt.compareSync(password, user.password) : false
+      const admin = await Admin.findOne({ where: { email }})
+      const matches = admin ? bcrypt.compareSync(password, admin.password) : false
       if (!matches) this.addError({ password: 'Authentication failed, email or password is not valid'})
     }
   }
 
-  async _validateUserId(id) {
-    if (!id) return this.addError({ id: 'A user ID must be given' })
-    const count = await User.count({ where: { id }})
+  async _validateAdminId(id) {
+    if (!id) return this.addError({ id: 'An admin ID must be given' })
+    const count = await Admin.count({ where: { id }})
     if (count === 0) this.addError({ id: 'Given id does not exist' })
   }
 }
 
-export default new UserValidator()
+export default new AdminValidator()
