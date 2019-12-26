@@ -1,6 +1,6 @@
+import Network from '../web3/Network'
 import ErrorActions from './errors'
 import * as ActionTypes from '../actions/types'
-import Network from "../web3/Network";
 
 const ANJActions = {
   findBalances() {
