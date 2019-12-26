@@ -6,7 +6,6 @@ const { Admin } = Models
 
 class AdminValidator extends BaseValidator {
   async validateForLogin({ email, password }) {
-    console.log(email, password)
     await this._validateEmail(email)
     await this._validatePassword(password)
     await this._validateEmailAndPassword(email, password)

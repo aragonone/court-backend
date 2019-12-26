@@ -11,11 +11,13 @@ export default app => {
   // Following routes must be authenticated
   app.use(asyncMiddleware((req, res, next) => authenticate(req, res, next)))
 
+  app.get('/me', asyncMiddleware(admins.me))
   app.get('/admins', asyncMiddleware(admins.all))
   app.post('/admins', asyncMiddleware(admins.create))
   app.delete('/admins/:id', asyncMiddleware(admins.delete))
 
   app.get('/errors', asyncMiddleware(errors.all))
+  app.get('/errors/:id', asyncMiddleware(errors.show))
   app.get('/reveals', asyncMiddleware(reveals.all))
   app.get('/settlements', asyncMiddleware(settlements.all))
   app.get('/subscriptions', asyncMiddleware(subscriptions.all))

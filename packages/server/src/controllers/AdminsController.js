@@ -18,6 +18,14 @@ export default {
     }
   },
 
+  async me(request, response, next) {
+    try {
+      return response.status(200).send({ admin: request.currentAdmin })
+    } catch(error) {
+      next(error)
+    }
+  },
+
   async all(request, response, next) {
     try {
       const { query } = request
@@ -51,7 +59,7 @@ export default {
       const errors = await AdminValidator.validateForDelete(id)
       if (errors.length > 0) return response.status(400).send({ errors: errors })
 
-      const admin = await Admin.findById(id)
+      const admin = await Admin.findByPk(id)
       await admin.destroy()
       response.status(200).send()
     } catch(error) {
