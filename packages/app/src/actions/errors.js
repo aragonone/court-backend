@@ -6,7 +6,7 @@ const ErrorActions = {
     console.error(error)
     return dispatch => {
       let text = message || error.message
-      if (text.includes('Request failed with status code 400')) text += `: ${JSON.stringify(error.response.data)}`
+      if (error.response && error.response.status === 400) text += `: ${JSON.stringify(error.response.data)}`
 
       dispatch({ type: ActionTypes.SHOW_ERROR, error: text })
       dispatch(FetchingActions.stop())

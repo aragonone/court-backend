@@ -30,7 +30,8 @@ const AdminActions = {
           const response = await Server.get('me')
           dispatch(AdminActions.receiveAdmin(response.data.admin))
         } catch (error) {
-          dispatch(ErrorActions.show(error))
+          if (error.response && error.response.status === 403) dispatch(AdminActions.logout())
+          else dispatch(ErrorActions.show(error))
         }
       }
     }
