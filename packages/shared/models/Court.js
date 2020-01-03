@@ -6,6 +6,15 @@ const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/eve
 const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
 const { sha3, fromWei, fromAscii, soliditySha3, BN, padLeft, toHex } = require('web3-utils')
 
+const ROUND_STATES = {
+  INVALID: bn(0),
+  COMMITTING: bn(1),
+  REVEALING: bn(2),
+  APPEALING: bn(3),
+  CONFIRMING_APPEAL: bn(4),
+  ENDED: bn(5)
+}
+
 module.exports = class {
   constructor(instance, environment) {
     this.instance = instance
@@ -74,6 +83,17 @@ module.exports = class {
 
   async neededTransitions() {
     return this.instance.getNeededTermTransitions()
+  }
+
+  async getAdjudicationRound(disputeId, roundId) {
+    const disputeManager = await this.disputeManager()
+    const { draftTerm, delayedTerms, jurorsNumber, selectedJurors, settledPenalties, jurorFees, collectedTokens, coherentJurors, state } = await disputeManager.getRound(disputeId, roundId)
+    return { draftTerm, delayedTerms, jurorsNumber, selectedJurors, settledPenalties, jurorFees, collectedTokens, coherentJurors, state }
+  }
+
+  async isRoundRevealing(disputeId, roundId) {
+    const { state } = await this.getAdjudicationRound(disputeId, roundId)
+    return state.eq(ROUND_STATES.REVEALING)
   }
 
   async existsVote(voteId) {
@@ -227,14 +247,17 @@ module.exports = class {
     return voting.commit(voteId, hashVote(outcome, soliditySha3(password)))
   }
 
-  async reveal(disputeId, outcome, password) {
+  async reveal(disputeId, juror, outcome, password) {
     const disputeManager = await this.disputeManager()
     const { lastRoundId } = await disputeManager.getDispute(disputeId)
     const voteId = getVoteId(disputeId, lastRoundId)
+    return this.revealFor(voteId, juror, outcome, soliditySha3(password))
+  }
 
-    logger.info(`Revealing vote for dispute #${disputeId} and round #${lastRoundId}...`)
+  async revealFor(voteId, juror, outcome, salt) {
+    logger.info(`Revealing vote #${voteId} for juror ${juror}...`)
     const voting = await this.voting()
-    return voting.reveal(voteId, outcome, soliditySha3(password))
+    return voting.reveal(voteId, juror, outcome, salt)
   }
 
   async appeal(disputeId, outcome) {

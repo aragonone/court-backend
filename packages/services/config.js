@@ -10,6 +10,14 @@ const workers = [
     tries: 3,
     repeat: ONE_HOUR,
   },
+  {
+    name: 'reveal',
+    path: './src/workers/reveal',
+    processes: 1,
+    times: 0,
+    tries: 3,
+    repeat: ONE_MINUTE,
+  },
 ]
 
 export {

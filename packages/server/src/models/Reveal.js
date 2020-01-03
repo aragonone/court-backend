@@ -1,6 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
   const Reveal = sequelize.define('Reveal',
     {
+      voteId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        }
+      },
       juror: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -8,12 +15,16 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
         }
       },
-      round: {
+      disputeId: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
         }
+      },
+      roundNumber: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
       outcome: {
         type: DataTypes.INTEGER,
@@ -39,17 +50,16 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         default: 0,
       },
+      errorId: {
+        type: DataTypes.NUMBER,
+        allowNull: true,
+      },
     },
     {
-      classMethods: {
-        associate: models => {
-          Reveal.belongsTo(models.ErrorLogs, { as: 'error' })
-        },
-      },
       indexes: [
         {
           unique: true,
-          fields: ['juror', 'round']
+          fields: ['juror', 'voteId']
         },
       ],
     }
