@@ -24,7 +24,8 @@ async function run() {
     try {
       logger.info(`Creating job #${job}`)
       await worker(name, job, tries, logger)
-      logger.success(`Job #${job} finished successfully`)
+      const minutes = job === times ? 0 : repeat / 60
+      logger.success(`Job #${job} finished successfully${minutes > 0 ? `, will get back in ${minutes} minutes` : ''}`)
     } catch (error) {
       logger.error(`Job #${job} exited with error: ${error.message}`)
       console.error(error)

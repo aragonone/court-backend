@@ -1,24 +1,25 @@
 const logger = require('../helpers/logger')('Court')
 const { bn, bigExp } = require('../helpers/numbers')
+const { ROUND_STATES } = require('@aragon/court/test/helpers/wrappers/court')
 const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
 const { getVoteId, hashVote } = require('@aragon/court/test/helpers/utils/crvoting')
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
+const { DISPUTE_MANAGER_ERRORS } = require('@aragon/court/test/helpers/utils/errors')
 const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
 const { sha3, fromWei, fromAscii, soliditySha3, BN, padLeft, toHex } = require('web3-utils')
 
-const ROUND_STATES = {
-  INVALID: bn(0),
-  COMMITTING: bn(1),
-  REVEALING: bn(2),
-  APPEALING: bn(3),
-  CONFIRMING_APPEAL: bn(4),
-  ENDED: bn(5)
-}
+const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 module.exports = class {
   constructor(instance, environment) {
     this.instance = instance
     this.environment = environment
+  }
+
+  subgraph() {
+    const env = this.environment.network === 'mainnet' ? '' : `-${this.environment.network}`
+    console.log(env)
+    return `https://api.thegraph.com/subgraphs/name/aragon/aragon-court${env}`
   }
 
   async anj() {
@@ -85,15 +86,23 @@ module.exports = class {
     return this.instance.getNeededTermTransitions()
   }
 
-  async getAdjudicationRound(disputeId, roundId) {
+  async canSettle(disputeId) {
     const disputeManager = await this.disputeManager()
-    const { draftTerm, delayedTerms, jurorsNumber, selectedJurors, settledPenalties, jurorFees, collectedTokens, coherentJurors, state } = await disputeManager.getRound(disputeId, roundId)
-    return { draftTerm, delayedTerms, jurorsNumber, selectedJurors, settledPenalties, jurorFees, collectedTokens, coherentJurors, state }
+
+    const { finalRuling, lastRoundId } = await disputeManager.getDispute(disputeId)
+    if (finalRuling !== bn(0)) return true
+
+    const { state } = await disputeManager.getRound(disputeId, lastRoundId)
+    return state === ROUND_STATES.ENDED
   }
 
-  async isRoundRevealing(disputeId, roundId) {
-    const { state } = await this.getAdjudicationRound(disputeId, roundId)
-    return state.eq(ROUND_STATES.REVEALING)
+  async getJurors(disputeId, roundNumber) {
+    const result = await this.environment.query(`{ 
+      dispute (id: "${disputeId}") {
+        id
+        rounds (where: { number: "${roundNumber}" }) { jurors { juror { id } }}
+      }}`)
+    return result.dispute.rounds[0].jurors.map(juror => juror.juror.id)
   }
 
   async existsVote(voteId) {
@@ -315,6 +324,52 @@ module.exports = class {
   async execute(disputeId) {
     logger.info(`Executing ruling of dispute #${disputeId}...`)
     return this.instance.executeRuling(disputeId)
+  }
+
+  async settle(disputeId) {
+    const voting = await this.voting()
+    const disputeManager = await this.disputeManager()
+    const { finalRuling: ruling, lastRoundId } = await disputeManager.getDispute(disputeId)
+
+    // Execute final ruling if missing
+    if (ruling.eq(bn(0))) await this.execute(disputeId)
+    const { finalRuling } = await disputeManager.getDispute(disputeId)
+
+    // Settle rounds
+    for (let roundNumber = 0; roundNumber <= lastRoundId; roundNumber++) {
+      const { jurorsNumber, settledPenalties } = await disputeManager.getRound(disputeId, roundNumber)
+
+      // settle penalties
+      if (!settledPenalties) {
+        logger.info(`Settling penalties for dispute #${disputeId} round #${roundNumber}`)
+        await disputeManager.settlePenalties(disputeId, roundNumber, jurorsNumber)
+        logger.success(`Settled penalties for dispute #${disputeId} round #${roundNumber}`)
+      }
+
+      // settle juror rewards
+      const voteId = getVoteId(disputeId, roundNumber)
+      const jurors = await this.getJurors(disputeId, roundNumber)
+      for (const juror of jurors) {
+        const votedOutcome = await voting.getVoterOutcome(voteId, juror)
+        if (votedOutcome.eq(finalRuling)) {
+          logger.info(`Settling rewards of juror ${juror} for dispute #${disputeId} and round #${roundNumber}...`)
+          await disputeManager.settleReward(disputeId, roundNumber, juror)
+          logger.success(`Settled rewards of juror ${juror} for dispute #${disputeId} and round #${roundNumber}...`)
+        }
+      }
+
+      // settle appeals
+      const { taker } = await disputeManager.getAppeal(disputeId, roundNumber)
+      if (taker != ZERO_ADDRESS) {
+        try {
+          logger.info(`Settling appeal deposits for dispute #${disputeId} round #${roundNumber}`)
+          await disputeManager.settleAppealDeposit(disputeId, roundNumber)
+          logger.success(`Settled penalties for dispute #${disputeId} round #${roundNumber}`)
+        } catch (error) {
+          if (!error.message.includes(DISPUTE_MANAGER_ERRORS.APPEAL_ALREADY_SETTLED)) throw error
+        }
+      }
+    }
   }
 
   async _approve(token, amount, recipient) {

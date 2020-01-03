@@ -1,11 +1,17 @@
 const Web3 = require('web3')
 const Court = require('../Court')
+const fetch = require('node-fetch')
 
 class Environment {
   async getCourt(address) {
     const AragonCourt = await this.getArtifact('AragonCourt', '@aragon/court')
     const court = await AragonCourt.at(address)
     return new Court(court, this)
+  }
+
+  async getLastBlock() {
+    const web3 = await this.getWeb3()
+    return web3.eth.getBlock('latest')
   }
 
   async getWeb3() {
