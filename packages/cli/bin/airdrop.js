@@ -2,9 +2,9 @@ const fs = require('fs')
 const path = require('path')
 const yargs = require('yargs')
 const { execSync } = require('child_process')
-const CourtProvider = require('../src/models/CourtProvider')
 const errorHandler = require('../src/helpers/errorHandler')
 const Logger = require('@aragon/court-backend-shared/helpers/logger')
+const Environment = require('@aragon/court-backend-shared/models/evironments/TruffleEnvironment')
 
 Logger.setDefaults(false, false)
 const logger = Logger('airdrop')
@@ -35,7 +35,8 @@ function readInput() {
 
 async function airdrop() {
   const jurors = readInput()
-  const court = await CourtProvider.for(network, from)
+  const environment = new Environment(network, from)
+  const court = await environment.getCourt()
   const output = []
 
   for (const juror of jurors) {

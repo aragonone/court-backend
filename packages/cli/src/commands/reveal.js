@@ -1,5 +1,4 @@
 const logger = require('@aragon/court-backend-shared/helpers/logger')('reveal')
-const CourtProvider = require('../models/CourtProvider')
 
 const command = 'reveal'
 const describe = 'Reveal committed vote'
@@ -10,8 +9,8 @@ const builder = {
   password: { alias: 'p', describe: 'Password used to commit the vote', type: 'string', demand: true },
 }
 
-const handlerAsync = async ({ network, from, dispute, outcome, password }) => {
-  const court = await CourtProvider.for(network, from)
+const handlerAsync = async (environment, { dispute, outcome, password }) => {
+  const court = await environment.getCourt()
   await court.reveal(dispute, outcome, password)
   logger.success(`Vote revealed for dispute #${dispute}`)
 }

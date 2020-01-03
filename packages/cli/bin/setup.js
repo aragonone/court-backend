@@ -1,9 +1,9 @@
 const yargs = require('yargs')
 const { bn } = require('@aragon/court-backend-shared/helpers/numbers')
 const { execSync } = require('child_process')
-const CourtProvider = require('../src/models/CourtProvider')
 const errorHandler = require('../src/helpers/errorHandler')
 const Logger = require('@aragon/court-backend-shared/helpers/logger')
+const Environment = require('@aragon/court-backend-shared/models/evironments/TruffleEnvironment')
 
 Logger.setDefaults(false, false)
 const logger = Logger('setup')
@@ -17,8 +17,8 @@ const { network, jurors: jurorsNumber, disputes } = yargs
   .argv
 
 async function setup() {
-  const court = await CourtProvider.for(network)
-  const environment = court.environment
+  const environment = new Environment(network)
+  const court = await environment.getCourt()
   const allAccounts = await environment.getAccounts()
   const sender = allAccounts[0]
   const jurors = allAccounts.slice(1, Math.min(parseInt(jurorsNumber) + 1, allAccounts.length))
