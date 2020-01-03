@@ -12,6 +12,7 @@ import ErrorsList from '../admin/ErrorsList.react'
 import ErrorDetail from '../admin/ErrorDetail.react'
 import RevealsList from '../admin/RevealsList.react'
 import SettlementsList from '../admin/SettlementsList.react'
+import SubscriptionsList from '../admin/SubscriptionsList.react'
 import JurorsList from '../jurors/JurorsList.react'
 import JurorDetail from '../jurors/JurorDetail.react'
 import JurorDraftsList from '../jurors/JurorDraftsList.react'
@@ -65,6 +66,7 @@ class App extends React.Component {
             <PrivateRoute path="/admins" exact component={AdminsList}/>
             <PrivateRoute path="/reveals" exact component={RevealsList}/>
             <PrivateRoute path="/settlements" exact component={SettlementsList}/>
+            <PrivateRoute path="/subscriptions" exact component={SubscriptionsList}/>
             <PrivateRoute path="/errors" exact component={ErrorsList}/>
             <PrivateRoute path="/errors/:id" exact component={ErrorDetail}/>
           </Switch>

@@ -24,8 +24,8 @@ export default class Navbar extends React.Component {
           <Link to="/jurors">Jurors</Link>
           <Link to="/drafts">Drafts</Link>
           <Link to="/anj-balances">ANJ</Link>
+          { admin.id && this._buildLoggedInItems() }
         </div>
-        { admin.id ? this._buildLoggedInItems() : '' }
         <div className="account">
           <Account admin={admin}/>
         </div>
@@ -34,14 +34,13 @@ export default class Navbar extends React.Component {
   }
 
   _buildLoggedInItems() {
-    return (
-      <div className="admin-links">
-        <Link to="/admins">Admins</Link>
-        <Link to="/reveals">Reveals</Link>
-        <Link to="/settlements">Settlements</Link>
-        <Link to="/errors">Errors</Link>
-        <Link to="/logout">Logout</Link>
-      </div>
-    )
+    return [
+      <Link to="/admins" key="admins">Admins</Link>,
+      <Link to="/reveals" key="reveals">Reveals</Link>,
+      <Link to="/settlements" key="settlements">Settlements</Link>,
+      <Link to="/subscriptions" key="subscriptions">Subscriptions</Link>,
+      <Link to="/errors" key="errors">Errors</Link>,
+      <Link to="/logout" key="logout">Logout</Link>,
+    ]
   }
 }

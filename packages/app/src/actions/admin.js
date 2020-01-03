@@ -70,6 +70,17 @@ const AdminActions = {
     }
   },
 
+  findSubscriptions() {
+    return async function (dispatch) {
+      try {
+        const response = await Server.get('subscriptions')
+        dispatch(AdminActions.receiveSubscriptions(response.data.subscriptions))
+      } catch (error) {
+        dispatch(ErrorActions.show(error))
+      }
+    }
+  },
+
   findErrors() {
     return async function (dispatch) {
       try {
@@ -119,6 +130,10 @@ const AdminActions = {
 
   receiveSettlements(settlements) {
     return { type: ActionTypes.RECEIVE_ADMIN_SETTLEMENTS, settlements }
+  },
+
+  receiveSubscriptions(subscriptions) {
+    return { type: ActionTypes.RECEIVE_ADMIN_SUBSCRIPTIONS, subscriptions }
   },
 
   receiveErrors(errors) {
