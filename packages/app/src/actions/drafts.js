@@ -1,5 +1,5 @@
-import ErrorActions from './errors'
 import Network from '../web3/Network'
+import ErrorActions from './errors'
 import * as ActionTypes from '../actions/types'
 
 const DraftActions = {

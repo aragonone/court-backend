@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) =>
-  sequelize.define('ErrorLog',
+module.exports = (sequelize, DataTypes) => {
+  const ErrorLog = sequelize.define('ErrorLog',
     {
       context: {
         type: DataTypes.STRING,
@@ -24,3 +24,11 @@ module.exports = (sequelize, DataTypes) =>
       },
     }
   )
+
+  ErrorLog.associate = models => {
+    ErrorLog.hasOne(models.Reveal, { foreignKey: 'errorId', as: 'reveal' })
+    ErrorLog.hasOne(models.Settlement, { foreignKey: 'errorId', as: 'settlement' })
+  }
+
+  return ErrorLog
+}

@@ -3,9 +3,13 @@ import Store from '../../store/store'
 import AccountActions from '../../actions/accounts'
 
 export default class Account extends React.Component {
+  static getDerivedStateFromProps(nextProps) {
+    return { admin: nextProps.admin }
+  }
+
   constructor(props) {
     super(props)
-    this.state = { address: '' }
+    this.state = { address: '', admin: this.props.admin }
   }
 
   componentDidMount() {
@@ -14,9 +18,9 @@ export default class Account extends React.Component {
   }
 
   render() {
-    const { address } = this.state
+    const { address, admin } = this.state
     return (
-      <p ref="account">{address}</p>
+      <p ref="account">{address}<br/>{ admin.id ? admin.email : ''}</p>
     )
   }
 

@@ -16,12 +16,6 @@ module.exports = class {
     this.environment = environment
   }
 
-  subgraph() {
-    const env = this.environment.network === 'mainnet' ? '' : `-${this.environment.network}`
-    console.log(env)
-    return `https://api.thegraph.com/subgraphs/name/aragon/aragon-court${env}`
-  }
-
   async anj() {
     if (!this._anj) {
       const registry = await this.registry()

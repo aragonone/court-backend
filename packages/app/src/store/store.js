@@ -8,6 +8,7 @@ import court from '../reducers/court'
 import jurors from '../reducers/jurors'
 import drafts from '../reducers/drafts'
 import disputes from '../reducers/disputes'
+import admin from '../reducers/admin'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 
 const mainReducer = combineReducers({
@@ -20,6 +21,7 @@ const mainReducer = combineReducers({
   jurors,
   drafts,
   disputes,
+  admin,
 })
 
 const Store = createStore(

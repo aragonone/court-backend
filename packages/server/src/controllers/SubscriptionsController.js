@@ -15,5 +15,18 @@ export default {
     } catch(error) {
       next(error)
     }
-  }
+  },
+
+  async all(request, response, next) {
+    try {
+      const limit = request.query.limit || 20
+      const offset = (request.query.page || 0) * limit
+
+      const total = await Subscription.count()
+      const subscriptions = await Subscription.findAll({ limit, offset, order: [['createdAt', 'DESC']] })
+      response.status(200).send({ subscriptions, total })
+    } catch(error) {
+      next(error)
+    }
+  },
 }

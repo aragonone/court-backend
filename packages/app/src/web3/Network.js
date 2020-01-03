@@ -1,6 +1,7 @@
 import Court from '@aragon/court-backend-shared/models/Court'
 import Environment from '@aragon/court-backend-shared/models/evironments/MetamaskEnvironment'
 
+const NETWORK = process.env.REACT_APP_NETWORK
 const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT
 
 const FAUCET = {
@@ -18,7 +19,11 @@ const ANT = {
 
 const Network = {
   get environment() {
-    return new Environment()
+    return new Environment(this.getNetworkName())
+  },
+
+  async query(query) {
+    return this.environment.query(query, GRAPHQL_ENDPOINT)
   },
 
   async getWeb3() {
@@ -87,17 +92,9 @@ const Network = {
     }
   },
 
-  async query(query) {
-    const response = await fetch(GRAPHQL_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ query })
-    })
-    const json = await response.json()
-    return json.data
-  },
-
   getNetworkName() {
+    if (NETWORK) return NETWORK
+    if (!GRAPHQL_ENDPOINT) throw Error('A network or graphQL endpoint must be specified through env variables')
     if (GRAPHQL_ENDPOINT.includes('staging')) return 'staging'
     else if (GRAPHQL_ENDPOINT.includes('ropsten')) return 'ropsten'
     else if (GRAPHQL_ENDPOINT.includes('rinkeby')) return 'rinkeby'

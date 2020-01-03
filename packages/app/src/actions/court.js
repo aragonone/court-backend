@@ -61,11 +61,13 @@ const CourtActions = {
 
         let neededTransitions = '(cannot fetch info)'
 
-        if (await Network.isCourtAt(courtAddress)) {
-          const court = await Network.getCourt(courtAddress)
-          neededTransitions = await court.neededTransitions()
-        } else {
-          dispatch(ErrorActions.show(new Error(`Could not find Court at ${courtAddress}, please make sure you're in the right network`)))
+        if (await Network.isEnabled()) {
+          if (await Network.isCourtAt(courtAddress)) {
+            const court = await Network.getCourt(courtAddress)
+            neededTransitions = await court.neededTransitions()
+          } else {
+            dispatch(ErrorActions.show(new Error(`Could not find Court at ${courtAddress}, please make sure you're in the right network`)))
+          }
         }
 
         const config = { ...result.courtConfig, neededTransitions, address: courtAddress }

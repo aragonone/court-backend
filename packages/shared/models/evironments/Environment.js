@@ -2,7 +2,30 @@ const Web3 = require('web3')
 const Court = require('../Court')
 const fetch = require('node-fetch')
 
+const SUBGRAPH_BASE = 'https://api.thegraph.com/subgraphs/name/aragon/aragon-court'
+
 class Environment {
+  constructor(network, sender = undefined) {
+    this.network = network
+    this.sender = sender
+  }
+
+  getSubgraph() {
+    const env = this.network === 'mainnet' ? '' : `-${this.network}`
+    return `${SUBGRAPH_BASE}${env}`
+  }
+
+  async query(query, endpoint = undefined) {
+    const subgraph = endpoint || this.getSubgraph()
+    const response = await fetch(subgraph, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ query })
+    })
+    const json = await response.json()
+    return json.data
+  }
+
   async getCourt(address) {
     const AragonCourt = await this.getArtifact('AragonCourt', '@aragon/court')
     const court = await AragonCourt.at(address)
