@@ -1,13 +1,16 @@
 # Aragon Court backend
 
-### Remote
+This mono-repo includes a set of sub-repos that are in charge of different parts of the whole Aragon Court backend:
+- [`cli`](./packages/cli): This repo provides a CLI tool with a set of commands to interact with an Aragon Court instance.
+- [`server`](./packages/server): This repo provides the backend server in charge of setting up a database and exposing a set of endpoints that will complement the functionality exposed by the smart contracts.
+- [`services`](./packages/services): This repo provides a set of background workers in charge of maintaining those things that could be done automatically for Aragon Court.
+- [`app`](./packages/app): This repo provides a React app as the frontend app of the Aragon Court backend
+- [`shared`](./packages/shared): This repo provides a set of components shared among all the sub-repos of this mono-repo.
 
-1. [Mainnet](https://aragon-court.firebaseapp.com/)
-2. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
-3. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
-4. [Staging](https://aragon-court-staging.firebaseapp.com/)
+To understand better about these repos, you will find detailed information about them on their own READMEs.
+However, you can follow the following guide to understand you to set up everything locally:
 
-### Local
+### Local set up
 
 To test Aragon Court locally please do the following tasks:
 
@@ -109,3 +112,13 @@ REACT_APP_NETWORK=rinkeby
 ```
 
 Finally, you can simply run `npm start` to start playing with it.
+
+### Deployed instances
+
+You can find the following instances that were already deployed:
+
+1. [Mainnet](https://aragon-court.firebaseapp.com/)
+2. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
+3. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
+4. [Staging](https://aragon-court-staging.firebaseapp.com/)
+
