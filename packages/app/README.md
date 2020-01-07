@@ -2,7 +2,7 @@
 
 This is a React app that aims to serve a UI to read data from an Aragon Court instance.
 
-##Setup
+## Setup
 
 ### Remote
 
