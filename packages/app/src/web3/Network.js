@@ -1,5 +1,5 @@
 import Court from '@aragon/court-backend-shared/models/Court'
-import Environment from '@aragon/court-backend-shared/models/evironments/MetamaskEnvironment'
+import Environment from '@aragon/court-backend-shared/models/evironments/BrowserEnvironment'
 
 const NETWORK = process.env.REACT_APP_NETWORK
 const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT
