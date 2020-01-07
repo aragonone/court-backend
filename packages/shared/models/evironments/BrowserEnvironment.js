@@ -2,7 +2,7 @@ const sleep = require('../../helpers/sleep')
 const Environment = require('./Environment')
 const StaticArtifacts = require('../artifacts/StaticArtifacts')
 
-class MetamaskEnvironment extends Environment {
+class BrowserEnvironment extends Environment {
   constructor(network) {
     super(network)
   }
@@ -33,4 +33,4 @@ class MetamaskEnvironment extends Environment {
   }
 }
 
-module.exports = MetamaskEnvironment
+module.exports = BrowserEnvironment
