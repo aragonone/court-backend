@@ -6,10 +6,10 @@
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "dependencies": {
     "@aragon/court": "1.1.0",
-    "@aragon/erc20-faucet": "https://github.com/aragonone/erc20-faucet",
     "@aragon/minime": "1.0.0",
     "@aragon/test-helpers": "^2.1.0",
     "@aragon/truffle-config-v5": "^1.0.1",
+    "@aragonone/erc20-faucet": "^1.0.0",
     "@truffle/config": "1.2.7",
     "@truffle/contract": "^4.1.1",
     "chalk": "^2.4.2",
