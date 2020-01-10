@@ -3,5 +3,9 @@
   "version": "0.0.1",
   "devDependencies": {
     "lerna": "^3.14.1"
+  },
+  "scripts": {
+    "install": "lerna bootstrap",
+    "build:app": "lerna run --scope @aragon/court-backend-app build:mainnet"
   }
 }

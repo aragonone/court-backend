@@ -1,5 +1,5 @@
 {
-  "name": "@aragon/court-backend-app2",
+  "name": "@aragon/court-backend-app",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -27,7 +27,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build GENERATE_SOURCEMAP=false",
+    "build": "NODE_OPTIONS=--max_old_space_size=4096 react-scripts build GENERATE_SOURCEMAP=false",
+    "build:mainnet": "REACT_APP_GRAPHQL_ENDPOINT=https://api.thegraph.com/subgraphs/name/aragon/aragon-court npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy:ropsten": "NETWORK=ropsten ./scripts/deploy.sh",
