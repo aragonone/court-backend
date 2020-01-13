@@ -57,7 +57,7 @@ To deploy a local instance run the following commands on a separate terminal:
 You can use the provided deployment script to create a manifest file with the providing the court deployed address as follows:
 
 ```bash
-  ./scripts/deploy NETWORK=rpc COURT==<COURT_ADDRESS>
+  NETWORK=rpc COURT=<COURT_ADDRESS> ./scripts/deploy
 ``` 
 
 ##### 6. Populate Aragon Court
@@ -71,7 +71,7 @@ First, open a separate terminal, clone this repo and install dependencies:
   npx lerna bootstrap
 ```
 
-Finally, make sure you set the local court address in `packages/cli/truffle-config.js`.
+Finally, make sure you set the local court address in `packages/shared/truffle-config.js`.
 You can now start playing with the available CLI commands:
 
 - `mint`: Mint ANJ or Fee tokens for a certain address
