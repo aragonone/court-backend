@@ -2,7 +2,7 @@ const BaseArtifacts = require('./BaseArtifacts')
 
 const BUILDS = {
   '@aragon/erc20-faucet': {
-    'ERC20Faucet': require('@aragon/erc20-faucet/build/contracts/ERC20Faucet'),
+    'ERC20Faucet': require('@aragonone/erc20-faucet/build/contracts/ERC20Faucet'),
   },
   '@aragon/minime': {
     'MiniMeToken': require('@aragon/minime/build/contracts/MiniMeToken')
