@@ -8,6 +8,7 @@ const JurorsActions = {
       try {
         const result = await Network.query(`{
           juror (id: "${address}") {
+            treeId
             id
             activeBalance
             lockedBalance
@@ -29,6 +30,7 @@ const JurorsActions = {
       try {
         const result = await Network.query(`{
           jurors (orderBy: createdAt, orderDirection: asc) {
+            treeId
             id
             activeBalance
             lockedBalance
@@ -49,6 +51,7 @@ const JurorsActions = {
       try {
         const result = await Network.query(`{
           juror (id: "${id}") {
+            treeId
             id
             drafts {
               id
@@ -80,6 +83,7 @@ const JurorsActions = {
       try {
         const result = await Network.query(`{
           juror (id: "${id}") {
+            treeId
             id
             movements (orderBy: createdAt, orderDirection: desc) {
               id

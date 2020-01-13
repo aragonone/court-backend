@@ -27,6 +27,7 @@ export default class JurorsList extends React.Component {
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Address</th>
                 <th>Active ANJ</th>
                 <th>Locked ANJ</th>
                 <th>Staked ANJ</th>
@@ -48,7 +49,8 @@ export default class JurorsList extends React.Component {
     return this.state.jurors.map((juror, index) => {
       return (
         <tr key={index}>
-          <td><Link to={`/jurors/${juror.id}/detail`}><b>{juror.id}</b></Link></td>
+          <td><Link to={`/jurors/${juror.id}/detail`}><b>{juror.treeId}</b></Link></td>
+          <td>{juror.id}</td>
           <td>{fromWei(juror.activeBalance)}</td>
           <td>{fromWei(juror.lockedBalance)}</td>
           <td>{fromWei(juror.availableBalance)}</td>
