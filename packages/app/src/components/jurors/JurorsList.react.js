@@ -23,23 +23,29 @@ export default class JurorsList extends React.Component {
         <h3>Jurors</h3>
         { (!jurors) ? <em>Loading...</em> : jurors.length === 0 ?
           <em>None</em> :
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Address</th>
-                <th>Active ANJ</th>
-                <th>Locked ANJ</th>
-                <th>Staked ANJ</th>
-                <th>Deactivating ANJ</th>
-                <th>Created at</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this._buildList()}
-            </tbody>
-          </table>
+          <div ref="jurorsWrapper">
+            <div ref="jurorsSummary">
+              <p>Total number of jurors: {jurors.length} </p>
+              <p>Total number of active jurors: {jurors.filter(juror => juror.activeBalance > 0).length} </p>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Address</th>
+                  <th>Active ANJ</th>
+                  <th>Locked ANJ</th>
+                  <th>Staked ANJ</th>
+                  <th>Deactivating ANJ</th>
+                  <th>Created at</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this._buildList()}
+              </tbody>
+            </table>
+          </div>
         }
       </div>
     )
