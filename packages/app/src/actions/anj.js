@@ -7,7 +7,7 @@ const ANJActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          anjbalances {
+          anjbalances(where:{amount_gt: 0}) {
             id
             owner
             amount
