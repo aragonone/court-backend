@@ -21,22 +21,13 @@ npm i
 npx lerna bootstrap
 ````
 
-The services will use the same database required by the backend server, then first make sure you server is up and running correctly. 
-To do that simply create your own `.env` file in `packages/server`, feel free to follow the template provided in `/packages/server/.env.sample`.
-Once you have done that, make sure you have postgres installed and running and simply run the following commands:
+The services will use the same database required by the backend server, so follow the instructions there to set up and run that database.
 
-```bash
-cd packages/server
-npx sequelize db:create
-npx sequelize db:migrate
-npm start
-```
-
-Finally, in another console run the background services as follows:
+Then run the background services as follows:
 
 ```bash
 cd court-backend/packages/services
-npm start
+PRIVATE_KEY=0x... npm start
 ```
 
 ## Config
@@ -50,7 +41,6 @@ All the background services are configured through the `config.js` file using th
 - `times`: Number of jobs that will be run for each worker, use `0` to denote unlimited. It will assume `1` if undefined.
 - `repeat`: The number of seconds that the worker will wait until a new job is created. It will assume `0` if undefined.
 
-### Keys
+### Ethereum private key
 
-This repo is using `@aragon/truffle-config-v5`, it is not using Truffle, but truffle config to load the network configuration following the standard way provided by Truffle.
-Thus, keys are fetched from `~/.aragon/${NETWORK}_key.json` files.
+This repo needs the private key to be defined as a envrionment variable `PRIVATE_KEY`. You can manually `export` it before launching the services or define it in the `.env` file.
