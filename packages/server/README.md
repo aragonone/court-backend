@@ -19,10 +19,10 @@ Once you have done that, spin up a docker container with:
 ```bash
 docker-compose up -d
 ```
-TODO
+
+If you had run it before, make sure to remove it first:
 ```bash
-docker-compose stop
-docker-compose rm
+docker-compose down
 ```
 
 
