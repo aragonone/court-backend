@@ -198,10 +198,11 @@ module.exports = class {
     const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
     const token = await ERC20.at(feeToken)
 
+    logger.info(`Approving fees for ${periods} periods to ${recipient}, total amount: ${feeAmount}...`)
     await this._approve(token, feeAmount, recipient)
     const subscriptions = await this.subscriptions()
     logger.info(`Paying fees for ${periods} periods to ${subscriptions.address}...`)
-    return subscriptions.payFees(arbitrable.address, periods)
+    return subscriptions.payFees(address, periods)
   }
 
   async createDispute(subject, rulings = 2, metadata = '', evidence = []) {

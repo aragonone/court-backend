@@ -1,10 +1,8 @@
-import Environment from '@aragon/court-backend-shared/models/evironments/TruffleEnvironment'
-
-const NETWORK = process.env.NETWORK
+import Environment from '@aragon/court-backend-shared/models/evironments/LocalEnvironment'
 
 const Network = {
   get environment() {
-    return new Environment(NETWORK)
+    return new Environment()
   },
 
   async getCourt() {
