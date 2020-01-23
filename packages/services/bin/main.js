@@ -4,6 +4,9 @@ import { fork } from 'child_process'
 import { workers } from '../config'
 import Logger from '@aragon/court-backend-shared/helpers/logger'
 
+// TODO
+require('dotenv').config({ path: 'node_modules/@aragon/court-backend-server/.env' })
+
 Logger.setDefaults(false, true)
 const logger = Logger('services')
 
