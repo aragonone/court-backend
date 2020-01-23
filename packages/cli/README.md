@@ -11,7 +11,7 @@ Currently, there is no published version of it. However, you can run the followi
   cd packages/cli
 ```
 
-The only thing you need to setup is to make sure you configure an Aragon Court address in the `truffle-config.js` file.
+The only thing you need to setup is to make sure you configure an Aragon Court address in the `truffle-config.js` file of the shared package.
 After that, you can start playing with all the provided commands: 
 
 - [`mint`](./src/commands/mint.js): Mint ANJ or Fee tokens for a certain address
