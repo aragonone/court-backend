@@ -20,7 +20,7 @@ const logger = Logger(name, prefixColor)
 const worker = require(path.resolve(process.cwd(), workerPath)).default
 
 async function run() {
-  logger.info(`Starting worker, will run ${times} jobs`)
+  logger.info(`Starting worker, will run ${times == 0 ? 'infinite' : times} jobs`)
   for (let job = 1; job !== times; job++) {
     try {
       logger.info(`Creating job #${job}`)
