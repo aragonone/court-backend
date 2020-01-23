@@ -49,6 +49,7 @@ All the background services are configured through the `config.js` file using th
 - `processes`: Number of workers run in parallel. It will assume `1` if undefined.
 - `times`: Number of jobs that will be run for each worker, use `0` to denote unlimited. It will assume `1` if undefined.
 - `repeat`: The number of seconds that the worker will wait until a new job is created. It will assume `0` if undefined.
+- `prefixColor`: Color used for the prefix when logging to the console
 
 ### Keys
 
