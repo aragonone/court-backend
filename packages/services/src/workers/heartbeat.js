@@ -17,16 +17,16 @@ export default async function (worker, job, tries, logger) {
   }
 }
 
-async function heartbeat(logger, tries, court, intent = 1) {
+async function heartbeat(logger, tries, court, attempt = 1) {
   try {
-    logger.info(`Transitioning up-to ${MAX_TRANSITIONS_PER_CALL} terms, try #${intent}`)
+    logger.info(`Transitioning up-to ${MAX_TRANSITIONS_PER_CALL} terms, try #${attempt}`)
     const transitions = await court.heartbeat(MAX_TRANSITIONS_PER_CALL)
     logger.success(`Transitioned ${transitions} Court terms`)
   } catch (error) {
     logger.error('Failed to transition terms with error')
     console.error(error)
-    if (intent === tries) throw error
+    if (attempt === tries) throw error
     await sleep(SECONDS_BETWEEN_INTENTS)
-    await heartbeat(logger, tries, court, intent + 1)
+    await heartbeat(logger, tries, court, attempt + 1)
   }
 }
