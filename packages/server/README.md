@@ -15,7 +15,18 @@ cd packages/server
 ````
 
 To run the server simply create your own `.env` file, feel free to follow the template provided in `.env.sample`.
-Once you have done that, make sure you have postgres installed and running and simply run the following commands:
+Once you have done that, spin up a docker container with:
+```bash
+docker-compose up -d
+```
+TODO
+```bash
+docker-compose stop
+docker-compose rm
+```
+
+
+and simply run the following commands:
 
 ```bash
 npx sequelize db:create
