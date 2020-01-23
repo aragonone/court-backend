@@ -12,8 +12,9 @@ const builder = {
 
 const handlerAsync = async (environment, { from, juror, dispute, outcome, password }) => {
   const court = await environment.getCourt()
-  await court.reveal(dispute, from || juror, outcome, password)
-  logger.success(`Vote revealed for dispute #${dispute} for juror ${from || juror}`)
+  const onBehalfOf = juror || await court.environment.getSender()
+  await court.reveal(dispute, onBehalfOf, outcome, password)
+  logger.success(`Vote revealed for dispute #${dispute} for juror ${onBehalfOf}`)
 }
 
 module.exports = {
