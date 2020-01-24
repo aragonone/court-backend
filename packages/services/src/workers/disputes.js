@@ -23,7 +23,7 @@ export default async function (worker, job, tries, logger) {
   }
 }
 
-async function recordEvents(logger, tries, disputeManager, fromBlock, toBlock, intent = 1) {
+async function recordEvents(logger, tries, disputeManager, fromBlock, toBlock, attempt = 1) {
   try {
     const events = await disputeManager.getPastEvents('NewDispute', { fromBlock, toBlock })
     for(const event of events) {
@@ -33,8 +33,8 @@ async function recordEvents(logger, tries, disputeManager, fromBlock, toBlock, i
   } catch (error) {
     logger.error(`Error while trying to listening to all past NewDispute events from block ${fromBlock} to block ${toBlock}`)
     console.error(error)
-    if (intent === tries) throw error
+    if (attempt === tries) throw error
     await sleep(SECONDS_BETWEEN_INTENTS)
-    await recordEvents(logger, tries, disputeManager, fromBlock, toBlock, intent + 1)
+    await recordEvents(logger, tries, disputeManager, fromBlock, toBlock, attempt + 1)
   }
 }
