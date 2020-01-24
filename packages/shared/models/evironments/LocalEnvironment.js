@@ -20,10 +20,6 @@ class LocalEnvironment extends Environment {
 
   async getCourt(address = undefined) {
     return super.getCourt(process.env.COURT_ADDRESS)
-    const config = require('../../truffle-config')
-    const { court } = config.networks[this.network] || { court: undefined }
-    if (!court) throw Error(`Missing court address for network ${this.network}`)
-    return super.getCourt(court)
   }
 
   async _getProvider() {
