@@ -78,6 +78,18 @@ const CourtActions = {
     }
   },
 
+  heartbeat(transitions) {
+    return async function(dispatch) {
+      try {
+        const court = await Network.getCourt()
+        await court.heartbeat(transitions)
+        dispatch(CourtActions.findConfig())
+      } catch (error) {
+        dispatch(ErrorActions.show(error))
+      }
+    }
+  },
+
   receiveConfig(config) {
     return { type: ActionTypes.RECEIVE_COURT_CONFIG, config }
   },
