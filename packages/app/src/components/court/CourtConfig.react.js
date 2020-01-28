@@ -4,7 +4,10 @@ import CourtActions from '../../actions/court'
 import { fromWei } from 'web3-utils'
 import { bn } from '@aragon/court-backend-shared/helpers/numbers'
 
+const MAX_TRANSITIONS = 10
+
 export default class CourtConfig extends React.Component {
+
   constructor(props){
     super(props)
     this.state = {}
@@ -62,6 +65,7 @@ export default class CourtConfig extends React.Component {
         <p>Term duration: {bn(termDuration).div(bn(60)).toString()} minutes</p>
         <p>Current term: #{currentTerm}</p>
         <p>Needed transitions: {neededTransitions.toString()}</p>
+        <p><a onClick={() => this._heartbeat()} href="#">Heartbeat</a></p>
         <p>ANJ token: {anjToken.id}</p>
         <p>Fee token: {feeToken.id}</p>
         <p>Juror fee: {fromWei(jurorFee.toString())}</p>
@@ -90,6 +94,10 @@ export default class CourtConfig extends React.Component {
         </ul>
       </div>
     )
+  }
+
+  _heartbeat(address) {
+    Store.dispatch(CourtActions.heartbeat(MAX_TRANSITIONS))
   }
 
   _onChange() {
