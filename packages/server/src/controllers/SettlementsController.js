@@ -1,6 +1,6 @@
 import Models from '../models'
 
-const { Settlement, ErrorLog } = Models
+const { Settlement } = Models
 
 export default {
   async all(request, response, next) {
@@ -9,7 +9,7 @@ export default {
       const offset = (request.query.page || 0) * limit
 
       const total = await Settlement.count()
-      const settlements = await Settlement.findAll({ limit, offset, include: [{ model: ErrorLog, as: 'error' }], order: [['createdAt', 'DESC']] })
+      const settlements = await Settlement.findAll({ limit, offset, order: [['createdAt', 'DESC']] })
       response.status(200).send({ settlements, total })
     } catch(error) {
       next(error)

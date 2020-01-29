@@ -2,7 +2,7 @@ import sleep from '@aragon/court-backend-shared/helpers/sleep'
 import Models from '@aragon/court-backend-server/build/models'
 import Network from '@aragon/court-backend-server/build/web3/Network'
 
-const { Settlement, ErrorLog } = Models
+const { Settlement } = Models
 
 const INITIAL_BLOCK_NUMBER = '10000'
 const SECONDS_BETWEEN_INTENTS = 3
@@ -18,7 +18,7 @@ export default async function (worker, job, tries, logger) {
 
     await recordEvents(logger, tries, disputeManager, fromBlock, toBlock)
   } catch (error) {
-    await ErrorLog.create({ context: `Worker '${worker}' job #${job}`, message: error.message, stack: error.stack })
+    console.error({ context: `Worker '${worker}' job #${job}`, message: error.message, stack: error.stack })
     throw error
   }
 }

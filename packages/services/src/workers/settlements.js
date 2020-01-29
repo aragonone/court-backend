@@ -2,7 +2,7 @@ import { Op } from 'sequelize'
 import Models from '@aragon/court-backend-server/build/models'
 import Network from '@aragon/court-backend-server/build/web3/Network'
 
-const { Settlement, ErrorLog } = Models
+const { Settlement } = Models
 
 export default async function (worker, job, tries, logger) {
   try {
@@ -11,7 +11,7 @@ export default async function (worker, job, tries, logger) {
     const court = await Network.getCourt()
     for (const settlement of settlements) await settle(worker, job, logger, court, settlement)
   } catch (error) {
-    await ErrorLog.create({ context: `Worker '${worker}' job #${job}`, message: error.message, stack: error.stack })
+    console.error({ context: `Worker '${worker}' job #${job}`, message: error.message, stack: error.stack })
     throw error
   }
 }
@@ -28,8 +28,8 @@ async function settle(worker, job, logger, court, settlement) {
     logger.success(`Settled dispute #${disputeId}`)
   } catch (error) {
     logger.error(`Failed to settle dispute #${disputeId}`)
-    console.error(error)
-    const errorLog = await ErrorLog.create({ context: `Worker '${worker}' job #${job} settling dispute #${disputeId}`, message: error.message, stack: error.stack })
-    await settlement.update({ tries: tries + 1, errorId: errorLog.id })
+    //console.error(error)
+    console.error({ context: `Worker '${worker}' job #${job} settling dispute #${disputeId}`, message: error.message, stack: error.stack })
+    await settlement.update({ tries: tries + 1 })
   }
 }

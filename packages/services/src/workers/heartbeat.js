@@ -2,8 +2,6 @@ import sleep from '@aragon/court-backend-shared/helpers/sleep'
 import Models from '@aragon/court-backend-server/build/models'
 import Network from '@aragon/court-backend-server/build/web3/Network'
 
-const { ErrorLog } = Models
-
 const SECONDS_BETWEEN_INTENTS = 3
 const MAX_TRANSITIONS_PER_CALL = 20
 
@@ -12,7 +10,7 @@ export default async function (worker, job, tries, logger) {
     const court = await Network.getCourt()
     await heartbeat(logger, tries, court)
   } catch (error) {
-    await ErrorLog.create({ context: `Worker '${worker}' job #${job}`, message: error.message, stack: error.stack })
+    console.error({ context: `Worker '${worker}' job #${job}`, message: error.message, stack: error.stack })
     throw error
   }
 }
