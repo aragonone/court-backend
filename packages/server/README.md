@@ -181,41 +181,9 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-### 3. Settlements
+### 3. Admins
 
-#### 3.1. All
-
-- URL: /settlements
-- Method: GET
-- Query: 
-  - `token`: JSON web token
-  - `limit`: Number of items to be fetched
-  - `page`: Page number to be used for the items to be fetched based on the limit requested
-- Response: 
-  - Code: 200
-  - Content example: 
-    ```json
-      {
-        "settlements":[
-          {
-            "id": 3,
-            "disputeId": "0",
-            "blockNumber": "5643593",
-            "settled": true,
-            "tries": 1,
-            "errorId": null,
-            "createdAt": "2019-12-24T20:15:42.844Z",
-            "updatedAt": "2019-12-27T13:11:32.415Z",
-            "error": null
-          }
-        ],
-        "total": 1
-      }
-    ```
-
-### 4. Admins
-
-#### 4.1. Login
+#### 3.1. Login
 
 - URL: /login
 - Method: POST
@@ -232,7 +200,7 @@ All the provided endpoints are `Content-Type: application/json`
     ```
     
 
-#### 4.2. Me
+#### 3.2. Me
 
 - URL: /me
 - Method: GET
@@ -250,7 +218,7 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-#### 4.3. All
+#### 3.3. All
 
 - URL: /admins
 - Method: GET
@@ -290,7 +258,7 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-#### 4.4. Create
+#### 3.4. Create
 
 - URL: /admins
 - Method: POST
@@ -310,7 +278,7 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-#### 4.5. Delete
+#### 3.5. Delete
 
 - URL: /admins/:id
 - Method: DELETE
@@ -320,9 +288,9 @@ All the provided endpoints are `Content-Type: application/json`
   - Code: 200
   - Content example: empty
 
-### 5. Errors
+### 4. Errors
 
-#### 5.1. Show
+#### 4.1. Show
 
 - URL: /error/:id
 - Method: GET
@@ -344,7 +312,7 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-#### 5.2. All
+#### 4.2. All
 
 - URL: /errors
 - Method: GET
