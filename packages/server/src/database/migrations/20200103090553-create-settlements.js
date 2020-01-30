@@ -27,15 +27,6 @@ module.exports = {
           type: Sequelize.INTEGER,
           default: 0,
         },
-        errorId: {
-          allowNull: true,
-          type: Sequelize.INTEGER,
-          references: {
-            model: 'ErrorLogs',
-            key: 'id',
-            as: 'errorId',
-          },
-        },
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE,

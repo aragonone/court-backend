@@ -1,7 +1,7 @@
 import Models from '../models'
 import RevealsValidator from '../validators/RevealsValidator'
 
-const { Reveal, ErrorLog } = Models
+const { Reveal } = Models
 
 export default {
   async show(request, response, next) {
@@ -39,7 +39,7 @@ export default {
       const offset = (request.query.page || 0) * limit
 
       const total = await Reveal.count()
-      const reveals = await Reveal.findAll({ limit, offset, include: [{ model: ErrorLog, as: 'error' }], order: [['createdAt', 'DESC']] })
+      const reveals = await Reveal.findAll({ limit, offset, order: [['createdAt', 'DESC']] })
       response.status(200).send({ reveals, total })
     } catch(error) {
       next(error)

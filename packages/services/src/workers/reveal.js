@@ -2,7 +2,7 @@ import { Op } from 'sequelize'
 import Models from '@aragon/court-backend-server/build/models'
 import Network from '@aragon/court-backend-server/build/web3/Network'
 
-const { Reveal, ErrorLog } = Models
+const { Reveal } = Models
 
 export default async function (worker, job, tries, logger) {
   try {
@@ -11,7 +11,7 @@ export default async function (worker, job, tries, logger) {
     const court = await Network.getCourt()
     for (const instance of reveals) await reveal(worker, job, logger, court, instance)
   } catch (error) {
-    await ErrorLog.create({ context: `Worker '${worker}' job #${job}`, message: error.message, stack: error.stack })
+    console.error({ context: `Worker '${worker}' job #${job}`, message: error.message, stack: error.stack })
     throw error
   }
 }
@@ -25,8 +25,8 @@ async function reveal(worker, job, logger, court, reveal) {
     logger.success(`Revealed vote #${voteId} for juror ${juror}`)
   } catch (error) {
     logger.error(`Failed to reveal vote #${voteId} for juror ${juror}`)
-    console.error(error)
-    const errorLog = await ErrorLog.create({ context: `Worker '${worker}' job #${job} revealing vote ID ${voteId} for juror ${juror}`, message: error.message, stack: error.stack })
-    await reveal.update({ tries: tries + 1, errorId: errorLog.id })
+    //console.error(error)
+    console.error({ context: `Worker '${worker}' job #${job} revealing vote ID ${voteId} for juror ${juror}`, message: error.message, stack: error.stack })
+    await reveal.update({ tries: tries + 1 })
   }
 }

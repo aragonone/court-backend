@@ -26,16 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         default: 0,
       },
-      errorId: {
-        type: DataTypes.NUMBER,
-        allowNull: true,
-      },
     }
   )
-
-  Settlement.associate = models => {
-    Settlement.belongsTo(models.ErrorLog, { foreignKey: 'errorId', constraints: false, as: 'error' })
-  }
 
   Settlement.lastBlockNumber = async () => {
     const settlement = await Settlement.findOne({ attributes: ['blockNumber'], group: ['id'], order: [sequelize.fn('max', sequelize.col('blockNumber'))] })
