@@ -1,4 +1,3 @@
-import { Op } from 'sequelize'
 import Models from '@aragon/court-backend-server/build/models'
 import Network from '@aragon/court-backend-server/build/web3/Network'
 

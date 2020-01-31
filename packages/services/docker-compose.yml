@@ -1,0 +1,6 @@
+version: "2"
+
+services:
+  court_services:
+    build: .
+    image: aragon/court-services
