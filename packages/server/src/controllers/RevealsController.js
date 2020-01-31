@@ -23,7 +23,6 @@ export default {
       const errors = await RevealsValidator.validateForCreate(params)
       if (errors.length > 0) return response.status(400).send({ errors })
 
-      params.tries = 0
       params.revealed = false
       const reveal = await Reveal.create(params)
       const { id, juror, voteId, disputeId, roundNumber, createdAt, updatedAt } = reveal

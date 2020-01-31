@@ -1,21 +1,20 @@
 import sleep from '@aragon/court-backend-shared/helpers/sleep'
-import Models from '@aragon/court-backend-server/build/models'
 import Network from '@aragon/court-backend-server/build/web3/Network'
 
 const SECONDS_BETWEEN_INTENTS = 3
 const MAX_TRANSITIONS_PER_CALL = 20
 
-export default async function (worker, job, tries, logger) {
+export default async function (worker, job, logger) {
   try {
     const court = await Network.getCourt()
-    await heartbeat(logger, tries, court)
+    await heartbeat(logger, court)
   } catch (error) {
     console.error({ context: `Worker '${worker}' job #${job}`, message: error.message, stack: error.stack })
     throw error
   }
 }
 
-async function heartbeat(logger, tries, court, attempt = 1) {
+async function heartbeat(logger, court, attempt = 1) {
   try {
     logger.info(`Transitioning up-to ${MAX_TRANSITIONS_PER_CALL} terms, try #${attempt}`)
     const transitions = await court.heartbeat(MAX_TRANSITIONS_PER_CALL)
@@ -23,8 +22,7 @@ async function heartbeat(logger, tries, court, attempt = 1) {
   } catch (error) {
     logger.error('Failed to transition terms with error')
     console.error(error)
-    if (attempt === tries) throw error
     await sleep(SECONDS_BETWEEN_INTENTS)
-    await heartbeat(logger, tries, court, attempt + 1)
+    await heartbeat(logger, court, attempt + 1)
   }
 }

@@ -45,11 +45,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         default: false,
       },
-      tries: {
-        type: DataTypes.NUMBER,
-        allowNull: false,
-        default: 0,
-      },
     },
     {
       indexes: [
