@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "public": true,
+  "scope": "aragonone",
+  "alias": "backoffice.court.aragon.one",
+  "build": {
+    "env": {
+      "REACT_APP_GRAPHQL_ENDPOINT": "https://api.thegraph.com/subgraphs/name/aragon/aragon-court"
+    }
+  }
+}

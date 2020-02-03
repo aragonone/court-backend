@@ -5,9 +5,5 @@
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "devDependencies": {
     "lerna": "^3.14.1"
-  },
-  "scripts": {
-    "install": "lerna bootstrap",
-    "build:app": "lerna run --scope @aragon/court-backend-app build:mainnet"
   }
 }

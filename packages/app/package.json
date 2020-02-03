@@ -25,14 +25,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "NODE_OPTIONS=--max_old_space_size=4096 react-scripts build GENERATE_SOURCEMAP=false",
+    "build": "react-scripts build",
     "build:mainnet": "REACT_APP_GRAPHQL_ENDPOINT=https://api.thegraph.com/subgraphs/name/aragon/aragon-court npm run build",
+    "lint": "eslint ./src",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "deploy:ropsten": "NETWORK=ropsten ./scripts/deploy.sh",
-    "deploy:rinkeby": "NETWORK=rinkeby ./scripts/deploy.sh",
-    "deploy:staging": "NETWORK=staging ./scripts/deploy.sh",
-    "deploy:mainnet": "NETWORK=mainnet ./scripts/deploy.sh"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,0 +1,32 @@
+name: Backoffice (App) deployment
+
+on:
+  push:
+    paths:
+    - 'packages/app/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10
+    - name: npm install
+      run: npm install
+    - name: lerna bootstrap
+      run: lerna bootstrap --scope @aragon/court-backend-app --include-dependencies --no-ci
+    - name: npm lint
+      run: npm run lint
+      working-directory: packages/app
+    - name: now
+      run: now --token=${{ secrets.ZEIT_TOKEN }}
+      working-directory: packages/app
+    - name: now (production)
+      if: github.ref == 'refs/heads/master'
+      run: now --prod --token=${{ secrets.ZEIT_TOKEN }}
+      working-directory: packages/app
+    env:
+      CI: true
