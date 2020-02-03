@@ -1,5 +1,5 @@
-import ErrorActions from './errors'
 import Network from '../web3/Network'
+import ErrorActions from './errors'
 import * as ActionTypes from '../actions/types'
 
 const DraftActions = {
@@ -38,7 +38,7 @@ const DraftActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          jurorDrafts {
+          jurorDrafts (orderBy: createdAt, orderDirection: desc) {
             id
             weight
             rewarded

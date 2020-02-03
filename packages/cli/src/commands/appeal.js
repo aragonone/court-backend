@@ -1,5 +1,4 @@
 const logger = require('@aragon/court-backend-shared/helpers/logger')('appeal')
-const CourtProvider = require('../models/CourtProvider')
 
 const command = 'appeal'
 const describe = 'Appeal dispute in favour of a certain outcome'
@@ -9,8 +8,8 @@ const builder = {
   outcome: { alias: 'o', describe: 'Outcome appealing in favor of', type: 'string', demand: true },
 }
 
-const handlerAsync = async ({ network, from, dispute, outcome }) => {
-  const court = await CourtProvider.for(network, from)
+const handlerAsync = async (environment, { dispute, outcome }) => {
+  const court = await environment.getCourt()
   await court.appeal(dispute, outcome)
   logger.success(`Appealed dispute #${dispute}`)
 }

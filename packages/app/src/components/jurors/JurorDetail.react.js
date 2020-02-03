@@ -23,6 +23,7 @@ export default class JurorDetail extends React.Component {
         <h3>Juror #{address}</h3>
           { !juror.id ? 'Loading...' :
             <div>
+              <p>Id: {juror.treeId}</p>
               <p>Active ANJ: {fromWei(juror.activeBalance)}</p>
               <p>Locked ANJ: {fromWei(juror.lockedBalance)}</p>
               <p>Staked ANJ: {fromWei(juror.availableBalance)}</p>

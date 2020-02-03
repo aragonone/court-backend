@@ -19,7 +19,7 @@ nav {
 }
 
 nav .logo {
-  width: 20%;
+  width: 15%;
   float: left;
   padding-top: 3px;
   font-weight: bold;
@@ -27,7 +27,7 @@ nav .logo {
 }
 
 nav .links {
-  width: 55%;
+  width: 20%;
   float: left;
   padding-top: 5px;
 }
@@ -41,6 +41,10 @@ nav .account {
   float: right;
   font-size: 10px;
   text-align: right;
+}
+
+nav .account p {
+  margin-bottom: 0
 }
 
 a {

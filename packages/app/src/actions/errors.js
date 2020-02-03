@@ -5,7 +5,10 @@ const ErrorActions = {
   show(error, message = null) {
     console.error(error)
     return dispatch => {
-      dispatch({ type: ActionTypes.SHOW_ERROR, error: (message || error.message) })
+      let text = message || error.message
+      if (error.response && error.response.status === 400) text += `: ${JSON.stringify(error.response.data)}`
+
+      dispatch({ type: ActionTypes.SHOW_ERROR, error: text })
       dispatch(FetchingActions.stop())
     }
   },

@@ -23,22 +23,29 @@ export default class JurorsList extends React.Component {
         <h3>Jurors</h3>
         { (!jurors) ? <em>Loading...</em> : jurors.length === 0 ?
           <em>None</em> :
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Active ANJ</th>
-                <th>Locked ANJ</th>
-                <th>Staked ANJ</th>
-                <th>Deactivating ANJ</th>
-                <th>Created at</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this._buildList()}
-            </tbody>
-          </table>
+          <div ref="jurorsWrapper">
+            <div ref="jurorsSummary">
+              <p>Total number of jurors: {jurors.length} </p>
+              <p>Total number of active jurors: {jurors.filter(juror => juror.activeBalance > 0).length} </p>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Address</th>
+                  <th>Active ANJ</th>
+                  <th>Locked ANJ</th>
+                  <th>Staked ANJ</th>
+                  <th>Deactivating ANJ</th>
+                  <th>Created at</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this._buildList()}
+              </tbody>
+            </table>
+          </div>
         }
       </div>
     )
@@ -48,7 +55,8 @@ export default class JurorsList extends React.Component {
     return this.state.jurors.map((juror, index) => {
       return (
         <tr key={index}>
-          <td><Link to={`/jurors/${juror.id}/detail`}><b>{juror.id}</b></Link></td>
+          <td><Link to={`/jurors/${juror.id}/detail`}><b>{juror.treeId}</b></Link></td>
+          <td>{juror.id}</td>
           <td>{fromWei(juror.activeBalance)}</td>
           <td>{fromWei(juror.lockedBalance)}</td>
           <td>{fromWei(juror.availableBalance)}</td>

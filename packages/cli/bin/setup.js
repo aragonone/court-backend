@@ -1,7 +1,12 @@
 const yargs = require('yargs')
+const { bn } = require('@aragon/court-backend-shared/helpers/numbers')
 const { execSync } = require('child_process')
-const Environment = require('../src/models/Environment')
 const errorHandler = require('../src/helpers/errorHandler')
+const Logger = require('@aragon/court-backend-shared/helpers/logger')
+const Environment = require('@aragon/court-backend-shared/models/evironments/TruffleEnvironment')
+
+Logger.setDefaults(false, false)
+const logger = Logger('setup')
 
 const { network, jurors: jurorsNumber, disputes } = yargs
   .help()
@@ -13,9 +18,10 @@ const { network, jurors: jurorsNumber, disputes } = yargs
 
 async function setup() {
   const environment = new Environment(network)
+  const court = await environment.getCourt()
   const allAccounts = await environment.getAccounts()
   const sender = allAccounts[0]
-  const jurors = allAccounts.slice(1, Math.min(jurorsNumber, allAccounts.length))
+  const jurors = allAccounts.slice(1, Math.min(parseInt(jurorsNumber) + 1, allAccounts.length))
 
   // update term if necessary
   execSync('npm run rpc:heartbeat')
@@ -29,21 +35,29 @@ async function setup() {
     execSync(`npm run rpc:activate -- -a ${amount} -f ${juror}`)
   }
 
-  // subscribe arbitrables
-  const arbitrables = []
-  for (let i = 0; i < disputes; i++) {
-    execSync(`npm run rpc:mint -- -t fee -a 100000 -f ${sender}`)
-    const output = execSync(`npm run rpc:arbitrable`)
-    const arbitrable = output.toString().match(/0x[a-fA-F0-9]{40}/g)
-    arbitrables.push(arbitrable)
-    execSync(`npm run rpc:subscribe -- -a ${arbitrable}`)
-  }
+  // check court has started
+  const currentTerm = await court.currentTerm()
+  const neededTransitions = await court.neededTransitions()
+  if (currentTerm.eq(bn(0)) && neededTransitions.eq(bn(0))) {
+    logger.warn('Court has not started yet, please make sure Court is at term 1 to create disputes and run the script again.')
+  } else {
 
-  // create disputes
-  for (let i = 0; i < disputes; i++) {
-    const arbitrable = arbitrables[i]
-    execSync(`npm run rpc:mint -- -t fee -a 5000 -r ${arbitrable}`)
-    execSync(`npm run rpc:dispute -- -s ${arbitrable} -m 'Testing dispute #${i}' -e 'http://github.com/aragon/aragon-court' 'http://google.com'`)
+    // subscribe arbitrables
+    const arbitrables = []
+    for (let i = 0; i < disputes; i++) {
+      execSync(`npm run rpc:mint -- -t fee -a 100000 -f ${sender}`)
+      const output = execSync(`npm run rpc:arbitrable`)
+      const arbitrable = output.toString().match(/0x[a-fA-F0-9]{40}/g)
+      arbitrables.push(arbitrable)
+      execSync(`npm run rpc:subscribe -- -a ${arbitrable}`)
+    }
+
+    // create disputes
+    for (let i = 0; i < disputes; i++) {
+      const arbitrable = arbitrables[i]
+      execSync(`npm run rpc:mint -- -t fee -a 5000 -r ${arbitrable}`)
+      execSync(`npm run rpc:dispute -- -s ${arbitrable} -m 'Testing dispute #${i}' -e 'http://github.com/aragon/aragon-court' 'http://google.com'`)
+    }
   }
 }
 

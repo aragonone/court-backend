@@ -1,13 +1,13 @@
+import Network from '../web3/Network'
 import ErrorActions from './errors'
 import * as ActionTypes from '../actions/types'
-import Network from "../web3/Network";
 
 const ANJActions = {
   findBalances() {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          anjbalances {
+          anjbalances(where:{amount_gt: 0}) {
             id
             owner
             amount
@@ -25,11 +25,12 @@ const ANJActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          anjtransfers(where: { from: "${account}" }) {
+          anjtransfers(where: { from: "${account}" }, orderBy: createdAt, orderDirection: desc) {
             id
             from
             to
             amount
+            createdAt
           }
         }`)
         dispatch(ANJActions.receiveTransfers(result.anjtransfers))

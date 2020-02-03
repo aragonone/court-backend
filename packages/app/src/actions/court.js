@@ -59,12 +59,32 @@ const CourtActions = {
           }
         }`)
 
-        const court = await Network.getCourt(courtAddress)
-        const neededTransitions = await court.neededTransitions()
-        const config = { ...result.courtConfig, neededTransitions }
+        let neededTransitions = '(cannot fetch info)'
 
+        if (await Network.isEnabled()) {
+          if (await Network.isCourtAt(courtAddress)) {
+            const court = await Network.getCourt(courtAddress)
+            neededTransitions = await court.neededTransitions()
+          } else {
+            dispatch(ErrorActions.show(new Error(`Could not find Court at ${courtAddress}, please make sure you're in the right network`)))
+          }
+        }
+
+        const config = { ...result.courtConfig, neededTransitions, address: courtAddress }
         dispatch(CourtActions.receiveConfig(config))
       } catch(error) {
+        dispatch(ErrorActions.show(error))
+      }
+    }
+  },
+
+  heartbeat(transitions) {
+    return async function(dispatch) {
+      try {
+        const court = await Network.getCourt()
+        await court.heartbeat(transitions)
+        dispatch(CourtActions.findConfig())
+      } catch (error) {
         dispatch(ErrorActions.show(error))
       }
     }

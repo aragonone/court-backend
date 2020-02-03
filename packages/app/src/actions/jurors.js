@@ -8,6 +8,7 @@ const JurorsActions = {
       try {
         const result = await Network.query(`{
           juror (id: "${address}") {
+            treeId
             id
             activeBalance
             lockedBalance
@@ -28,7 +29,8 @@ const JurorsActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          jurors {
+          jurors (orderBy: createdAt, orderDirection: asc) {
+            treeId
             id
             activeBalance
             lockedBalance
@@ -49,6 +51,7 @@ const JurorsActions = {
       try {
         const result = await Network.query(`{
           juror (id: "${id}") {
+            treeId
             id
             drafts {
               id
@@ -80,8 +83,9 @@ const JurorsActions = {
       try {
         const result = await Network.query(`{
           juror (id: "${id}") {
+            treeId
             id
-            movements {
+            movements (orderBy: createdAt, orderDirection: desc) {
               id
               type
               amount

@@ -4,6 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const yargs = require('yargs')
 const Logger = require('@aragon/court-backend-shared/helpers/logger')
+const Environment = require('@aragon/court-backend-shared/models/evironments/TruffleEnvironment')
 const errorHandler = require('../src/helpers/errorHandler')
 
 const DEFAULT_OPTIONS = {
@@ -21,9 +22,10 @@ commands.forEach(commandFilename => {
 
   command.builder = { ...command.builder, ...DEFAULT_OPTIONS }
   command.handler = argv => {
-    const { silent, verbose } = argv
+    const { from, network, silent, verbose } = argv
+    const environment = new Environment(network, from)
     Logger.setDefaults(silent, verbose)
-    command.handlerAsync(argv).then(() => process.exit(0)).catch(errorHandler)
+    command.handlerAsync(environment, argv).then(() => process.exit(0)).catch(errorHandler)
   }
 
   yargs.command(command)

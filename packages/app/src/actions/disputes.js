@@ -1,5 +1,5 @@
-import ErrorActions from './errors'
 import Network from '../web3/Network'
+import ErrorActions from './errors'
 import * as ActionTypes from '../actions/types'
 
 const DisputeActions = {
@@ -25,7 +25,7 @@ const DisputeActions = {
                 createdAt
               }
             }
-            rounds {
+            rounds (orderBy: number, orderDirection: desc) {
               state
               number
               draftTermId
@@ -65,7 +65,7 @@ const DisputeActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          disputes {
+          disputes (orderBy: createdAt, orderDirection: desc) {
             id
             createTermId
             possibleRulings

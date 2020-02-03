@@ -1,6 +1,5 @@
 const logger = require('@aragon/court-backend-shared/helpers/logger')('mint')
 const { bigExp } = require('@aragon/court-backend-shared/helpers/numbers')
-const CourtProvider = require('../models/CourtProvider')
 
 const command = 'mint'
 const describe = 'Mint tokens for a certain address'
@@ -11,8 +10,8 @@ const builder = {
   recipient: { alias: 'r', describe: 'Recipient address (will use default address if missing)', type: 'string' },
 }
 
-const handlerAsync = async ({ network, from, recipient, token: symbol, amount }) => {
-  const court = await CourtProvider.for(network, from)
+const handlerAsync = async (environment, { recipient, token: symbol, amount }) => {
+  const court = await environment.getCourt()
   const to = recipient || await court.environment.getSender()
 
   let token

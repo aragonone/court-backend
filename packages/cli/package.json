@@ -2,6 +2,8 @@
   "name": "@aragon/court-backend-cli",
   "version": "0.0.1",
   "private": true,
+  "author": "Aragon One",
+  "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "scripts": {
     "rpc:mint": "node ./bin/index.js mint -n rpc --verbose",
     "rpc:stake": "node ./bin/index.js stake -n rpc --verbose",
@@ -20,16 +22,11 @@
     "rpc:settle-round": "node ./bin/index.js settle-round -n rpc --verbose",
     "rpc:settle-juror": "node ./bin/index.js settle-juror -n rpc --verbose",
     "rpc:execute": "node ./bin/index.js execute -n rpc --verbose",
-    "rpc:setup": "node ./bin/setup.js -n rpc"
+    "rpc:setup": "node ./bin/setup.js -n rpc",
+    "rpc:airdrop": "node ./bin/airdrop.js -n rpc"
   },
   "dependencies": {
-    "@aragon/court": "1.1.0-rc.1",
     "@aragon/court-backend-shared": "^0.0.1",
-    "@aragon/minime": "1.0.0",
-    "@truffle/config": "^1.2.7",
-    "@truffle/contract": "^4.0.32",
-    "@aragon/truffle-config-v5": "^1.0.0",
-    "web3": "^1.2.1",
     "yargs": "^14.0.0"
   }
 }

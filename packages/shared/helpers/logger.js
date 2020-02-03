@@ -6,8 +6,9 @@ const DEFAULTS = {
 }
 
 class Logger {
-  constructor(actor) {
+  constructor(actor, actorColor = 'white') {
     this.actor = actor
+    this.actorColor = actorColor
   }
 
   info(msg) {
@@ -31,7 +32,10 @@ class Logger {
     if (DEFAULTS.silent) return
     const padding = 15 - this.actor.length
     let formattedMessage = chalk.keyword(color)(`${emoji}  ${this._stringify(msg)}`)
-    if (DEFAULTS.verbose) formattedMessage = `[${this.actor}]${' '.repeat(padding)}${formattedMessage}`
+    if (DEFAULTS.verbose) {
+      const formatedPrefix = chalk.keyword(this.actorColor)(`[${this.actor}]`)
+      formattedMessage = `${formatedPrefix}${' '.repeat(padding)}${formattedMessage}`
+    }
     console.error(formattedMessage)
   }
 
@@ -40,7 +44,7 @@ class Logger {
   }
 }
 
-module.exports = actor => new Logger(actor)
+module.exports = (actor, actorColor) => new Logger(actor, actorColor)
 
 module.exports.setDefaults = (silent, verbose) => {
   DEFAULTS.silent = silent

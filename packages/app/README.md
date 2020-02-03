@@ -1,12 +1,28 @@
 # Aragon Court backoffice app
 
 This is a React app that aims to serve a UI to read data from an Aragon Court instance.
-It only needs an Aragon Court subgraph and a Web3 provider to work. 
-Currently, there is no deployed instance of this app. However, you can run the following commands to run it locally:
+
+## Setup
+
+### Remote
+
+You can find the following deployed instances
+
+1. [Mainnet](https://aragon-court.firebaseapp.com/)
+2. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
+3. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
+4. [Staging](https://aragon-court-staging.firebaseapp.com/)
+
+However, to deploy a new instance remotely, simply run `npm run deploy:{$NETWORK}` where `$NETWORK` could be one of (`ropsten`, `rinkeby`, `staging`, or `mainnet`).
+
+### Local
+
+To work locally, you only need an Aragon Court subgraph and a Web3 provider. 
+You can run the following commands to build it locally:
 
 ```bash
-  git clone https://github.com/aragon/aragon-court-backend/
-  cd aragon-court-backend
+  git clone https://github.com/aragonone/court-backend/
+  cd court-backend
   npm i
   npx lerna bootstrap
   cd packages/app
@@ -19,4 +35,16 @@ For example, the next `.env` file will work for a local environment:
 REACT_APP_GRAPHQL_ENDPOINT=http://localhost:8000/subgraphs/name/aragon/aragon-court-rpc
 ```
 
+Alternatively, if you want to re-use one of the already deployed instances, you can simply specify a network name:
+
+```bash
+REACT_APP_NETWORK=rinkeby
+```
+
 Finally, you can simply run `npm start` to start playing with it.
+
+## Config
+
+### Keys
+
+This repo web3 configuration relies on a browser provider like Metamask. However, it doesn't require a browser connection to read data since it is mostly consumes Aragon Court's subgraph.
