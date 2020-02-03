@@ -27,6 +27,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build:mainnet": "REACT_APP_GRAPHQL_ENDPOINT=https://api.thegraph.com/subgraphs/name/aragon/aragon-court npm run build",
+    "build:rinkeby": "REACT_APP_GRAPHQL_ENDPOINT=https://api.thegraph.com/subgraphs/name/aragon/aragon-court-rinkeby npm run build",
     "lint": "eslint ./src",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
