@@ -1,9 +1,0 @@
-{
-  "projects": {
-    "default": "aragon-court",
-    "ropsten": "aragon-court-ropsten",
-    "rinkeby": "aragon-court-rinkeby",
-    "staging": "aragon-court-staging",
-    "mainnet": "aragon-court"
-  }
-}
