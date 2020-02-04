@@ -16,6 +16,7 @@ After that, you can start playing with all the provided commands:
 
 - [`mint`](./src/commands/mint.js): Mint ANJ or Fee tokens for a certain address
 - [`heartbeat`](./src/commands/hearbeat.js): Transition Court terms
+- [`config`](./src/commands/config.js): Change Court config
 - [`stake`](./src/commands/stake.js): Stake ANJ tokens for a juror
 - [`unstake`](./src/commands/unstake.js): Unstake ANJ tokens
 - [`activate`](./src/commands/activate.js): Activate ANJ to the Court
