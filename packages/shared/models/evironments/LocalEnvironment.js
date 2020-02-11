@@ -14,7 +14,7 @@ Requires the following env variables to be defined:
   - GAS: Gas limit (for TruffleContract object)
 */
 class LocalEnvironment extends Environment {
-  constructor(network) {
+  constructor() {
     super(process.env.NETWORK)
   }
 
