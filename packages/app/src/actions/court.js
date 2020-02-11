@@ -2,7 +2,7 @@ import Network from '../web3/Network'
 import ErrorActions from './errors'
 import * as ActionTypes from '../actions/types'
 
-const HEARTBEAT_MAX_TRANSITIONS = 10
+const HEARTBEAT_MAX_TRANSITIONS = 20
 
 const CourtActions = {
   async findCourt() {
