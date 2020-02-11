@@ -12,6 +12,7 @@ You can find the following deployed instances
 2. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
 3. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
 4. [Staging](https://aragon-court-staging.firebaseapp.com/)
+5. [Usability](https://aragon-court-usability.firebaseapp.com/)
 
 However, to deploy a new instance remotely, simply run `npm run deploy:{$NETWORK}` where `$NETWORK` could be one of (`ropsten`, `rinkeby`, `staging`, or `mainnet`).
 
