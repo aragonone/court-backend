@@ -2,6 +2,8 @@ import Network from '../web3/Network'
 import ErrorActions from './errors'
 import * as ActionTypes from '../actions/types'
 
+const HEARTBEAT_MAX_TRANSITIONS = 10
+
 const CourtActions = {
   async findCourt() {
     const result = await Network.query('{ courtConfigs { id } }')
@@ -78,11 +80,11 @@ const CourtActions = {
     }
   },
 
-  heartbeat(transitions) {
+  heartbeat() {
     return async function(dispatch) {
       try {
         const court = await Network.getCourt()
-        await court.heartbeat(transitions)
+        await court.heartbeat(HEARTBEAT_MAX_TRANSITIONS)
         dispatch(CourtActions.findConfig())
       } catch (error) {
         dispatch(ErrorActions.show(error))
