@@ -15,8 +15,8 @@ done
 echo "DB is up!"
 
 # Check DB creation
-#npx sequelize db:migrate:status 2>&1 | grep 'database "court" does not exist' > /dev/null
-npx sequelize db:migrate:status 2>&1 | grep 'database "court" does not exist'
+#npx sequelize db:migrate:status 2>&1 | grep 'database .* does not exist' > /dev/null
+npx sequelize db:migrate:status 2>&1 | grep 'database .* does not exist'
 result=$?
 if [ "${result}" -eq "0" ]; then
     echo "Creating Database"
