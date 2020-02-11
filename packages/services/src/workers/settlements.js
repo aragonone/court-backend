@@ -94,7 +94,6 @@ async function settle(worker, job, logger, court, disputeId, checkCanSettle, exe
     logger.success(`Settled dispute #${disputeId}`)
   } catch (error) {
     logger.error(`Failed to settle dispute #${disputeId}`)
-    //console.error(error)
     console.error({ context: `Worker '${worker}' job #${job} settling dispute #${disputeId}`, message: error.message, stack: error.stack })
   }
 }
