@@ -171,7 +171,6 @@ All the provided endpoints are `Content-Type: application/json`
             "outcome": "4",
             "salt": "0x609a2445eb34bc29b4d87aea2cae24fba90a1583b14df2d765ae1f89d32b4beb",
             "revealed": false,
-            "tries": 3,
             "errorId": 41,
             "createdAt": "2019-12-25T14:58:58.705Z",
             "updatedAt":"2019-12-25T14:58:58.705Z"
@@ -241,7 +240,6 @@ All the provided endpoints are `Content-Type: application/json`
             "outcome": "4",
             "salt": "0x609a2445eb34bc29b4d87aea2cae24fba90a1583b14df2d765ae1f89d32b4beb",
             "revealed": false,
-            "tries": 3,
             "createdAt": "2019-12-25T14:58:58.705Z",
             "updatedAt":"2019-12-25T14:58:58.705Z",
             "error": {
@@ -287,62 +285,3 @@ All the provided endpoints are `Content-Type: application/json`
 - Response: 
   - Code: 200
   - Content example: empty
-
-### 4. Errors
-
-#### 4.1. Show
-
-- URL: /error/:id
-- Method: GET
-- Query: 
-  - `token`: JSON web token
-- Response: 
-  - Code: 200
-  - Content example: 
-    ```json
-      {
-        "error": {
-          "id": 45,
-          "context": "Worker 'settlements' job #2 settling dispute #0",
-          "message": "fetch is not defined", 
-          "stack": "ReferenceError: fetch is not defined\n    at TruffleEnvironment.query (~/court-backend/packages/shared/models/evironments/Environment.js:19:22)\n    at module.exports.getJurors (~/court-backend/packages/shared/models/Court.js:95:43)\n    at module.exports.settle (~/court-backend/packages/shared/models/Court.js:346:33)\n    at process._tickCallback (internal/process/next_tick.js:68:7)",
-          "createdAt": "2019-12-27T13:09:04.204Z",
-          "updatedAt": "2019-12-27T13:09:04.204Z"
-        }
-      }
-    ```
-
-#### 4.2. All
-
-- URL: /errors
-- Method: GET
-- Query: 
-  - `token`: JSON web token
-  - `limit`: Number of items to be fetched
-  - `page`: Page number to be used for the items to be fetched based on the limit requested
-- Response: 
-  - Code: 200
-  - Content example: 
-    ```json
-      {
-        "errors": [
-          {
-            "id": 45,
-            "context": "Worker 'settlements' job #2 settling dispute #0",
-            "message": "fetch is not defined", 
-            "stack": "ReferenceError: fetch is not defined\n    at TruffleEnvironment.query (~/court-backend/packages/shared/models/evironments/Environment.js:19:22)\n    at module.exports.getJurors (~/court-backend/packages/shared/models/Court.js:95:43)\n    at module.exports.settle (~/court-backend/packages/shared/models/Court.js:346:33)\n    at process._tickCallback (internal/process/next_tick.js:68:7)",
-            "createdAt": "2019-12-27T13:09:04.204Z",
-            "updatedAt": "2019-12-27T13:09:04.204Z"
-          },
-          {
-            "id": 44,
-            "context": "Worker 'settlements' job #1 settling dispute #0",
-            "message": "Cannot read property 'rounds' of undefined",
-            "stack": "TypeError: Cannot read property 'rounds' of undefined\n    at module.exports.getJurors (~/court-backend/packages/shared/models/Court.js:100:27)\n    at module.exports.settle (~/court-backend/packages/shared/models/Court.js:346:33)\n    at process._tickCallback (internal/process/next_tick.js:68:7)",
-            "createdAt": "2019-12-27T13:00:34.091Z",
-            "updatedAt": "2019-12-27T13:00:34.091Z"
-          }
-        ],
-        "total": 45
-      }
-    ```
