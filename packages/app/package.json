@@ -30,6 +30,7 @@
     "eject": "react-scripts eject",
     "deploy:ropsten": "NETWORK=ropsten ./scripts/deploy.sh",
     "deploy:rinkeby": "NETWORK=rinkeby ./scripts/deploy.sh",
+    "deploy:usability": "NETWORK=usability ./scripts/deploy.sh",
     "deploy:staging": "NETWORK=staging ./scripts/deploy.sh",
     "deploy:mainnet": "NETWORK=mainnet ./scripts/deploy.sh"
   },
