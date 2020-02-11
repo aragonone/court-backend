@@ -29,7 +29,7 @@ const JurorsActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          jurors (orderBy: createdAt, orderDirection: asc) {
+          jurors (first: 1000, orderBy: createdAt, orderDirection: asc) {
             treeId
             id
             activeBalance
