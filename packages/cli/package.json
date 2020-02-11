@@ -12,7 +12,7 @@
     "rpc:deactivate": "node ./bin/index.js deactivate -n rpc --verbose",
     "rpc:arbitrable": "node ./bin/index.js arbitrable -n rpc --verbose",
     "rpc:heartbeat": "node ./bin/index.js heartbeat -n rpc --verbose",
-    "rpc:heartbeat": "node ./bin/index.js config -n rpc --verbose",
+    "rpc:config": "node ./bin/index.js config -n rpc --verbose",
     "rpc:subscribe": "node ./bin/index.js subscribe -n rpc --verbose",
     "rpc:dispute": "node ./bin/index.js dispute -n rpc --verbose",
     "rpc:draft": "node ./bin/index.js draft -n rpc --verbose",
