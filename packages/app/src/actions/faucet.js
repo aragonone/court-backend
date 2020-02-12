@@ -33,8 +33,10 @@ const FaucetActions = {
         const ant = await Network.getANT()
         const symbol = await ant.symbol()
         const antBalance = await faucet.getTotalSupply(ant.address)
+        const { period, amount } = await faucet.getQuota(ant.address)
+	const quota = fromWei(amount.toString()) // TODO: assuming 18 decimals      
         const balance = fromWei(antBalance.toString()) // TODO: assuming 18 decimals
-        dispatch(FaucetActions.receiveAntBalance({ symbol, balance, address: ant.address }))
+        dispatch(FaucetActions.receiveAntBalance({ symbol, balance, address: ant.address, period, quota }))
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
@@ -48,8 +50,10 @@ const FaucetActions = {
         const anj = await court.anj()
         const symbol = await anj.symbol()
         const anjBalance = await faucet.getTotalSupply(anj.address)
+	const { period, amount } = await faucet.getQuota(anj.address)
+	const quota = fromWei(amount.toString()) // TODO: assuming 18 decimals
         const balance = fromWei(anjBalance.toString()) // TODO: assuming 18 decimals
-        dispatch(FaucetActions.receiveAnjBalance({ symbol, balance, address: anj.address }))
+        dispatch(FaucetActions.receiveAnjBalance({ symbol, balance, address: anj.address, period, quota }))
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
@@ -63,8 +67,10 @@ const FaucetActions = {
         const feeToken = await court.feeToken()
         const symbol = await feeToken.symbol()
         const feeBalance = await faucet.getTotalSupply(feeToken.address)
+	const { period, amount } = await faucet.getQuota(feeToken.address)
+        const quota = fromWei(amount.toString()) // TODO: assuming 18 decimals
         const balance = fromWei(feeBalance.toString()) // TODO: assuming 18 decimals
-        dispatch(FaucetActions.receiveFeeBalance({ symbol, balance, address: feeToken.address }))
+        dispatch(FaucetActions.receiveFeeBalance({ symbol, balance, address: feeToken.address, period, quota }))
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
@@ -89,16 +95,16 @@ const FaucetActions = {
     return { type: ActionTypes.RECEIVE_FAUCET, address }
   },
 
-  receiveAntBalance({ symbol, balance, address }) {
-    return { type: ActionTypes.RECEIVE_FAUCET_ANT_BALANCE, symbol, balance, address }
+  receiveAntBalance({ symbol, balance, address, period, quota }) {
+    return { type: ActionTypes.RECEIVE_FAUCET_ANT_BALANCE, symbol, balance, address, period, quota }
   },
 
-  receiveAnjBalance({ symbol, balance, address }) {
-    return { type: ActionTypes.RECEIVE_FAUCET_ANJ_BALANCE, symbol, balance, address }
+  receiveAnjBalance({ symbol, balance, address, period, quota }) {
+    return { type: ActionTypes.RECEIVE_FAUCET_ANJ_BALANCE, symbol, balance, address, period, quota }
   },
 
-  receiveFeeBalance({ symbol, balance, address }) {
-    return { type: ActionTypes.RECEIVE_FAUCET_FEE_BALANCE, symbol, balance, address }
+  receiveFeeBalance({ symbol, balance, address, period, quota }) {
+    return { type: ActionTypes.RECEIVE_FAUCET_FEE_BALANCE, symbol, balance, address, period, quota }
   },
 }
 

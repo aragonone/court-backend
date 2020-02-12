@@ -1,7 +1,6 @@
 import React from 'react'
 import Store from '../../store/store'
 import AdminActions from '../../actions/admin'
-import { Link } from 'react-router-dom'
 import { summarize } from '../../helpers/summarize'
 
 export default class RevealsList extends React.Component {
