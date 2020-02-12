@@ -59,44 +59,11 @@ const AdminActions = {
     }
   },
 
-  findSettlements() {
-    return async function (dispatch) {
-      try {
-        const response = await Server.get('settlements')
-        dispatch(AdminActions.receiveSettlements(response.data.settlements))
-      } catch (error) {
-        dispatch(ErrorActions.show(error))
-      }
-    }
-  },
-
   findSubscriptions() {
     return async function (dispatch) {
       try {
         const response = await Server.get('subscriptions')
         dispatch(AdminActions.receiveSubscriptions(response.data.subscriptions))
-      } catch (error) {
-        dispatch(ErrorActions.show(error))
-      }
-    }
-  },
-
-  findErrors() {
-    return async function (dispatch) {
-      try {
-        const response = await Server.get('errors')
-        dispatch(AdminActions.receiveErrors(response.data.errors))
-      } catch (error) {
-        dispatch(ErrorActions.show(error))
-      }
-    }
-  },
-
-  findError(id) {
-    return async function (dispatch) {
-      try {
-        const response = await Server.get(`errors/${id}`)
-        dispatch(AdminActions.receiveError(response.data.error))
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
@@ -128,21 +95,9 @@ const AdminActions = {
     return { type: ActionTypes.RECEIVE_ADMIN_REVEALS, reveals }
   },
 
-  receiveSettlements(settlements) {
-    return { type: ActionTypes.RECEIVE_ADMIN_SETTLEMENTS, settlements }
-  },
-
   receiveSubscriptions(subscriptions) {
     return { type: ActionTypes.RECEIVE_ADMIN_SUBSCRIPTIONS, subscriptions }
   },
-
-  receiveErrors(errors) {
-    return { type: ActionTypes.RECEIVE_ADMIN_ERRORS, errors }
-  },
-
-  receiveError(error) {
-    return { type: ActionTypes.RECEIVE_ADMIN_ERROR, error }
-  }
 }
 
 export default AdminActions
