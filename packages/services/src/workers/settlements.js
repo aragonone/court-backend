@@ -1,7 +1,5 @@
 import Network from '@aragon/court-backend-server/build/web3/Network'
 
-import query from '../helpers/graphql'
-
 const ruledQuery = `
 {
   disputes(where: {state: Ruled, settledPenalties: false}, orderBy: createdAt) {
@@ -67,7 +65,7 @@ export default async function (worker, job, logger) {
 }
 
 async function settleDisputes(worker, job, logger, court, disputesQuery) {
-  const { disputes } = await query(disputesQuery.query)
+  const { disputes } = await Network.query(disputesQuery.query)
   logger.info(`${disputes.length} ${disputesQuery.title} pending`)
   await Promise.all(disputes.map(
     dispute => settle(worker, job, logger, court, dispute.id, disputesQuery.checkCanSettle, disputesQuery.executeRuling)
