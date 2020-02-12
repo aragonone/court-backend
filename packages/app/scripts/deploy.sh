@@ -4,9 +4,9 @@
 set -o errexit
 
 # Validate network
-networks=(rpc ropsten rinkeby staging mainnet)
+networks=(rpc ropsten staging usability rinkeby mainnet)
 if [[ -z $NETWORK || ! " ${networks[@]} " =~ " ${NETWORK} " ]]; then
-  echo 'Please make sure the network provided is either rpc, ropsten, rinkeby, staging or mainnet.'
+  echo 'Please make sure the network provided is either rpc, ropsten, staging, usability, rinkeby, or mainnet.'
   exit 1
 fi
 
