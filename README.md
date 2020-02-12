@@ -75,7 +75,8 @@ Finally, make sure you set the local court address in `packages/shared/truffle-c
 You can now start playing with the available CLI commands:
 
 - `mint`: Mint ANJ or Fee tokens for a certain address
-- `heartbeat`: Mint ANJ or Fee tokens for a certain address
+- `heartbeat`: Transition Court terms
+- `config`: Change Court config
 - `stake`: Stake ANJ tokens for a juror
 - `unstake`: Unstake ANJ tokens
 - `activate`: Activate ANJ to the Court
