@@ -103,13 +103,7 @@ After that, make sure you provide a `.env` file with a GraphQL endpoint for your
 For example, the next `.env` file will work for a local environment:
 
 ```bash
-REACT_APP_GRAPHQL_ENDPOINT=http://localhost:8000/subgraphs/name/aragon/aragon-court-rpc
-```
-
-Alternatively, if you want to re-use one of the already deployed instances, you can simply specify a network name:
-
-```bash
-REACT_APP_NETWORK=rinkeby
+REACT_APP_NETWORK=rpc
 ```
 
 Finally, you can simply run `npm start` to start playing with it.

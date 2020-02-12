@@ -1,6 +1,6 @@
 const Web3 = require('web3')
 const Court = require('../Court')
-const fetch = require('node-fetch')
+const { request } = require('graphql-request')
 
 const SUBGRAPH_BASE = 'https://api.thegraph.com/subgraphs/name/aragon/aragon-court'
 
@@ -15,15 +15,9 @@ class Environment {
     return `${SUBGRAPH_BASE}${env}`
   }
 
-  async query(query, endpoint = undefined) {
-    const subgraph = endpoint || this.getSubgraph()
-    const response = await fetch(subgraph, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ query })
-    })
-    const json = await response.json()
-    return json.data
+  async query(query) {
+    const subgraph = this.getSubgraph()
+    return request(subgraph, query)
   }
 
   async getCourt(address) {

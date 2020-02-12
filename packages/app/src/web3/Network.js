@@ -1,9 +1,6 @@
 import Court from '@aragon/court-backend-shared/models/Court'
 import Environment from '@aragon/court-backend-shared/models/evironments/BrowserEnvironment'
 
-const NETWORK = process.env.REACT_APP_NETWORK
-const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT
-
 const FAUCET = {
   staging: '0x7E9152F2eFDF6a862FeecDc8b0fb892dA6f60dEe',
   ropsten: '0x83c1ECDC6fAAb783d9e3ac2C714C0eEce3349638',
@@ -25,7 +22,7 @@ const Network = {
   },
 
   async query(query) {
-    return this.environment.query(query, GRAPHQL_ENDPOINT)
+    return this.environment.query(query)
   },
 
   async getWeb3() {
@@ -95,13 +92,9 @@ const Network = {
   },
 
   getNetworkName() {
-    if (NETWORK) return NETWORK
-    if (!GRAPHQL_ENDPOINT) throw Error('A network or graphQL endpoint must be specified through env variables')
-    if (GRAPHQL_ENDPOINT.includes('staging')) return 'staging'
-    else if (GRAPHQL_ENDPOINT.includes('ropsten')) return 'ropsten'
-    else if (GRAPHQL_ENDPOINT.includes('rinkeby')) return 'rinkeby'
-    else if (GRAPHQL_ENDPOINT.includes('usability')) return 'usability'
-    else return 'mainnet'
+    const network = process.env.REACT_APP_NETWORK
+    if (!network) throw Error('A network must be specified through a NETWORK env variables')
+    return network
   },
 }
 

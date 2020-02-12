@@ -8,6 +8,10 @@ const Network = {
   async getCourt() {
     return this.environment.getCourt()
   },
+
+  async query(query) {
+    return this.environment.query(query)
+  },
 }
 
 export default Network

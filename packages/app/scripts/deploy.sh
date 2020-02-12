@@ -15,15 +15,8 @@ if test -f ".env"; then
   mv .env .env.tmp
 fi
 
-# Use custom subgraph name based on target network
-if [[ "$NETWORK" != "mainnet" ]]; then
-  SUBGRAPH_EXT="-${NETWORK}"
-else
-  SUBGRAPH_EXT=""
-fi
-
 # Create new env file
-echo "REACT_APP_GRAPHQL_ENDPOINT=https://api.thegraph.com/subgraphs/name/aragon/aragon-court${SUBGRAPH_EXT}" >> .env
+echo "REACT_APP_NETWORK=${NETWORK}" >> .env
 
 # Build production files
 export NODE_OPTIONS=--max_old_space_size=4096
