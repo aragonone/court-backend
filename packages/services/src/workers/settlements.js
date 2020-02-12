@@ -46,14 +46,12 @@ const queries = [
     checkCanSettle: false,
     executeRuling: true
   },
-  /*
   {
     title: 'Disputes in Adjudicating state with last round appealing',
     query: appealingQuery,
     checkCanSettle: true,
     executeRuling: true
   },
-  */
 ]
 
 export default async function (worker, job, logger) {
