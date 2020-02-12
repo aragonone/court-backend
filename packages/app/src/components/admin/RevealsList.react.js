@@ -33,7 +33,6 @@ export default class RevealsList extends React.Component {
                 <th>Outcome</th>
                 <th>Salt</th>
                 <th>Revealed</th>
-                <th>Tries</th>
                 <th>Error</th>
                 <th>Created at</th>
               </tr>
@@ -59,8 +58,6 @@ export default class RevealsList extends React.Component {
           <td>{reveal.outcome}</td>
           <td>{summarize(reveal.salt)}</td>
           <td>{reveal.revealed ? 'Yes' : 'No'}</td>
-          <td>{reveal.tries}</td>
-          <td>{reveal.error ? <Link to={`/errors/${reveal.error.id}`}>{summarize(reveal.error.message)}</Link> : ''}</td>
           <td>{reveal.createdAt}</td>
         </tr>
       )
