@@ -23,6 +23,9 @@
     "styled-components": "^4.4.1",
     "web3-utils": "^1.2.4"
   },
+  "devDependencies": {
+    "firebase-tools": "^7.12.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=true react-scripts build",

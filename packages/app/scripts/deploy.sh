@@ -30,7 +30,7 @@ export NODE_OPTIONS=--max_old_space_size=4096
 npm run build
 
 # Deploy
-firebase deploy -P ${NETWORK}
+npx firebase deploy -P ${NETWORK}
 
 # Rollback previous env file
 rm .env
