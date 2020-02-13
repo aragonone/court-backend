@@ -41,15 +41,15 @@ Remember to append `NODE_ENV=production` if needed.
 
 All the provided endpoints are `Content-Type: application/json`
 
-### 1. Subscriptions
+### 1. Users
 
 #### 1.1. Create
 
-- URL: /subscriptions
+- URL: /users
 - Method: POST
 - Body: 
   - `email`: Email address, string mandatory
-  - `address`: Ethereum address, string not mandatory
+  - `address`: Ethereum address, string mandatory
 - Response: 
   - Code: 200
   - Content example: 
@@ -57,15 +57,26 @@ All the provided endpoints are `Content-Type: application/json`
       {
         "id": 4,
         "email": "bla@gmail.com",
-        "address": "0xd5931f0a36FE76845a5330f6D0cd7a378401e34d",
+        "address": "0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
         "updatedAt":"2019-12-19T16:00:18.208Z",
         "createdAt":"2019-12-19T16:00:18.208Z"
       }
     ```
 
-#### 1.2. All
+#### 1.2. Exists
 
-- URL: /subscriptions
+- URL: /user
+- Method: GET
+- Query: 
+  - `email`: Email address, string mandatory
+  - `address`: Ethereum address, string mandatory
+- Response: 
+  - Code: 200
+  - Content example: empty
+
+#### 1.3. All
+
+- URL: /users
 - Method: GET
 - Query: 
   - `token`: JSON web token
@@ -76,18 +87,18 @@ All the provided endpoints are `Content-Type: application/json`
   - Content example: 
     ```json
       {
-        "subscriptions":[
+        "users":[
           {
             "id": 9,
-            "email": "juan@aragon.one",
-            "address": "0xd5931f0a36FE76845a5330f6D0cd7a378401",
+            "email": "someone@aragon.one",
+            "address": "0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
             "createdAt": "2019-12-25T14:58:58.705Z",
             "updatedAt":"2019-12-25T14:58:58.705Z"
           },
           {
             "id": 8,
-            "email": "delfi@aragon.one",
-            "address": "0xd5931f0a36FE76845a5330f6D0cd7a378401",
+            "email": "anotherone@aragon.one",
+            "address": "0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
             "createdAt": "2019-12-25T14:58:52.433Z",
             "updatedAt": "2019-12-25T14:58:52.433Z"
           }
@@ -114,7 +125,7 @@ All the provided endpoints are `Content-Type: application/json`
       {
         "reveal": {
           "id": 1,
-          "juror": "0xd5931f0a36FE76845a5330f6D0cd7a378401",
+          "juror": "0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
           "voteId": "0", 
           "disputeId": "0", 
           "roundNumber": "0",
@@ -138,7 +149,7 @@ All the provided endpoints are `Content-Type: application/json`
       {
         "reveal": {
           "id": 1,
-          "juror": "0xd5931f0a36FE76845a5330f6D0cd7a378401",
+          "juror": "0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
           "voteId": "0", 
           "disputeId": "0", 
           "roundNumber": "0",
@@ -164,7 +175,7 @@ All the provided endpoints are `Content-Type: application/json`
         "reveals":[
           {
             "id": 9,
-            "juror": "0xd5931f0a36FE76845a5330f6D0cd7a378401",
+            "juror": "0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
             "voteId": "0", 
             "disputeId": "0", 
             "roundNumber": "0",
@@ -233,7 +244,7 @@ All the provided endpoints are `Content-Type: application/json`
         "reveals":[
           {
             "id": 9,
-            "juror": "0xd5931f0a36FE76845a5330f6D0cd7a378401",
+            "juror": "0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
             "voteId": "0", 
             "disputeId": "0", 
             "roundNumber": "0",
@@ -244,7 +255,7 @@ All the provided endpoints are `Content-Type: application/json`
             "updatedAt":"2019-12-25T14:58:58.705Z",
             "error": {
               "id": 41,
-              "context": "Worker 'reveal' job #1 revealing vote ID 0 for juror 0xd5931f0a36fe76845a5330f6d0cd7a378401e34d",
+              "context": "Worker 'reveal' job #1 revealing vote ID 0 for juror 0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
               "message": "Transaction: 0x8752864b6fd59ec6365855fe17bbfc2382632e27e9d9e92e8d817e626582a757 exited with an error (status 0). Reason given: DM_INVALID_ADJUDICATION_STATE.\n     Please check that the transaction:\n     - satisfies all conditions set by Solidity `require` statements.\n     - does not trigger a Solidity `revert` statement.\n",
               "stack": "Error: Transaction: 0x8752864b6fd59ec6365855fe17bbfc2382632e27e9d9e92e8d817e626582a757 exited with an error (status 0). Reason given: DM_INVALID_ADJUDICATION_STATE.    at PromiEvent (~/court-backend/packages/shared/node_modules/@truffle/contract/lib/promievent.js:9:30)\n    at TruffleContract.reveal (~/court-backend/packages/shared/node_modules/@truffle/contract/lib/execute.js:169:26)\n    at module.exports.revealFor (~/court-backend/packages/shared/models/Court.js:261:19)\n    at process._tickCallback (internal/process/next_tick.js:68:7)",
               "createdAt": "2019-12-25T16:06:42.304Z",
