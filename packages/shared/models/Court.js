@@ -6,7 +6,7 @@ const { getVoteId, hashVote } = require('@aragon/court/test/helpers/utils/crvoti
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
 const { DISPUTE_MANAGER_ERRORS } = require('@aragon/court/test/helpers/utils/errors')
 const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
-const { sha3, fromWei, fromAscii, soliditySha3, BN, padLeft, toHex } = require('web3-utils')
+const { sha3, fromWei, utf8ToHex, soliditySha3, BN, padLeft, toHex } = require('web3-utils')
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -209,14 +209,14 @@ module.exports = class {
     logger.info(`Creating new dispute for subject ${subject} ...`)
     const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
     const arbitrable = await Arbitrable.at(subject)
-    const receipt = await arbitrable.createDispute(rulings, fromAscii(metadata))
+    const receipt = await arbitrable.createDispute(rulings, utf8ToHex(metadata))
     const DisputeManager = await this.environment.getArtifact('DisputeManager', '@aragon/court')
     const logs = decodeEventsOfType(receipt, DisputeManager.abi, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE)
     const disputeId = getEventArgument({ logs }, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE, 'disputeId')
 
     for (const data of evidence) {
       logger.info(`Submitting evidence ${data} for dispute #${disputeId} ...`)
-      await arbitrable.submitEvidence(disputeId, fromAscii(data), false)
+      await arbitrable.submitEvidence(disputeId, utf8ToHex(data), false)
     }
 
     return disputeId
@@ -232,7 +232,7 @@ module.exports = class {
       logger.info(`Closing evidence period for dispute #${disputeId} ...`)
       const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
       const arbitrable = await Arbitrable.at(subject)
-      await arbitrable.submitEvidence(disputeId, fromAscii('closing evidence submission period'), true)
+      await arbitrable.submitEvidence(disputeId, utf8ToHex('closing evidence submission period'), true)
     }
 
     logger.info(`Drafting dispute #${disputeId} ...`)
