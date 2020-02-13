@@ -23,6 +23,9 @@
     "styled-components": "^4.4.1",
     "web3-utils": "^1.2.4"
   },
+  "devDependencies": {
+    "firebase-tools": "^7.12.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=true react-scripts build",
@@ -30,6 +33,7 @@
     "eject": "react-scripts eject",
     "deploy:ropsten": "NETWORK=ropsten ./scripts/deploy.sh",
     "deploy:rinkeby": "NETWORK=rinkeby ./scripts/deploy.sh",
+    "deploy:usability": "NETWORK=usability ./scripts/deploy.sh",
     "deploy:staging": "NETWORK=staging ./scripts/deploy.sh",
     "deploy:mainnet": "NETWORK=mainnet ./scripts/deploy.sh"
   },

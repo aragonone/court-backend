@@ -12,7 +12,7 @@ const logger = Logger('airdrop')
 const { network, input, from, output: outputDir } = yargs
   .help()
   .option('network', { alias: 'n', describe: 'Network name', type: 'string', demand: true })
-  .option('input', { alias: 'i', describe: 'Input csv file with the list of jurors with their respective amount of ANJ to be airdrop', type: 'string', demand: true })
+  .option('input', { alias: 'i', describe: 'Input csv file with the list of jurors with their respective amount of ANJ (without decimals!) to be airdrop', type: 'string', demand: true })
   .option('output', { alias: 'o', describe: 'Dir where the the output file will be stored', type: 'string', default: './', demand: true })
   .option('from', { alias: 'f', describe: 'Sender address', type: 'string' })
   .strict()
@@ -47,7 +47,7 @@ async function airdrop() {
         logger.success(`Activated ANJ ${amount} for ${address} successfully`)
         output.push({ address, amount, txHash: receipt.tx })
       } catch (error) {
-        logger.error(`Filed to activate ANJ ${amount} for ${address}`)
+        logger.error(`Failed to activate ANJ ${amount} for ${address}`)
         output.push({ address, amount, error: error.message })
       }
       const data = JSON.stringify(output, null, 2)

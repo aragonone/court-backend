@@ -1,7 +1,5 @@
 import Network from '@aragon/court-backend-server/build/web3/Network'
 
-import query from '../helpers/graphql'
-
 const ruledQuery = `
 {
   disputes(where: {state: Ruled, settledPenalties: false}, orderBy: createdAt) {
@@ -46,14 +44,12 @@ const queries = [
     checkCanSettle: false,
     executeRuling: true
   },
-  /*
   {
     title: 'Disputes in Adjudicating state with last round appealing',
     query: appealingQuery,
     checkCanSettle: true,
     executeRuling: true
   },
-  */
 ]
 
 export default async function (worker, job, logger) {
@@ -69,7 +65,7 @@ export default async function (worker, job, logger) {
 }
 
 async function settleDisputes(worker, job, logger, court, disputesQuery) {
-  const { disputes } = await query(disputesQuery.query)
+  const { disputes } = await Network.query(disputesQuery.query)
   logger.info(`${disputes.length} ${disputesQuery.title} pending`)
   await Promise.all(disputes.map(
     dispute => settle(worker, job, logger, court, dispute.id, disputesQuery.checkCanSettle, disputesQuery.executeRuling)
@@ -94,7 +90,6 @@ async function settle(worker, job, logger, court, disputeId, checkCanSettle, exe
     logger.success(`Settled dispute #${disputeId}`)
   } catch (error) {
     logger.error(`Failed to settle dispute #${disputeId}`)
-    //console.error(error)
     console.error({ context: `Worker '${worker}' job #${job} settling dispute #${disputeId}`, message: error.message, stack: error.stack })
   }
 }

@@ -1,20 +1,20 @@
 const Environment = require('./Environment')
 const DynamicArtifacts = require('../artifacts/DynamicArtifacts')
-const HDWalletProvider = require("@truffle/hdwallet-provider");
+const HDWalletProvider = require('@truffle/hdwallet-provider')
 
 require('dotenv').config() // Load env vars from .env file
 
-/*
-Requires the following env variables to be defined:
-  - NETWORK: Network to connect to: rpc, rinkeby, mainnet, ...
-  - PRIVATE_KEY: Private key of the account used
-  - RPC: RPC endpoint, like "https://host:port/..."
-  - COURT_ADDRESS: Address of the target Court contract to interact with
-  - GAS_PRICE: Gas price (for TruffleContract object)
-  - GAS: Gas limit (for TruffleContract object)
-*/
+/**
+ * Requires the following env variables to be defined:
+ *   - NETWORK: Network to connect to: rpc, rinkeby, mainnet, ...
+ *   - PRIVATE_KEY: Private key of the account used
+ *   - RPC: RPC endpoint, like "https://host:port/..."
+ *   - COURT_ADDRESS: Address of the target Court contract to interact with
+ *   - GAS_PRICE: Gas price (for TruffleContract object)
+ *   - GAS: Gas limit (for TruffleContract object)
+ */
 class LocalEnvironment extends Environment {
-  constructor(network) {
+  constructor() {
     super(process.env.NETWORK)
   }
 
@@ -23,9 +23,9 @@ class LocalEnvironment extends Environment {
   }
 
   async _getProvider() {
-    const keys = [ process.env.PRIVATE_KEY ]
-    const rpc =  process.env.RPC
-    return new HDWalletProvider(keys, rpc);
+    const keys = [process.env.PRIVATE_KEY]
+    const rpc = process.env.RPC
+    return new HDWalletProvider(keys, rpc)
   }
 
   async _getArtifacts() {

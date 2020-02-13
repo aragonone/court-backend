@@ -12,6 +12,7 @@ You can find the following deployed instances
 2. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
 3. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
 4. [Staging](https://aragon-court-staging.firebaseapp.com/)
+5. [Usability](https://aragon-court-usability.firebaseapp.com/)
 
 However, to deploy a new instance remotely, simply run `npm run deploy:{$NETWORK}` where `$NETWORK` could be one of (`ropsten`, `rinkeby`, `staging`, or `mainnet`).
 
@@ -28,17 +29,11 @@ You can run the following commands to build it locally:
   cd packages/app
 ```
  
-After that, make sure you provide a `.env` file with a GraphQL endpoint for your Aragon Court subgraph before starting the app.
+After that, make sure you provide a `.env` file with a network name specified before starting the app.
 For example, the next `.env` file will work for a local environment:
 
 ```bash
-REACT_APP_GRAPHQL_ENDPOINT=http://localhost:8000/subgraphs/name/aragon/aragon-court-rpc
-```
-
-Alternatively, if you want to re-use one of the already deployed instances, you can simply specify a network name:
-
-```bash
-REACT_APP_NETWORK=rinkeby
+REACT_APP_NETWORK=rpc
 ```
 
 Finally, you can simply run `npm start` to start playing with it.

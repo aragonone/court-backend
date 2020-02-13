@@ -75,7 +75,8 @@ Finally, make sure you set the local court address in `packages/shared/truffle-c
 You can now start playing with the available CLI commands:
 
 - `mint`: Mint ANJ or Fee tokens for a certain address
-- `heartbeat`: Mint ANJ or Fee tokens for a certain address
+- `heartbeat`: Transition Court terms
+- `config`: Change Court config
 - `stake`: Stake ANJ tokens for a juror
 - `unstake`: Unstake ANJ tokens
 - `activate`: Activate ANJ to the Court
@@ -102,13 +103,7 @@ After that, make sure you provide a `.env` file with a GraphQL endpoint for your
 For example, the next `.env` file will work for a local environment:
 
 ```bash
-REACT_APP_GRAPHQL_ENDPOINT=http://localhost:8000/subgraphs/name/aragon/aragon-court-rpc
-```
-
-Alternatively, if you want to re-use one of the already deployed instances, you can simply specify a network name:
-
-```bash
-REACT_APP_NETWORK=rinkeby
+REACT_APP_NETWORK=rpc
 ```
 
 Finally, you can simply run `npm start` to start playing with it.
@@ -121,4 +116,4 @@ You can find the following instances that were already deployed:
 2. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
 3. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
 4. [Staging](https://aragon-court-staging.firebaseapp.com/)
-
+5. [Usability](https://aragon-court-usability.firebaseapp.com/)

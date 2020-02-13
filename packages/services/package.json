@@ -12,8 +12,7 @@
   "dependencies": {
     "@aragon/court-backend-server": "^0.0.1",
     "@aragon/court-backend-shared": "^0.0.1",
-    "dotenv": "^8.2.0",
-    "graphql-request": "^1.8.2"
+    "dotenv": "^8.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
