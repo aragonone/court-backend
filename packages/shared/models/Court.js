@@ -196,17 +196,16 @@ module.exports = class {
     return subscriptions.donate(amount)
   }
 
-  async deployArbitrable() {
-    logger.info('Creating new Arbitrable instance...')
-    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
+  async deployArbitrable(precedenceCampaign = false) {
+    logger.info(`Creating new Arbitrable instance ${precedenceCampaign && 'for the precedence campaign' }...`)
+    const Arbitrable = precedenceCampaign
+      ? (await this.environment.getArtifact('ArbitrableMock', '@aragon/court'))
+      : (await this.environment.getArtifact('PrecedenceCampaignArbitrable', '@aragonone/precedence-campaign-arbitrable'))
     return Arbitrable.new(this.instance.address)
   }
 
   async subscribe(address, periods = 1) {
-    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
-    const arbitrable = await Arbitrable.at(address)
-
-    const { recipient, feeToken, feeAmount } = await this.instance.getSubscriptionFees(arbitrable.address)
+    const { recipient, feeToken, feeAmount } = await this.instance.getSubscriptionFees(address)
     const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
     const token = await ERC20.at(feeToken)
 
@@ -219,6 +218,8 @@ module.exports = class {
 
   async createDispute(subject, rulings = 2, metadata = '', evidence = []) {
     logger.info(`Creating new dispute for subject ${subject} ...`)
+    // There's no need to distinguish between the mocked or the precedence campaign version of the Arbitrable
+    // instance cause they share the same signature for the methods used bellow
     const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
     const arbitrable = await Arbitrable.at(subject)
     const receipt = await arbitrable.createDispute(rulings, utf8ToHex(metadata))
@@ -242,6 +243,8 @@ module.exports = class {
 
     if (draftTerm.gt(currentTermId)) {
       logger.info(`Closing evidence period for dispute #${disputeId} ...`)
+      // There's no need to distinguish between the mocked or the precedence campaign version of the Arbitrable
+      // instance cause they share the same signature for the methods used bellow
       const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
       const arbitrable = await Arbitrable.at(subject)
       await arbitrable.submitEvidence(disputeId, utf8ToHex('closing evidence submission period'), true)

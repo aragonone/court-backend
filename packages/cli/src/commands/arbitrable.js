@@ -3,11 +3,13 @@ const logger = require('@aragonone/court-backend-shared/helpers/logger')('arbitr
 const command = 'arbitrable'
 const describe = 'Create new Arbitrable instance for the Court'
 
-const builder = {}
+const builder = {
+  precedence: { alias: 'p', describe: 'Use Arbitrable version for precedence campaign', type: 'boolean', demand: false, default: false },
+}
 
-const handlerAsync = async (environment) => {
+const handlerAsync = async (environment, { precedence }) => {
   const court = await environment.getCourt()
-  const arbitrable = await court.deployArbitrable()
+  const arbitrable = await court.deployArbitrable(precedence)
   logger.success(`Created Arbitrable instance ${arbitrable.address}`)
   console.log(arbitrable.address)
 }
