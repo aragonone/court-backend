@@ -8,8 +8,8 @@ import Login from '../admin/Login.react'
 import Logout from '../admin/Logout.react'
 import PrivateRoute from './PrivateRoute.react'
 import AdminsList from '../admin/AdminsList.react'
+import UsersList from '../admin/UsersList.react'
 import RevealsList from '../admin/RevealsList.react'
-import SubscriptionsList from '../admin/SubscriptionsList.react'
 import JurorsList from '../jurors/JurorsList.react'
 import JurorDetail from '../jurors/JurorDetail.react'
 import JurorDraftsList from '../jurors/JurorDraftsList.react'
@@ -61,8 +61,8 @@ class App extends React.Component {
 
             <PrivateRoute path="/logout" exact component={() => <Logout admin={admin}/>}/>
             <PrivateRoute path="/admins" exact component={AdminsList}/>
+            <PrivateRoute path="/users" exact component={UsersList}/>
             <PrivateRoute path="/reveals" exact component={RevealsList}/>
-            <PrivateRoute path="/subscriptions" exact component={SubscriptionsList}/>
           </Switch>
         </div>
         <Modal open={fetching} progressBar message={fetching}/>
