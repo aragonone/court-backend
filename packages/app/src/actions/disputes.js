@@ -18,12 +18,12 @@ const DisputeActions = {
             createdAt
             subject {
               id
-              evidence {
-                id
-                submitter
-                data
-                createdAt
-              }
+            }
+            evidences {
+              id
+              submitter
+              data
+              createdAt
             }
             rounds (orderBy: number, orderDirection: desc) {
               state
