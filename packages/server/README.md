@@ -25,7 +25,6 @@ If you had run it before, make sure to remove it first:
 docker-compose down
 ```
 
-
 and simply run the following commands:
 
 ```bash
