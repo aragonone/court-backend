@@ -5,7 +5,7 @@ const FAUCET = {
   staging: '0x7E9152F2eFDF6a862FeecDc8b0fb892dA6f60dEe',
   ropsten: '0x83c1ECDC6fAAb783d9e3ac2C714C0eEce3349638',
   rinkeby: '0x3b86Fd8C30445Ddcbed79CE7eB052fe935D34Fd2',
-  usability: '0x9D2bB0dC850FA9D7a471C99c655A78802E319249',
+  usability: '0x109dB6047d83f4dd5a8d9da3b9e9228728E3710a',
 }
 
 const ANT = {
