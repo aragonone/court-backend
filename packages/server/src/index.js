@@ -12,8 +12,20 @@ import { createServer } from '@promster/server'
 
 import errorHandler from './helpers/error-handler'
 import routes from './routes'
+import db from './models'
 
 dotenv.config()
+
+// Check DB connection
+db.sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Database connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+    process.exit(1)
+  });
 
 const corsOptions = {
   origin: function (origin, callback) {
