@@ -26,6 +26,14 @@ const workers = [
     times: 0,
     repeat: ONE_MINUTE * 5,
   },
+  {
+    name: 'monitor-address',
+    prefixColor: 'green',
+    path: './src/workers/monitorAddress',
+    processes: 1,
+    times: 0,
+    repeat: ONE_MINUTE,
+  },
 ]
 
 export {
