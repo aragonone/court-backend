@@ -34,6 +34,14 @@ const workers = [
     times: 0,
     repeat: ONE_MINUTE,
   },
+  {
+    name: 'subscriptions',
+    prefixColor: 'lightgray',
+    path: './src/workers/subscriptionPeriods',
+    processes: 1,
+    times: 0,
+    repeat: 8 * ONE_HOUR,
+  },
 ]
 
 export {
