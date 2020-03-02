@@ -1,3 +1,5 @@
+name: Server CI/CD
+
 env:
   TAG_BASE: docker.pkg.github.com/promaty/court-backend/court-server
 
@@ -16,7 +18,7 @@ jobs:
         docker login docker.pkg.github.com
         -u $GITHUB_ACTOR
         -p ${{ secrets.GITHUB_TOKEN }}
-    - run: docker pull $TAG_BASE:latest
+    - run: docker pull $TAG_BASE:latest | true
     - run: >
         docker build packages/server
         -t $TAG_BASE:latest
