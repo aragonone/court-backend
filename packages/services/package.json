@@ -12,6 +12,8 @@
   "dependencies": {
     "@aragon/court-backend-server": "^0.0.1",
     "@aragon/court-backend-shared": "^0.0.1",
+    "postmark": "^2.3.5",
+    "ethereumjs-util": "^6.2.0",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
