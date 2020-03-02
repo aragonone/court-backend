@@ -1,3 +1,5 @@
+name: CI/CD
+
 env:
   TAG_BASE: docker.pkg.github.com/promaty/court-backend/court-server
 
