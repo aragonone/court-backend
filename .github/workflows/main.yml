@@ -1,0 +1,31 @@
+env:
+  TAG_BASE: docker.pkg.github.com/promaty/court-backend/court-server
+
+on:
+  push:
+    tags: server-v*
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: >
+        docker login docker.pkg.github.com
+        -u $GITHUB_ACTOR
+        -p ${{ secrets.GITHUB_TOKEN }}
+    - run: docker pull $TAG_BASE:latest
+    - run: >
+        docker build packages/server
+        -t $TAG_BASE:latest
+        -t $TAG_BASE:$GITHUB_SHA
+        -t $TAG_BASE:$(basename $GITHUB_REF)
+        --cache-from $TAG_BASE:latest
+    - run: docker push $TAG_BASE:latest
+    - run: docker push $TAG_BASE:$GITHUB_SHA
+    - run: docker push $TAG_BASE:$(basename $GITHUB_REF)
+    
+    # - run: gcloud container clusters get-credentials cluster-zurich 
+    # - run: kubectl set image court-server $TAG_BASE:$(basename $GITHUB_REF)
