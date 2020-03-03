@@ -5,7 +5,7 @@ on:
     - server-v*
 env:
   # this is a base repository and we use ${GITHUB_REF/*server-/} to get the v* part of the git tag for the container
-  REPO: docker.pkg.github.com/promaty/court-backend/server
+  REPO: docker.pkg.github.com/aragonone/court-backend/server
 
 jobs:
   build:
