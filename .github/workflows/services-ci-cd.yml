@@ -1,0 +1,42 @@
+name: Services CI/CD
+on:
+  push:
+    tags:
+    - services-v*
+env:
+  # this is a base repository and we use ${GITHUB_REF/*services-/} to get the v* part of the git tag for the container
+  REPO: docker.pkg.github.com/promaty/court-backend/services
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: >
+        docker login docker.pkg.github.com
+        -u $GITHUB_ACTOR
+        -p ${{ secrets.GITHUB_TOKEN }}
+    # use previously built image for cache if possible
+    - run: docker pull $REPO:latest | true
+    - run: >
+        docker build packages/services
+        -t $REPO:latest
+        -t $REPO:${GITHUB_REF/*services-/}
+        --cache-from $REPO:latest
+    - run: docker push $REPO:latest
+    - run: docker push $REPO:${GITHUB_REF/*services-/}
+ 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    # no way to read ca.crt from environment variable
+    - run: echo ${{ secrets.KUBE_CA }} | base64 -d > ca.crt
+    - run: |
+        kubectl config set-cluster aragon --server=${{ secrets.KUBE_SERVER }} --certificate-authority=ca.crt
+        kubectl config set-credentials aragon --token=$(base64 -d <<< ${{ secrets.KUBE_TOKEN }})
+        kubectl config set-context aragon --cluster=aragon --user=aragon
+        kubectl config use-context aragon
+    - run: kubectl set image deployment/court-backend services=$REPO:${GITHUB_REF/*services-/}
+    # wait 60 seconds for the new pod to be ready. If the pod is not ready there is a problem with the new container
+    - run: kubectl wait pod -l app=court-backend --for condition=Ready --timeout=60s
