@@ -108,6 +108,29 @@ REACT_APP_NETWORK=rpc
 
 Finally, you can simply run `npm start` to start playing with it.
 
+##### 8. Spin up backend server and services 
+
+Optionally, you can try the backend server and services for Aragon Court. 
+First make sure to create your own `.env` file, feel free to follow the template provided in `.env.sample`.
+Once you have done that, spin up a docker container with:
+```bash
+docker-compose up -d
+```
+
+If you had run it before, make sure to remove it first:
+```bash
+docker-compose down
+```
+
+To run the server migrations simply run the following commands:
+
+```bash
+cd packages/server
+npx sequelize db:create
+npx sequelize db:migrate
+npx sequelize db:seed:all
+```
+
 ### Deployed instances
 
 You can find the following instances that were already deployed:
