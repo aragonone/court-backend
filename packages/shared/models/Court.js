@@ -184,6 +184,18 @@ module.exports = class {
     return registry.deactivate(bigExp(amount, decimals))
   }
 
+  async donate(amount) {
+    const subscriptions = await this.subscriptions()
+    const feeToken = await subscriptions.currentFeeToken()
+    const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
+    const token = await ERC20.at(feeToken)
+
+    logger.info(`Approving ${amount} fees for donation...`)
+    await this._approve(token, amount, subscriptions.address)
+    logger.info(`Donating ${amount} fees for court jurors...`)
+    return subscriptions.donate(amount)
+  }
+
   async deployArbitrable() {
     logger.info('Creating new Arbitrable instance...')
     const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
