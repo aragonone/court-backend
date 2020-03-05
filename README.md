@@ -81,6 +81,7 @@ You can now start playing with the available CLI commands:
 - `unstake`: Unstake ANJ tokens
 - `activate`: Activate ANJ to the Court
 - `deactivate`: Deactivate ANJ from the Court
+- `donate`: Donate funds to Court jurors
 - `arbitrable`: Create new Arbitrable instance for the Court
 - `subscribe`: Subscribe Arbitrable instance to the Court
 - `dispute`: Create dispute submitting evidence

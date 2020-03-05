@@ -10,6 +10,7 @@
     "rpc:unstake": "node ./bin/index.js unstake -n rpc --verbose",
     "rpc:activate": "node ./bin/index.js activate -n rpc --verbose",
     "rpc:deactivate": "node ./bin/index.js deactivate -n rpc --verbose",
+    "rpc:donate": "node ./bin/index.js donate -n rpc --verbose",
     "rpc:arbitrable": "node ./bin/index.js arbitrable -n rpc --verbose",
     "rpc:heartbeat": "node ./bin/index.js heartbeat -n rpc --verbose",
     "rpc:config": "node ./bin/index.js config -n rpc --verbose",

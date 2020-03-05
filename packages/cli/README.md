@@ -21,6 +21,7 @@ After that, you can start playing with all the provided commands:
 - [`unstake`](./src/commands/unstake.js): Unstake ANJ tokens
 - [`activate`](./src/commands/activate.js): Activate ANJ to the Court
 - [`deactivate`](./src/commands/deactivate.js): Deactivate ANJ from the Court
+- [`donate`](./src/commands/donate.js): Donate funds to Court jurors
 - [`arbitrable`](./src/commands/arbitrable.js): Create new Arbitrable instance for the Court
 - [`subscribe`](./src/commands/subscribe.js): Subscribe Arbitrable instance to the Court
 - [`dispute`](./src/commands/dispute.js): Create dispute submitting evidence
