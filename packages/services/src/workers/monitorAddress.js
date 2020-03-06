@@ -99,7 +99,8 @@ You can check it here: https://etherscan.io/tx/${transaction.hash}`
 }
 
 function getAddress() {
-  return '0x' + utils.privateToAddress(process.env.PRIVATE_KEY).toString('hex')
+  const privateKey = process.env.PRIVATE_KEY.slice(0,2) == '0x' ? process.env.PRIVATE_KEY : '0x' + process.env.PRIVATE_KEY
+  return '0x' + utils.privateToAddress(privateKey).toString('hex')
 }
 
 async function getWhitelistedAddresses(court) {
