@@ -1,6 +1,6 @@
 {
   "name": "@aragon/court-backend-services",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
