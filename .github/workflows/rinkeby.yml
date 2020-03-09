@@ -39,5 +39,6 @@ jobs:
         kubectl config use-context aragon
     - run: kubectl set image deployment/court-backend-rinkeby server=$REPO:${GITHUB_SHA}
     - run: kubectl set image deployment/court-backend-rinkeby services=$REPO:${GITHUB_SHA}
+    - run: kubectl set image deployment/court-backend-rinkeby app=$REPO:${GITHUB_SHA}
     # wait 60 seconds for the new pod to be ready. If the pod is not ready there is a problem with the new container
     - run: kubectl wait pod -l app=court-backend-rinkeby --for condition=Ready --timeout=60s
