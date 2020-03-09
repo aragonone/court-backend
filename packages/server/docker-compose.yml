@@ -1,7 +1,0 @@
-court_server_db:
-  image: postgres
-  ports:
-    - "${DB_PORT}:5432"
-  environment:
-    - POSTGRES_PASSWORD=${DB_PASS}
-    - POSTGRES_USER=${DB_USER}
