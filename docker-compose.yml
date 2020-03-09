@@ -10,20 +10,25 @@ services:
   court_server:
     build: .
     image: aragon/court-server
-    command: npm run start:server
+    command: npm run start:server:dev
     depends_on:
       - court_server_db
     ports:
       - "8000:8000"
+    volumes:
+      - ./packages/server/src:/court-backend/packages/server/src
     env_file:
       - .env
 
   court_services:
     build: .
     image: aragon/court-services
-    command: npm run start:services
+    command: npm run start:services:dev
     depends_on:
       - court_server
+    volumes:
+      - ./packages/services/bin:/court-backend/packages/services/bin
+      - ./packages/services/src:/court-backend/packages/services/src
     env_file:
       - .env
 
@@ -35,5 +40,9 @@ services:
       - court_server
     ports:
       - "3000:3000"
+      - "35729:35729"
+    volumes:
+      - ./packages/app/src:/court-backend/packages/app/src
+      - ./packages/app/public:/court-backend/packages/app/public
     env_file:
       - .env
