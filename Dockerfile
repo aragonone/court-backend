@@ -4,5 +4,6 @@ RUN apk add --no-cache git
 WORKDIR /court-backend
 COPY . .
 RUN npm install
+RUN npx lerna bootstrap
 
 CMD ["echo", "starting..."]
