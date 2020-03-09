@@ -38,7 +38,7 @@ app.get('*', (request, response) => response.status(200).send({ message: 'Welcom
 
 app.use(errorHandler)
 
-const port = process.env.PORT || 8000
+const port = process.env.SERVER_PORT || 8000
 app.listen(port, (err) => {
   if (err) return console.error(err)
   signalIsUp()
