@@ -9,7 +9,7 @@
   "scripts": {
     "build": "babel ./src --out-dir ./build --source-maps --copy-files",
     "dev": "nodemon --ignore ./build --exec babel-node ./src/index.js",
-    "start": "node ./build"
+    "start": "npm run build && ./scripts/db-setup.sh && node ./build"
   },
   "dependencies": {
     "@aragon/court": "1.1.0",

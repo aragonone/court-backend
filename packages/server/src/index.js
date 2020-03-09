@@ -1,5 +1,5 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
 
 import bodyParser from 'body-parser'
 import cors from 'cors'
@@ -7,8 +7,8 @@ import dotenv from 'dotenv'
 import express from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
-import { createMiddleware, signalIsUp } from '@promster/express'
 import { createServer } from '@promster/server'
+import { createMiddleware, signalIsUp } from '@promster/express'
 
 import errorHandler from './helpers/error-handler'
 import routes from './routes'
@@ -46,6 +46,6 @@ app.listen(port, (err) => {
 })
 
 const metricsPort = process.env.METRICS_PORT || 8001
-createServer({ port: metricsPort }).then(server =>
+createServer({ port: metricsPort }).then(() =>
   console.log(`@promster/server started on port ${metricsPort}.`)
 )
