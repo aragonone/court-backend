@@ -1,10 +1,10 @@
 # Aragon Court backend
 
 This mono-repo includes a set of sub-repos that are in charge of different parts of the whole Aragon Court backend:
+- [`app`](./packages/app): This repo provides a React app as the frontend app of the Aragon Court backend
 - [`cli`](./packages/cli): This repo provides a CLI tool with a set of commands to interact with an Aragon Court instance.
 - [`server`](./packages/server): This repo provides the backend server in charge of setting up a database and exposing a set of endpoints that will complement the functionality exposed by the smart contracts.
 - [`services`](./packages/services): This repo provides a set of background workers in charge of maintaining those things that could be done automatically for Aragon Court.
-- [`app`](./packages/app): This repo provides a React app as the frontend app of the Aragon Court backend
 - [`shared`](./packages/shared): This repo provides a set of components shared among all the sub-repos of this mono-repo.
 
 To understand better about these repos, you will find detailed information about them on their own READMEs.
@@ -101,20 +101,11 @@ You can also use the `rpc:setup` NPM command to populate your local Aragon Court
 First make sure to create your own `.env` file, feel free to follow the template provided in `.env.sample`.
 Once you have done that, spin up a docker container with:
 ```bash
+docker-compose build
 docker-compose up -d
 ```
 
-If you had run it before, make sure to remove it first:
+You don't need to build the docker container every time. If you had run it before, make sure to remove it first:
 ```bash
 docker-compose down
 ```
-
-### Deployed instances
-
-You can find the following instances that were already deployed:
-
-1. [Mainnet](https://aragon-court.firebaseapp.com/)
-2. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
-3. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
-4. [Staging](https://aragon-court-staging.firebaseapp.com/)
-5. [Usability](https://aragon-court-usability.firebaseapp.com/)
