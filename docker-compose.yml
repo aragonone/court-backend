@@ -8,8 +8,9 @@ services:
       - POSTGRES_USER=${DB_USER}
 
   court_server:
-    build: ./packages/server
+    build: .
     image: aragon/court-server
+    command: npm run start:server
     depends_on:
       - court_server_db
     ports:
@@ -19,9 +20,21 @@ services:
       - .env
 
   court_services:
-    build: ./packages/services
+    build: .
     image: aragon/court-services
+    command: npm run start:services
     depends_on:
       - court_server
+    env_file:
+      - .env
+
+  court_backoffice:
+    build: .
+    image: aragon/court-backoffice
+    command: npm run start:app
+    depends_on:
+      - court_server
+    ports:
+      - "3000:3000"
     env_file:
       - .env

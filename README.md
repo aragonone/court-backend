@@ -96,22 +96,8 @@ You can now start playing with the available CLI commands:
 
 You can also use the `rpc:setup` NPM command to populate your local Aragon Court instance with jurors and disputes.
 
-##### 7. Test Aragon Court's back-office app 
+##### 7. Spin up the backend using Docker 
 
-Optionally, you can try the back-office app to see all your actions on a UI. 
-To do that, open a separate terminal on the cloned `aragon-court-backend` repo and go to the `packages/app` dir.
-After that, make sure you provide a `.env` file with a GraphQL endpoint for your Aragon Court subgraph before starting the app.
-For example, the next `.env` file will work for a local environment:
-
-```bash
-REACT_APP_NETWORK=rpc
-```
-
-Finally, you can simply run `npm start` to start playing with it.
-
-##### 8. Spin up backend server and services 
-
-Optionally, you can try the backend server and services for Aragon Court. 
 First make sure to create your own `.env` file, feel free to follow the template provided in `.env.sample`.
 Once you have done that, spin up a docker container with:
 ```bash
@@ -121,15 +107,6 @@ docker-compose up -d
 If you had run it before, make sure to remove it first:
 ```bash
 docker-compose down
-```
-
-To run the server migrations simply run the following commands:
-
-```bash
-cd packages/server
-npx sequelize db:create
-npx sequelize db:migrate
-npx sequelize db:seed:all
 ```
 
 ### Deployed instances
