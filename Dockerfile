@@ -4,8 +4,8 @@ RUN apk add --no-cache git
 WORKDIR /court-backend
 
 # copy root package and lerna json files
-ADD ./package.json /court-backend/package.json
-ADD ./lerna.json /court-backend/lerna.json
+COPY ./package.json /court-backend/package.json
+COPY ./lerna.json /court-backend/lerna.json
 
 # copy app package json
 RUN mkdir -p /packages/app
