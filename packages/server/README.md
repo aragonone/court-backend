@@ -2,47 +2,22 @@
 
 This server aims to provide different kind of services to complement the logic implemented at the smart contracts level.
 
-## Setup
+### Setup
 
-First clone this repo and install dependencies:
-
-````bash
-git clone https://github.com/aragonone/court-backend/
-cd court-backend
-npm i
-npx lerna bootstrap
-cd packages/server
-````
-
-To run the server simply create your own `.env` file, feel free to follow the template provided in `.env.sample`.
+To work locally, simply go to the root directory, and make sure you have set up a propoer `.env` file following the `.env.sample` file.
 Once you have done that, spin up a docker container with:
 ```bash
+docker-compose build
 docker-compose up -d
 ```
 
-If you had run it before, make sure to remove it first:
-```bash
-docker-compose down
-```
-
-and simply run the following commands:
-
-```bash
-npx sequelize db:create
-npx sequelize db:migrate
-npx sequelize db:seed:all
-npm start
-```
-
-Remember to append `NODE_ENV=production` if needed.
-
-## Endpoints
+### Endpoints
 
 All the provided endpoints are `Content-Type: application/json`
 
-### 1. Subscriptions
+#### 1. Subscriptions
 
-#### 1.1. Create
+##### 1.1. Create
 
 - URL: /subscriptions
 - Method: POST
@@ -62,7 +37,7 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-#### 1.2. All
+##### 1.2. All
 
 - URL: /subscriptions
 - Method: GET
@@ -95,9 +70,9 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-### 2. Reveals
+#### 2. Reveals
 
-#### 2.1. Create
+##### 2.1. Create
 
 - URL: /reveals
 - Method: POST
@@ -123,7 +98,7 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-#### 2.2. Show
+##### 2.2. Show
 
 - URL: /reveal
 - Method: GET
@@ -147,7 +122,7 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-#### 2.3. All
+##### 2.3. All
 
 - URL: /reveals
 - Method: GET
@@ -179,9 +154,9 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-### 3. Admins
+#### 3. Admins
 
-#### 3.1. Login
+##### 3.1. Login
 
 - URL: /login
 - Method: POST
@@ -198,7 +173,7 @@ All the provided endpoints are `Content-Type: application/json`
     ```
     
 
-#### 3.2. Me
+##### 3.2. Me
 
 - URL: /me
 - Method: GET
@@ -216,7 +191,7 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-#### 3.3. All
+##### 3.3. All
 
 - URL: /admins
 - Method: GET
@@ -255,7 +230,7 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-#### 3.4. Create
+##### 3.4. Create
 
 - URL: /admins
 - Method: POST
@@ -275,7 +250,7 @@ All the provided endpoints are `Content-Type: application/json`
       }
     ```
 
-#### 3.5. Delete
+##### 3.5. Delete
 
 - URL: /admins/:id
 - Method: DELETE
@@ -284,3 +259,7 @@ All the provided endpoints are `Content-Type: application/json`
 - Response: 
   - Code: 200
   - Content example: empty
+
+### Keys
+
+This repo needs the private key to be defined as a envrionment variable `PRIVATE_KEY`. 

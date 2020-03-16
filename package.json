@@ -5,5 +5,12 @@
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "devDependencies": {
     "lerna": "^3.14.1"
+  },
+  "scripts": {
+    "start:app": "lerna run --scope=@aragon/court-backend-app --concurrency=1 --stream start",
+    "start:server": "lerna run --scope=@aragon/court-backend-server --concurrency=1 --stream start",
+    "start:server:dev": "lerna run --scope=@aragon/court-backend-server --concurrency=1 --stream start:dev",
+    "start:services": "lerna run --scope=@aragon/court-backend-services --concurrency=1 --stream start",
+    "start:services:dev": "lerna run --scope=@aragon/court-backend-services --concurrency=1 --stream start:dev"
   }
 }
