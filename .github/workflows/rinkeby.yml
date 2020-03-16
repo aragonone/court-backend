@@ -45,5 +45,5 @@ jobs:
         server=$REPO:${GITHUB_SHA}
         services=$REPO:${GITHUB_SHA}
         app=$REPO:${GITHUB_SHA}
-    # wait 60 seconds for the new pod to be ready. If the pod is not ready there is a problem with the new container
-    - run: kubectl wait pod -l app=court-backend-rinkeby,wait!=ignore --for condition=Ready --timeout=60s
+    # wait 5 min for the new pod to be ready. If the pod is not ready there is a problem with the new container
+    - run: kubectl wait pod -l app=court-backend-rinkeby,wait!=ignore --for condition=Ready --timeout=300s
