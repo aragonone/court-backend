@@ -1,6 +1,6 @@
 {
   "name": "@aragon/court-backend-services",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
@@ -13,9 +13,9 @@
   "dependencies": {
     "@aragon/court-backend-server": "^0.0.1",
     "@aragon/court-backend-shared": "^0.0.1",
-    "postmark": "^2.3.5",
+    "dotenv": "^8.2.0",
     "ethereumjs-util": "^6.2.0",
-    "dotenv": "^8.2.0"
+    "postmark": "^2.3.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
