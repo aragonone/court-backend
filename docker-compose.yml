@@ -9,7 +9,7 @@ services:
 
   court_server:
     build: .
-    image: aragon/court-server
+    image: aragon/court-backend
     command: npm run start:server:dev
     depends_on:
       - court_server_db
@@ -22,7 +22,7 @@ services:
 
   court_services:
     build: .
-    image: aragon/court-services
+    image: aragon/court-backend
     command: npm run start:services:dev
     depends_on:
       - court_server
@@ -34,7 +34,7 @@ services:
 
   court_backoffice:
     build: .
-    image: aragon/court-backoffice
+    image: aragon/court-backend
     command: npm run start:app
     depends_on:
       - court_server
