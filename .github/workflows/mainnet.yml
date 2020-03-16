@@ -1,8 +1,6 @@
 name: Mainnet CI/CD
 on:
   push:
-    branches:
-      - master
     tags:
       - v*
 env:
@@ -23,10 +21,10 @@ jobs:
     - run: >
         docker build .
         -t $REPO:latest
-        -t $REPO:${GITHUB_REF}
+        -t $REPO:${GITHUB_REF##*/}
         --cache-from $REPO:latest
     - run: docker push $REPO:latest
-    - run: docker push $REPO:${GITHUB_REF}
+    - run: docker push $REPO:${GITHUB_REF##*/}
 
   deploy:
     runs-on: ubuntu-latest
@@ -42,10 +40,10 @@ jobs:
     # label old pods to exclude from wait
     - run: kubectl label pod -l app=court-backend wait=ignore || true
     # replace deployment image
-    - run: > 
+    - run: >
         kubectl set image deployment/court-backend
-        server=$REPO:${GITHUB_REF}
-        services=$REPO:${GITHUB_REF}
-        app=$REPO:${GITHUB_REF}
+        server=$REPO:${GITHUB_REF##*/}
+        services=$REPO:${GITHUB_REF##*/}
+        app=$REPO:${GITHUB_REF##*/}
     # wait 60 seconds for the new pod to be ready. If the pod is not ready there is a problem with the new container
     - run: kubectl wait pod -l app=court-backend,wait!=ignore --for condition=Ready --timeout=60s
