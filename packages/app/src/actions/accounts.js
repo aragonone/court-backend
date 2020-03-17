@@ -47,10 +47,14 @@ const AccountActions = {
     return async function(dispatch) {
       try {
         const ant = await Network.getANT()
-        const symbol = await ant.symbol()
-        const antBalance = await ant.balanceOf(account)
-        const balance = fromWei(antBalance.toString()) // TODO: assuming 18 decimals
-        dispatch(AccountActions.receiveAntBalance({ symbol, balance, address: ant.address }))
+        if (ant) {
+          const symbol = await ant.symbol()
+          const antBalance = await ant.balanceOf(account)
+          const balance = fromWei(antBalance.toString()) // TODO: assuming 18 decimals
+          dispatch(AccountActions.receiveAntBalance({ symbol, balance, address: ant.address }))
+        } else {
+          dispatch(ErrorActions.show('Could not find an ANT instance for the current network'))
+        }
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }

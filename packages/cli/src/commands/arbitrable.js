@@ -3,11 +3,13 @@ const logger = require('@aragonone/court-backend-shared/helpers/logger')('arbitr
 const command = 'arbitrable'
 const describe = 'Create new Arbitrable instance for the Court'
 
-const builder = {}
+const builder = {
+  owner: { alias: 'o', describe: 'Address owner of the Arbitrable', type: 'string' },
+}
 
-const handlerAsync = async (environment) => {
+const handlerAsync = async (environment, { owner }) => {
   const court = await environment.getCourt()
-  const arbitrable = await court.deployArbitrable()
+  const arbitrable = await court.deployArbitrable(owner)
   logger.success(`Created Arbitrable instance ${arbitrable.address}`)
   console.log(arbitrable.address)
 }

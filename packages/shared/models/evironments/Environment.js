@@ -2,7 +2,8 @@ const Web3 = require('web3')
 const Court = require('../Court')
 const { request } = require('graphql-request')
 
-const SUBGRAPH_BASE = 'https://api.thegraph.com/subgraphs/name/aragon/aragon-court'
+const SUBGRAPH_LOCAL = 'http://127.0.0.1:8000'
+const SUBGRAPH_REMOTE = 'https://api.thegraph.com'
 
 class Environment {
   constructor(network, sender = undefined) {
@@ -11,8 +12,9 @@ class Environment {
   }
 
   getSubgraph() {
+    const base = this.network === 'rpc' ? SUBGRAPH_LOCAL : SUBGRAPH_REMOTE
     const env = this.network === 'mainnet' ? '' : `-${this.network}`
-    return `${SUBGRAPH_BASE}${env}`
+    return `${base}/subgraphs/name/aragon/aragon-court${env}`
   }
 
   async query(query) {
