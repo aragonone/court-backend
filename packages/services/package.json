@@ -1,6 +1,6 @@
 {
   "name": "@aragon/court-backend-services",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
@@ -11,8 +11,8 @@
     "start:dev": "npm run build:server && nodemon --ignore ./build --exec babel-node ./bin/main.js"
   },
   "dependencies": {
-    "@aragon/court-backend-server": "^0.1.0",
-    "@aragon/court-backend-shared": "^0.1.0",
+    "@aragon/court-backend-server": "^0.1.2",
+    "@aragon/court-backend-shared": "^0.1.2",
     "dotenv": "^8.2.0",
     "ethereumjs-util": "^6.2.0",
     "postmark": "^2.3.5"
