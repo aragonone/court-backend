@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@aragon/court": "1.1.0",
-    "@aragon/court-backend-shared": "^0.0.1",
+    "@aragon/court-backend-shared": "^0.1.0",
     "@promster/express": "^4.0.0",
     "@promster/server": "^4.0.0",
     "bcryptjs": "^2.4.3",

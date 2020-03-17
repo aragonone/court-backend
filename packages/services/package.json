@@ -11,8 +11,8 @@
     "start:dev": "npm run build:server && nodemon --ignore ./build --exec babel-node ./bin/main.js"
   },
   "dependencies": {
-    "@aragon/court-backend-server": "^0.0.1",
-    "@aragon/court-backend-shared": "^0.0.1",
+    "@aragon/court-backend-server": "^0.1.0",
+    "@aragon/court-backend-shared": "^0.1.0",
     "dotenv": "^8.2.0",
     "ethereumjs-util": "^6.2.0",
     "postmark": "^2.3.5"
