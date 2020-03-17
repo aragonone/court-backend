@@ -23,6 +23,10 @@ COPY ./packages/server/package.json /court-backend/packages/server/package.json
 RUN mkdir -p /packages/services
 COPY ./packages/services/package.json /court-backend/packages/services/package.json
 
+# copy shared package json
+RUN mkdir -p /packages/shared
+COPY ./packages/shared/package.json /court-backend/packages/shared/package.json
+
 # install dependencies
 RUN npm install
 RUN npx lerna bootstrap
