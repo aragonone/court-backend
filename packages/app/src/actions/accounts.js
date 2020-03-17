@@ -52,6 +52,8 @@ const AccountActions = {
           const antBalance = await ant.balanceOf(account)
           const balance = fromWei(antBalance.toString()) // TODO: assuming 18 decimals
           dispatch(AccountActions.receiveAntBalance({ symbol, balance, address: ant.address }))
+        } else {
+          dispatch(ErrorActions.show('Could not find an ANT instance for the current network'))
         }
       } catch (error) {
         dispatch(ErrorActions.show(error))
