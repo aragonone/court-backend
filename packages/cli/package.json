@@ -28,7 +28,7 @@
     "rpc:airdrop": "node ./bin/airdrop.js -n rpc"
   },
   "dependencies": {
-    "@aragon/court-backend-shared": "^0.0.1",
+    "@aragon/court-backend-shared": "^0.1.1",
     "yargs": "^14.0.0"
   }
 }
