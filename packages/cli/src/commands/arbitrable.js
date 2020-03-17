@@ -4,12 +4,12 @@ const command = 'arbitrable'
 const describe = 'Create new Arbitrable instance for the Court'
 
 const builder = {
-  precedence: { alias: 'p', describe: 'Use Arbitrable version for precedence campaign', type: 'boolean', demand: false, default: false },
+  owner: { alias: 'o', describe: 'Address owner of the Arbitrable', type: 'string' },
 }
 
-const handlerAsync = async (environment, { precedence }) => {
+const handlerAsync = async (environment, { owner }) => {
   const court = await environment.getCourt()
-  const arbitrable = await court.deployArbitrable(precedence)
+  const arbitrable = await court.deployArbitrable(owner)
   logger.success(`Created Arbitrable instance ${arbitrable.address}`)
   console.log(arbitrable.address)
 }

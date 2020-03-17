@@ -4,17 +4,18 @@ const command = 'dispute'
 const describe = 'Create dispute submitting evidence'
 
 const builder = {
-  subject: { alias: 's', describe: 'Address of the arbitrable instance creating the dispute', type: 'string', demand: true },
+  arbitrable: { alias: 'a', describe: 'Address of the arbitrable instance creating the dispute', type: 'string', demand: true },
   rulings: { alias: 'r', describe: 'Number of rulings', type: 'string', default: '2', demand: true },
   metadata: { alias: 'm', describe: 'Dispute metadata, it will only be logged', type: 'string' },
-  evidence: { alias: 'e', describe: 'Evidence links (ipfs, http, etc)', type: 'array' },
+  evidence: { alias: 'e', describe: 'Evidence contents', type: 'array' },
+  submitters: { alias: 's', describe: 'Submitters for each evidence content', type: 'array' },
+  close: { alias: 'c', describe: 'Whether the evidence period should be closed or not', type: 'boolean', default: false },
 }
 
-const handlerAsync = async (environment, { subject, rulings, metadata, evidence }) => {
+const handlerAsync = async (environment, { arbitrable, rulings, metadata, evidence, submitters, close }) => {
   const court = await environment.getCourt()
-  const disputeId = await court.createDispute(subject, rulings, metadata, evidence)
+  const disputeId = await court.createDispute(arbitrable, rulings, metadata, evidence, submitters, close)
   logger.success(`Created dispute #${disputeId}`)
-  logger.warn('Evidence submission period cannot be closed immediately, please do it manually after this term')
 }
 
 module.exports = {

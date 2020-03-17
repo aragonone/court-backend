@@ -196,12 +196,11 @@ module.exports = class {
     return subscriptions.donate(amount)
   }
 
-  async deployArbitrable(precedenceCampaign = false) {
-    logger.info(`Creating new Arbitrable instance ${precedenceCampaign && 'for the precedence campaign' }...`)
-    const Arbitrable = precedenceCampaign
-      ? (await this.environment.getArtifact('ArbitrableMock', '@aragon/court'))
-      : (await this.environment.getArtifact('PrecedenceCampaignArbitrable', '@aragonone/precedence-campaign-arbitrable'))
-    return Arbitrable.new(this.instance.address)
+  async deployArbitrable(owner = undefined) {
+    if (!owner) owner = await this.environment.getSender()
+    logger.info(`Creating new Arbitrable instance with owner ${owner}...`)
+    const Arbitrable = await this.environment.getArtifact('PrecedenceCampaignArbitrable', '@aragonone/precedence-campaign-arbitrable')
+    return Arbitrable.new(owner, this.instance.address)
   }
 
   async subscribe(address, periods = 1) {
@@ -209,27 +208,44 @@ module.exports = class {
     const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
     const token = await ERC20.at(feeToken)
 
-    logger.info(`Approving fees for ${periods} periods to ${recipient}, total amount: ${feeAmount}...`)
+    logger.info(`Approving fees for ${periods} periods to ${recipient}, total amount ${fromWei(feeAmount)}...`)
     await this._approve(token, feeAmount, recipient)
     const subscriptions = await this.subscriptions()
     logger.info(`Paying fees for ${periods} periods to ${subscriptions.address}...`)
     return subscriptions.payFees(address, periods)
   }
 
-  async createDispute(subject, rulings = 2, metadata = '', evidence = []) {
+  async createDispute(subject, rulings = 2, metadata = '', evidence = [], submitters = [], closeEvidencePeriod = false) {
     logger.info(`Creating new dispute for subject ${subject} ...`)
-    // There's no need to distinguish between the mocked or the precedence campaign version of the Arbitrable
-    // instance cause they share the same signature for the methods used bellow
-    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
+    const Arbitrable = await this.environment.getArtifact('PrecedenceCampaignArbitrable', '@aragonone/precedence-campaign-arbitrable')
     const arbitrable = await Arbitrable.at(subject)
-    const receipt = await arbitrable.createDispute(rulings, utf8ToHex(metadata))
+
+    const shouldCreateAndSubmit = evidence.length === 2 && submitters.length === 2
+    const receipt = shouldCreateAndSubmit
+      ? (await arbitrable.createAndSubmit(rulings, utf8ToHex(metadata), submitters[0], submitters[1], utf8ToHex(evidence[0]), utf8ToHex(evidence[1])))
+      : (await arbitrable.createDispute(rulings, utf8ToHex(metadata)))
+
     const DisputeManager = await this.environment.getArtifact('DisputeManager', '@aragon/court')
     const logs = decodeEventsOfType(receipt, DisputeManager.abi, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE)
     const disputeId = getEventArgument({ logs }, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE, 'disputeId')
 
-    for (const data of evidence) {
-      logger.info(`Submitting evidence ${data} for dispute #${disputeId} ...`)
-      await arbitrable.submitEvidence(disputeId, utf8ToHex(data), false)
+    if (!shouldCreateAndSubmit) {
+      for (const data of evidence) {
+        const index = evidence.indexOf(data)
+        const submitter = submitters[index]
+        if (submitter) {
+          logger.info(`Submitting evidence ${data} for dispute #${disputeId} for submitter ${submitter}...`)
+          await arbitrable.submitEvidenceFor(disputeId, submitter, utf8ToHex(data), false)
+        } else {
+          logger.info(`Submitting evidence ${data} for dispute #${disputeId} for sender ...`)
+          await arbitrable.submitEvidence(disputeId, utf8ToHex(data), false)
+        }
+      }
+    }
+
+    if (closeEvidencePeriod) {
+      logger.info(`Closing evidence period for dispute #${disputeId} ...`)
+      await arbitrable.closeEvidencePeriod(disputeId)
     }
 
     return disputeId
@@ -237,19 +253,6 @@ module.exports = class {
 
   async draft(disputeId) {
     const disputeManager = await this.disputeManager()
-    const { subject, lastRoundId } = await disputeManager.getDispute(disputeId)
-    const { draftTerm } = await disputeManager.getRound(disputeId, lastRoundId)
-    const currentTermId = await this.currentTerm()
-
-    if (draftTerm.gt(currentTermId)) {
-      logger.info(`Closing evidence period for dispute #${disputeId} ...`)
-      // There's no need to distinguish between the mocked or the precedence campaign version of the Arbitrable
-      // instance cause they share the same signature for the methods used bellow
-      const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
-      const arbitrable = await Arbitrable.at(subject)
-      await arbitrable.submitEvidence(disputeId, utf8ToHex('closing evidence submission period'), true)
-    }
-
     logger.info(`Drafting dispute #${disputeId} ...`)
     const receipt = await disputeManager.draft(disputeId)
     const logs = decodeEventsOfType(receipt, disputeManager.abi, DISPUTE_MANAGER_EVENTS.JUROR_DRAFTED)
