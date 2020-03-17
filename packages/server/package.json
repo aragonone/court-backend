@@ -1,5 +1,5 @@
 {
-  "name": "@aragon/court-backend-server",
+  "name": "@aragonone/court-backend-server",
   "version": "0.1.2",
   "private": true,
   "author": "Aragon One",
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@aragon/court": "1.1.0",
-    "@aragon/court-backend-shared": "^0.1.2",
+    "@aragonone/court-backend-shared": "^0.1.2",
     "@promster/express": "^4.0.0",
     "@promster/server": "^4.0.0",
     "bcryptjs": "^2.4.3",

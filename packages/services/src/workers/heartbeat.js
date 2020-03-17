@@ -1,5 +1,5 @@
-import sleep from '@aragon/court-backend-shared/helpers/sleep'
-import Network from '@aragon/court-backend-server/build/web3/Network'
+import sleep from '@aragonone/court-backend-shared/helpers/sleep'
+import Network from '@aragonone/court-backend-server/build/web3/Network'
 
 const SECONDS_BETWEEN_INTENTS = 3
 const MAX_TRANSITIONS_PER_CALL = 20

@@ -1,4 +1,4 @@
-import Network from '@aragon/court-backend-server/build/web3/Network'
+import Network from '@aragonone/court-backend-server/build/web3/Network'
 
 const ruledQuery = `
 {

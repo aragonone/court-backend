@@ -1,5 +1,5 @@
-import Court from '@aragon/court-backend-shared/models/Court'
-import Environment from '@aragon/court-backend-shared/models/evironments/BrowserEnvironment'
+import Court from '@aragonone/court-backend-shared/models/Court'
+import Environment from '@aragonone/court-backend-shared/models/evironments/BrowserEnvironment'
 
 const FAUCET = {
   staging: '0x7E9152F2eFDF6a862FeecDc8b0fb892dA6f60dEe',

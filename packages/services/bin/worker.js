@@ -2,8 +2,8 @@
 
 import path from 'path'
 import errorHandler from '../src/helpers/error-handler'
-import sleep from '@aragon/court-backend-shared/helpers/sleep'
-import Logger from '@aragon/court-backend-shared/helpers/logger'
+import sleep from '@aragonone/court-backend-shared/helpers/sleep'
+import Logger from '@aragonone/court-backend-shared/helpers/logger'
 
 let [workerPath, name, times, repeat, prefixColor] = process.argv.slice(2)
 if (!workerPath) throw Error('Cannot start worker with missing path')

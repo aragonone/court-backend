@@ -2,7 +2,7 @@ import React from 'react'
 import Store from '../../store/store'
 import CourtActions from '../../actions/court'
 import { fromWei } from 'web3-utils'
-import { bn } from '@aragon/court-backend-shared/helpers/numbers'
+import { bn } from '@aragonone/court-backend-shared/helpers/numbers'
 
 export default class CourtConfig extends React.Component {
 

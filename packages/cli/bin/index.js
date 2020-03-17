@@ -3,8 +3,8 @@
 const fs = require('fs')
 const path = require('path')
 const yargs = require('yargs')
-const Logger = require('@aragon/court-backend-shared/helpers/logger')
-const Environment = require('@aragon/court-backend-shared/models/evironments/TruffleEnvironment')
+const Logger = require('@aragonone/court-backend-shared/helpers/logger')
+const Environment = require('@aragonone/court-backend-shared/models/evironments/TruffleEnvironment')
 const errorHandler = require('../src/helpers/errorHandler')
 
 const DEFAULT_OPTIONS = {

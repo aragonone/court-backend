@@ -1,5 +1,5 @@
-import Models from '@aragon/court-backend-server/build/models'
-import Network from '@aragon/court-backend-server/build/web3/Network'
+import Models from '@aragonone/court-backend-server/build/models'
+import Network from '@aragonone/court-backend-server/build/web3/Network'
 
 const { Reveal } = Models
 

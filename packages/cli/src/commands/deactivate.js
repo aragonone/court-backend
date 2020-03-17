@@ -1,4 +1,4 @@
-const logger = require('@aragon/court-backend-shared/helpers/logger')('deactivate')
+const logger = require('@aragonone/court-backend-shared/helpers/logger')('deactivate')
 
 const command = 'deactivate'
 const describe = 'Deactivate ANJ to the Court'

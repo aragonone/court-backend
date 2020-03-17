@@ -1,7 +1,7 @@
 const utils = require('ethereumjs-util')
 const postmark = require('postmark')
 
-import Network from '@aragon/court-backend-server/build/web3/Network'
+import Network from '@aragonone/court-backend-server/build/web3/Network'
 
 // Postmark API endpoint
 const POSTMARK_URL = 'https://api.postmarkapp.com/email'
