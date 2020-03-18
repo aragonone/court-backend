@@ -1,7 +1,7 @@
 const yargs = require('yargs')
 const { bn } = require('@aragonone/court-backend-shared/helpers/numbers')
 const { execSync } = require('child_process')
-const errorHandler = require('../src/helpers/errorHandler')
+const errorHandler = require('../src/helpers/error-handler')
 const Logger = require('@aragonone/court-backend-shared/helpers/logger')
 const Environment = require('@aragonone/court-backend-shared/models/evironments/TruffleEnvironment')
 
