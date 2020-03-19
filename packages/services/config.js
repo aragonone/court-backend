@@ -4,7 +4,7 @@ const ONE_HOUR = ONE_MINUTE * 60
 const workers = [
   {
     name: 'heartbeat',
-    prefixColor: 'yellow',
+    color: 'yellow',
     path: './src/workers/heartbeat',
     processes: 1,
     times: 0,

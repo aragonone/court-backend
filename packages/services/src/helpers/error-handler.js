@@ -1,3 +1,5 @@
+const logger = require('@aragonone/court-backend-shared/helpers/logger')('Error Handler')
+
 export default error => {
   logger.error(`Process finished with error:`)
   console.log(error)

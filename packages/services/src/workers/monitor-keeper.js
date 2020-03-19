@@ -10,38 +10,29 @@ const BLOCKS_BACKWARDS_INITIAL_THRESHOLD = 10
 
 let lastCheckedBlockNumber = 0
 
-export default async function (worker, job, logger) {
-  try {
-    const court = await Network.getCourt()
-    const { environment } = court
-    const keeper = await getKeeperAddress(environment)
-    const courtAddresses = await getWhitelistedAddresses(court)
+export default async function (logger) {
+  const court = await Network.getCourt()
+  const { environment } = court
+  const keeper = await getKeeperAddress(environment)
+  const courtAddresses = await getWhitelistedAddresses(court)
 
-    if (lastCheckedBlockNumber === 0) {
-      lastCheckedBlockNumber = await environment.getLastBlockNumber() - BLOCKS_BACKWARDS_INITIAL_THRESHOLD
-    }
-    lastCheckedBlockNumber = await monitor(logger, environment, courtAddresses, keeper, lastCheckedBlockNumber)
-
-  } catch (error) {
-    console.error({ context: `Worker '${worker}' job #${job}`, message: error.message, stack: error.stack })
-    throw error
+  if (lastCheckedBlockNumber === 0) {
+    lastCheckedBlockNumber = await environment.getLastBlockNumber() - BLOCKS_BACKWARDS_INITIAL_THRESHOLD
   }
+  lastCheckedBlockNumber = await monitor(logger, environment, courtAddresses, keeper, lastCheckedBlockNumber)
 }
 
 async function monitor(logger, environment, courtAddresses, keeper, lastCheckedBlockNumber) {
   try {
     const currentBlockNumber = await environment.getLastBlockNumber()
     logger.info(`Checking transactions for keeper address ${keeper} from block ${lastCheckedBlockNumber + 1} to ${currentBlockNumber}`)
-
     for (let blockNumber = lastCheckedBlockNumber + 1; blockNumber <= currentBlockNumber; blockNumber++) {
       await checkTransactions(logger, environment, courtAddresses, blockNumber, keeper)
     }
-
     logger.success(`Checked ${currentBlockNumber - lastCheckedBlockNumber} blocks`)
     return currentBlockNumber
   } catch (error) {
-    logger.error('Failed to check transactions')
-    console.error(error)
+    logger.error('Failed to check transactions', error)
   }
 }
 
@@ -65,17 +56,11 @@ async function checkTransactions(logger, environment, courtAddresses, blockNumbe
 
 async function sendNotification(logger, message) {
   logger.info(`Sending email notifications for '${message.Subject}'`)
-
   message.From = FROM
   message.To = (await Models.Admin.allEmails()).join(', ')
-
   const client = new postmark.Client(process.env.POSTMARK_TOKEN)
   const response = await client.sendEmail(message)
-
-  if(!response || response.ErrorCode != 0) {
-    logger.error('Failed to send notification')
-    logger.error(response)
-  }
+  if (!response || response.ErrorCode != 0) logger.error(`Failed to send notification, received response ${response}`)
 }
 
 function buildSuspiciousTransactionMessage(transaction) {

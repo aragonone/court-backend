@@ -5,14 +5,9 @@ const HEARBEAT_TRIES_PER_JOB = 3
 const SECONDS_BETWEEN_INTENTS = 3
 const MAX_TRANSITIONS_PER_CALL = 20
 
-export default async function (worker, job, logger) {
-  try {
-    const court = await Network.getCourt()
-    await heartbeat(logger, court)
-  } catch (error) {
-    console.error({ context: `Worker '${worker}' job #${job}`, message: error.message, stack: error.stack })
-    throw error
-  }
+export default async function (logger) {
+  const court = await Network.getCourt()
+  await heartbeat(logger, court)
 }
 
 async function heartbeat(logger, court, attempt = 1) {
