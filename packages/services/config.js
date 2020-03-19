@@ -27,9 +27,9 @@ const workers = [
     repeat: ONE_MINUTE * 5,
   },
   {
-    name: 'monitor-address',
+    name: 'monitor-keeper',
     prefixColor: 'green',
-    path: './src/workers/monitorAddress',
+    path: './src/workers/monitor-keeper',
     processes: 1,
     times: 0,
     repeat: ONE_MINUTE,
