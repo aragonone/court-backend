@@ -10,23 +10,15 @@ import morgan from 'morgan'
 import { createServer } from '@promster/server'
 import { createMiddleware, signalIsUp } from '@promster/express'
 
-import errorHandler from './helpers/error-handler'
 import routes from './routes'
-import db from './models'
+import errorHandler from './helpers/error-handler'
+import checkConnection from './database/check-connection'
 
+// Load env variables and check DB connection
 dotenv.config()
+checkConnection().then(console.log)
 
-// Check DB connection
-db.sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Database connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-    process.exit(1)
-  });
-
+// Set up allowed CORS origins
 const corsOptions = {
   origin: function (origin, callback) {
     const whitelist = process.env.CORS_WHITELIST.split(',')
@@ -35,28 +27,29 @@ const corsOptions = {
   }
 }
 
-
+// Set up express layers
 const app = express()
-app.use(createMiddleware({ app }));
+app.use(createMiddleware({ app }))
 app.use(helmet())
 app.use(cors(corsOptions))
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
+// Set up custom endpoints and generic error handler
+app.get('/', (request, response) => response.status(200).send({ message: 'Welcome to Aragon Court server' }))
 routes(app)
-
-app.get('*', (request, response) => response.status(200).send({ message: 'Welcome to Aragon Court server' }))
-
 app.use(errorHandler)
 
-const port = process.env.SERVER_PORT || 8000
-app.listen(port, (err) => {
-  if (err) return console.error(err)
+// Start main server
+const serverPort = process.env.SERVER_PORT || 8000
+app.listen(serverPort, error => {
+  if (error) return console.error(error)
   signalIsUp()
-  console.log(`Listening on port ${port}`)
+  console.log(`Listening on port ${serverPort}`)
 })
 
+// Start Prometheus metrics
 const metricsPort = process.env.METRICS_PORT || 8001
 createServer({ port: metricsPort }).then(() =>
   console.log(`@promster/server started on port ${metricsPort}.`)
