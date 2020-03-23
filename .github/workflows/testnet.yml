@@ -5,7 +5,7 @@ on:
       - development
 env:
   # This is a base repository and we use ${GITHUB_SHA} to set the version of the container
-  REPO: docker.pkg.github.com/aragonone/court-backend/rinkeby
+  REPO: docker.pkg.github.com/aragonone/court-backend/testnet
 
 jobs:
   build:
@@ -38,12 +38,12 @@ jobs:
         kubectl config set-context aragon --cluster=aragon --user=aragon
         kubectl config use-context aragon
     # label old pods to exclude from wait
-    - run: kubectl label pod -l app=court-backend-rinkeby wait=ignore || true
+    - run: kubectl label pod -l app=court-backend-testnet wait=ignore || true
     # replace deployment image
-    - run: > 
-        kubectl set image deployment/court-backend-rinkeby
+    - run: >
+        kubectl set image deployment/court-backend-testnet
         server=$REPO:${GITHUB_SHA}
         services=$REPO:${GITHUB_SHA}
         app=$REPO:${GITHUB_SHA}
     # wait 5 min for the new pod to be ready. If the pod is not ready there is a problem with the new container
-    - run: kubectl wait pod -l app=court-backend-rinkeby,wait!=ignore --for condition=Ready --timeout=300s
+    - run: kubectl wait pod -l app=court-backend-testnet,wait!=ignore --for condition=Ready --timeout=300s
