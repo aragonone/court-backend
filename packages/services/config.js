@@ -12,7 +12,7 @@ const workers = [
   },
   {
     name: 'reveal',
-    prefixColor: 'pink',
+    color: 'pink',
     path: './src/workers/reveal',
     processes: 1,
     times: 0,
@@ -20,7 +20,7 @@ const workers = [
   },
   {
     name: 'settlements',
-    prefixColor: 'cyan',
+    color: 'cyan',
     path: './src/workers/settlements',
     processes: 1,
     times: 0,
@@ -28,7 +28,7 @@ const workers = [
   },
   {
     name: 'monitor-keeper',
-    prefixColor: 'green',
+    color: 'green',
     path: './src/workers/monitor-keeper',
     processes: 1,
     times: 0,
