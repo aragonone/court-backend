@@ -1,4 +1,4 @@
-name: Rinkeby CI/CD
+name: Testnet CI/CD
 on:
   push:
     branches:
