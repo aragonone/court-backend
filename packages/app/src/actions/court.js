@@ -53,6 +53,17 @@ const CourtActions = {
             fundsGovernor
             configGovernor
             modulesGovernor
+            subscriptions {
+              id
+              currentPeriod
+              feeAmount
+              feeToken
+              periodDuration
+              prePaymentPeriods
+              resumePrePaidPeriods
+              latePaymentPenaltyPct
+              governorSharePct
+            }
             modules {
               id
               address

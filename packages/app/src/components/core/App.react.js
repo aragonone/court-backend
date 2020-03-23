@@ -9,6 +9,9 @@ import Logout from '../admin/Logout.react'
 import PrivateRoute from './PrivateRoute.react'
 import AdminsList from '../admin/AdminsList.react'
 import RevealsList from '../admin/RevealsList.react'
+import PeriodsList from '../subscriptions/PeriodsList.react'
+import PeriodDetail from '../subscriptions/PeriodDetail.react'
+import SubscribersList from '../subscriptions/SubscribersList.react'
 import SubscriptionsList from '../admin/SubscriptionsList.react'
 import JurorsList from '../jurors/JurorsList.react'
 import JurorDetail from '../jurors/JurorDetail.react'
@@ -49,6 +52,9 @@ class App extends React.Component {
             <Route path="/jurors/:address/drafts" component={JurorDraftsList}/>
             <Route path="/jurors/:address/accounting" component={JurorAccountingList}/>
             <Route path="/drafts/" component={DraftsList}/>
+            <Route path="/subscribers/" component={SubscribersList}/>
+            <Route path="/periods/" component={PeriodsList}/>
+            <Route path="/period/:id" component={PeriodDetail}/>
             <Route path="/anj-balances/" exact component={ANJBalancesList}/>
             <Route path="/anj-transfers/:address" component={ANJTransfersList}/>
 
