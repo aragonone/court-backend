@@ -47,4 +47,5 @@ jobs:
     - run: >
         kubectl wait pod --for condition=Ready --timeout=300s
         $(kubectl get pods -l app=court-backend --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
-    - run: curl --fail https://court-backend-app.eth.aragon.network
+    # wait 10 sec for k8s to reroute ingress and check app endpoint
+    - run: sleep 10 && curl --fail https://court-backend-app.eth.aragon.network
