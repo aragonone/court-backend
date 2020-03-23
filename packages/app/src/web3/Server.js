@@ -1,4 +1,5 @@
 import axios from 'axios'
+import token from '../store/token'
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL
 
@@ -8,7 +9,7 @@ const Server = {
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
-        'Authorization': localStorage.getItem('token')
+        'Authorization': token.get()
       }
     })
   },
@@ -18,7 +19,7 @@ const Server = {
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
-        'Authorization': localStorage.getItem('token')
+        'Authorization': token.get()
       }
     })
   },
