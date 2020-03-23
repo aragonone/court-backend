@@ -85,7 +85,7 @@ const JurorsActions = {
           juror (id: "${id}") {
             treeId
             id
-            movements (orderBy: createdAt, orderDirection: desc) {
+            anjMovements (orderBy: createdAt, orderDirection: desc) {
               id
               type
               amount
@@ -94,7 +94,7 @@ const JurorsActions = {
             }
           }
         }`)
-        dispatch(JurorsActions.receiveJurorAccounting(result.juror.movements))
+        dispatch(JurorsActions.receiveJurorAccounting(result.juror.anjMovements))
       } catch(error) {
         dispatch(ErrorActions.show(error))
       }
