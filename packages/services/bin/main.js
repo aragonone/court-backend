@@ -9,10 +9,10 @@ require('dotenv').config()
 Logger.setDefaults(false, true)
 const logger = Logger('services')
 
-for (const { name, path, processes, times, repeat, prefixColor } of workers) {
+for (const { name, path, processes, times, repeat, color } of workers) {
   for (let process = 1; process <= processes; process++) {
     logger.info(`Creating worker ${name} #${process}`)
-    const child = fork('./bin/worker', [path, name, times, repeat, prefixColor])
+    const child = fork('./bin/worker', [path, name, times, repeat, color])
     logger.success(`Created worker ${name} #${process} with pid #${child.pid}`)
   }
 }

@@ -28,9 +28,23 @@ class Environment {
     return new Court(court, this)
   }
 
+  async getLastBlockNumber() {
+    const { number } = await this.getLastBlock()
+    return number
+  }
+
   async getLastBlock() {
+    return this.getBlock('latest')
+  }
+
+  async getBlock(number) {
     const web3 = await this.getWeb3()
-    return web3.eth.getBlock('latest')
+    return web3.eth.getBlock(number)
+  }
+
+  async getTransaction(hash) {
+    const web3 = await this.getWeb3()
+    return web3.eth.getTransaction(hash)
   }
 
   async getWeb3() {
