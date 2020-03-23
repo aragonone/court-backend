@@ -32,7 +32,7 @@ const SubscriptionsActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          subscriptionPeriods {
+          subscriptionPeriods (orderBy: createdAt, orderDirection: desc) {
             id
             feeToken
             feeAmount
@@ -67,6 +67,33 @@ const SubscriptionsActions = {
     }
   },
 
+  findModule() {
+    return async function(dispatch) {
+      try {
+        const result = await Network.query(`{
+          subscriptionModules (first: 1) {
+            id
+            currentPeriod
+            feeAmount
+            feeToken
+            periodDuration
+            prePaymentPeriods
+            resumePrePaidPeriods
+            latePaymentPenaltyPct
+            governorSharePct
+            totalPaid
+            totalDonated
+            totalCollected
+            totalGovernorShares
+          }
+        }`)
+        dispatch(SubscriptionsActions.receiveModule(result.subscriptionModules[0]))
+      } catch(error) {
+        dispatch(ErrorActions.show(error))
+      }
+    }
+  },
+
   receiveAllSubscribers(list) {
     return { type: ActionTypes.RECEIVE_SUBSCRIBERS, list }
   },
@@ -77,6 +104,10 @@ const SubscriptionsActions = {
 
   receivePeriod(period) {
     return { type: ActionTypes.RECEIVE_SUBSCRIPTION_PERIOD, period }
+  },
+
+  receiveModule(module) {
+    return { type: ActionTypes.RECEIVE_SUBSCRIPTION_MODULE, module }
   },
 }
 

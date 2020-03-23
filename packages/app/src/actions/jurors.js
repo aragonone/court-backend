@@ -123,6 +123,23 @@ const JurorsActions = {
     }
   },
 
+  findModule() {
+    return async function(dispatch) {
+      try {
+        const result = await Network.query(`{
+          jurorsRegistryModules (first: 1) {
+            id
+            totalStaked
+            totalActive
+          }
+        }`)
+        dispatch(JurorsActions.receiveModule(result.jurorsRegistryModules[0]))
+      } catch(error) {
+        dispatch(ErrorActions.show(error))
+      }
+    }
+  },
+
   receiveJuror(juror) {
     return { type: ActionTypes.RECEIVE_JUROR, juror }
   },
@@ -141,6 +158,10 @@ const JurorsActions = {
 
   receiveJurorAccounting(jurorAccounting) {
     return { type: ActionTypes.RECEIVE_JUROR_ACCOUNTING, jurorAccounting }
+  },
+
+  receiveModule(module) {
+    return { type: ActionTypes.RECEIVE_JURORS_MODULE, module }
   },
 }
 
