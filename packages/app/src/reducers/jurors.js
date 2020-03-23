@@ -1,6 +1,6 @@
 import * as ActionTypes from '../actions/types'
 
-const initialState = { list: [], current: {}, jurorDrafts: [], jurorAccounting: [] }
+const initialState = { module: null, list: [], current: {}, jurorDrafts: [], jurorAccounting: [] }
 
 const JurorsReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -14,6 +14,8 @@ const JurorsReducer = (state = initialState, action) => {
       return Object.assign({}, state, { jurorsStaking: action.jurorsStaking })
     case ActionTypes.RECEIVE_JUROR_ACCOUNTING:
       return Object.assign({}, state, { jurorAccounting: action.jurorAccounting })
+    case ActionTypes.RECEIVE_JURORS_MODULE:
+      return Object.assign({}, state, { module: action.module })
     default:
       return state
   }

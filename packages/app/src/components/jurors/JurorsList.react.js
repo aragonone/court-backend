@@ -8,23 +8,26 @@ import { toDate } from '../../helpers/toDate'
 export default class JurorsList extends React.Component {
   constructor(props){
     super(props)
-    this.state = { jurors: null }
+    this.state = { jurors: null, module: null }
   }
 
   componentDidMount() {
     Store.subscribe(() => this._onChange())
     Store.dispatch(JurorsActions.findAll())
+    Store.dispatch(JurorsActions.findModule())
   }
 
   render() {
-    const { jurors } = this.state
+    const { jurors, module } = this.state
     return (
       <div ref="jurorsList">
         <h3>Jurors</h3>
-        { (!jurors) ? <em>Loading...</em> : jurors.length === 0 ?
+        { (!jurors || !module) ? <em>Loading...</em> : jurors.length === 0 ?
           <em>None</em> :
           <div ref="jurorsWrapper">
             <div ref="jurorsSummary">
+              <p>Total staked balance: {fromWei(module.totalStaked)} </p>
+              <p>Total active balance: {fromWei(module.totalActive)} </p>
               <p>Total number of jurors: {jurors.length} </p>
               <p>Total number of active jurors: {jurors.filter(juror => juror.activeBalance > 0).length} </p>
             </div>
@@ -72,8 +75,8 @@ export default class JurorsList extends React.Component {
 
   _onChange() {
     if(this.refs.jurorsList) {
-      const { list } = Store.getState().jurors
-      this.setState({ jurors: list })
+      const { list, module } = Store.getState().jurors
+      this.setState({ jurors: list, module })
     }
   }
 }
