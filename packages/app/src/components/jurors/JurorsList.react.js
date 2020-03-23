@@ -63,7 +63,7 @@ export default class JurorsList extends React.Component {
           <td>{fromWei(juror.deactivationBalance)}</td>
           <td>{toDate(juror.createdAt)}</td>
           <td>
-            <Link to={`/jurors/${juror.id}/drafts`}><b>drafts</b></Link> | <Link to={`/jurors/${juror.id}/accounting`}><b>accounting</b></Link>
+            <Link to={`/jurors/${juror.id}/drafts`}><b>drafts</b></Link> | <Link to={`/jurors/${juror.id}/staking`}><b>staking</b></Link> | <Link to={`/jurors/${juror.id}/accounting`}><b>accounting</b></Link>
           </td>
         </tr>
       )
