@@ -62,17 +62,17 @@ jobs:
     - run: >
         kubectl wait pod --for condition=Ready --timeout=300s
         $(kubectl get pods -l app=court-backend-rinkeby --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
-    # wait 10 sec for k8s to reroute ingress and check app endpoint
-    - run: sleep 10 && curl --fail https://court-backend-app-rinkeby.eth.aragon.network
-    - run: >
-        kubectl wait pod --for condition=Ready --timeout=300s
-        $(kubectl get pods -l app=court-backend-usability --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
-    - run: sleep 10 && curl --fail https://court-backend-app-usability.eth.aragon.network
     - run: >
         kubectl wait pod --for condition=Ready --timeout=300s
         $(kubectl get pods -l app=court-backend-staging --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
-    - run: sleep 10 && curl --fail https://court-backend-app-staging.eth.aragon.network
+    - run: >
+        kubectl wait pod --for condition=Ready --timeout=300s
+        $(kubectl get pods -l app=court-backend-usability --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
     - run: >
         kubectl wait pod --for condition=Ready --timeout=300s
         $(kubectl get pods -l app=court-backend-ropsten --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
-    - run: sleep 10 && curl --fail https://court-backend-app-ropsten.eth.aragon.network
+    # wait 10 sec for k8s to reroute ingress and check app endpoint
+    - run: sleep 10 && curl --fail https://court-backend-app-rinkeby.eth.aragon.network
+    - run: curl --fail https://court-backend-app-usability.eth.aragon.network
+    - run: curl --fail https://court-backend-app-staging.eth.aragon.network
+    - run: curl --fail https://court-backend-app-ropsten.eth.aragon.network
