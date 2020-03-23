@@ -1,10 +1,10 @@
-const utils = require('ethereumjs-util')
-const postmark = require('postmark')
+import { privateToAddress } from 'ethereumjs-util'
+import postmark from 'postmark'
+import Models from '@aragonone/court-backend-server/build/models'
 
 import Network from '@aragonone/court-backend-server/build/web3/Network'
 
 // Postmark API endpoint
-const POSTMARK_URL = 'https://api.postmarkapp.com/email'
 const FROM = 'noreply@aragon.one'
 const SUBJECT = `Found transaction from address `
 
@@ -67,24 +67,21 @@ async function checkTransactions(logger, web3, courtAddresses, blockNumber, addr
 }
 
 async function sendNotification(logger, transaction) {
-  const addresses = process.env.NOTIFICATION_ADDRESSES.split(',')
+  logger.info(`Sending e-mail notification to ${address}`)
   const client = new postmark.Client(process.env.POSTMARK_TOKEN)
 
-  for (let address of addresses) {
-    logger.info(`Sending e-mail notification to ${address}`)
-    const message = getMessage(transaction, address)
-    const response = await client.sendEmail(message)
-    if(!response || response.ErrorCode != 0) {
-      logger.error('Failed to send notification')
-      logger.error(response)
-    }
+  const message = await getMessage(transaction)
+  const response = await client.sendEmail(message)
+  if(!response || response.ErrorCode != 0) {
+    logger.error('Failed to send notification')
+    logger.error(response)
   }
 }
 
-function getMessage(transaction, to) {
+async function getMessage(transaction) {
   const message = {}
   message.From = FROM
-  message.To = to
+  message.To = (await Models.Admin.allEmails()).join(', ')
   message.Subject = SUBJECT + transaction.from
   message.TextBody = `A transaction from ${transaction.from} has been found in block #${transaction.blockNumber}.
 Eth value: ${transaction.value}
@@ -99,8 +96,9 @@ You can check it here: https://etherscan.io/tx/${transaction.hash}`
 }
 
 function getAddress() {
-  const privateKey = process.env.PRIVATE_KEY.slice(0,2) == '0x' ? process.env.PRIVATE_KEY : '0x' + process.env.PRIVATE_KEY
-  return '0x' + utils.privateToAddress(privateKey).toString('hex')
+  const rawPrivateKey = process.env.PRIVATE_KEY
+  const parsedPrivateKey = rawPrivateKey.slice(0, 2) === '0x' ? rawPrivateKey : `0x${rawPrivateKey}`
+  return `0x${privateToAddress(parsedPrivateKey).toString('hex')}`
 }
 
 async function getWhitelistedAddresses(court) {
