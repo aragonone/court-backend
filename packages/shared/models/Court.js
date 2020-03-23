@@ -204,13 +204,16 @@ module.exports = class {
   }
 
   async subscribe(address, periods = 1) {
-    const { recipient, feeToken, feeAmount } = await this.instance.getSubscriptionFees(address)
+    const subscriptions = await this.subscriptions()
+    const feeAmount = await subscriptions.currentFeeAmount()
+    const totalAmount = feeAmount.mul(bn(periods))
+
     const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
+    const feeToken = await subscriptions.currentFeeToken()
     const token = await ERC20.at(feeToken)
 
-    logger.info(`Approving fees for ${periods} periods to ${recipient}, total amount ${fromWei(feeAmount)}...`)
-    await this._approve(token, feeAmount, recipient)
-    const subscriptions = await this.subscriptions()
+    logger.info(`Approving fees for ${periods} periods to ${subscriptions.address}, total amount ${fromWei(totalAmount)}...`)
+    await this._approve(token, totalAmount, subscriptions.address)
     logger.info(`Paying fees for ${periods} periods to ${subscriptions.address}...`)
     return subscriptions.payFees(address, periods)
   }
