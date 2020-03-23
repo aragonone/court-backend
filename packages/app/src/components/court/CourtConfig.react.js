@@ -1,5 +1,6 @@
 import React from 'react'
 import Store from '../../store/store'
+import Network from '../../web3/Network'
 import CourtActions from '../../actions/court'
 import { fromWei } from 'web3-utils'
 import { bn } from '@aragonone/court-backend-shared/helpers/numbers'
@@ -21,6 +22,7 @@ export default class CourtConfig extends React.Component {
     return (
       <div ref="courtConfig" className="config">
         <h3>Config</h3>
+        <p>Network: {Network.getNetworkName()}</p>
         { (!this.state.termDuration) ? 'Loading...' : this._renderConfig() }
       </div>
     )
