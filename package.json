@@ -1,9 +1,16 @@
 {
-  "name": "@aragon/court-backend-monorepo",
-  "version": "0.0.1",
+  "name": "@aragonone/court-backend-monorepo",
+  "version": "0.1.3",
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "devDependencies": {
     "lerna": "^3.14.1"
+  },
+  "scripts": {
+    "start:app": "lerna run --scope=@aragonone/court-backend-app --concurrency=1 --stream start",
+    "start:server": "lerna run --scope=@aragonone/court-backend-server --concurrency=1 --stream start",
+    "start:server:dev": "lerna run --scope=@aragonone/court-backend-server --concurrency=1 --stream start:dev",
+    "start:services": "lerna run --scope=@aragonone/court-backend-services --concurrency=1 --stream start",
+    "start:services:dev": "lerna run --scope=@aragonone/court-backend-services --concurrency=1 --stream start:dev"
   }
 }

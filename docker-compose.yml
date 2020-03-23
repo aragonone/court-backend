@@ -8,20 +8,41 @@ services:
       - POSTGRES_USER=${DB_USER}
 
   court_server:
-    build: ./packages/server
-    image: aragon/court-server
+    build: .
+    image: aragon/court-backend
+    command: npm run start:server:dev
     depends_on:
       - court_server_db
     ports:
-      - "8080:8080"
-      - "8081:8081"
+      - "8000:8000"
+    volumes:
+      - ./packages/server/src:/court-backend/packages/server/src
     env_file:
       - .env
 
   court_services:
-    build: ./packages/services
-    image: aragon/court-services
+    build: .
+    image: aragon/court-backend
+    command: npm run start:services:dev
     depends_on:
       - court_server
+    volumes:
+      - ./packages/services/bin:/court-backend/packages/services/bin
+      - ./packages/services/src:/court-backend/packages/services/src
+    env_file:
+      - .env
+
+  court_backoffice:
+    build: .
+    image: aragon/court-backend
+    command: npm run start:app
+    depends_on:
+      - court_server
+    ports:
+      - "3000:3000"
+      - "35729:35729"
+    volumes:
+      - ./packages/app/src:/court-backend/packages/app/src
+      - ./packages/app/public:/court-backend/packages/app/public
     env_file:
       - .env

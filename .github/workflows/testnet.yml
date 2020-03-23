@@ -1,0 +1,49 @@
+name: Rinkeby CI/CD
+on:
+  push:
+    branches:
+      - development
+env:
+  # This is a base repository and we use ${GITHUB_SHA} to set the version of the container
+  REPO: docker.pkg.github.com/aragonone/court-backend/testnet
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: >
+        docker login docker.pkg.github.com
+        -u $GITHUB_ACTOR
+        -p ${{ secrets.GITHUB_TOKEN }}
+    # use previously built image for cache if possible
+    - run: docker pull $REPO:latest || true
+    - run: >
+        docker build .
+        -t $REPO:latest
+        -t $REPO:${GITHUB_SHA}
+        --cache-from $REPO:latest
+    - run: docker push $REPO:latest
+    - run: docker push $REPO:${GITHUB_SHA}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    # config cluster access (requires KUBE_CA, KUBE_SERVER, KUBE_TOKEN secrets)
+    - run: |
+        echo ${{ secrets.KUBE_CA }} | base64 -d > ca.crt
+        kubectl config set-cluster aragon --server=${{ secrets.KUBE_SERVER }} --certificate-authority=ca.crt
+        kubectl config set-credentials aragon --token=$(base64 -d <<< ${{ secrets.KUBE_TOKEN }})
+        kubectl config set-context aragon --cluster=aragon --user=aragon
+        kubectl config use-context aragon
+    # label old pods to exclude from wait
+    - run: kubectl label pod -l app=court-backend-testnet wait=ignore || true
+    # replace deployment image
+    - run: >
+        kubectl set image deployment/court-backend-testnet
+        server=$REPO:${GITHUB_SHA}
+        services=$REPO:${GITHUB_SHA}
+        app=$REPO:${GITHUB_SHA}
+    # wait 5 min for the new pod to be ready. If the pod is not ready there is a problem with the new container
+    - run: kubectl wait pod -l app=court-backend-testnet,wait!=ignore --for condition=Ready --timeout=300s

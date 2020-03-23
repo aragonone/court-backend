@@ -2,43 +2,24 @@
 
 This is a React app that aims to serve a UI to read data from an Aragon Court instance.
 
-## Setup
-
-### Remote
+### Instances
 
 You can find the following deployed instances
 
-1. [Mainnet](https://aragon-court.firebaseapp.com/)
-2. [Rinkeby](https://aragon-court-rinkeby.firebaseapp.com/)
-3. [Ropsten](https://aragon-court-ropsten.firebaseapp.com/)
-4. [Staging](https://aragon-court-staging.firebaseapp.com/)
-5. [Usability](https://aragon-court-usability.firebaseapp.com/)
+1. [Mainnet](https://court-backend-app.eth.aragon.network/)
+2. [Rinkeby](https://court-backend-app-rinkeby.eth.aragon.network/)
+3. [Usability](https://court-backend-app-usability.eth.aragon.network/)
+4. [Staging](https://court-backend-app-staging.eth.aragon.network/)
+5. [Ropsten](https://court-backend-app-ropsten.eth.aragon.network/)
 
-However, to deploy a new instance remotely, simply run `npm run deploy:{$NETWORK}` where `$NETWORK` could be one of (`ropsten`, `rinkeby`, `staging`, or `mainnet`).
+### Setup
 
-### Local
-
-To work locally, you only need an Aragon Court subgraph and a Web3 provider. 
-You can run the following commands to build it locally:
-
+To work locally, simply go to the root directory, and make sure you have set up a propoer `.env` file following the `.env.sample` file.
+Once you have done that, spin up a docker container with:
 ```bash
-  git clone https://github.com/aragonone/court-backend/
-  cd court-backend
-  npm i
-  npx lerna bootstrap
-  cd packages/app
+docker-compose build
+docker-compose up -d
 ```
- 
-After that, make sure you provide a `.env` file with a network name specified before starting the app.
-For example, the next `.env` file will work for a local environment:
-
-```bash
-REACT_APP_NETWORK=rpc
-```
-
-Finally, you can simply run `npm start` to start playing with it.
-
-## Config
 
 ### Keys
 

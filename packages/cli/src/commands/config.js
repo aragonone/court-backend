@@ -1,5 +1,5 @@
 const path = require('path')
-const logger = require('@aragon/court-backend-shared/helpers/logger')('config')
+const logger = require('@aragonone/court-backend-shared/helpers/logger')('config')
 
 const command = 'config'
 const describe = 'Call court hearbeat'

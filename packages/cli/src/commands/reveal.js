@@ -1,4 +1,4 @@
-const logger = require('@aragon/court-backend-shared/helpers/logger')('reveal')
+const logger = require('@aragonone/court-backend-shared/helpers/logger')('reveal')
 
 const command = 'reveal'
 const describe = 'Reveal committed vote'

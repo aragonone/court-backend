@@ -41,7 +41,7 @@ export default class DisputeDetail extends React.Component {
   }
 
   _buildEvidenceList() {
-    return this.state.dispute.subject.evidence.map((evidence, index) =>
+    return this.state.dispute.evidences.map((evidence, index) =>
       <li key={index}>
         Evidence #{evidence.id}
         <ul>

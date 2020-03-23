@@ -1,9 +1,10 @@
 import React from 'react'
+import token from '../../store/token'
 import PropTypes from 'prop-types'
 import { Route, Redirect } from 'react-router-dom'
 
 const PrivateRoute = ({ component, path, exact = false, ...rest }) => {
-  const authenticated = localStorage.getItem('token')
+  const authenticated = token.exists()
   const renderMergingProps = props => React.createElement(component, Object.assign({}, props, rest))
 
   return (

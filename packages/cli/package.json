@@ -1,6 +1,6 @@
 {
-  "name": "@aragon/court-backend-cli",
-  "version": "0.0.1",
+  "name": "@aragonone/court-backend-cli",
+  "version": "0.1.3",
   "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
@@ -10,6 +10,7 @@
     "rpc:unstake": "node ./bin/index.js unstake -n rpc --verbose",
     "rpc:activate": "node ./bin/index.js activate -n rpc --verbose",
     "rpc:deactivate": "node ./bin/index.js deactivate -n rpc --verbose",
+    "rpc:donate": "node ./bin/index.js donate -n rpc --verbose",
     "rpc:arbitrable": "node ./bin/index.js arbitrable -n rpc --verbose",
     "rpc:heartbeat": "node ./bin/index.js heartbeat -n rpc --verbose",
     "rpc:config": "node ./bin/index.js config -n rpc --verbose",
@@ -27,7 +28,7 @@
     "rpc:airdrop": "node ./bin/airdrop.js -n rpc"
   },
   "dependencies": {
-    "@aragon/court-backend-shared": "^0.0.1",
+    "@aragonone/court-backend-shared": "^0.1.3",
     "yargs": "^14.0.0"
   }
 }

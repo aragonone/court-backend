@@ -1,4 +1,4 @@
-const logger = require('@aragon/court-backend-shared/helpers/logger')('appeal')
+const logger = require('@aragonone/court-backend-shared/helpers/logger')('appeal')
 
 const command = 'appeal'
 const describe = 'Appeal dispute in favour of a certain outcome'

@@ -1,6 +1,7 @@
 {
-  "name": "@aragon/court-backend-shared",
-  "version": "0.0.1",
+  "name": "@aragonone/court-backend-shared",
+  "version": "0.1.3",
+  "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "dependencies": {
@@ -9,14 +10,15 @@
     "@aragon/test-helpers": "^2.1.0",
     "@aragon/truffle-config-v5": "^1.0.1",
     "@aragonone/erc20-faucet": "^1.0.0",
+    "@aragonone/precedence-campaign-arbitrable": "^1.0.0",
     "@truffle/config": "1.2.7",
     "@truffle/contract": "4.1.1",
     "@truffle/hdwallet-provider": "^1.0.0",
     "chalk": "^2.4.2",
     "dotenv": "^8.2.0",
     "graphql-request": "^1.8.2",
-    "web3-eth-abi": "1.0.0",
     "web3": "^1.2.4",
+    "web3-eth-abi": "1.0.0",
     "web3-utils": "^1.2.4"
   }
 }

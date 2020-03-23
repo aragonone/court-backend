@@ -6,7 +6,7 @@ const { getVoteId, hashVote } = require('@aragon/court/test/helpers/utils/crvoti
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
 const { DISPUTE_MANAGER_ERRORS } = require('@aragon/court/test/helpers/utils/errors')
 const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
-const { sha3, fromWei, fromAscii, soliditySha3, BN, padLeft, toHex } = require('web3-utils')
+const { sha3, fromWei, utf8ToHex, soliditySha3, BN, padLeft, toHex } = require('web3-utils')
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -184,39 +184,71 @@ module.exports = class {
     return registry.deactivate(bigExp(amount, decimals))
   }
 
-  async deployArbitrable() {
-    logger.info('Creating new Arbitrable instance...')
-    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
-    return Arbitrable.new(this.instance.address)
-  }
-
-  async subscribe(address, periods = 1) {
-    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
-    const arbitrable = await Arbitrable.at(address)
-
-    const { recipient, feeToken, feeAmount } = await this.instance.getSubscriptionFees(arbitrable.address)
+  async donate(amount) {
+    const subscriptions = await this.subscriptions()
+    const feeToken = await subscriptions.currentFeeToken()
     const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
     const token = await ERC20.at(feeToken)
 
-    logger.info(`Approving fees for ${periods} periods to ${recipient}, total amount: ${feeAmount}...`)
-    await this._approve(token, feeAmount, recipient)
+    logger.info(`Approving ${amount} fees for donation...`)
+    await this._approve(token, amount, subscriptions.address)
+    logger.info(`Donating ${amount} fees for court jurors...`)
+    return subscriptions.donate(amount)
+  }
+
+  async deployArbitrable(owner = undefined) {
+    if (!owner) owner = await this.environment.getSender()
+    logger.info(`Creating new Arbitrable instance with owner ${owner}...`)
+    const Arbitrable = await this.environment.getArtifact('PrecedenceCampaignArbitrable', '@aragonone/precedence-campaign-arbitrable')
+    return Arbitrable.new(owner, this.instance.address)
+  }
+
+  async subscribe(address, periods = 1) {
     const subscriptions = await this.subscriptions()
+    const feeAmount = await subscriptions.currentFeeAmount()
+    const totalAmount = feeAmount.mul(bn(periods))
+
+    const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
+    const feeToken = await subscriptions.currentFeeToken()
+    const token = await ERC20.at(feeToken)
+
+    logger.info(`Approving fees for ${periods} periods to ${subscriptions.address}, total amount ${fromWei(totalAmount)}...`)
+    await this._approve(token, totalAmount, subscriptions.address)
     logger.info(`Paying fees for ${periods} periods to ${subscriptions.address}...`)
     return subscriptions.payFees(address, periods)
   }
 
-  async createDispute(subject, rulings = 2, metadata = '', evidence = []) {
+  async createDispute(subject, rulings = 2, metadata = '', evidence = [], submitters = [], closeEvidencePeriod = false) {
     logger.info(`Creating new dispute for subject ${subject} ...`)
-    const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
+    const Arbitrable = await this.environment.getArtifact('PrecedenceCampaignArbitrable', '@aragonone/precedence-campaign-arbitrable')
     const arbitrable = await Arbitrable.at(subject)
-    const receipt = await arbitrable.createDispute(rulings, fromAscii(metadata))
+
+    const shouldCreateAndSubmit = evidence.length === 2 && submitters.length === 2
+    const receipt = shouldCreateAndSubmit
+      ? (await arbitrable.createAndSubmit(rulings, utf8ToHex(metadata), submitters[0], submitters[1], utf8ToHex(evidence[0]), utf8ToHex(evidence[1])))
+      : (await arbitrable.createDispute(rulings, utf8ToHex(metadata)))
+
     const DisputeManager = await this.environment.getArtifact('DisputeManager', '@aragon/court')
     const logs = decodeEventsOfType(receipt, DisputeManager.abi, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE)
     const disputeId = getEventArgument({ logs }, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE, 'disputeId')
 
-    for (const data of evidence) {
-      logger.info(`Submitting evidence ${data} for dispute #${disputeId} ...`)
-      await arbitrable.submitEvidence(disputeId, fromAscii(data), false)
+    if (!shouldCreateAndSubmit) {
+      for (const data of evidence) {
+        const index = evidence.indexOf(data)
+        const submitter = submitters[index]
+        if (submitter) {
+          logger.info(`Submitting evidence ${data} for dispute #${disputeId} for submitter ${submitter}...`)
+          await arbitrable.submitEvidenceFor(disputeId, submitter, utf8ToHex(data), false)
+        } else {
+          logger.info(`Submitting evidence ${data} for dispute #${disputeId} for sender ...`)
+          await arbitrable.submitEvidence(disputeId, utf8ToHex(data), false)
+        }
+      }
+    }
+
+    if (closeEvidencePeriod) {
+      logger.info(`Closing evidence period for dispute #${disputeId} ...`)
+      await arbitrable.closeEvidencePeriod(disputeId)
     }
 
     return disputeId
@@ -224,17 +256,6 @@ module.exports = class {
 
   async draft(disputeId) {
     const disputeManager = await this.disputeManager()
-    const { subject, lastRoundId } = await disputeManager.getDispute(disputeId)
-    const { draftTerm } = await disputeManager.getRound(disputeId, lastRoundId)
-    const currentTermId = await this.currentTerm()
-
-    if (draftTerm.gt(currentTermId)) {
-      logger.info(`Closing evidence period for dispute #${disputeId} ...`)
-      const Arbitrable = await this.environment.getArtifact('ArbitrableMock', '@aragon/court')
-      const arbitrable = await Arbitrable.at(subject)
-      await arbitrable.submitEvidence(disputeId, fromAscii('closing evidence submission period'), true)
-    }
-
     logger.info(`Drafting dispute #${disputeId} ...`)
     const receipt = await disputeManager.draft(disputeId)
     const logs = decodeEventsOfType(receipt, disputeManager.abi, DISPUTE_MANAGER_EVENTS.JUROR_DRAFTED)

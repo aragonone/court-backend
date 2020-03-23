@@ -1,3 +1,4 @@
+import token from '../store/token'
 import Server from '../web3/Server'
 import ErrorActions from './errors'
 import * as ActionTypes from '../actions/types'
@@ -17,7 +18,7 @@ const AdminActions = {
 
   logout() {
     return function (dispatch) {
-      localStorage.removeItem('token')
+      token.revoke()
       dispatch(AdminActions.resetAdmin())
       dispatch(AdminActions.resetToken())
     }
@@ -25,7 +26,7 @@ const AdminActions = {
 
   getCurrentAdmin() {
     return async function (dispatch) {
-      if (localStorage.getItem('token')) {
+      if (token.exists()) {
         try {
           const response = await Server.get('me')
           dispatch(AdminActions.receiveAdmin(response.data.admin))
@@ -70,9 +71,9 @@ const AdminActions = {
     }
   },
 
-  receiveToken(token) {
-    localStorage.setItem('token', token)
-    return { type: ActionTypes.RECEIVE_ADMIN_TOKEN, token }
+  receiveToken(key) {
+    token.set(key)
+    return { type: ActionTypes.RECEIVE_ADMIN_TOKEN, token: key }
   },
 
   resetToken() {

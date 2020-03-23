@@ -1,7 +1,8 @@
-export default (err, req, res, next) => {
-  if (res.headersSent) {
-    return next(err)
-  }
-  console.error(err.stack)
-  res.status(500).send('Something went wrong :(')
+const logger = require('@aragonone/court-backend-shared/helpers/logger')('Error Handler')
+
+export default error => {
+  logger.error(`Process finished with error:`)
+  console.log(error)
+  console.log()
+  process.exit(1)
 }

@@ -1,6 +1,7 @@
 {
-  "name": "@aragon/court-backend-server",
-  "version": "0.0.1",
+  "name": "@aragonone/court-backend-server",
+  "version": "0.1.3",
+  "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "engines": {
@@ -8,12 +9,12 @@
   },
   "scripts": {
     "build": "babel ./src --out-dir ./build --source-maps --copy-files",
-    "dev": "nodemon --ignore ./build --exec babel-node ./src/index.js",
-    "start": "node ./build"
+    "start": "npm run build && ./scripts/db-setup.sh && node ./build",
+    "start:dev": "./scripts/db-setup.sh && nodemon --ignore ./build --exec babel-node ./src/index.js"
   },
   "dependencies": {
     "@aragon/court": "1.1.0",
-    "@aragon/court-backend-shared": "^0.0.1",
+    "@aragonone/court-backend-shared": "^0.1.3",
     "@promster/express": "^4.0.0",
     "@promster/server": "^4.0.0",
     "bcryptjs": "^2.4.3",
