@@ -78,7 +78,7 @@ const JurorsActions = {
     }
   },
 
-  findAccounting(id) {
+  findStaking(id) {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
@@ -94,7 +94,29 @@ const JurorsActions = {
             }
           }
         }`)
-        dispatch(JurorsActions.receiveJurorAccounting(result.juror.anjMovements))
+        dispatch(JurorsActions.receiveJurorStaking(result.juror.anjMovements))
+      } catch(error) {
+        dispatch(ErrorActions.show(error))
+      }
+    }
+  },
+
+  findAccounting(id) {
+    return async function(dispatch) {
+      try {
+        const result = await Network.query(`{
+          juror (id: "${id}") {
+            treeId
+            id
+            feeMovements (orderBy: createdAt, orderDirection: desc) {
+              id
+              type
+              amount
+              createdAt
+            }
+          }
+        }`)
+        dispatch(JurorsActions.receiveJurorAccounting(result.juror.feeMovements))
       } catch(error) {
         dispatch(ErrorActions.show(error))
       }
@@ -111,6 +133,10 @@ const JurorsActions = {
 
   receiveJurorDrafts(jurorDrafts) {
     return { type: ActionTypes.RECEIVE_JUROR_DRAFTS, jurorDrafts }
+  },
+
+  receiveJurorStaking(jurorStaking) {
+    return { type: ActionTypes.RECEIVE_JUROR_STAKING, jurorStaking }
   },
 
   receiveJurorAccounting(jurorAccounting) {

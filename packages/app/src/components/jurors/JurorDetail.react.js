@@ -31,6 +31,7 @@ export default class JurorDetail extends React.Component {
               <p>Withdrawals lock term ID: {juror.withdrawalsLockTermId}</p>
               <p>Created at: {toDate(juror.createdAt)}</p>
               <p>See <Link to={`/jurors/${address}/drafts`}>drafts</Link></p>
+              <p>See <Link to={`/jurors/${address}/staking`}>staking</Link></p>
               <p>See <Link to={`/jurors/${address}/accounting`}>accounting</Link></p>
             </div>
           }
