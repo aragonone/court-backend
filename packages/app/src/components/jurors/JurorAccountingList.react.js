@@ -1,5 +1,6 @@
 import React from 'react'
 import Store from '../../store/store'
+import { fromWei } from 'web3-utils'
 import { toDate } from '../../helpers/toDate'
 import { summarize } from '../../helpers/summarize'
 import JurorsActions from '../../actions/jurors'
@@ -46,7 +47,7 @@ export default class JurorAccountingList extends React.Component {
         <tr key={index}>
           <td>{summarize(movement.id)}</td>
           <td>{movement.type}</td>
-          <td>{movement.amount}</td>
+          <td>{fromWei(movement.amount)}</td>
           <td>{toDate(movement.createdAt)}</td>
         </tr>
       )
