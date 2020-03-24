@@ -53,8 +53,8 @@ export default class PeriodsList extends React.Component {
           </td>
           <td>{period.feeToken}</td>
           <td>{fromWei(period.feeAmount)}</td>
-          <td>{period.balanceCheckpoint}</td>
-          <td>{fromWei(period.totalActiveBalance)}</td>
+          <td>{period.balanceCheckpoint ? period.balanceCheckpoint : 'loading...'}</td>
+          <td>{period.totalActiveBalance ? fromWei(period.totalActiveBalance) : 'loading...'}</td>
           <td>{fromWei(period.collectedFees)}</td>
         </tr>
       )
