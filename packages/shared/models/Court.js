@@ -131,6 +131,48 @@ module.exports = class {
     return web3.eth.getStorageAt(voting.address, commitmentVoteSlot)
   }
 
+  async getPeriod(periodId) {
+    const subscriptions = await this.subscriptions()
+    const web3 = await this.environment.getWeb3()
+
+    // The period records are stored at the 7th index of the subscriptions contract storage
+    const periodsRecordsSlot = padLeft(7, 64)
+    // Parse period ID en hexadecimal and pad 64
+    const periodIdHex = padLeft(toHex(periodId), 64)
+    // The periods records variable is a mapping indexed by period IDs
+    const periodsSlot = soliditySha3(periodIdHex + periodsRecordsSlot.slice(2))
+    // The checkpoint and fee token are packed in the first element of the period struct, thus don't need to add any offset
+    const checkpointAndFeeTokenSlot = periodsSlot.slice(2)
+    // The fee amount is the second element of the struct, thus we add 1 to the period slot
+    const feeAmountSlot = new BN(periodsSlot.slice(2), 16).add(bn(1)).toString(16)
+    // The total active balance is the third element of the struct, thus we add 2 to the period slot
+    const totalActiveBalanceSlot = new BN(periodsSlot.slice(2), 16).add(bn(2)).toString(16)
+    // The collected fees is the fourth element of the struct, thus we add 3 to the period slot
+    const collectedFeesSlot = new BN(periodsSlot.slice(2), 16).add(bn(3)).toString(16)
+
+    // The first part of the checkpoint and fee token slot is for the fee token
+    const checkpointAndFeeToken = await web3.eth.getStorageAt(subscriptions.address, `0x${checkpointAndFeeTokenSlot}`)
+    const feeToken = `0x${checkpointAndFeeToken.substr(10, 40)}`
+
+    // The balance checkpoint is stored using a uint64 and its stored at the end of the slot
+    const rawBalanceCheckpoint = checkpointAndFeeToken.substr(50)
+    const balanceCheckpoint = new BN(rawBalanceCheckpoint, 16).toString()
+
+    // Parse the fee amount
+    const rawFeeAmount = await web3.eth.getStorageAt(subscriptions.address, `0x${feeAmountSlot}`)
+    const feeAmount = new BN(rawFeeAmount.slice(2), 16).toString()
+
+    // Parse the total active balance
+    const rawTotalActiveBalance = await web3.eth.getStorageAt(subscriptions.address, `0x${totalActiveBalanceSlot}`)
+    const totalActiveBalance = new BN(rawTotalActiveBalance.slice(2), 16).toString()
+
+    // Parse the collected fees
+    const rawCollectedFees = await web3.eth.getStorageAt(subscriptions.address, `0x${collectedFeesSlot}`)
+    const collectedFees = new BN(rawCollectedFees.slice(2), 16).toString()
+
+    return { balanceCheckpoint, feeToken, feeAmount, totalActiveBalance, collectedFees }
+  }
+
   async heartbeat(transitions = undefined) {
     const needed = await this.neededTransitions()
     logger.info(`Required ${needed} transitions`)

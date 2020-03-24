@@ -1,5 +1,6 @@
 import Network from '../web3/Network'
 import ErrorActions from './errors'
+import CourtActions from './court'
 import * as ActionTypes from '../actions/types'
 
 const SubscriptionsActions = {
@@ -11,8 +12,6 @@ const SubscriptionsActions = {
             id
             feeToken
             feeAmount
-            balanceCheckpoint
-            totalActiveBalance
             collectedFees
             jurorClaims {
               id
@@ -21,7 +20,22 @@ const SubscriptionsActions = {
             }
           }
         }`)
-        dispatch(SubscriptionsActions.receivePeriod(result.subscriptionPeriod))
+
+        const { subscriptionPeriod: period } = result
+        dispatch(SubscriptionsActions.receivePeriod(period))
+
+        const courtAddress = await CourtActions.findCourt()
+        if (await Network.isCourtAt(courtAddress)) {
+          const court = await Network.getCourt(courtAddress)
+          const { balanceCheckpoint, totalActiveBalance } = await court.getPeriod(id)
+          period.balanceCheckpoint = balanceCheckpoint
+          period.totalActiveBalance = totalActiveBalance
+        } else {
+          period.balanceCheckpoint = 'cannot be fetched'
+          period.totalActiveBalance = 'cannot be fetched'
+        }
+
+        dispatch(SubscriptionsActions.receivePeriod(period))
       } catch(error) {
         dispatch(ErrorActions.show(error))
       }
@@ -36,12 +50,29 @@ const SubscriptionsActions = {
             id
             feeToken
             feeAmount
-            balanceCheckpoint
-            totalActiveBalance
             collectedFees
           }
         }`)
-        dispatch(SubscriptionsActions.receiveAllPeriods(result.subscriptionPeriods))
+
+        const { subscriptionPeriods: periods } = result
+        dispatch(SubscriptionsActions.receiveAllPeriods(periods))
+
+        const courtAddress = await CourtActions.findCourt()
+        if (await Network.isCourtAt(courtAddress)) {
+          const court = await Network.getCourt(courtAddress)
+          for (const period of periods) {
+            const { balanceCheckpoint, totalActiveBalance } = await court.getPeriod(period.id)
+            period.balanceCheckpoint = balanceCheckpoint
+            period.totalActiveBalance = totalActiveBalance
+            dispatch(SubscriptionsActions.receiveAllPeriods(periods))
+          }
+        } else {
+          for (const period of periods) {
+            period.balanceCheckpoint = 'cannot be fetched'
+            period.totalActiveBalance = 'cannot be fetched'
+          }
+          dispatch(SubscriptionsActions.receiveAllPeriods(periods))
+        }
       } catch(error) {
         dispatch(ErrorActions.show(error))
       }
