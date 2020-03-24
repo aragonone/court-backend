@@ -2,6 +2,7 @@ import React from 'react'
 import Store from '../../store/store'
 import { Link } from 'react-router-dom'
 import { toDate } from '../../helpers/toDate'
+import { fromWei } from 'web3-utils'
 import { hexToAscii } from 'web3-utils'
 import DisputeActions from '../../actions/disputes'
 
@@ -64,8 +65,8 @@ export default class DisputeDetail extends React.Component {
           <li>Jurors number: {round.jurorsNumber}</li>
           <li>Selected jurors: {round.selectedJurors}</li>
           <li>Coherent jurors: {round.coherentJurors}</li>
-          <li>Settled jurors: {round.settledJurors}</li>
-          <li>Collected tokens: {round.collectedTokens}</li>
+          <li>Settled penalties: {round.settledPenalties ? 'Yes' : 'No'}</li>
+          <li>Collected tokens: {fromWei(round.collectedTokens)}</li>
           <li>Created at: {toDate(round.createdAt)}</li>
           <li>Appeal:
             {!round.appeal ? ' None' : (
@@ -74,7 +75,7 @@ export default class DisputeDetail extends React.Component {
                 <li>Appeal maker ruling: {round.appeal.appealedRuling}</li>
                 <li>Appeal taker: {round.appeal.taker}</li>
                 <li>Appeal taker ruling: {round.appeal.opposedRuling}</li>
-                <li>Appeal settled: {round.appeal.settled}</li>
+                <li>Appeal settled: {round.appeal.settled ? 'Yes' : 'No'}</li>
                 <li>Appeal created at: {toDate(round.appeal.createdAt)}</li>
               </ul>
             )}
