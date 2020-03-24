@@ -83,8 +83,6 @@ const JurorsActions = {
       try {
         const result = await Network.query(`{
           juror (id: "${id}") {
-            treeId
-            id
             anjMovements (orderBy: createdAt, orderDirection: desc) {
               id
               type
@@ -105,18 +103,14 @@ const JurorsActions = {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
-          juror (id: "${id}") {
-            treeId
+          feeMovements (where: { owner: "${id}" }, orderBy: createdAt, orderDirection: desc) {
             id
-            feeMovements (orderBy: createdAt, orderDirection: desc) {
-              id
-              type
-              amount
-              createdAt
-            }
+            type
+            amount
+            createdAt
           }
         }`)
-        dispatch(JurorsActions.receiveJurorAccounting(result.juror.feeMovements))
+        dispatch(JurorsActions.receiveJurorAccounting(result.feeMovements))
       } catch(error) {
         dispatch(ErrorActions.show(error))
       }
