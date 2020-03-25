@@ -50,7 +50,7 @@ app.listen(serverPort, error => {
 })
 
 // Start Prometheus metrics
-const metricsPort = process.env.METRICS_PORT || 8001
+const metricsPort = process.env.SERVER_METRICS_PORT || 9091
 createServer({ port: metricsPort }).then(() =>
   console.log(`@promster/server started on port ${metricsPort}.`)
 )
