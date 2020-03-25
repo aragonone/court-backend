@@ -110,7 +110,7 @@ export default class CourtConfig extends React.Component {
             let subdomain = Network.getNetworkName()
             if (subdomain === 'mainnet') subdomain = 'www'
             if (subdomain === 'usability' || subdomain === 'staging') subdomain = 'rinkeby'
-            const url = `https://${subdomain}.etherscan.com/address/`
+            const url = `https://${subdomain}.etherscan.io/address/`
             return <p key={index}>{module.type}: <a href={`${url}${module.address}`} target="blank">{module.address}</a> <br/>ID {module.id}</p>
           })}
       </div>
