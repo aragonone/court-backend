@@ -24,15 +24,15 @@ async function setup() {
   const jurors = allAccounts.slice(1, Math.min(parseInt(jurorsNumber) + 1, allAccounts.length))
 
   // update term if necessary
-  execSync('npm run rpc:heartbeat')
+  execSync(`node ./bin/index.js heartbeat -n ${network}`)
 
   // mint, stake and activate tokens for every juror
-  execSync(`npm run rpc:mint -- -t anj -a 100000000 -r ${sender}`)
+  execSync(`node ./bin/index.js mint -t anj -a 100000000 -r ${sender} -n ${network}`)
   for (let i = 0; i < jurors.length; i++) {
     const juror = jurors[i]
     const amount = (i + 1) * 10000
-    execSync(`npm run rpc:stake -- -a ${amount} -j ${juror}`)
-    execSync(`npm run rpc:activate -- -a ${amount} -f ${juror}`)
+    execSync(`node ./bin/index.js stake -a ${amount} -j ${juror} -n ${network}`)
+    execSync(`node ./bin/index.js activate -a ${amount} -f ${juror} -n ${network}`)
   }
 
   // check court has started
@@ -45,18 +45,18 @@ async function setup() {
     // subscribe arbitrables
     const arbitrables = []
     for (let i = 0; i < disputes; i++) {
-      execSync(`npm run rpc:mint -- -t fee -a 100000 -f ${sender}`)
-      const output = execSync(`npm run rpc:arbitrable`)
+      execSync(`node ./bin/index.js mint -t fee -a 100000 -f ${sender} -n ${network}`)
+      const output = execSync(`node ./bin/index.js -n ${network} arbitrable`)
       const arbitrable = output.toString().match(/0x[a-fA-F0-9]{40}/g)
       arbitrables.push(arbitrable)
-      execSync(`npm run rpc:subscribe -- -a ${arbitrable}`)
+      execSync(`node ./bin/index.js subscribe -a ${arbitrable} -n ${network}`)
     }
 
     // create disputes
     for (let i = 0; i < disputes; i++) {
       const arbitrable = arbitrables[i]
-      execSync(`npm run rpc:mint -- -t fee -a 5000 -r ${arbitrable}`)
-      execSync(`npm run rpc:dispute -- -s ${arbitrable} -m 'Testing dispute #${i}' -e 'http://github.com/aragon/aragon-court' 'http://google.com'`)
+      execSync(`node ./bin/index.js mint -t fee -a 5000 -r ${arbitrable} -n ${network}`)
+      execSync(`node ./bin/index.js dispute -a ${arbitrable} -m 'Testing dispute #${i}' -e 'http://github.com/aragon/aragon-court' -c -n ${network}`)
     }
   }
 }
