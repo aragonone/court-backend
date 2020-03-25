@@ -1,5 +1,4 @@
 const ONE_MINUTE = 60
-const ONE_HOUR = ONE_MINUTE * 60
 
 const workers = [
   {
@@ -8,7 +7,7 @@ const workers = [
     path: './src/workers/heartbeat',
     processes: 1,
     times: 0,
-    repeat: ONE_HOUR,
+    repeat: ONE_MINUTE * 10,
   },
   {
     name: 'reveal',
