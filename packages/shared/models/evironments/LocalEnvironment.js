@@ -1,6 +1,5 @@
 const Environment = require('./Environment')
 const DynamicArtifacts = require('../artifacts/DynamicArtifacts')
-const HDWalletProvider = require('@truffle/hdwallet-provider')
 
 require('dotenv').config() // Load env vars from .env file
 
@@ -25,6 +24,7 @@ class LocalEnvironment extends Environment {
   async _getProvider() {
     const keys = [process.env.PRIVATE_KEY]
     const rpc = process.env.RPC
+    const HDWalletProvider = require('@truffle/hdwallet-provider')
     return new HDWalletProvider(keys, rpc)
   }
 
