@@ -1,4 +1,4 @@
-const Logger = require('@aragon/court-backend-shared/helpers/logger')
+const Logger = require('@aragonone/court-backend-shared/helpers/logger')
 const subscriptionsMigration = require('./20191219135036-create-subscription')
 const { isAddress, toChecksumAddress } = require('web3-utils')
 
@@ -97,7 +97,7 @@ module.exports = {
 
     console.log('')
     const usersWithoutAddress = (await queryInterface.sequelize.query(`SELECT email FROM "Users" LEFT JOIN "UserAddresses" ON "Users"."id" = "UserAddresses"."userId" WHERE "UserAddresses"."id" IS NULL`))[0]
-    logger.warn('WARNING! The following email do not have an email associated:')
+    logger.warn('WARNING! The following email do not have an address associated:')
     for (const { email } of usersWithoutAddress) console.log(` - ${email}`)
     console.log('\nPlease clean these manually if needed\n')
 
