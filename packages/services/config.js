@@ -29,7 +29,7 @@ const workers = [
     name: 'monitor-keeper',
     color: 'green',
     path: './src/workers/monitor-keeper',
-    processes: 1,
+    processes: 0,
     times: 0,
     repeat: ONE_MINUTE,
   },
