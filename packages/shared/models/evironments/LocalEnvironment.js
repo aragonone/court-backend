@@ -1,6 +1,6 @@
 const Environment = require('./Environment')
 const DynamicArtifacts = require('../artifacts/DynamicArtifacts')
-const HDWalletProvider = require('@truffle/hdwallet-provider')
+const PkWalletProvider = require('../providers/PkWalletProvider')
 
 require('dotenv').config() // Load env vars from .env file
 
@@ -27,12 +27,7 @@ class LocalEnvironment extends Environment {
   }
 
   async _getProvider() {
-    const keys = [PRIVATE_KEY]
-    const provider = new HDWalletProvider(keys, RPC)
-
-    // Hack to avoid having Web3 scrapping the blockchain continuously
-    if (WEB3_POLLING_INTERVAL) provider.engine._pollingInterval = WEB3_POLLING_INTERVAL
-    return provider
+    return new PkWalletProvider(PRIVATE_KEY, RPC, { pollingInterval: WEB3_POLLING_INTERVAL })
   }
 
   async _getArtifacts() {
@@ -43,7 +38,7 @@ class LocalEnvironment extends Environment {
 
   async _getSender() {
     const provider = await this.getProvider()
-    return provider.addresses[0]
+    return provider.getAddress()
   }
 }
 
