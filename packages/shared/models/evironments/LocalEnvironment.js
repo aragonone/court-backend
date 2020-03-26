@@ -1,5 +1,6 @@
 const Environment = require('./Environment')
 const DynamicArtifacts = require('../artifacts/DynamicArtifacts')
+const HDWalletProvider = require('@truffle/hdwallet-provider')
 
 require('dotenv').config() // Load env vars from .env file
 
@@ -11,27 +12,33 @@ require('dotenv').config() // Load env vars from .env file
  *   - COURT_ADDRESS: Address of the target Court contract to interact with
  *   - GAS_PRICE: Gas price (for TruffleContract object)
  *   - GAS: Gas limit (for TruffleContract object)
+ *   - WEB3_POLLING_INTERVAL: Milliseconds interval for blocks polling
  */
+
+const { NETWORK, COURT_ADDRESS, RPC, PRIVATE_KEY, GAS, GAS_PRICE, WEB3_POLLING_INTERVAL } = process.env
+
 class LocalEnvironment extends Environment {
   constructor() {
-    super(process.env.NETWORK)
+    super(NETWORK)
   }
 
   async getCourt(address = undefined) {
-    return super.getCourt(process.env.COURT_ADDRESS)
+    return super.getCourt(COURT_ADDRESS)
   }
 
   async _getProvider() {
-    const keys = [process.env.PRIVATE_KEY]
-    const rpc = process.env.RPC
-    const HDWalletProvider = require('@truffle/hdwallet-provider')
-    return new HDWalletProvider(keys, rpc)
+    const keys = [PRIVATE_KEY]
+    const provider = new HDWalletProvider(keys, RPC)
+
+    // Hack to avoid having Web3 scrapping the blockchain continuously
+    if (WEB3_POLLING_INTERVAL) provider.engine._pollingInterval = WEB3_POLLING_INTERVAL
+    return provider
   }
 
   async _getArtifacts() {
     const from = await this.getSender()
     const provider = await this.getProvider()
-    return new DynamicArtifacts(provider, { from, gasPrice: process.env.GAS_PRICE, gas: process.env.GAS })
+    return new DynamicArtifacts(provider, { from, gasPrice: GAS_PRICE, gas: GAS })
   }
 
   async _getSender() {
