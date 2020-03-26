@@ -21,11 +21,9 @@ class WorkerLogger {
 
   error(msg, error) {
     this.logger.error(msg)
-    console.error({
-      context: `Worker '${this.worker}' job #${this.job}`,
-      message: error.message,
-      stack: error.stack
-    })
+    console.error(`Context: Worker '${this.worker}' job #${this.job}`)
+    console.error(`Message: ${error.message}`)
+    console.error(`Stack: ${error.stack}`)
   }
 }
 
