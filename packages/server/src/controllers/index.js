@@ -1,9 +1,9 @@
 import admins from './AdminsController'
+import users from './UsersController'
 import reveals from './RevealsController'
-import subscriptions from './SubscriptionsController'
 
 export {
   admins,
+  users,
   reveals,
-  subscriptions,
 }
