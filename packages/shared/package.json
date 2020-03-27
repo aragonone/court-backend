@@ -13,12 +13,15 @@
     "@aragonone/precedence-campaign-arbitrable": "^1.0.0",
     "@truffle/config": "1.2.7",
     "@truffle/contract": "4.1.1",
-    "@truffle/hdwallet-provider": "^1.0.0",
     "chalk": "^2.4.2",
     "dotenv": "^8.2.0",
+    "ethereumjs-tx": "^1.0.0",
+    "ethereumjs-util": "^6.1.0",
+    "ethereumjs-wallet": "^0.6.3",
     "graphql-request": "^1.8.2",
     "web3": "^1.2.4",
     "web3-eth-abi": "1.0.0",
+    "web3-provider-engine": "git+https://github.com/trufflesuite/provider-engine.git#web3-one",
     "web3-utils": "^1.2.4"
   }
 }
