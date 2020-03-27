@@ -1,5 +1,4 @@
 const ONE_MINUTE = 60
-const ONE_HOUR = ONE_MINUTE * 60
 
 const workers = [
   {
@@ -8,11 +7,11 @@ const workers = [
     path: './src/workers/heartbeat',
     processes: 1,
     times: 0,
-    repeat: ONE_HOUR,
+    repeat: ONE_MINUTE * 10,
   },
   {
     name: 'reveal',
-    prefixColor: 'pink',
+    color: 'pink',
     path: './src/workers/reveal',
     processes: 1,
     times: 0,
@@ -20,7 +19,7 @@ const workers = [
   },
   {
     name: 'settlements',
-    prefixColor: 'cyan',
+    color: 'cyan',
     path: './src/workers/settlements',
     processes: 1,
     times: 0,
@@ -28,11 +27,11 @@ const workers = [
   },
   {
     name: 'monitor-keeper',
-    prefixColor: 'green',
+    color: 'green',
     path: './src/workers/monitor-keeper',
     processes: 1,
     times: 0,
-    repeat: ONE_MINUTE,
+    repeat: ONE_MINUTE * 30,
   },
 ]
 

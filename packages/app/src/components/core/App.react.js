@@ -10,9 +10,13 @@ import PrivateRoute from './PrivateRoute.react'
 import AdminsList from '../admin/AdminsList.react'
 import UsersList from '../admin/UsersList.react'
 import RevealsList from '../admin/RevealsList.react'
+import PeriodsList from '../subscriptions/PeriodsList.react'
+import PeriodDetail from '../subscriptions/PeriodDetail.react'
+import SubscribersList from '../subscriptions/SubscribersList.react'
 import JurorsList from '../jurors/JurorsList.react'
 import JurorDetail from '../jurors/JurorDetail.react'
 import JurorDraftsList from '../jurors/JurorDraftsList.react'
+import JurorStakingList from '../jurors/JurorStakingList.react'
 import JurorAccountingList from '../jurors/JurorAccountingList.react'
 import DraftsList from '../drafts/DraftsList.react'
 import DisputesList from '../disputes/DisputesList.react'
@@ -47,8 +51,12 @@ class App extends React.Component {
             <Route path="/jurors/" exact component={JurorsList}/>
             <Route path="/jurors/:address/detail" component={JurorDetail}/>
             <Route path="/jurors/:address/drafts" component={JurorDraftsList}/>
+            <Route path="/jurors/:address/staking" component={JurorStakingList}/>
             <Route path="/jurors/:address/accounting" component={JurorAccountingList}/>
             <Route path="/drafts/" component={DraftsList}/>
+            <Route path="/subscribers/" component={SubscribersList}/>
+            <Route path="/periods/" component={PeriodsList}/>
+            <Route path="/period/:id" component={PeriodDetail}/>
             <Route path="/anj-balances/" exact component={ANJBalancesList}/>
             <Route path="/anj-transfers/:address" component={ANJTransfersList}/>
 

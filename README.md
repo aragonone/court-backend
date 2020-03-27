@@ -99,11 +99,21 @@ You can also use the `rpc:setup` NPM command to populate your local Aragon Court
 ##### 7. Spin up the backend using Docker 
 
 First make sure to create your own `.env` file, feel free to follow the template provided in `.env.sample`.
-Once you have done that, spin up a docker container with:
+
+Docker setup also includes a Grafana dashboard for logs and metrics, which requires a docker plugin:
 ```bash
-docker-compose build
-docker-compose up -d
+docker plugin install  grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 ```
+
+Finally, spin up docker containers with:
+```bash
+docker-compose up --build -d
+```
+
+- App is available at http://localhost:3000
+- Grafana dashboard is available at http://localhost:5000
+
+In order to update the dashboard, click `Ctrl+S` > `Copy JSON to clipboard` and overwrite the file in `monitoring/grafana/provisioning/dashboards/court-backend.json`. Additional dashboards can also be added to the `dashboards` folder in JSON format.
 
 You don't need to build the docker container every time. If you had run it before, make sure to remove it first:
 ```bash

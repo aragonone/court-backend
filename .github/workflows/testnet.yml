@@ -1,4 +1,4 @@
-name: Rinkeby CI/CD
+name: Testnet CI/CD
 on:
   push:
     branches:
@@ -37,13 +37,42 @@ jobs:
         kubectl config set-credentials aragon --token=$(base64 -d <<< ${{ secrets.KUBE_TOKEN }})
         kubectl config set-context aragon --cluster=aragon --user=aragon
         kubectl config use-context aragon
-    # label old pods to exclude from wait
-    - run: kubectl label pod -l app=court-backend-testnet wait=ignore || true
     # replace deployment image
     - run: >
-        kubectl set image deployment/court-backend-testnet
+        kubectl set image deployment/court-backend-rinkeby
+        server=$REPO:${GITHUB_SHA}
+        services=$REPO:${GITHUB_SHA}
+        app=$REPO:${GITHUB_SHA}
+    - run: >
+        kubectl set image deployment/court-backend-usability
+        server=$REPO:${GITHUB_SHA}
+        services=$REPO:${GITHUB_SHA}
+        app=$REPO:${GITHUB_SHA}
+    - run: >
+        kubectl set image deployment/court-backend-staging
+        server=$REPO:${GITHUB_SHA}
+        services=$REPO:${GITHUB_SHA}
+        app=$REPO:${GITHUB_SHA}
+    - run: >
+        kubectl set image deployment/court-backend-ropsten
         server=$REPO:${GITHUB_SHA}
         services=$REPO:${GITHUB_SHA}
         app=$REPO:${GITHUB_SHA}
     # wait 5 min for the new pod to be ready. If the pod is not ready there is a problem with the new container
-    - run: kubectl wait pod -l app=court-backend-testnet,wait!=ignore --for condition=Ready --timeout=300s
+    - run: >
+        kubectl wait pod --for condition=Ready --timeout=300s
+        $(kubectl get pods -l app=court-backend-rinkeby --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
+    - run: >
+        kubectl wait pod --for condition=Ready --timeout=300s
+        $(kubectl get pods -l app=court-backend-staging --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
+    - run: >
+        kubectl wait pod --for condition=Ready --timeout=300s
+        $(kubectl get pods -l app=court-backend-usability --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
+    - run: >
+        kubectl wait pod --for condition=Ready --timeout=300s
+        $(kubectl get pods -l app=court-backend-ropsten --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
+    # wait 10 sec for k8s to reroute ingress and check app endpoint
+    - run: sleep 10 && curl --fail https://court-backend-app-rinkeby.eth.aragon.network
+    - run: curl --fail https://court-backend-app-usability.eth.aragon.network
+    - run: curl --fail https://court-backend-app-staging.eth.aragon.network
+    - run: curl --fail https://court-backend-app-ropsten.eth.aragon.network

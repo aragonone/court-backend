@@ -1,0 +1,8 @@
+# This config loads all JSON grafana dashboards from the current directory
+apiVersion: 1
+providers:
+- name: 'Prometheus'
+  folder: ''
+  type: file
+  options:
+    path: /etc/grafana/provisioning/dashboards

@@ -5,23 +5,23 @@ import { toDate } from '../../helpers/toDate'
 import { summarize } from '../../helpers/summarize'
 import JurorsActions from '../../actions/jurors'
 
-export default class JurorAccountingList extends React.Component {
+export default class JurorStakingList extends React.Component {
   constructor(props){
     super(props)
-    this.state = { address: this.props.match.params.address, accounting: null }
+    this.state = { address: this.props.match.params.address, staking: null }
   }
 
   componentDidMount() {
     Store.subscribe(() => this._onChange())
-    Store.dispatch(JurorsActions.findAccounting(this.state.address))
+    Store.dispatch(JurorsActions.findStaking(this.state.address))
   }
 
   render() {
-    const { address, accounting } = this.state
+    const { address, staking } = this.state
     return (
-      <div ref="jurorAccountingList">
-        <h3>Accounting of Juror {address}</h3>
-        { (!accounting) ? <em>Loading...</em> : accounting.length === 0 ?
+      <div ref="jurorStakingList">
+        <h3>Staking of Juror {address}</h3>
+        { (!staking) ? <em>Loading...</em> : staking.length === 0 ?
           <em>None</em> :
           <table>
             <thead>
@@ -29,6 +29,7 @@ export default class JurorAccountingList extends React.Component {
               <th>ID</th>
               <th>Type</th>
               <th>Amount</th>
+              <th>Effective term ID</th>
               <th>When</th>
             </tr>
             </thead>
@@ -42,12 +43,13 @@ export default class JurorAccountingList extends React.Component {
   }
 
   _buildList() {
-    return this.state.accounting.map((movement, index) => {
+    return this.state.staking.map((movement, index) => {
       return (
         <tr key={index}>
           <td>{summarize(movement.id)}</td>
           <td>{movement.type}</td>
           <td>{fromWei(movement.amount)}</td>
+          <td>{movement.effectiveTermId || 'immediate'}</td>
           <td>{toDate(movement.createdAt)}</td>
         </tr>
       )
@@ -55,9 +57,9 @@ export default class JurorAccountingList extends React.Component {
   }
 
   _onChange() {
-    if(this.refs.jurorAccountingList) {
-      const { jurorAccounting } = Store.getState().jurors
-      this.setState({ accounting: jurorAccounting })
+    if(this.refs.jurorStakingList) {
+      const { jurorStaking } = Store.getState().jurors
+      this.setState({ staking: jurorStaking })
     }
   }
 }

@@ -1,6 +1,6 @@
 const Environment = require('./Environment')
 const DynamicArtifacts = require('../artifacts/DynamicArtifacts')
-const HDWalletProvider = require('@truffle/hdwallet-provider')
+const PkWalletProvider = require('../providers/PkWalletProvider')
 
 require('dotenv').config() // Load env vars from .env file
 
@@ -12,31 +12,33 @@ require('dotenv').config() // Load env vars from .env file
  *   - COURT_ADDRESS: Address of the target Court contract to interact with
  *   - GAS_PRICE: Gas price (for TruffleContract object)
  *   - GAS: Gas limit (for TruffleContract object)
+ *   - WEB3_POLLING_INTERVAL: Milliseconds interval for blocks polling
  */
+
+const { NETWORK, COURT_ADDRESS, RPC, PRIVATE_KEY, GAS, GAS_PRICE, WEB3_POLLING_INTERVAL } = process.env
+
 class LocalEnvironment extends Environment {
   constructor() {
-    super(process.env.NETWORK)
+    super(NETWORK)
   }
 
   async getCourt(address = undefined) {
-    return super.getCourt(process.env.COURT_ADDRESS)
+    return super.getCourt(COURT_ADDRESS)
   }
 
   async _getProvider() {
-    const keys = [process.env.PRIVATE_KEY]
-    const rpc = process.env.RPC
-    return new HDWalletProvider(keys, rpc)
+    return new PkWalletProvider(PRIVATE_KEY, RPC, { pollingInterval: WEB3_POLLING_INTERVAL })
   }
 
   async _getArtifacts() {
     const from = await this.getSender()
     const provider = await this.getProvider()
-    return new DynamicArtifacts(provider, { from, gasPrice: process.env.GAS_PRICE, gas: process.env.GAS })
+    return new DynamicArtifacts(provider, { from, gasPrice: GAS_PRICE, gas: GAS })
   }
 
   async _getSender() {
     const provider = await this.getProvider()
-    return provider.addresses[0]
+    return provider.getAddress()
   }
 }
 

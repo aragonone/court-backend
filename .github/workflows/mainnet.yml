@@ -4,7 +4,7 @@ on:
     tags:
       - v*
 env:
-  # This is a base repository and we use ${GITHUB_REF} to set the version of the container
+  # This is a base repository and we use ${GITHUB_REF##*/} to set the version of the container
   REPO: docker.pkg.github.com/aragonone/court-backend/mainnet
 
 jobs:
@@ -37,8 +37,6 @@ jobs:
         kubectl config set-credentials aragon --token=$(base64 -d <<< ${{ secrets.KUBE_TOKEN }})
         kubectl config set-context aragon --cluster=aragon --user=aragon
         kubectl config use-context aragon
-    # label old pods to exclude from wait
-    - run: kubectl label pod -l app=court-backend wait=ignore || true
     # replace deployment image
     - run: >
         kubectl set image deployment/court-backend
@@ -46,4 +44,8 @@ jobs:
         services=$REPO:${GITHUB_REF##*/}
         app=$REPO:${GITHUB_REF##*/}
     # wait 5 min for the new pod to be ready. If the pod is not ready there is a problem with the new container
-    - run: kubectl wait pod -l app=court-backend,wait!=ignore --for condition=Ready --timeout=300s
+    - run: >
+        kubectl wait pod --for condition=Ready --timeout=300s
+        $(kubectl get pods -l app=court-backend --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
+    # wait 10 sec for k8s to reroute ingress and check app endpoint
+    - run: sleep 10 && curl --fail https://court-backend-app.eth.aragon.network

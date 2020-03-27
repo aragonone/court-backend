@@ -78,14 +78,12 @@ const JurorsActions = {
     }
   },
 
-  findAccounting(id) {
+  findStaking(id) {
     return async function(dispatch) {
       try {
         const result = await Network.query(`{
           juror (id: "${id}") {
-            treeId
-            id
-            movements (orderBy: createdAt, orderDirection: desc) {
+            anjMovements (orderBy: createdAt, orderDirection: desc) {
               id
               type
               amount
@@ -94,7 +92,42 @@ const JurorsActions = {
             }
           }
         }`)
-        dispatch(JurorsActions.receiveJurorAccounting(result.juror.movements))
+        dispatch(JurorsActions.receiveJurorStaking(result.juror.anjMovements))
+      } catch(error) {
+        dispatch(ErrorActions.show(error))
+      }
+    }
+  },
+
+  findAccounting(id) {
+    return async function(dispatch) {
+      try {
+        const result = await Network.query(`{
+          feeMovements (where: { owner: "${id}" }, orderBy: createdAt, orderDirection: desc) {
+            id
+            type
+            amount
+            createdAt
+          }
+        }`)
+        dispatch(JurorsActions.receiveJurorAccounting(result.feeMovements))
+      } catch(error) {
+        dispatch(ErrorActions.show(error))
+      }
+    }
+  },
+
+  findModule() {
+    return async function(dispatch) {
+      try {
+        const result = await Network.query(`{
+          jurorsRegistryModules (first: 1) {
+            id
+            totalStaked
+            totalActive
+          }
+        }`)
+        dispatch(JurorsActions.receiveModule(result.jurorsRegistryModules[0]))
       } catch(error) {
         dispatch(ErrorActions.show(error))
       }
@@ -113,8 +146,16 @@ const JurorsActions = {
     return { type: ActionTypes.RECEIVE_JUROR_DRAFTS, jurorDrafts }
   },
 
+  receiveJurorStaking(jurorStaking) {
+    return { type: ActionTypes.RECEIVE_JUROR_STAKING, jurorStaking }
+  },
+
   receiveJurorAccounting(jurorAccounting) {
     return { type: ActionTypes.RECEIVE_JUROR_ACCOUNTING, jurorAccounting }
+  },
+
+  receiveModule(module) {
+    return { type: ActionTypes.RECEIVE_JURORS_MODULE, module }
   },
 }
 

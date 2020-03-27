@@ -1,88 +1,90 @@
-import postmark from 'postmark'
+import { ServerClient } from 'postmark'
+import Etherscan from '../models/Etherscan'
 import Models from '@aragonone/court-backend-server/build/models'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
 
-// notifications settings
+import { fromWei } from 'web3-utils'
+import { bigExp } from '@aragonone/court-backend-shared/helpers/numbers'
+import getWalletFromPk from '@aragonone/court-backend-shared/helpers/get-wallet-from-pk'
+
 const FROM = 'noreply@aragon.one'
+const BALANCE_THRESHOLD = bigExp(1, 17) // 0.1 ETH
 
-// number of blocks checked backwards first time
-const BLOCKS_BACKWARDS_INITIAL_THRESHOLD = 10
-
-let lastCheckedBlockNumber = 0
+const { Admin, KeeperSuspiciousTransaction } = Models
 
 export default async function (logger) {
-  const court = await Network.getCourt()
-  const { environment } = court
-  const keeper = await getKeeperAddress(environment)
-  const courtAddresses = await getWhitelistedAddresses(court)
+  const { environment: { network } } = Network
+  const etherscan = new Etherscan(network, process.env.ETHERSCAN_API_KEY)
+  const keeper = getWalletFromPk(process.env.PRIVATE_KEY).getAddressString()
 
-  if (lastCheckedBlockNumber === 0) {
-    lastCheckedBlockNumber = await environment.getLastBlockNumber() - BLOCKS_BACKWARDS_INITIAL_THRESHOLD
-  }
-  lastCheckedBlockNumber = await monitor(logger, environment, courtAddresses, keeper, lastCheckedBlockNumber)
+  await monitorTransactions(logger, etherscan, keeper, network)
+  await monitorEthBalance(logger, etherscan, keeper, network)
 }
 
-async function monitor(logger, environment, courtAddresses, keeper, lastCheckedBlockNumber) {
+async function monitorTransactions(logger, etherscan, keeper, network) {
+  const court = await Network.getCourt()
+  const courtAddresses = await getWhitelistedAddresses(court)
+  const lastInspectedBlockNumber = (await KeeperSuspiciousTransaction.lastInspectedBlockNumber()) + 1
+  logger.info(`Checking transactions for keeper address ${keeper} from block ${lastInspectedBlockNumber}`)
+  const transactions = await etherscan.getTransactionsFrom(keeper, lastInspectedBlockNumber)
+  if (transactions.length === 0) return logger.info('No transactions found')
+
   try {
-    const currentBlockNumber = await environment.getLastBlockNumber()
-    logger.info(`Checking transactions for keeper address ${keeper} from block ${lastCheckedBlockNumber + 1} to ${currentBlockNumber}`)
-    for (let blockNumber = lastCheckedBlockNumber + 1; blockNumber <= currentBlockNumber; blockNumber++) {
-      await checkTransactions(logger, environment, courtAddresses, blockNumber, keeper)
+    for (const transaction of transactions) {
+      const { hash, to, value, blockNumber } = transaction
+      logger.info(`Found transaction ${hash} on block ${blockNumber}`)
+      if (value !== '0' || !courtAddresses.includes(to)) {
+        await KeeperSuspiciousTransaction.create({ blockNumber, txHash: hash })
+        logger.warn(`Found suspicious transaction ${hash} on block ${blockNumber}`)
+        await sendNotification(logger, buildSuspiciousTransactionMessage(keeper, transaction, network))
+      }
     }
-    logger.success(`Checked ${currentBlockNumber - lastCheckedBlockNumber} blocks`)
-    return currentBlockNumber
   } catch (error) {
     logger.error('Failed to check transactions', error)
   }
+
+  const { blockNumber } = transactions[0]
+  const last = await KeeperSuspiciousTransaction.last()
+  !last || !!last.txHash ? await KeeperSuspiciousTransaction.create({ blockNumber }) : await last.udpate({ blockNumber })
+  logger.success(`Checked transactions until block ${lastInspectedBlockNumber} successfully`)
 }
 
-async function checkTransactions(logger, environment, courtAddresses, blockNumber, address) {
-  logger.info(`Checking transactions of block ${blockNumber}`)
-  const block = await environment.getBlock(blockNumber)
-
-  if (block && block.transactions) {
-    for (let transactionHash of block.transactions) {
-      const transaction = await environment.getTransaction(transactionHash)
-      if (address.toLowerCase() === transaction.from.toLowerCase()) {
-        logger.info(`Found transaction ${transactionHash} on block ${blockNumber}`)
-        if (transaction.value != '0' || !courtAddresses.includes(transaction.to.toLowerCase())) {
-          const message = buildSuspiciousTransactionMessage(transaction)
-          await sendNotification(logger, message)
-        }
-      }
-    }
-  }
+async function monitorEthBalance(logger, etherscan, keeper, network) {
+  logger.info(`Checking Eth balance for keeper address ${keeper}`)
+  const balance = await etherscan.getBalance(keeper)
+  if (balance.gt(BALANCE_THRESHOLD)) return logger.success(`Keeper balance is ETH ${fromWei(balance.toString())}`)
+  logger.warn(`Keeper balance low ETH ${fromWei(balance.toString())}`)
+  await sendNotification(logger, buildLowKeeperBalanceMessage(keeper, balance, network))
 }
 
 async function sendNotification(logger, message) {
   logger.info(`Sending email notifications for '${message.Subject}'`)
   message.From = FROM
-  message.To = (await Models.Admin.allEmails()).join(', ')
-  const client = new postmark.Client(process.env.POSTMARK_TOKEN)
+  message.To = (await Admin.allEmails()).join(', ')
+  const client = new ServerClient(process.env.POSTMARK_TOKEN)
   const response = await client.sendEmail(message)
-  if (!response || response.ErrorCode != 0) logger.error(`Failed to send notification, received response ${response}`)
+  if (!response || response.ErrorCode != 0) logger.error(`Failed to send notification, received response: ${JSON.stringify(response)}`)
 }
 
-function buildSuspiciousTransactionMessage(transaction) {
+function buildSuspiciousTransactionMessage(keeper, { to, value, blockNumber, hash }, network) {
   const message = {
-    Subject: `Suspicious transaction from keeper address ${transaction.from}`,
+    Subject: `[${network}] Suspicious transaction from keeper address ${keeper}`,
     TextBody: `
-      A transaction from keeper address ${transaction.from} has been found in block #${transaction.blockNumber}.
-      Eth value: ${transaction.value}
-      Recipient: ${transaction.to}
-      You can check it here: https://etherscan.io/tx/${transaction.hash}`
+      A transaction from keeper address ${keeper} has been found in block #${blockNumber}.
+      Recipient: ${to}
+      Eth value: ${fromWei(value)}
+      You can check it here: https://etherscan.io/tx/${hash}`
   }
 
-  if (transaction.value != '0') message.Subject = `(⚠️ ETH!) ${message.Subject}`
+  if (value != '0') message.Subject = `(⚠️ ETH!) ${message.Subject}`
   return message
 }
 
-async function getKeeperAddress(environment) {
-  const web3 = await environment.getWeb3()
-  const rawPrivateKey = process.env.PRIVATE_KEY
-  const parsedPrivateKey = rawPrivateKey.slice(0, 2) === '0x' ? rawPrivateKey : `0x${rawPrivateKey}`
-  const { address } = await web3.eth.accounts.privateKeyToAccount(parsedPrivateKey)
-  return address
+function buildLowKeeperBalanceMessage(keeper, balance, network) {
+  return {
+    Subject: `[${network}] Low Eth balance in keeper address ${keeper}`,
+    TextBody: `Keeper address ${keeper} has Eth ${fromWei(balance.toString())} balance below ${fromWei(BALANCE_THRESHOLD.toString())} threshold.`
+  }
 }
 
 async function getWhitelistedAddresses(court) {

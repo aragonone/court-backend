@@ -1,8 +1,8 @@
-version: "2"
+version: "3.7"
 
 services:
   court_server_db:
-    image: postgres
+    image: postgres:11-alpine
     environment:
       - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_USER=${DB_USER}
@@ -13,12 +13,20 @@ services:
     command: npm run start:server:dev
     depends_on:
       - court_server_db
+      - loki
     ports:
       - "8000:8000"
+      - "9091:9091" # for debugging metrics
     volumes:
       - ./packages/server/src:/court-backend/packages/server/src
     env_file:
       - .env
+    logging: &loki
+      driver: loki
+      options:
+        loki-url: http://localhost:3100/loki/api/v1/push
+        # required to be compatible with k8s metrics
+        loki-external-labels: job=court-backend,pod=localhost,container={{.Name}}
 
   court_services:
     build: .
@@ -26,18 +34,21 @@ services:
     command: npm run start:services:dev
     depends_on:
       - court_server
+      - loki
     volumes:
       - ./packages/services/bin:/court-backend/packages/services/bin
       - ./packages/services/src:/court-backend/packages/services/src
     env_file:
       - .env
+    logging: *loki
 
   court_backoffice:
     build: .
     image: aragon/court-backend
     command: npm run start:app
     depends_on:
-      - court_server
+    - court_server
+    - loki
     ports:
       - "3000:3000"
       - "35729:35729"
@@ -46,3 +57,33 @@ services:
       - ./packages/app/public:/court-backend/packages/app/public
     env_file:
       - .env
+    logging: *loki
+
+
+## Monitoring containers below
+
+  prometheus:
+    image: prom/prometheus
+    depends_on:
+      - court_server
+      - court_services
+    volumes:
+      - ./monitoring/prometheus:/etc/prometheus
+
+  loki:
+    image: grafana/loki
+    ports:
+    - "3100:3100"
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+      - loki
+    ports:
+      - "5000:3000"
+    environment: 
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
