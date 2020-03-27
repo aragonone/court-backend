@@ -8,7 +8,7 @@ export default {
     try {
       const address = request.params.address.toLowerCase()
       const exists = await UserAddress.exists(address)
-      return response.status(200).send({ exists })
+      response.status(200).send({ exists })
     } catch(error) {
       next(error)
     }
