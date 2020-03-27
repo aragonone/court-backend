@@ -5,7 +5,7 @@ import { admins, users, reveals } from '../controllers'
 export default app => {
   app.post('/login', asyncMiddleware(admins.login))
 
-  app.get('/user', asyncMiddleware(users.exists))
+  app.get('/user/:address', asyncMiddleware(users.exists))
   app.post('/users', asyncMiddleware(users.create))
 
   app.get('/reveal', asyncMiddleware(reveals.show))

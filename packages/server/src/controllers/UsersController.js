@@ -6,8 +6,9 @@ const { User, UserAddress } = Models
 export default {
   async exists(request, response, next) {
     try {
-      const errors = await UsersValidator.validateForCreate(request.query)
-      return (errors.length === 0) ? response.status(200) : response.status(400).send({ errors })
+      const address = request.params.address.toLowerCase()
+      const exists = await UserAddress.exists(address)
+      return response.status(200).send({ exists })
     } catch(error) {
       next(error)
     }

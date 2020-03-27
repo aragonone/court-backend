@@ -16,5 +16,10 @@ module.exports = (sequelize, DataTypes) => {
     UserAddress.belongsTo(models.User, { foreignKey: { allowNull: false }, as: 'user' })
   }
 
+  UserAddress.exists = async address => {
+    const userAddress = await UserAddress.findOne({ where: { address }})
+    return !!userAddress
+  }
+
   return UserAddress
 }

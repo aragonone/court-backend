@@ -39,14 +39,16 @@ All the provided endpoints are `Content-Type: application/json`
 
 ##### 1.2. Exists
 
-- URL: /user
+- URL: /user/:address
 - Method: GET
-- Query: 
-  - `email`: Email address, string mandatory
-  - `address`: Ethereum address, string mandatory
 - Response: 
   - Code: 200
-  - Content example: empty
+  - Content example: 
+    ```json
+        {
+          "exists": true
+        }
+    ```
 
 ##### 1.3. All
 
