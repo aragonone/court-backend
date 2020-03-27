@@ -1,4 +1,5 @@
 import Models from '../models'
+import validator from 'validator'
 import BaseValidator from './BaseValidator'
 import { isAddress } from 'web3-utils'
 
@@ -13,6 +14,7 @@ class UsersValidator extends BaseValidator {
 
   _validateEmail(email) {
     if (!email) this.addError({ email: 'An email address must be given' })
+    if (!validator.isEmail(email)) this.addError({ email: 'Given email address is not valid' })
   }
 
   async _validateAddress(address) {
