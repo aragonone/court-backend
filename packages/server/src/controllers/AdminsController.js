@@ -12,7 +12,7 @@ export default {
       if (errors.length > 0) return response.status(400).send({ errors: errors })
 
       const token = jwt.sign({ admin: request.body.email }, SECRET_KEY, { expiresIn: 3600 })
-      return response.status(200).send({ token })
+      response.status(200).send({ token })
     } catch(error) {
       next(error)
     }
@@ -20,7 +20,7 @@ export default {
 
   async me(request, response, next) {
     try {
-      return response.status(200).send({ admin: request.currentAdmin })
+      response.status(200).send({ admin: request.currentAdmin })
     } catch(error) {
       next(error)
     }

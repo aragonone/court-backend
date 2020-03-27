@@ -16,6 +16,6 @@ export default async function (request, response, next) {
     request.currentAdmin = admin
     next()
   } catch (error) {
-    return response.status(403).send({ error: 'Failed to authenticate token' })
+    response.status(403).send({ error: 'Failed to authenticate token' })
   }
 }

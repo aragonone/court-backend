@@ -60,11 +60,11 @@ const AdminActions = {
     }
   },
 
-  findSubscriptions() {
+  findUsers() {
     return async function (dispatch) {
       try {
-        const response = await Server.get('subscriptions')
-        dispatch(AdminActions.receiveSubscriptions(response.data.subscriptions))
+        const response = await Server.get('users')
+        dispatch(AdminActions.receiveUsers(response.data.users))
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
@@ -96,8 +96,8 @@ const AdminActions = {
     return { type: ActionTypes.RECEIVE_ADMIN_REVEALS, reveals }
   },
 
-  receiveSubscriptions(subscriptions) {
-    return { type: ActionTypes.RECEIVE_ADMIN_SUBSCRIPTIONS, subscriptions }
+  receiveUsers(users) {
+    return { type: ActionTypes.RECEIVE_ADMIN_USERS, users }
   },
 }
 
