@@ -80,7 +80,7 @@ function buildSuspiciousTransactionMessage(keeper, { to, value, blockNumber, has
   return message
 }
 
-function buildLowKeeperBalanceMessage(keeper, balance) {
+function buildLowKeeperBalanceMessage(keeper, balance, network) {
   return {
     Subject: `[${network}] Low Eth balance in keeper address ${keeper}`,
     TextBody: `Keeper address ${keeper} has Eth ${fromWei(balance.toString())} balance below ${fromWei(BALANCE_THRESHOLD.toString())} threshold.`
