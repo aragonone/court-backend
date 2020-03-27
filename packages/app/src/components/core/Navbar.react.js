@@ -38,8 +38,8 @@ export default class Navbar extends React.Component {
   _buildLoggedInItems() {
     return [
       <Link to="/admins" key="admins">Admins</Link>,
+      <Link to="/users" key="users">Users</Link>,
       <Link to="/reveals" key="reveals">Reveals</Link>,
-      <Link to="/subscriptions" key="subscriptions">Subscriptions</Link>,
       <Link to="/logout" key="logout">Logout</Link>,
     ]
   }
