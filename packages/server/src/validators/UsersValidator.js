@@ -1,6 +1,6 @@
 import Models from '../models'
 import BaseValidator from './BaseValidator'
-import { isAddress, toChecksumAddress } from 'web3-utils'
+import { isAddress } from 'web3-utils'
 
 const { UserAddress } = Models
 
@@ -16,10 +16,10 @@ class UsersValidator extends BaseValidator {
   }
 
   async _validateAddress(address) {
-    if (!isAddress(address)) return this.addError({ address: 'Given address is not valid' })
+    const parsedAddress = address.toLowerCase()
+    if (!isAddress(parsedAddress)) return this.addError({ address: 'Given address is not valid' })
 
-    const checksumAddress = toChecksumAddress(address)
-    const count = await UserAddress.count({ where: { address: checksumAddress }})
+    const count = await UserAddress.count({ where: { address: parsedAddress }})
     if (count > 0) this.addError({ address: 'Given address was already registered' })
   }
 }

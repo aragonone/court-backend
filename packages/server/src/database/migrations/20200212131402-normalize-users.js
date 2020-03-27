@@ -1,6 +1,6 @@
 const Logger = require('@aragonone/court-backend-shared/helpers/logger')
 const subscriptionsMigration = require('./20191219135036-create-subscription')
-const { isAddress, toChecksumAddress } = require('web3-utils')
+const { isAddress } = require('web3-utils')
 
 Logger.setDefaults(false, false)
 const logger = Logger('Migrator')
@@ -82,15 +82,18 @@ module.exports = {
       const { id: userId } = (await queryInterface.sequelize.query(`SELECT id FROM "Users" WHERE email='${parsedEmail}'`))[0][0]
       if (!address) logger.warn(`Skipping address '${address}' for user with ID '${userId}'`)
       else {
-        const parsedAddress = isAddress(address) ? toChecksumAddress(address) : address
-        const existingAddress = (await queryInterface.sequelize.query(`SELECT * FROM "UserAddresses" WHERE address='${parsedAddress}'`))[0]
+        const parsedAddress = address.toLowerCase()
+        if (!isAddress(parsedAddress)) logger.warn(`Skipping invalid address '${address}' for user with ID '${userId}'`)
+        else {
+          const existingAddress = (await queryInterface.sequelize.query(`SELECT * FROM "UserAddresses" WHERE address='${parsedAddress}'`))[0]
 
-        if (existingAddress.length === 0) {
-          logger.success(`Inserting new address '${parsedAddress}' for user with ID '${userId}' with email '${parsedEmail}'`)
-          await queryInterface.sequelize.query(`INSERT INTO "UserAddresses" ("userId", "address", "createdAt", "updatedAt") VALUES ('${userId}', '${parsedAddress}', '${createdAt.toUTCString()}', '${updatedAt.toUTCString()}')`)
-        } else {
-          const { id: addressId, userId: addressUserId } = existingAddress[0]
-          logger.warn(`Skipping address '${parsedAddress}' for user with ID '${userId}', another user with ID '${addressUserId}' already has that address with ID '${addressId}'`)
+          if (existingAddress.length === 0) {
+            logger.success(`Inserting new address '${parsedAddress}' for user with ID '${userId}' with email '${parsedEmail}'`)
+            await queryInterface.sequelize.query(`INSERT INTO "UserAddresses" ("userId", "address", "createdAt", "updatedAt") VALUES ('${userId}', '${parsedAddress}', '${createdAt.toUTCString()}', '${updatedAt.toUTCString()}')`)
+          } else {
+            const { id: addressId, userId: addressUserId } = existingAddress[0]
+            logger.warn(`Skipping address '${parsedAddress}' for user with ID '${userId}', another user with ID '${addressUserId}' already has that address with ID '${addressId}'`)
+          }
         }
       }
     }

@@ -1,6 +1,5 @@
 import Models from '../models'
 import UsersValidator from '../validators/UsersValidator'
-import { toChecksumAddress } from 'web3-utils'
 
 const { User, UserAddress } = Models
 
@@ -24,7 +23,7 @@ export default {
       let user = await User.findOne({ where: { email }, include: [{ model: UserAddress, as: 'addresses' }] })
       if (!user) user = await User.create({ email })
 
-      const address = toChecksumAddress(params.address)
+      const address = params.address.toLowerCase()
       const userAddress = await UserAddress.create({ address, userId: user.id })
       user.addresses = (!user.addresses) ? [userAddress] : user.addresses.concat([userAddress])
 
