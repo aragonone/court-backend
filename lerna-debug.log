@@ -1,0 +1,60 @@
+0 silly argv { _: [ 'version' ],
+0 silly argv   push: false,
+0 silly argv   y: true,
+0 silly argv   yes: true,
+0 silly argv   lernaVersion: '3.20.2',
+0 silly argv   '$0': 'node_modules/.bin/lerna' }
+1 notice cli v3.20.2
+2 verbose rootPath /Users/facu/Documents/work/aragon/dev/court-backend
+3 info versioning independent
+4 silly isAnythingCommitted
+5 verbose isAnythingCommitted 1
+6 silly currentBranch
+7 verbose currentBranch master
+8 silly hasTags
+9 verbose hasTags true
+10 silly git-describe.sync "83acf9b" => {"refCount":"163","sha":"83acf9b","isDirty":false}
+11 info Assuming all packages changed
+12 verbose updated @aragonone/court-backend-app
+13 verbose updated @aragonone/court-backend-cli
+14 verbose updated @aragonone/court-backend-server
+15 verbose updated @aragonone/court-backend-services
+16 verbose updated @aragonone/court-backend-shared
+17 verbose git-describe undefined => "83acf9b"
+18 silly git-describe parsed => {"refCount":"163","sha":"83acf9b","isDirty":false}
+19 info auto-confirmed
+20 info execute Skipping git push
+21 info execute Skipping releases
+22 silly lifecycle No script for "preversion" in "@aragonone/court-backend-monorepo", continuing
+23 silly lifecycle No script for "preversion" in "@aragonone/court-backend-shared", continuing
+24 silly lifecycle No script for "version" in "@aragonone/court-backend-shared", continuing
+25 silly lifecycle No script for "preversion" in "@aragonone/court-backend-app", continuing
+26 silly lifecycle No script for "preversion" in "@aragonone/court-backend-cli", continuing
+27 silly lifecycle No script for "preversion" in "@aragonone/court-backend-server", continuing
+28 silly lifecycle No script for "version" in "@aragonone/court-backend-cli", continuing
+29 silly lifecycle No script for "version" in "@aragonone/court-backend-server", continuing
+30 silly lifecycle No script for "preversion" in "@aragonone/court-backend-services", continuing
+31 silly lifecycle No script for "version" in "@aragonone/court-backend-app", continuing
+32 silly lifecycle No script for "version" in "@aragonone/court-backend-services", continuing
+33 silly lifecycle No script for "version" in "@aragonone/court-backend-monorepo", continuing
+34 silly gitAdd [ '/Users/facu/Documents/work/aragon/dev/court-backend/packages/shared/package.json',
+34 silly gitAdd   '/Users/facu/Documents/work/aragon/dev/court-backend/packages/shared/package-lock.json',
+34 silly gitAdd   '/Users/facu/Documents/work/aragon/dev/court-backend/packages/cli/package.json',
+34 silly gitAdd   '/Users/facu/Documents/work/aragon/dev/court-backend/packages/cli/package-lock.json',
+34 silly gitAdd   '/Users/facu/Documents/work/aragon/dev/court-backend/packages/server/package.json',
+34 silly gitAdd   '/Users/facu/Documents/work/aragon/dev/court-backend/packages/server/package-lock.json',
+34 silly gitAdd   '/Users/facu/Documents/work/aragon/dev/court-backend/packages/app/package.json',
+34 silly gitAdd   '/Users/facu/Documents/work/aragon/dev/court-backend/packages/app/package-lock.json',
+34 silly gitAdd   '/Users/facu/Documents/work/aragon/dev/court-backend/packages/services/package.json',
+34 silly gitAdd   '/Users/facu/Documents/work/aragon/dev/court-backend/packages/services/package-lock.json' ]
+35 error Error: Command failed: git add -- packages/shared/package.json packages/shared/package-lock.json packages/cli/package.json packages/cli/package-lock.json packages/server/package.json packages/server/package-lock.json packages/app/package.json packages/app/package-lock.json packages/services/package.json packages/services/package-lock.json
+35 error The following paths are ignored by one of your .gitignore files:
+35 error packages/app/package-lock.json
+35 error packages/cli/package-lock.json
+35 error packages/server/package-lock.json
+35 error packages/services/package-lock.json
+35 error packages/shared/package-lock.json
+35 error Use -f if you really want to add them.
+35 error
+35 error     at makeError (/Users/facu/Documents/work/aragon/dev/court-backend/node_modules/execa/index.js:174:9)
+35 error     at Promise.all.then.arr (/Users/facu/Documents/work/aragon/dev/court-backend/node_modules/execa/index.js:278:16)
