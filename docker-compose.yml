@@ -26,7 +26,7 @@ services:
       options:
         loki-url: http://localhost:3100/loki/api/v1/push
         # required to be compatible with k8s metrics
-        loki-external-labels: job=court-backend,pod=localhost,container={{.Name}}
+        loki-external-labels: container_name={{.Name}},job=default/court-backend,instance=localhost
 
   court_services:
     build: .

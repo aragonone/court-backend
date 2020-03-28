@@ -1,6 +1,6 @@
 # This config is required for Prometheus to scrape other containers
 scrape_configs:
-- job_name: court-backend
+- job_name: default/court-backend
   static_configs:
   - targets: 
     - court_server:9091
