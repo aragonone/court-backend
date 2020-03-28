@@ -34,8 +34,8 @@ const FaucetActions = {
         const symbol = await ant.symbol()
         const antBalance = await faucet.getTotalSupply(ant.address)
         const { period, amount } = await faucet.getQuota(ant.address)
-        const quota = fromWei(amount.toString()) // TODO: assuming 18 decimals
-        const balance = fromWei(antBalance.toString()) // TODO: assuming 18 decimals
+        const quota = fromWei(amount.toString())
+        const balance = fromWei(antBalance.toString())
         dispatch(FaucetActions.receiveAntBalance({ symbol, balance, address: ant.address, period, quota }))
       } catch (error) {
         dispatch(ErrorActions.show(error))
@@ -51,8 +51,8 @@ const FaucetActions = {
         const symbol = await anj.symbol()
         const anjBalance = await faucet.getTotalSupply(anj.address)
         const { period, amount } = await faucet.getQuota(anj.address)
-        const quota = fromWei(amount.toString()) // TODO: assuming 18 decimals
-        const balance = fromWei(anjBalance.toString()) // TODO: assuming 18 decimals
+        const quota = fromWei(amount.toString())
+        const balance = fromWei(anjBalance.toString())
         dispatch(FaucetActions.receiveAnjBalance({ symbol, balance, address: anj.address, period, quota }))
       } catch (error) {
         dispatch(ErrorActions.show(error))
@@ -68,8 +68,8 @@ const FaucetActions = {
         const symbol = await feeToken.symbol()
         const feeBalance = await faucet.getTotalSupply(feeToken.address)
         const { period, amount } = await faucet.getQuota(feeToken.address)
-        const quota = fromWei(amount.toString()) // TODO: assuming 18 decimals
-        const balance = fromWei(feeBalance.toString()) // TODO: assuming 18 decimals
+        const quota = fromWei(amount.toString())
+        const balance = fromWei(feeBalance.toString())
         dispatch(FaucetActions.receiveFeeBalance({ symbol, balance, address: feeToken.address, period, quota }))
       } catch (error) {
         dispatch(ErrorActions.show(error))

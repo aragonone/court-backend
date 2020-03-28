@@ -1,6 +1,7 @@
-const { BN, fromWei } = require('web3-utils')
+const { utils } = require('ethers')
+const { fromWei } = require('web3-utils')
 
-const bn = x => new BN(x)
+const bn = x => utils.bigNumberify(x)
 const bigExp = (x, y = 18) => bn(x).mul(bn(10).pow(bn(y)))
 const maxUint = (e) => bn(2).pow(bn(e)).sub(bn(1))
 const tokenToString = (x, { decimals, symbol }) => `${fromWei(bn(x).toString())} ${symbol}`

@@ -49,7 +49,7 @@ const handlerAsync = async (environment, { config: configFilename, term: fromTer
     ],
     config.jurors.minActiveBalance                 // minActiveBalance Minimum amount of juror tokens that can be activated
   )
-  logger.success(`Changed config in tx ${receipt.tx}`)
+  logger.success(`Changed config in tx ${receipt.hash}`)
 }
 
 module.exports = {

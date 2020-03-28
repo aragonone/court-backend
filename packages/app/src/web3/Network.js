@@ -25,10 +25,6 @@ const Network = {
     return this.environment.query(query)
   },
 
-  async getWeb3() {
-    return this.environment.getWeb3()
-  },
-
   async isEnabled() {
     return this.environment.isEnabled()
   },
@@ -38,10 +34,8 @@ const Network = {
   },
 
   async getBalance(address) {
-    const web3 = await this.getWeb3()
-    return new Promise((resolve, reject) =>
-      web3.eth.getBalance(address, (error, value) =>
-        error ? reject(error) : resolve(value)))
+    const provider = await this.environment.getProvider()
+    return provider.getBalance(address)
   },
 
   async getCourt(address) {

@@ -1,10 +1,13 @@
+const { ethers } = require('ethers')
 const Environment = require('./Environment')
 const TruffleConfig = require('@truffle/config')
+const JsonRpcSigner = require('../providers/JsonRpcSigner')
 const DynamicArtifacts = require('../artifacts/DynamicArtifacts')
 
 class TruffleEnvironment extends Environment {
   constructor(network, sender = undefined) {
-    super(network, sender)
+    super(network)
+    this.sender = sender
   }
 
   async getCourt(address = undefined) {
@@ -18,19 +21,18 @@ class TruffleEnvironment extends Environment {
 
   async _getProvider() {
     const { provider } = this._getNetworkConfig()
-    return provider
+    return new ethers.providers.Web3Provider(provider)
+  }
+
+  async _getSigner() {
+    const { from, gas, gasPrice } = this._getNetworkConfig()
+    const provider = await this.getProvider()
+    return new JsonRpcSigner(provider, this.sender || from, { gasLimit: gas, gasPrice })
   }
 
   async _getArtifacts() {
-    const from = await this.getSender()
-    const provider = await this.getProvider()
-    const { gasPrice, gas } = this._getNetworkConfig()
-    return new DynamicArtifacts(provider, { from, gasPrice, gas })
-  }
-
-  async _getSender() {
-    const { from } = this._getNetworkConfig()
-    return from ? from : (await this.getAccounts())[0]
+    const signer = await this.getSigner()
+    return new DynamicArtifacts(signer)
   }
 
   _getNetworkConfig() {

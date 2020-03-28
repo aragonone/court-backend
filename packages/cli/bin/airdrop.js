@@ -45,7 +45,7 @@ async function airdrop() {
       try {
         const receipt = await court.activateFor(address, amount)
         logger.success(`Activated ANJ ${amount} for ${address} successfully`)
-        output.push({ address, amount, txHash: receipt.tx })
+        output.push({ address, amount, txHash: receipt.hash })
       } catch (error) {
         logger.error(`Failed to activate ANJ ${amount} for ${address}`)
         output.push({ address, amount, error: error.message })

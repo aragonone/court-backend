@@ -1,6 +1,7 @@
+const Wallet = require('../providers/Wallet')
 const Environment = require('./Environment')
+const JsonRpcProvider = require('../providers/JsonRpcProvider')
 const DynamicArtifacts = require('../artifacts/DynamicArtifacts')
-const PkWalletProvider = require('../providers/PkWalletProvider')
 
 require('dotenv').config() // Load env vars from .env file
 
@@ -10,8 +11,8 @@ require('dotenv').config() // Load env vars from .env file
  *   - PRIVATE_KEY: Private key of the account used
  *   - RPC: RPC endpoint, like "https://host:port/..."
  *   - COURT_ADDRESS: Address of the target Court contract to interact with
- *   - GAS_PRICE: Gas price (for TruffleContract object)
- *   - GAS: Gas limit (for TruffleContract object)
+ *   - GAS_PRICE: Default gas price value
+ *   - GAS: Default gas limit value
  *   - WEB3_POLLING_INTERVAL: Milliseconds interval for blocks polling
  */
 
@@ -27,18 +28,19 @@ class LocalEnvironment extends Environment {
   }
 
   async _getProvider() {
-    return new PkWalletProvider(PRIVATE_KEY, RPC, { pollingInterval: WEB3_POLLING_INTERVAL })
+    const provider = new JsonRpcProvider(RPC, this.getChainName())
+    provider.pollingInterval = parseInt(WEB3_POLLING_INTERVAL)
+    return provider
+  }
+
+  async _getSigner() {
+    const provider = await this.getProvider()
+    return new Wallet(PRIVATE_KEY, provider, { gasPrice: GAS_PRICE, gasLimit: GAS })
   }
 
   async _getArtifacts() {
-    const from = await this.getSender()
-    const provider = await this.getProvider()
-    return new DynamicArtifacts(provider, { from, gasPrice: GAS_PRICE, gas: GAS })
-  }
-
-  async _getSender() {
-    const provider = await this.getProvider()
-    return provider.getAddress()
+    const signer = await this._getSigner()
+    return new DynamicArtifacts(signer)
   }
 }
 

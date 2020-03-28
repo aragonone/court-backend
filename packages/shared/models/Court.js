@@ -6,7 +6,7 @@ const { getVoteId, hashVote } = require('@aragon/court/test/helpers/utils/crvoti
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
 const { DISPUTE_MANAGER_ERRORS } = require('@aragon/court/test/helpers/utils/errors')
 const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
-const { sha3, fromWei, utf8ToHex, soliditySha3, BN, padLeft, toHex } = require('web3-utils')
+const { sha3, fromWei, utf8ToHex, soliditySha3, padLeft, toHex } = require('web3-utils')
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -113,7 +113,7 @@ module.exports = class {
 
   async getCommitment(voteId, voter) {
     const voting = await this.voting()
-    const web3 = await this.environment.getWeb3()
+    const provider = await this.environment.getProvider()
 
     // The vote records are stored at the second storage index of the voting contract
     const voteRecordsSlot = padLeft(1, 64)
@@ -122,18 +122,18 @@ module.exports = class {
     // The vote records variable is a mapping indexed by vote IDs
     const voteSlot = soliditySha3(voteIdHex + voteRecordsSlot.slice(2))
     // Each vote record is a struct where the cast votes mapping is its second element, thus we add 1 to the vote slot
-    const castVoteSlot = new BN(voteSlot.slice(2), 16).add(bn(1)).toString(16)
+    const castVoteSlot = bn(voteSlot).add(bn(1)).toHexString().slice(2)
     // Each cast vote mapping is indexed by the address of the voter
     const voterCastVoteSlot = soliditySha3(padLeft(voter, 64) + castVoteSlot)
     // Each cast vote object has the commitment as its first element, thus we don't need to add another value here
     const commitmentVoteSlot = voterCastVoteSlot
 
-    return web3.eth.getStorageAt(voting.address, commitmentVoteSlot)
+    return provider.getStorageAt(voting.address, commitmentVoteSlot)
   }
 
   async getPeriod(periodId) {
     const subscriptions = await this.subscriptions()
-    const web3 = await this.environment.getWeb3()
+    const provider = await this.environment.getProvider()
 
     // The period records are stored at the 7th index of the subscriptions contract storage
     const periodsRecordsSlot = padLeft(7, 64)
@@ -142,33 +142,34 @@ module.exports = class {
     // The periods records variable is a mapping indexed by period IDs
     const periodsSlot = soliditySha3(periodIdHex + periodsRecordsSlot.slice(2))
     // The checkpoint and fee token are packed in the first element of the period struct, thus don't need to add any offset
-    const checkpointAndFeeTokenSlot = periodsSlot.slice(2)
+    const checkpointAndFeeTokenSlot = periodsSlot
     // The fee amount is the second element of the struct, thus we add 1 to the period slot
-    const feeAmountSlot = new BN(periodsSlot.slice(2), 16).add(bn(1)).toString(16)
+    const feeAmountSlot = bn(periodsSlot).add(bn(1)).toHexString()
     // The total active balance is the third element of the struct, thus we add 2 to the period slot
-    const totalActiveBalanceSlot = new BN(periodsSlot.slice(2), 16).add(bn(2)).toString(16)
+    const totalActiveBalanceSlot = bn(periodsSlot).add(bn(2)).toHexString()
     // The collected fees is the fourth element of the struct, thus we add 3 to the period slot
-    const collectedFeesSlot = new BN(periodsSlot.slice(2), 16).add(bn(3)).toString(16)
+    const collectedFeesSlot = bn(periodsSlot).add(bn(3)).toHexString()
+
 
     // The first part of the checkpoint and fee token slot is for the fee token
-    const checkpointAndFeeToken = await web3.eth.getStorageAt(subscriptions.address, `0x${checkpointAndFeeTokenSlot}`)
+    const checkpointAndFeeToken = await provider.getStorageAt(subscriptions.address, checkpointAndFeeTokenSlot)
     const feeToken = `0x${checkpointAndFeeToken.substr(10, 40)}`
 
     // The balance checkpoint is stored using a uint64 and its stored at the end of the slot
     const rawBalanceCheckpoint = checkpointAndFeeToken.substr(50)
-    const balanceCheckpoint = new BN(rawBalanceCheckpoint, 16).toString()
+    const balanceCheckpoint = bn(`0x${rawBalanceCheckpoint}`).toString()
 
     // Parse the fee amount
-    const rawFeeAmount = await web3.eth.getStorageAt(subscriptions.address, `0x${feeAmountSlot}`)
-    const feeAmount = new BN(rawFeeAmount.slice(2), 16).toString()
+    const rawFeeAmount = await provider.getStorageAt(subscriptions.address, feeAmountSlot)
+    const feeAmount = bn(rawFeeAmount).toString()
 
     // Parse the total active balance
-    const rawTotalActiveBalance = await web3.eth.getStorageAt(subscriptions.address, `0x${totalActiveBalanceSlot}`)
-    const totalActiveBalance = new BN(rawTotalActiveBalance.slice(2), 16).toString()
+    const rawTotalActiveBalance = await provider.getStorageAt(subscriptions.address, totalActiveBalanceSlot)
+    const totalActiveBalance = bn(rawTotalActiveBalance).toString()
 
     // Parse the collected fees
-    const rawCollectedFees = await web3.eth.getStorageAt(subscriptions.address, `0x${collectedFeesSlot}`)
-    const collectedFees = new BN(rawCollectedFees.slice(2), 16).toString()
+    const rawCollectedFees = await provider.getStorageAt(subscriptions.address, collectedFeesSlot)
+    const collectedFees = bn(rawCollectedFees).toString()
 
     return { balanceCheckpoint, feeToken, feeAmount, totalActiveBalance, collectedFees }
   }
@@ -254,7 +255,7 @@ module.exports = class {
     const feeToken = await subscriptions.currentFeeToken()
     const token = await ERC20.at(feeToken)
 
-    logger.info(`Approving fees for ${periods} periods to ${subscriptions.address}, total amount ${fromWei(totalAmount)}...`)
+    logger.info(`Approving fees for ${periods} periods to ${subscriptions.address}, total amount ${fromWei(totalAmount.toString())}...`)
     await this._approve(token, totalAmount, subscriptions.address)
     logger.info(`Paying fees for ${periods} periods to ${subscriptions.address}...`)
     return subscriptions.payFees(address, periods)
@@ -266,12 +267,13 @@ module.exports = class {
     const arbitrable = await Arbitrable.at(subject)
 
     const shouldCreateAndSubmit = evidence.length === 2 && submitters.length === 2
-    const receipt = shouldCreateAndSubmit
+    const { hash } = shouldCreateAndSubmit
       ? (await arbitrable.createAndSubmit(rulings, utf8ToHex(metadata), submitters[0], submitters[1], utf8ToHex(evidence[0]), utf8ToHex(evidence[1])))
       : (await arbitrable.createDispute(rulings, utf8ToHex(metadata)))
 
     const DisputeManager = await this.environment.getArtifact('DisputeManager', '@aragon/court')
-    const logs = decodeEventsOfType(receipt, DisputeManager.abi, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE)
+    const { logs: rawLogs } = await this.environment.getTransaction(hash)
+    const logs = decodeEventsOfType({ receipt: { rawLogs }}, DisputeManager.abi, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE)
     const disputeId = getEventArgument({ logs }, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE, 'disputeId')
 
     if (!shouldCreateAndSubmit) {
@@ -299,8 +301,9 @@ module.exports = class {
   async draft(disputeId) {
     const disputeManager = await this.disputeManager()
     logger.info(`Drafting dispute #${disputeId} ...`)
-    const receipt = await disputeManager.draft(disputeId)
-    const logs = decodeEventsOfType(receipt, disputeManager.abi, DISPUTE_MANAGER_EVENTS.JUROR_DRAFTED)
+    const { hash } = await disputeManager.draft(disputeId)
+    const { logs: rawLogs } = await this.environment.getTransaction(hash)
+    const logs = decodeEventsOfType({ receipt: { rawLogs }}, disputeManager.abi, DISPUTE_MANAGER_EVENTS.JUROR_DRAFTED)
     return getEvents({ logs }, DISPUTE_MANAGER_EVENTS.JUROR_DRAFTED).map(event => event.args.juror)
   }
 
@@ -436,7 +439,7 @@ module.exports = class {
       logger.info(`Resetting allowance to zero for ${recipient}...`)
       await token.approve(recipient, 0)
     }
-    logger.info(`Approving ${fromWei(amount)} tokens to ${recipient}...`)
+    logger.info(`Approving ${fromWei(amount.toString())} tokens to ${recipient}...`)
     await token.approve(recipient, amount)
   }
 }

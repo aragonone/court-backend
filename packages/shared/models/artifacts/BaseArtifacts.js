@@ -1,9 +1,8 @@
-const TruffleContract = require('@truffle/contract')
+const { ethers } = require('ethers')
 
 class BaseArtifacts {
-  constructor(provider, defaults = {}) {
-    this.defaults = defaults
-    this.provider = provider
+  constructor(signer) {
+    this.signer = signer
   }
 
   getContractSchema(contractName, dependency = undefined) {
@@ -13,11 +12,25 @@ class BaseArtifacts {
   require(contractName, dependency = undefined) {
     const schema = this.getContractSchema(contractName, dependency)
     if (!schema) throw Error(`Please make sure you provide a contract schema for ${dependency}/${contractName}`)
+    return this.buildArtifact(schema)
+  }
 
-    const Contract = TruffleContract(schema)
-    Contract.defaults(this.defaults)
-    Contract.setProvider(this.provider)
-    return Contract
+  buildArtifact(schema) {
+    const { signer } = this
+    return {
+      get abi() {
+        return schema.abi
+      },
+
+      async new(...args) {
+        const factory = new ethers.ContractFactory(schema.abi, schema.bytecode, signer)
+        return factory.deploy(...args)
+      },
+
+      async at(address) {
+        return new ethers.Contract(address, schema.abi, signer)
+      }
+    }
   }
 }
 

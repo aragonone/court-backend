@@ -1,5 +1,7 @@
+const { ethers } = require('ethers')
 const sleep = require('../../helpers/sleep')
 const Environment = require('./Environment')
+const JsonRpcSigner = require('../providers/JsonRpcSigner')
 const StaticArtifacts = require('../artifacts/StaticArtifacts')
 
 class BrowserEnvironment extends Environment {
@@ -18,18 +20,17 @@ class BrowserEnvironment extends Environment {
     if (!isEnabled) throw Error('Could not access to a browser web3 provider, please make sure to allow one.')
     const provider = window.web3.currentProvider
     provider.setMaxListeners(300)
-    return provider
+    return new ethers.providers.Web3Provider(provider)
+  }
+
+  async _getSigner() {
+    const provider = await this.getProvider()
+    return new JsonRpcSigner(provider)
   }
 
   async _getArtifacts() {
-    const from = await this.getSender()
-    const provider = await this.getProvider()
-    return new StaticArtifacts(provider, { from })
-  }
-
-  async _getSender() {
-    const provider = await this.getProvider()
-    return provider.selectedAddress
+    const signer = await this.getSigner()
+    return new StaticArtifacts(signer)
   }
 }
 

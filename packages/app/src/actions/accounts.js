@@ -51,7 +51,7 @@ const AccountActions = {
         else {
           const symbol = await ant.symbol()
           const antBalance = await ant.balanceOf(account)
-          const balance = fromWei(antBalance.toString()) // TODO: assuming 18 decimals
+          const balance = fromWei(antBalance.toString())
           dispatch(AccountActions.receiveAntBalance({ symbol, balance, address: ant.address }))
         }
       } catch (error) {
@@ -67,7 +67,7 @@ const AccountActions = {
         const anj = await court.anj()
         const symbol = await anj.symbol()
         const anjBalance = await anj.balanceOf(account)
-        const balance = fromWei(anjBalance.toString()) // TODO: assuming 18 decimals
+        const balance = fromWei(anjBalance.toString())
         dispatch(AccountActions.receiveAnjBalance({ symbol, balance, address: anj.address }))
       } catch (error) {
         dispatch(ErrorActions.show(error))
@@ -82,7 +82,7 @@ const AccountActions = {
         const feeToken = await court.feeToken()
         const symbol = await feeToken.symbol()
         const feeBalance = await feeToken.balanceOf(account)
-        const balance = fromWei(feeBalance.toString()) // TODO: assuming 18 decimals
+        const balance = fromWei(feeBalance.toString())
         dispatch(AccountActions.receiveFeeBalance({ symbol, balance, address: feeToken.address }))
       } catch (error) {
         dispatch(ErrorActions.show(error))
