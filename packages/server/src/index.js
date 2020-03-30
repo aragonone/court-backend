@@ -22,7 +22,7 @@ checkConnection().then(console.log)
 const corsOptions = {
   origin: function (origin, callback) {
     const whitelist = process.env.CORS_WHITELIST.split(',')
-    if (whitelist.indexOf(origin) !== -1) callback(null, true)
+    if (whitelist.indexOf(origin) !== -1 || whitelist[0] == '*') callback(null, true)
     else callback(new Error(`Origin '${origin}' not allowed by CORS`))
   }
 }
