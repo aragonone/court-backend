@@ -28,7 +28,7 @@ class LocalEnvironment extends Environment {
   }
 
   async _getProvider() {
-    const provider = new JsonRpcProvider(RPC, this.getChainName())
+    const provider = new JsonRpcProvider(RPC)
     provider.pollingInterval = parseInt(WEB3_POLLING_INTERVAL)
     return provider
   }
