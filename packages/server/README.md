@@ -158,7 +158,6 @@ All the provided endpoints are `Content-Type: application/json`
             "outcome": "4",
             "salt": "0x609a2445eb34bc29b4d87aea2cae24fba90a1583b14df2d765ae1f89d32b4beb",
             "revealed": false,
-            "errorId": 41,
             "createdAt": "2019-12-25T14:58:58.705Z",
             "updatedAt":"2019-12-25T14:58:58.705Z"
           }
@@ -228,15 +227,7 @@ All the provided endpoints are `Content-Type: application/json`
             "salt": "0x609a2445eb34bc29b4d87aea2cae24fba90a1583b14df2d765ae1f89d32b4beb",
             "revealed": false,
             "createdAt": "2019-12-25T14:58:58.705Z",
-            "updatedAt":"2019-12-25T14:58:58.705Z",
-            "error": {
-              "id": 41,
-              "context": "Worker 'reveal' job #1 revealing vote ID 0 for juror 0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
-              "message": "Transaction: 0x8752864b6fd59ec6365855fe17bbfc2382632e27e9d9e92e8d817e626582a757 exited with an error (status 0). Reason given: DM_INVALID_ADJUDICATION_STATE.\n     Please check that the transaction:\n     - satisfies all conditions set by Solidity `require` statements.\n     - does not trigger a Solidity `revert` statement.\n",
-              "stack": "Error: Transaction: 0x8752864b6fd59ec6365855fe17bbfc2382632e27e9d9e92e8d817e626582a757 exited with an error (status 0). Reason given: DM_INVALID_ADJUDICATION_STATE.    at PromiEvent (~/court-backend/packages/shared/node_modules/@truffle/contract/lib/promievent.js:9:30)\n    at TruffleContract.reveal (~/court-backend/packages/shared/node_modules/@truffle/contract/lib/execute.js:169:26)\n    at module.exports.revealFor (~/court-backend/packages/shared/models/Court.js:261:19)\n    at process._tickCallback (internal/process/next_tick.js:68:7)",
-              "createdAt": "2019-12-25T16:06:42.304Z",
-              "updatedAt": "2019-12-25T16:06:42.304Z"
-            }
+            "updatedAt":"2019-12-25T14:58:58.705Z"
           }
         ],
         "total": 1
