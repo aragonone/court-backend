@@ -16,7 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1585108023101,
+  "iteration": 1585357019156,
   "links": [],
   "panels": [
     {
@@ -60,7 +60,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(http_requests_total[5m])",
+          "expr": "irate(http_requests_total{pod=\"$instance\"}[5m])",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -126,7 +126,7 @@
       },
       "targets": [
         {
-          "expr": "{container=~\".*server.*\"}",
+          "expr": "{instance=\"$instance\",container_name=~\".*server.*\"}",
           "refId": "A"
         }
       ],
@@ -152,7 +152,7 @@
       },
       "targets": [
         {
-          "expr": "{container=~\".*services.*\"}",
+          "expr": "{instance=\"$instance\",container_name=~\".*services.*\"}",
           "refId": "A"
         }
       ],
@@ -178,7 +178,7 @@
       },
       "targets": [
         {
-          "expr": "{container=~\".*(app|backoffice).*\"}",
+          "expr": "{instance=\"$instance\",container_name=~\".*(app|backoffice).*\"}",
           "refId": "A"
         }
       ],
@@ -201,23 +201,16 @@
           "value": "localhost"
         },
         "datasource": "Prometheus",
-        "definition": "label_values({job=\"court-backend\"}, pod)",
+        "definition": "label_values({job=~\"(.*/)?court-backend\"}, pod)",
         "hide": 0,
         "includeAll": false,
         "index": -1,
         "label": "",
         "multi": false,
-        "name": "pod",
-        "options": [
-          {
-            "$$hashKey": "object:829",
-            "selected": true,
-            "text": "localhost",
-            "value": "localhost"
-          }
-        ],
-        "query": "label_values({job=\"court-backend\"}, pod)",
-        "refresh": 0,
+        "name": "instance",
+        "options": [],
+        "query": "label_values({job=~\"(.*/)?court-backend\"}, pod)",
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -253,5 +246,5 @@
   "variables": {
     "list": []
   },
-  "version": 1
+  "version": 2
 }
