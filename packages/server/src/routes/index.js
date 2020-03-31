@@ -1,8 +1,16 @@
 import authenticate from './authenticate'
+import metricsReporter from '../helpers/metrics-reporter'
 import asyncMiddleware from '../helpers/async-middleware'
 import { admins, users, reveals } from '../controllers'
 
 export default app => {
+  const reporter = metricsReporter(app)
+
+  app.use((request, response, next) => {
+    reporter.httpRequest(request)
+    next()
+  })
+
   app.post('/login', asyncMiddleware(admins.login))
 
   app.get('/user/:address', asyncMiddleware(users.exists))
