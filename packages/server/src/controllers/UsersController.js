@@ -18,7 +18,10 @@ export default {
     try {
       const params = request.body
       const errors = await UsersValidator.validateForCreate(params)
-      if (errors.length > 0) return response.status(400).send({ errors })
+      if (errors.length > 0) {
+        response.status(400).send({ errors })
+        next()
+      }
 
       const email = params.email.toLowerCase()
       let user = await User.findOne({ where: { email }, include: [{ model: UserAddress, as: 'addresses' }] })

@@ -39,7 +39,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // Set up custom endpoints and generic error handler
 app.get('/', (request, response) => response.status(200).send({ message: 'Welcome to Aragon Court server' }))
 routes(app)
-app.use(errorHandler)
+app.use(errorHandler(app))
 
 // Start main server
 const serverPort = process.env.SERVER_PORT || 8000

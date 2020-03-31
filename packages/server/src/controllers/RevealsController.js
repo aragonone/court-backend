@@ -21,7 +21,10 @@ export default {
     try {
       const params = request.body
       const errors = await RevealsValidator.validateForCreate(params)
-      if (errors.length > 0) return response.status(400).send({ errors })
+      if (errors.length > 0) {
+        response.status(400).send({ errors })
+        next()
+      }
 
       params.revealed = false
       const reveal = await Reveal.create(params)

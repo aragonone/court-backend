@@ -9,8 +9,10 @@ export default {
   async login(request, response, next) {
     try {
       const errors = await AdminValidator.validateForLogin(request.body)
-      if (errors.length > 0) return response.status(400).send({ errors: errors })
-
+      if (errors.length > 0) {
+        response.status(400).send({ errors: errors })
+        next()
+      }
       const token = jwt.sign({ admin: request.body.email }, SECRET_KEY, { expiresIn: 3600 })
       response.status(200).send({ token })
     } catch(error) {
@@ -43,7 +45,10 @@ export default {
   async create(request, response, next) {
     try {
       const errors = await AdminValidator.validateForCreate(request.body)
-      if (errors.length > 0) return response.status(400).send({ errors: errors })
+      if (errors.length > 0) {
+        response.status(400).send({ errors: errors })
+        next()
+      }
 
       const admin = await Admin.create(request.body)
       admin.password = undefined
@@ -57,7 +62,10 @@ export default {
     try {
       const id = request.params.id
       const errors = await AdminValidator.validateForDelete(id)
-      if (errors.length > 0) return response.status(400).send({ errors: errors })
+      if (errors.length > 0) {
+        response.status(400).send({ errors: errors })
+        next()
+      }
 
       const admin = await Admin.findByPk(id)
       await admin.destroy()
