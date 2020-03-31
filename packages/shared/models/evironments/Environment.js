@@ -30,7 +30,7 @@ class Environment {
     return new Court(court, this)
   }
 
-  async getTransaction({ hash }) {
+  async getTransaction(hash) {
     const provider = await this.getProvider()
     return provider.waitForTransaction(hash)
   }
