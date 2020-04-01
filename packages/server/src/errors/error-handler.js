@@ -5,7 +5,6 @@ export default app => (err, req, res, next) => {
   const reporter = MetricsReporter(app)
 
   if (res.headersSent) {
-    reporter.httpError(res.statusCode, error.message)
     return next(err)
   }
 
@@ -29,6 +28,5 @@ export default app => (err, req, res, next) => {
     body = 'Something went wrong :('
   }
 
-  reporter.httpError(code, body)
   res.status(code).send(body)
 }

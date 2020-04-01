@@ -13,7 +13,6 @@ import routes from './routes'
 import errorHandler from './errors/error-handler'
 import corsMiddleware from './helpers/cors-middleware'
 import checkConnection from './database/check-connection'
-import requestMetricMiddleware from './helpers/requests-metric-middleware'
 
 // Load env variables and check DB connection
 dotenv.config()
@@ -27,7 +26,6 @@ app.use(corsMiddleware)
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(requestMetricMiddleware(app))
 routes(app)
 app.use(errorHandler(app))
 
