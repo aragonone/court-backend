@@ -11,7 +11,7 @@ export default async function (logger) {
   for (const instance of reveals) await reveal(logger, court, instance)
 }
 
-async function reveal(worker, job, logger, court, reveal) {
+async function reveal(logger, court, reveal) {
   const { voteId, juror, outcome, salt } = reveal
   try {
     logger.info(`Revealing vote #${voteId} for juror ${juror}`)
