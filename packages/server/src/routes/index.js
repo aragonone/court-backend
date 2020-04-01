@@ -1,15 +1,9 @@
 import authenticate from './authenticate'
-import metricsReporter from '../helpers/metrics-reporter'
 import asyncMiddleware from '../helpers/async-middleware'
 import { admins, users, reveals } from '../controllers'
 
 export default app => {
-  const reporter = metricsReporter(app)
-
-  app.use((request, response, next) => {
-    reporter.httpRequest(request)
-    next()
-  })
+  app.get('/', (request, response) => response.status(200).send({ message: 'Welcome to Aragon Court server' }))
 
   app.post('/login', asyncMiddleware(admins.login))
 

@@ -2,7 +2,6 @@ import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
 import bodyParser from 'body-parser'
-import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 import helmet from 'helmet'
@@ -11,33 +10,24 @@ import { createServer } from '@promster/server'
 import { createMiddleware, signalIsUp } from '@promster/express'
 
 import routes from './routes'
-import errorHandler from './helpers/error-handler'
+import errorHandler from './errors/error-handler'
+import corsMiddleware from './helpers/cors-middleware'
 import checkConnection from './database/check-connection'
+import requestMetricMiddleware from './helpers/requests-metric-middleware'
 
 // Load env variables and check DB connection
 dotenv.config()
 checkConnection().then(console.log)
 
-// Set up allowed CORS origins
-const corsOptions = {
-  origin: function (origin, callback) {
-    const whitelist = process.env.CORS_WHITELIST.split(',')
-    if (whitelist.indexOf(origin) !== -1 || whitelist[0] == '*') callback(null, true)
-    else callback(new Error(`Origin '${origin}' not allowed by CORS`))
-  }
-}
-
 // Set up express layers
 const app = express()
 app.use(createMiddleware({ app }))
 app.use(helmet())
-app.use(cors(corsOptions))
+app.use(corsMiddleware)
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-
-// Set up custom endpoints and generic error handler
-app.get('/', (request, response) => response.status(200).send({ message: 'Welcome to Aragon Court server' }))
+app.use(requestMetricMiddleware(app))
 routes(app)
 app.use(errorHandler(app))
 

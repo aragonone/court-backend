@@ -5,7 +5,7 @@ const COUNTER_METRICS = {
   ],
   http: [
     { name: 'requests', help: 'HTTP request per path', labelNames: ['method', 'path'] },
-    { name: 'errors', help: 'HTTP errors per code', labelNames: ['code'] },
+    { name: 'errors', help: 'HTTP errors per code', labelNames: ['code', 'content'] },
   ],
 }
 
@@ -14,8 +14,9 @@ class MetricsReporter {
     this._initializeCounterMetrics(app)
   }
 
-  httpError(code) {
-    this.http.errors.inc({ code })
+  httpError(code, content) {
+    const parsedContent = typeof content === 'object' ? JSON.stringify(content) : content
+    this.http.errors.inc({ code, content: parsedContent })
   }
 
   httpRequest({ method, path }) {
