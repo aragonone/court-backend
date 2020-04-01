@@ -3,6 +3,9 @@
 # Production
 .env
 
+# Logs
+lerna-debug.json
+
 # Dependencies
 node_modules
 package-lock.json
