@@ -1,9 +1,6 @@
 import HttpError from './http-error'
-import MetricsReporter from '../helpers/metrics-reporter'
 
-export default app => (err, req, res, next) => {
-  const reporter = MetricsReporter(app)
-
+export default (err, req, res, next) => {
   if (res.headersSent) {
     return next(err)
   }
