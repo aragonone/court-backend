@@ -1,6 +1,8 @@
 import HttpError from './http-error'
+import SequelizeBaseError from 'sequelize/lib/errors/base-error'
+import MetricsReporter from '../helpers/metrics-reporter'
 
-export default (err, req, res, next) => {
+export default app => (err, req, res, next) => {
   if (res.headersSent) {
     return next(err)
   }
@@ -23,6 +25,11 @@ export default (err, req, res, next) => {
     console.error(err.stack)
     code = 500
     body = 'Something went wrong :('
+
+    if (err instanceof SequelizeBaseError) {
+      const reporter = MetricsReporter(app)
+      reporter.dbError()
+    }
   }
 
   res.status(code).send(body)

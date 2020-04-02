@@ -17,7 +17,7 @@ const sequelize = new Sequelize(
       ssl: true,
       native: true
     },
-    logging: undefined
+    logging: config.logging
   }
 )
 
