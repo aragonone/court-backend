@@ -5,6 +5,7 @@ class JsonRpcSigner extends ethers.Signer {
   constructor(provider, address = undefined, { gasPrice = undefined, gasLimit = undefined } = {}) {
     super()
 
+    this.address = address
     this.provider = provider
     this.gasPrice = gasPrice
     this.gasLimit = gasLimit

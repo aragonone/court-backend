@@ -1,5 +1,8 @@
 const { ethers } = require('ethers')
 
+// avoid warning log level
+ethers.errors.setLogLevel('error')
+
 class BaseArtifacts {
   constructor(signer) {
     this.signer = signer

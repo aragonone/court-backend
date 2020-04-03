@@ -102,13 +102,20 @@ module.exports = class {
   async existsVote(voteId) {
     const voting = await this.voting()
     const maxAllowedOutcomes = await voting.getMaxAllowedOutcome(voteId)
-    return !maxAllowedOutcomes.eq(bn(0))
+    return maxAllowedOutcomes !== 0
   }
 
   async isValidOutcome(voteId, outcome) {
     const voting = await this.voting()
     const exists = await this.existsVote(voteId)
     return exists && (await voting.isValidOutcome(voteId, outcome))
+  }
+
+  async getLastRoundVoteId(disputeId) {
+    const disputeManager = await this.disputeManager()
+    const { lastRoundId } = await disputeManager.getDispute(disputeId)
+    const voteId = getVoteId(disputeId, lastRoundId.toNumber())
+    return bn(voteId.toString())
   }
 
   async getCommitment(voteId, voter) {
@@ -303,29 +310,24 @@ module.exports = class {
     logger.info(`Drafting dispute #${disputeId} ...`)
     const { hash } = await disputeManager.draft(disputeId)
     const { logs: rawLogs } = await this.environment.getTransaction(hash)
-    const logs = decodeEventsOfType({ receipt: { rawLogs }}, disputeManager.abi, DISPUTE_MANAGER_EVENTS.JUROR_DRAFTED)
+    const logs = decodeEventsOfType({ receipt: { rawLogs }}, disputeManager.interface.abi, DISPUTE_MANAGER_EVENTS.JUROR_DRAFTED)
     return getEvents({ logs }, DISPUTE_MANAGER_EVENTS.JUROR_DRAFTED).map(event => event.args.juror)
   }
 
   async commit(disputeId, outcome, password) {
-    const disputeManager = await this.disputeManager()
-    const { lastRoundId } = await disputeManager.getDispute(disputeId)
-    const voteId = getVoteId(disputeId, lastRoundId)
-
-    logger.info(`Committing a vote for dispute #${disputeId} and round #${lastRoundId}...`)
+    const voteId = await this.getLastRoundVoteId(disputeId)
+    logger.info(`Committing a vote for dispute #${disputeId} on vote ID ${voteId}...`)
     const voting = await this.voting()
     return voting.commit(voteId, hashVote(outcome, soliditySha3(password)))
   }
 
   async reveal(disputeId, juror, outcome, password) {
-    const disputeManager = await this.disputeManager()
-    const { lastRoundId } = await disputeManager.getDispute(disputeId)
-    const voteId = getVoteId(disputeId, lastRoundId)
+    const voteId = await this.getLastRoundVoteId(disputeId)
     return this.revealFor(voteId, juror, outcome, soliditySha3(password))
   }
 
   async revealFor(voteId, juror, outcome, salt) {
-    logger.info(`Revealing vote #${voteId} for juror ${juror}...`)
+    logger.info(`Revealing vote for juror ${juror} on vote ID ${voteId}...`)
     const voting = await this.voting()
     return voting.reveal(voteId, juror, outcome, salt)
   }

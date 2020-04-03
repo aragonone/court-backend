@@ -37,6 +37,10 @@ const DisputeActions = {
               coherentJurors
               collectedTokens
               createdAt
+              vote {
+                id
+                winningOutcome
+              }
               jurors {
                 juror {
                   id

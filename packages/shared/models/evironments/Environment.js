@@ -9,10 +9,6 @@ class Environment {
     this.network = network
   }
 
-  getChainName() {
-    return (this.network === 'usability' || this.network === 'staging') ? 'rinkeby' : this.network
-  }
-
   getSubgraph() {
     const base = this.network === 'rpc' ? SUBGRAPH_LOCAL : SUBGRAPH_REMOTE
     const env = this.network === 'mainnet' ? '' : `-${this.network}`
