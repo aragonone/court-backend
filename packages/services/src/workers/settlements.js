@@ -18,14 +18,12 @@ async function settleDisputes(logger, court, disputesQuery) {
   }
 }
 
-async function settle(logger, court, disputeId, { checkCanSettle, executeRuling }) {
+async function settle(logger, court, disputeId, { ongoingDispute }) {
   try {
-    if (checkCanSettle) {
+    if (ongoingDispute) {
       const canSettle = await court.canSettle(disputeId)
       if (!canSettle) return logger.warn(`Ignoring dispute #${disputeId}, it cannot be settled now`)
-    }
 
-    if (executeRuling) {
       logger.info(`Executing ruling for dispute #${disputeId}`)
       await court.execute(disputeId)
       logger.success(`Executed ruling for dispute #${disputeId}`)
