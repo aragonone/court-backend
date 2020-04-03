@@ -1,6 +1,5 @@
 const logger = require('../helpers/logger')('Court')
 const { bn, bigExp } = require('../helpers/numbers')
-const { ROUND_STATES } = require('@aragon/court/test/helpers/wrappers/court')
 const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
 const { encodeVoteId, hashVote } = require('../helpers/voting')
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
@@ -8,6 +7,7 @@ const { DISPUTE_MANAGER_ERRORS } = require('@aragon/court/test/helpers/utils/err
 const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
 const { sha3, fromWei, utf8ToHex, soliditySha3, padLeft, toHex } = require('web3-utils')
 
+const ROUND_STATE_ENDED = 5
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
 module.exports = class {
@@ -87,7 +87,7 @@ module.exports = class {
     if (finalRuling !== 0) return true
 
     const { state } = await disputeManager.getRound(disputeId, lastRoundId)
-    return state === ROUND_STATES.ENDED
+    return state === ROUND_STATE_ENDED
   }
 
   async getJurors(disputeId, roundNumber) {
