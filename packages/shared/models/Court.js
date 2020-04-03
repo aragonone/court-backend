@@ -2,7 +2,7 @@ const logger = require('../helpers/logger')('Court')
 const { bn, bigExp } = require('../helpers/numbers')
 const { ROUND_STATES } = require('@aragon/court/test/helpers/wrappers/court')
 const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
-const { getVoteId, hashVote } = require('@aragon/court/test/helpers/utils/crvoting')
+const { encodeVoteId, hashVote } = require('../helpers/voting')
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
 const { DISPUTE_MANAGER_ERRORS } = require('@aragon/court/test/helpers/utils/errors')
 const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
@@ -114,8 +114,7 @@ module.exports = class {
   async getLastRoundVoteId(disputeId) {
     const disputeManager = await this.disputeManager()
     const { lastRoundId } = await disputeManager.getDispute(disputeId)
-    const voteId = getVoteId(disputeId, lastRoundId.toNumber())
-    return bn(voteId.toString())
+    return encodeVoteId(disputeId, lastRoundId)
   }
 
   async getCommitment(voteId, voter) {
@@ -410,7 +409,7 @@ module.exports = class {
       }
 
       // settle juror rewards
-      const voteId = getVoteId(disputeId, roundNumber)
+      const voteId = encodeVoteId(disputeId, roundNumber)
       const jurors = await this.getJurors(disputeId, roundNumber)
       for (const juror of jurors) {
         const votedOutcome = await voting.getVoterOutcome(voteId, juror)

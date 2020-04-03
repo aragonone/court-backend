@@ -1,7 +1,7 @@
 import Models from '../models'
 import Network from '../web3/Network'
 import BaseValidator from './BaseValidator'
-const { hashVote } = require('@aragon/court/test/helpers/utils/crvoting')
+const { hashVote } = require('@aragonone/court-backend-shared/helpers/voting')
 
 const { Reveal } = Models
 
