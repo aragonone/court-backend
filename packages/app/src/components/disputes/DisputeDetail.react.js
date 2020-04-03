@@ -60,6 +60,8 @@ export default class DisputeDetail extends React.Component {
         Round #{parseInt(round.number) + 1}
         <ul>
           <li>State: {round.state}</li>
+          <li>Vote ID: {round.vote.id}</li>
+          <li>Winning outcome: {round.vote.winningOutcome}</li>
           <li>Delayed terms: {round.delayedTerms}</li>
           <li>Draft term ID: {round.draftTermId}</li>
           <li>Jurors number: {round.jurorsNumber}</li>
