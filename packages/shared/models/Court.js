@@ -118,23 +118,8 @@ module.exports = class {
   }
 
   async getCommitment(voteId, voter) {
-    const voting = await this.voting()
-    const provider = await this.environment.getProvider()
-
-    // The vote records are stored at the second storage index of the voting contract
-    const voteRecordsSlot = padLeft(1, 64)
-    // Parse vote ID en hexadecimal and pad 64
-    const voteIdHex = padLeft(toHex(voteId), 64)
-    // The vote records variable is a mapping indexed by vote IDs
-    const voteSlot = soliditySha3(voteIdHex + voteRecordsSlot.slice(2))
-    // Each vote record is a struct where the cast votes mapping is its second element, thus we add 1 to the vote slot
-    const castVoteSlot = bn(voteSlot).add(bn(1)).toHexString().slice(2)
-    // Each cast vote mapping is indexed by the address of the voter
-    const voterCastVoteSlot = soliditySha3(padLeft(voter, 64) + castVoteSlot)
-    // Each cast vote object has the commitment as its first element, thus we don't need to add another value here
-    const commitmentVoteSlot = voterCastVoteSlot
-
-    return provider.getStorageAt(voting.address, commitmentVoteSlot)
+    const result = await this.environment.query(`{ jurorDrafts (where: { round:"${voteId}", juror: "${voter}" }) { commitment }}`)
+    return (!result || !result.jurorDrafts || result.jurorDrafts.length === 0) ? undefined : result.jurorDrafts[0].commitment
   }
 
   async getPeriod(periodId) {
