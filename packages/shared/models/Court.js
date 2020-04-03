@@ -84,7 +84,7 @@ module.exports = class {
     const disputeManager = await this.disputeManager()
 
     const { finalRuling, lastRoundId } = await disputeManager.getDispute(disputeId)
-    if (finalRuling !== bn(0)) return true
+    if (finalRuling !== 0) return true
 
     const { state } = await disputeManager.getRound(disputeId, lastRoundId)
     return state === ROUND_STATES.ENDED

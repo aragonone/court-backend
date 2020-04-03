@@ -1,11 +1,11 @@
-const ruledQuery = `
+const ruledDisputes = `
 {
   disputes(where: {state: Ruled, settledPenalties: false}, orderBy: createdAt) {
     id
   }
 }`
 
-const endedQuery = `
+const adjudicatingDisputes = `
 {
   disputes(where: {state: Adjudicating}, orderBy: createdAt) {
     id
@@ -17,7 +17,7 @@ const endedQuery = `
 }
 `
 
-const appealingQuery = `
+const appealedDisputes = `
 {
   disputes(where: {state: Adjudicating}, orderBy: createdAt) {
     id
@@ -32,20 +32,17 @@ const appealingQuery = `
 export default [
   {
     title: 'Disputes in Ruled state',
-    query: ruledQuery,
-    checkCanSettle: false,
-    executeRuling: false
+    query: ruledDisputes,
+    ongoingDispute: false,
   },
   {
     title: 'Disputes in Adjudicating state with last round ended',
-    query: endedQuery,
-    checkCanSettle: false,
-    executeRuling: true
+    query: adjudicatingDisputes,
+    ongoingDispute: true,
   },
   {
     title: 'Disputes in Adjudicating state with last round appealing',
-    query: appealingQuery,
-    checkCanSettle: true,
-    executeRuling: true
+    query: appealedDisputes,
+    ongoingDispute: true,
   },
 ]
