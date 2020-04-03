@@ -27,7 +27,7 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 routes(app)
-app.use(errorHandler)
+app.use(errorHandler(app))
 
 // Start main server
 const serverPort = process.env.SERVER_PORT || 8000
