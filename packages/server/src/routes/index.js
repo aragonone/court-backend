@@ -3,6 +3,8 @@ import asyncMiddleware from '../helpers/async-middleware'
 import { admins, users, reveals } from '../controllers'
 
 export default app => {
+  app.get('/', (request, response) => response.status(200).send({ message: 'Welcome to Aragon Court server' }))
+
   app.post('/login', asyncMiddleware(admins.login))
 
   app.get('/user/:address', asyncMiddleware(users.exists))

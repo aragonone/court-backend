@@ -16,7 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1585357019156,
+  "iteration": 1585755457933,
   "links": [],
   "panels": [
     {
@@ -29,8 +29,8 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 9,
-        "w": 12,
-        "x": 1,
+        "w": 24,
+        "x": 0,
         "y": 0
       },
       "hiddenSeries": false,
@@ -113,8 +113,8 @@
       "datasource": "Loki",
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 1,
+        "w": 24,
+        "x": 0,
         "y": 9
       },
       "id": 4,
@@ -139,8 +139,8 @@
       "datasource": "Loki",
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 1,
+        "w": 24,
+        "x": 0,
         "y": 17
       },
       "id": 6,
@@ -165,8 +165,8 @@
       "datasource": "Loki",
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 1,
+        "w": 24,
+        "x": 0,
         "y": 25
       },
       "id": 8,
@@ -246,5 +246,5 @@
   "variables": {
     "list": []
   },
-  "version": 2
+  "version": 1
 }
