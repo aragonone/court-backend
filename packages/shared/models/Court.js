@@ -394,7 +394,7 @@ module.exports = class {
     const { finalRuling: ruling, lastRoundId } = await disputeManager.getDispute(disputeId)
 
     // Execute final ruling if missing
-    if (ruling.eq(bn(0))) await this.execute(disputeId)
+    if (ruling === 0) await this.execute(disputeId)
     const { finalRuling } = await disputeManager.getDispute(disputeId)
 
     // Settle rounds
@@ -413,7 +413,7 @@ module.exports = class {
       const jurors = await this.getJurors(disputeId, roundNumber)
       for (const juror of jurors) {
         const votedOutcome = await voting.getVoterOutcome(voteId, juror)
-        if (votedOutcome.eq(finalRuling)) {
+        if (votedOutcome === finalRuling) {
           logger.info(`Settling rewards of juror ${juror} for dispute #${disputeId} and round #${roundNumber}...`)
           await disputeManager.settleReward(disputeId, roundNumber, juror)
           logger.success(`Settled rewards of juror ${juror} for dispute #${disputeId} and round #${roundNumber}...`)
