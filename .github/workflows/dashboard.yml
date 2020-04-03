@@ -10,6 +10,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     # config cluster access (requires KUBE_CA, KUBE_SERVER, KUBE_TOKEN secrets)
     - run: |
         echo ${{ secrets.KUBE_CA }} | base64 -d > ca.crt
