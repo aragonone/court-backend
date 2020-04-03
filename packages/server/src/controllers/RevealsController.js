@@ -1,6 +1,7 @@
 import Models from '../models'
 import HttpError from '../errors/http-error'
 import RevealsValidator from '../validators/RevealsValidator'
+import { decodeVoteId } from '@aragonone/court-backend-shared/helpers/voting'
 
 const { Reveal } = Models
 
@@ -19,8 +20,12 @@ export default {
     const errors = await RevealsValidator.validateForCreate(params)
     if (errors.length > 0) throw HttpError._400({ errors })
 
+    const decodedVoteId = decodeVoteId(params.voteId)
     params.revealed = false
+    params.disputeId = decodedVoteId.disputeId.toString()
+    params.roundNumber = decodedVoteId.roundId.toString()
     const reveal = await Reveal.create(params)
+
     const { id, juror, voteId, disputeId, roundNumber, createdAt, updatedAt } = reveal
     response.status(200).send({ reveal: { id, juror, voteId, disputeId, roundNumber, createdAt, updatedAt }})
   },
