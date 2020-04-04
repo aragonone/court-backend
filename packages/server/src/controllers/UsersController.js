@@ -124,7 +124,6 @@ export default {
 
   notifications: { 
     async change(req, res) {
-      UserEmails[req.params.address] = req.body.enabled
       Users[req.params.address]['notificationsEnabled'] = req.body.enabled
       let body = {
         "enabled": req.body.enabled
