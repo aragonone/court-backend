@@ -13,10 +13,10 @@ let UserSessions = { }
 export default {
   async details(req, res) {
     let body = {
-      "emailExists": false,
-      "emailVerified": false,
-      "addressVerified": false,
-      "notificationsEnabled": false
+      emailExists: false,
+      emailVerified: false,
+      addressVerified: false,
+      notificationsEnabled: false
     }
     Object.assign(body, Users[req.params.address])
     res.send(body)
@@ -34,7 +34,7 @@ export default {
       }
       UserSessions[req.params.address][req.session.id] = true
       let body = {
-        "authenticated": true
+        authenticated: true
       }
       res.send(body)
     },
@@ -57,7 +57,7 @@ export default {
     async deleteCurrent(req, res) {
       delete UserSessions[req.params.address][req.session.id]
       let body = {
-        "deleted": true
+        deleted: true
       }
       res.send(body)
     },
@@ -65,7 +65,7 @@ export default {
     async deleteAll(req, res) {
       delete UserSessions[req.params.address]
       let body = {
-        "deleted": true
+        deleted: true
       }
       res.send(body)
     },
@@ -75,7 +75,7 @@ export default {
   email: {
     async get(req, res) {
       let body = {
-        "email": UserEmails[req.params.address],
+        email: UserEmails[req.params.address],
       }
       res.send(body)
     },
@@ -88,8 +88,8 @@ export default {
       Users[req.params.address]['emailExists'] = true
       Users[req.params.address]['notificationsEnabled'] = true
       let body = {
-        "email": req.body.email,
-        "sent": true
+        email: req.body.email,
+        sent: true
       }
       res.send(body)
     },
@@ -97,14 +97,14 @@ export default {
     async verify(req, res) {
       Users[req.params.address]['emailVerified'] = true
       let body = {
-        "verified": true
+        verified: true
       }
       res.send(body)
     },
     
     async send(req, res) {
       let body = {
-        "sent": true
+        sent: true
       }
       res.send(body)
     },
@@ -115,7 +115,7 @@ export default {
       Users[req.params.address]['emailVerified'] = false
       Users[req.params.address]['notificationsEnabled'] = false
       let body = {
-        "deleted": true
+        deleted: true
       }
       res.send(body)
     },
@@ -126,7 +126,7 @@ export default {
     async change(req, res) {
       Users[req.params.address]['notificationsEnabled'] = req.body.enabled
       let body = {
-        "enabled": req.body.enabled
+        enabled: req.body.enabled
       }
       res.send(body)
     },
