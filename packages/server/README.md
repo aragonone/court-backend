@@ -54,8 +54,9 @@ All the provided endpoints are `Content-Type: application/json`
 
 - URL: /users
 - Method: GET
+- Header:
+  - Cookie: `aragonCourtSID=<SID>`
 - Query: 
-  - `token`: JSON web token
   - `limit`: Number of items to be fetched
   - `page`: Page number to be used for the items to be fetched based on the limit requested
 - Response: 
@@ -139,8 +140,9 @@ All the provided endpoints are `Content-Type: application/json`
 
 - URL: /reveals
 - Method: GET
+- Header:
+  - Cookie: `aragonCourtSID=<SID>`
 - Query: 
-  - `token`: JSON web token
   - `limit`: Number of items to be fetched
   - `page`: Page number to be used for the items to be fetched based on the limit requested
 - Response: 
@@ -177,6 +179,8 @@ All the provided endpoints are `Content-Type: application/json`
   - `password`: Admin password
 - Response: 
   - Code: 200
+  - Header:
+    - Set-Cookie: `aragonCourtSID=<SID>; Path; Expires; HttpOnly`
   - Content example: 
     ```json
       {
@@ -189,8 +193,8 @@ All the provided endpoints are `Content-Type: application/json`
 
 - URL: /me
 - Method: GET
-- Query: 
-  - `token`: JSON web token
+- Header:
+  - Cookie: `aragonCourtSID=<SID>`
 - Response: 
   - Code: 200
   - Content example: 
@@ -207,8 +211,9 @@ All the provided endpoints are `Content-Type: application/json`
 
 - URL: /admins
 - Method: GET
+- Header:
+  - Cookie: `aragonCourtSID=<SID>`
 - Query: 
-  - `token`: JSON web token
   - `limit`: Number of items to be fetched
   - `page`: Page number to be used for the items to be fetched based on the limit requested
 - Response: 
@@ -238,8 +243,9 @@ All the provided endpoints are `Content-Type: application/json`
 
 - URL: /admins
 - Method: POST
+- Header:
+  - Cookie: `aragonCourtSID=<SID>`
 - Body: 
-  - `token`: JSON web token
   - `email`: Admin email 
   - `password`: Admin password
 - Response: 
@@ -258,8 +264,8 @@ All the provided endpoints are `Content-Type: application/json`
 
 - URL: /admins/:id
 - Method: DELETE
-- Query: 
-  - `token`: JSON web token 
+- Header:
+  - Cookie: `aragonCourtSID=<SID>` 
 - Response: 
   - Code: 200
   - Content example: empty

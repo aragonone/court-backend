@@ -1,9 +1,11 @@
-import authenticate from './authenticate'
 import asyncMiddleware from '../helpers/async-middleware'
+import authenticateAdmin from './authenticate-admin'
 import { admins, users, reveals } from '../controllers'
 
 export default app => {
   app.get('/', (request, response) => response.status(200).send({ message: 'Welcome to Aragon Court server' }))
+
+  /*********** Users routes ***********/
 
   // check user details
   app.get(    '/users/:address',                      asyncMiddleware(users.details))
@@ -25,23 +27,28 @@ export default app => {
   app.put(    '/users/:address/notifications',        asyncMiddleware(users.notifications.change))
 
 
-  // other endpoints
-  app.post('/login', asyncMiddleware(admins.login))
+  /*********** Old routes ***********/
 
-  app.get('/user/:address', asyncMiddleware(users.exists))
-  app.post('/users', asyncMiddleware(users.create))
+  app.get(    '/user/:address',                       asyncMiddleware(users.exists))
+  app.post(   '/users',                               asyncMiddleware(users.create))
 
-  app.get('/reveal', asyncMiddleware(reveals.show))
-  app.post('/reveals', asyncMiddleware(reveals.create))
+  app.get(    '/reveal',                              asyncMiddleware(reveals.show))
+  app.post(   '/reveals',                             asyncMiddleware(reveals.create))
 
-  // Following routes must be authenticated
-  app.use(asyncMiddleware(authenticate))
 
-  app.get('/me', asyncMiddleware(admins.me))
-  app.get('/admins', asyncMiddleware(admins.all))
-  app.post('/admins', asyncMiddleware(admins.create))
-  app.delete('/admins/:id', asyncMiddleware(admins.delete))
+  /*********** Admin routes ***********/
 
-  app.get('/users', asyncMiddleware(users.all))
-  app.get('/reveals', asyncMiddleware(reveals.all))
+  // admin sessions routes
+  app.post(   '/login',                               asyncMiddleware(admins.login))
+  app.post(   '/logout',                              authenticateAdmin(admins.logout))
+
+  // manage admins
+  app.get(    '/me',                                  authenticateAdmin(admins.me))
+  app.get(    '/admins',                              authenticateAdmin(admins.all))
+  app.post(   '/admins',                              authenticateAdmin(admins.create))
+  app.delete( '/admins/:id',                          authenticateAdmin(admins.delete))
+
+  // manage users and reveals
+  app.get(    '/users',                               authenticateAdmin(users.all))
+  app.get(    '/reveals',                             authenticateAdmin(reveals.all))
 }

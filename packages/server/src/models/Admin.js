@@ -1,5 +1,11 @@
 const bcrypt = require('bcryptjs')
 
+const hashPassword = admin => {
+  if (admin.changed('password')) {
+    admin.password = bcrypt.hashSync(admin.password)
+  }
+}
+
 module.exports = (sequelize, DataTypes) => {
   const Admin = sequelize.define('Admin',
     {
@@ -19,16 +25,19 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
         }
       }
-    },
+    }
   )
 
-  const hashPassword = (admin, options) => {
-    if (admin.changed('password')) admin.password = bcrypt.hashSync(admin.password)
+  Admin.prototype.hasPassword = function (password) {
+    return bcrypt.compareSync(password, this.password)
   }
 
-  Admin.allEmails = async () => {
-    const admins = Admin.findAll({ attributes: ['email'] })
-    return admins.map(admin => admin.email)
+  Admin.countByEmail = async email => Admin.count({ where: { email } })
+  Admin.findByEmail = async email => Admin.findOne({ where: { email } })
+  Admin.allEmails = async () => (await Admin.findAll({ attributes: ['email'] })).map(admin => admin.email)
+
+  Admin.associate = models => {
+    Admin.hasMany(models.Session, { foreignKey: 'modelId', as: 'sessions', constraints: false, scope: { modelType: 'admin' } })
   }
 
   Admin.beforeCreate(hashPassword).beforeUpdate(hashPassword)
