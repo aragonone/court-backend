@@ -12,27 +12,29 @@ let UserSessions = { }
 
 export default {
   async details(req, res) {
+    const { params: { address } } = req
     let body = {
       emailExists: false,
       emailVerified: false,
       addressVerified: false,
       notificationsEnabled: false
     }
-    Object.assign(body, Users[req.params.address])
+    Object.assign(body, Users[address])  // Object.assign acts as a merge to avoid empty keys
     res.send(body)
   },
 
 
   sessions: {
     async create(req, res) {
-      if (!(req.params.address in Users)) {
-        Users[req.params.address] = {}
+      const { params: { address } } = req
+      if (!(address in Users)) {
+        Users[address] = {}
       }
-      Users[req.params.address]['addressVerified'] = true
-      if (!(req.params.address in UserSessions)) {
-        UserSessions[req.params.address] = {}
+      Users[address]['addressVerified'] = true
+      if (!(address in UserSessions)) {
+        UserSessions[address] = {}
       }
-      UserSessions[req.params.address][req.session.id] = true
+      UserSessions[address][req.session.id] = true
       let body = {
         authenticated: true
       }
@@ -40,22 +42,24 @@ export default {
     },
 
     async authenticate(req,res,next) {
+      const { params: { address } } = req
       if (
-        !(req.params.address in UserSessions) ||
-        !(req.session.id in UserSessions[req.params.address])
+        !(address in UserSessions) ||
+        !(req.session.id in UserSessions[address])
       ) {
         // exception for new emails from anj
-        if (req.path.endsWith("/email") && !(req.params.address in Users)) {
+        if (req.path.endsWith("/email") && !(address in Users)) {
           return next()
         }
-        const errors = [{access: `Unauthorized, please authenticate at /users/${req.params.address}/sessions`}]
+        const errors = [{access: `Unauthorized, please authenticate at /users/${address}/sessions`}]
         throw HttpError._403({ errors })
       }
       next()
     },
     
     async deleteCurrent(req, res) {
-      delete UserSessions[req.params.address][req.session.id]
+      const { params: { address } } = req
+      delete UserSessions[address][req.session.id]
       let body = {
         deleted: true
       }
@@ -63,7 +67,8 @@ export default {
     },
     
     async deleteAll(req, res) {
-      delete UserSessions[req.params.address]
+      const { params: { address } } = req
+      delete UserSessions[address]
       let body = {
         deleted: true
       }
@@ -74,19 +79,21 @@ export default {
 
   email: {
     async get(req, res) {
+      const { params: { address } } = req
       let body = {
-        email: UserEmails[req.params.address],
+        email: UserEmails[address],
       }
       res.send(body)
     },
 
     async change(req, res) {
-      UserEmails[req.params.address] = req.body.email
-      if (!(req.params.address in Users)) {
-        Users[req.params.address] = {}
+      const { params: { address } } = req
+      UserEmails[address] = req.body.email
+      if (!(address in Users)) {
+        Users[address] = {}
       }
-      Users[req.params.address]['emailExists'] = true
-      Users[req.params.address]['notificationsEnabled'] = true
+      Users[address]['emailExists'] = true
+      Users[address]['notificationsEnabled'] = true
       let body = {
         email: req.body.email,
         sent: true
@@ -95,7 +102,8 @@ export default {
     },
     
     async verify(req, res) {
-      Users[req.params.address]['emailVerified'] = true
+      const { params: { address } } = req
+      Users[address]['emailVerified'] = true
       let body = {
         verified: true
       }
@@ -103,6 +111,7 @@ export default {
     },
     
     async send(req, res) {
+      const { params: { address } } = req
       let body = {
         sent: true
       }
@@ -110,10 +119,11 @@ export default {
     },
     
     async delete(req, res) {
-      delete UserEmails[req.params.address]
-      Users[req.params.address]['emailExists'] = false
-      Users[req.params.address]['emailVerified'] = false
-      Users[req.params.address]['notificationsEnabled'] = false
+      const { params: { address } } = req
+      delete UserEmails[address]
+      Users[address]['emailExists'] = false
+      Users[address]['emailVerified'] = false
+      Users[address]['notificationsEnabled'] = false
       let body = {
         deleted: true
       }
@@ -124,7 +134,8 @@ export default {
 
   notifications: { 
     async change(req, res) {
-      Users[req.params.address]['notificationsEnabled'] = req.body.enabled
+      const { params: { address } } = req
+      Users[address]['notificationsEnabled'] = req.body.enabled
       let body = {
         enabled: req.body.enabled
       }
