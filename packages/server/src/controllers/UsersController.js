@@ -17,7 +17,7 @@ export default {
       emailExists: false,
       emailVerified: false,
       addressVerified: false,
-      notificationsEnabled: false
+      notificationsDisabled: false
     }
     Object.assign(body, Users[address])  // Object.assign acts as a merge to avoid empty keys
     res.send(body)
@@ -93,7 +93,6 @@ export default {
         Users[address] = {}
       }
       Users[address]['emailExists'] = true
-      Users[address]['notificationsEnabled'] = true
       let body = {
         email: req.body.email,
         sent: true
@@ -123,7 +122,7 @@ export default {
       delete UserEmails[address]
       Users[address]['emailExists'] = false
       Users[address]['emailVerified'] = false
-      Users[address]['notificationsEnabled'] = false
+      Users[address]['notificationsDisabled'] = false // deleting notifications table entry
       let body = {
         deleted: true
       }
@@ -135,9 +134,9 @@ export default {
   notifications: { 
     async change(req, res) {
       const { params: { address } } = req
-      Users[address]['notificationsEnabled'] = req.body.enabled
+      Users[address]['notificationsDisabled'] = req.body.disabled
       let body = {
-        enabled: req.body.enabled
+        disabled: req.body.disabled
       }
       res.send(body)
     },
