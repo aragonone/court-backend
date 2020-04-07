@@ -55,7 +55,7 @@ All the provided endpoints are `Content-Type: application/json`
 - URL: /users
 - Method: GET
 - Header:
-  - Cookie: `aragonCourtSID=<SID>`
+  - Cookie: `aragonCourtSessionID=<SID>`
 - Query: 
   - `limit`: Number of items to be fetched
   - `page`: Page number to be used for the items to be fetched based on the limit requested
@@ -141,7 +141,7 @@ All the provided endpoints are `Content-Type: application/json`
 - URL: /reveals
 - Method: GET
 - Header:
-  - Cookie: `aragonCourtSID=<SID>`
+  - Cookie: `aragonCourtSessionID=<SID>`
 - Query: 
   - `limit`: Number of items to be fetched
   - `page`: Page number to be used for the items to be fetched based on the limit requested
@@ -180,7 +180,7 @@ All the provided endpoints are `Content-Type: application/json`
 - Response: 
   - Code: 200
   - Header:
-    - Set-Cookie: `aragonCourtSID=<SID>; Path; Expires; HttpOnly`
+    - Set-Cookie: `aragonCourtSessionID=<SID>; Path; Expires; HttpOnly`
   - Content example: 
     ```json
       {
@@ -194,7 +194,7 @@ All the provided endpoints are `Content-Type: application/json`
 - URL: /me
 - Method: GET
 - Header:
-  - Cookie: `aragonCourtSID=<SID>`
+  - Cookie: `aragonCourtSessionID=<SID>`
 - Response: 
   - Code: 200
   - Content example: 
@@ -212,7 +212,7 @@ All the provided endpoints are `Content-Type: application/json`
 - URL: /admins
 - Method: GET
 - Header:
-  - Cookie: `aragonCourtSID=<SID>`
+  - Cookie: `aragonCourtSessionID=<SID>`
 - Query: 
   - `limit`: Number of items to be fetched
   - `page`: Page number to be used for the items to be fetched based on the limit requested
@@ -244,7 +244,7 @@ All the provided endpoints are `Content-Type: application/json`
 - URL: /admins
 - Method: POST
 - Header:
-  - Cookie: `aragonCourtSID=<SID>`
+  - Cookie: `aragonCourtSessionID=<SID>`
 - Body: 
   - `email`: Admin email 
   - `password`: Admin password
@@ -265,7 +265,7 @@ All the provided endpoints are `Content-Type: application/json`
 - URL: /admins/:id
 - Method: DELETE
 - Header:
-  - Cookie: `aragonCourtSID=<SID>` 
+  - Cookie: `aragonCourtSessionID=<SID>` 
 - Response: 
   - Code: 200
   - Content example: empty

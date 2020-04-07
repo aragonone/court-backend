@@ -10,7 +10,7 @@ const authenticate = route => async (request, response, next) => {
   if (!session.modelId || !session.modelType) {
     // Check if user's cookie is still saved in browser and user is not set, then automatically log the user out
     // This usually happens when you stop your express server after login, your cookie still remains saved in the browser
-    if (cookies && cookies.aragonCourtSID) response.clearCookie('aragonCourtSID')
+    if (cookies && cookies.aragonCourtSessionID) response.clearCookie('aragonCourtSessionID')
     throw HttpError._403({ error: 'Unauthorized' })
   }
 
