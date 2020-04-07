@@ -47,10 +47,6 @@ export default {
         !UserSessions.hasOwnProperty(address) ||
         !UserSessions[address].hasOwnProperty(req.session.id)
       ) {
-        // exception for new emails from anj
-        if (req.path.endsWith("/email") && !Users.hasOwnProperty(address)) {
-          return next()
-        }
         const errors = [{access: `Unauthorized, please authenticate at /users/${address}/sessions`}]
         throw HttpError._403({ errors })
       }
