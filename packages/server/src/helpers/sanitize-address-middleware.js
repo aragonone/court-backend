@@ -1,9 +1,9 @@
 import { isAddress } from 'web3-utils'
 
 const sanitizeAddresses = object => {
-  Object.keys(object).forEach(key => {
-    if (!!object[key] && typeof object[key] === 'object') sanitizeAddresses(object[key])
-    else if(isAddress(object[key])) object[key] = object[key].toLowerCase()
+  Object.entries(object).forEach(([key, value]) => {
+    if (!!value && typeof value === 'object') sanitizeAddresses(value)
+    else if(isAddress(value)) object[key] = value.toLowerCase()
   })
 }
 
