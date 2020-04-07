@@ -89,7 +89,7 @@ export default {
     async change(req, res) {
       const { params: { address } } = req
       UserEmails[address] = req.body.email
-      if (!UserSessions.hasOwnProperty(address)) {
+      if (!Users.hasOwnProperty(address)) {
         Users[address] = {}
       }
       Users[address]['emailExists'] = true
