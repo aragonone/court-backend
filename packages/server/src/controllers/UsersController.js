@@ -13,13 +13,13 @@ let UserSessions = { }
 export default {
   async details(req, res) {
     const { params: { address } } = req
-    let body = {
+    const body = {
       emailExists: false,
       emailVerified: false,
       addressVerified: false,
-      notificationsDisabled: false
+      notificationsDisabled: false,
+      ... Users[address]
     }
-    Object.assign(body, Users[address])  // Object.assign acts as a merge to avoid empty keys
     res.send(body)
   },
 
@@ -27,15 +27,15 @@ export default {
   sessions: {
     async create(req, res) {
       const { params: { address } } = req
-      if (!(address in Users)) {
+      if (!Users.hasOwnProperty(address)) {
         Users[address] = {}
       }
       Users[address]['addressVerified'] = true
-      if (!(address in UserSessions)) {
+      if (!UserSessions.hasOwnProperty(address)) {
         UserSessions[address] = {}
       }
       UserSessions[address][req.session.id] = true
-      let body = {
+      const body = {
         authenticated: true
       }
       res.send(body)
@@ -44,11 +44,11 @@ export default {
     async authenticate(req,res,next) {
       const { params: { address } } = req
       if (
-        !(address in UserSessions) ||
-        !(req.session.id in UserSessions[address])
+        !UserSessions.hasOwnProperty(address) ||
+        !UserSessions[address].hasOwnProperty(req.session.id)
       ) {
         // exception for new emails from anj
-        if (req.path.endsWith("/email") && !(address in Users)) {
+        if (req.path.endsWith("/email") && !Users.hasOwnProperty(address)) {
           return next()
         }
         const errors = [{access: `Unauthorized, please authenticate at /users/${address}/sessions`}]
@@ -60,7 +60,7 @@ export default {
     async deleteCurrent(req, res) {
       const { params: { address } } = req
       delete UserSessions[address][req.session.id]
-      let body = {
+      const body = {
         deleted: true
       }
       res.send(body)
@@ -69,7 +69,7 @@ export default {
     async deleteAll(req, res) {
       const { params: { address } } = req
       delete UserSessions[address]
-      let body = {
+      const body = {
         deleted: true
       }
       res.send(body)
@@ -80,7 +80,7 @@ export default {
   email: {
     async get(req, res) {
       const { params: { address } } = req
-      let body = {
+      const body = {
         email: UserEmails[address],
       }
       res.send(body)
@@ -89,11 +89,11 @@ export default {
     async change(req, res) {
       const { params: { address } } = req
       UserEmails[address] = req.body.email
-      if (!(address in Users)) {
+      if (!UserSessions.hasOwnProperty(address)) {
         Users[address] = {}
       }
       Users[address]['emailExists'] = true
-      let body = {
+      const body = {
         email: req.body.email,
         sent: true
       }
@@ -103,7 +103,7 @@ export default {
     async verify(req, res) {
       const { params: { address } } = req
       Users[address]['emailVerified'] = true
-      let body = {
+      const body = {
         verified: true
       }
       res.send(body)
@@ -111,7 +111,7 @@ export default {
     
     async send(req, res) {
       const { params: { address } } = req
-      let body = {
+      const body = {
         sent: true
       }
       res.send(body)
@@ -123,7 +123,7 @@ export default {
       Users[address]['emailExists'] = false
       Users[address]['emailVerified'] = false
       Users[address]['notificationsDisabled'] = false // deleting notifications table entry
-      let body = {
+      const body = {
         deleted: true
       }
       res.send(body)
@@ -135,7 +135,7 @@ export default {
     async change(req, res) {
       const { params: { address } } = req
       Users[address]['notificationsDisabled'] = req.body.disabled
-      let body = {
+      const body = {
         disabled: req.body.disabled
       }
       res.send(body)
