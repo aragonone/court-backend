@@ -10,13 +10,6 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true
         }
       },
-    },
-    {
-      instanceMethods: {
-        hasAddress(address) {
-          return address !== null && Array.includes(this.addresses.map(a => a.id), address.id)
-        }
-      },
     }
   )
 

@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs'
 import Models from '../models'
 import BaseValidator from './BaseValidator'
 
@@ -33,14 +32,14 @@ class AdminValidator extends BaseValidator {
 
   async _validateUniqueEmail(email) {
     if (!email) return this.addError({ email: 'An email must be given' })
-    const count = await Admin.count({ where: { email }})
+    const count = await Admin.countByEmail(email)
     if (count > 0) this.addError({ email: 'Given email is already used' })
   }
 
   async _validateEmailAndPassword(email, password) {
     if (email && password) {
-      const admin = await Admin.findOne({ where: { email }})
-      const matches = admin ? bcrypt.compareSync(password, admin.password) : false
+      const admin = await Admin.findByEmail(email)
+      const matches = admin ? admin.hasPassword(password) : false
       if (!matches) this.addError({ password: 'Authentication failed, email or password is not valid'})
     }
   }

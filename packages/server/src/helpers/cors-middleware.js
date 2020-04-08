@@ -1,6 +1,7 @@
 import cors from 'cors'
 
 const CORST_OPTIONS = {
+  credentials: true,
   origin: function (origin, callback) {
     const whitelist = process.env.CORS_WHITELIST.split(',')
     if (whitelist.indexOf(origin) !== -1 || whitelist[0] == '*') callback(null, true)

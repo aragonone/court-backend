@@ -1,4 +1,4 @@
-import token from '../store/token'
+import local from '../store/local'
 import Server from '../web3/Server'
 import ErrorActions from './errors'
 import * as ActionTypes from '../actions/types'
@@ -8,7 +8,7 @@ const AdminActions = {
     return async function (dispatch) {
       try {
         const response = await Server.post('login', { email, password })
-        dispatch(AdminActions.receiveToken(response.data.token))
+        dispatch(AdminActions.receiveAdmin({ id: response.data.id }))
         dispatch(AdminActions.getCurrentAdmin())
       } catch (error) {
         dispatch(ErrorActions.show(error))
@@ -17,21 +17,24 @@ const AdminActions = {
   },
 
   logout() {
-    return function (dispatch) {
-      token.revoke()
-      dispatch(AdminActions.resetAdmin())
-      dispatch(AdminActions.resetToken())
+    return async function (dispatch) {
+      try {
+        await Server.post('logout')
+        dispatch(AdminActions.resetAdmin())
+      } catch (error) {
+        dispatch(ErrorActions.show(error))
+      }
     }
   },
 
   getCurrentAdmin() {
     return async function (dispatch) {
-      if (token.exists()) {
+      if (local.existsAdmin()) {
         try {
           const response = await Server.get('me')
           dispatch(AdminActions.receiveAdmin(response.data.admin))
         } catch (error) {
-          if (error.response && error.response.status === 403) dispatch(AdminActions.logout())
+          if (error.response && error.response.status === 403) dispatch(AdminActions.resetAdmin())
           else dispatch(ErrorActions.show(error))
         }
       }
@@ -71,20 +74,13 @@ const AdminActions = {
     }
   },
 
-  receiveToken(key) {
-    token.set(key)
-    return { type: ActionTypes.RECEIVE_ADMIN_TOKEN, token: key }
-  },
-
-  resetToken() {
-    return { type: ActionTypes.RESET_ADMIN_TOKEN }
-  },
-
   receiveAdmin(admin) {
+    local.setAdmin(admin.id)
     return { type: ActionTypes.RECEIVE_ADMIN, admin }
   },
 
   resetAdmin() {
+    local.unsetAdmin()
     return { type: ActionTypes.RESET_ADMIN }
   },
 
