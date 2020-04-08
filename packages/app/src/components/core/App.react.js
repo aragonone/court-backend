@@ -67,10 +67,10 @@ class App extends React.Component {
               }
             />
 
-            <PrivateRoute path="/logout" exact component={() => <Logout admin={admin}/>}/>
-            <PrivateRoute path="/admins" exact component={AdminsList}/>
-            <PrivateRoute path="/users" exact component={UsersList}/>
-            <PrivateRoute path="/reveals" exact component={RevealsList}/>
+            <PrivateRoute path="/logout" exact admin component={() => <Logout admin={admin}/>}/>
+            <PrivateRoute path="/admins" exact admin component={AdminsList}/>
+            <PrivateRoute path="/users" exact admin component={UsersList}/>
+            <PrivateRoute path="/reveals" exact admin component={RevealsList}/>
           </Switch>
         </div>
         <Modal open={fetching} progressBar message={fetching}/>

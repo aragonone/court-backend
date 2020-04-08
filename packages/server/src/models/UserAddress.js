@@ -12,13 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   )
 
+  UserAddress.exists = async address => !!(await UserAddress.findOne({ where: { address }}))
+
   UserAddress.associate = models => {
     UserAddress.belongsTo(models.User, { foreignKey: { allowNull: false }, as: 'user' })
-  }
-
-  UserAddress.exists = async address => {
-    const userAddress = await UserAddress.findOne({ where: { address }})
-    return !!userAddress
+    UserAddress.hasMany(models.Session, { foreignKey: 'modelId', as: 'sessions', constraints: false, scope: { modelType: 'user' } })
   }
 
   return UserAddress
