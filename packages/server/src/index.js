@@ -6,6 +6,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import helmet from 'helmet'
 import morgan from 'morgan'
+import session from 'express-session'
 import { createServer } from '@promster/server'
 import { createMiddleware, signalIsUp } from '@promster/express'
 
@@ -20,6 +21,16 @@ checkConnection().then(console.log)
 
 // Set up express layers
 const app = express()
+app.use(session(
+  {
+    secret: process.env.SESSION_SECRET,
+    cookie: {
+      HttpOnly: true,
+      maxAge: 1000*60*60*24*30, // 30 days
+      secure: process.env.NODE_ENV === 'production',
+    }
+  }
+))
 app.use(createMiddleware({ app }))
 app.use(helmet())
 app.use(corsMiddleware)
