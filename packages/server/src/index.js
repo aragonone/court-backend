@@ -13,6 +13,7 @@ import routes from './routes'
 import errorHandler from './errors/error-handler'
 import corsMiddleware from './helpers/cors-middleware'
 import checkConnection from './database/check-connection'
+import sanitizeAddressMiddleware from './helpers/sanitize-address-middleware'
 
 // Load env variables and check DB connection
 dotenv.config()
@@ -26,6 +27,7 @@ app.use(corsMiddleware)
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(sanitizeAddressMiddleware())
 routes(app)
 app.use(errorHandler(app))
 

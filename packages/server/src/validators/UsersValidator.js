@@ -18,10 +18,9 @@ class UsersValidator extends BaseValidator {
   }
 
   async _validateAddress(address) {
-    const parsedAddress = address.toLowerCase()
-    if (!isAddress(parsedAddress)) return this.addError({ address: 'Given address is not valid' })
+    if (!isAddress(address)) return this.addError({ address: 'Given address is not valid' })
 
-    const count = await UserAddress.count({ where: { address: parsedAddress }})
+    const count = await UserAddress.count({ where: { address }})
     if (count > 0) this.addError({ address: 'Given address was already registered' })
   }
 }

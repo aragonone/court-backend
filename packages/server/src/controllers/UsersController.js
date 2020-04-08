@@ -6,7 +6,7 @@ const { User, UserAddress } = Models
 
 export default {
   async exists(request, response) {
-    const address = request.params.address.toLowerCase()
+    const { params: { address } } = request
     const exists = await UserAddress.exists(address)
     response.status(200).send({ exists })
   },
@@ -15,15 +15,11 @@ export default {
     const params = request.body
     const errors = await UsersValidator.validateForCreate(params)
     if (errors.length > 0) throw HttpError._400({ errors })
-
-    const email = params.email.toLowerCase()
+    const { email, address } = params
     let user = await User.findOne({ where: { email }, include: [{ model: UserAddress, as: 'addresses' }] })
     if (!user) user = await User.create({ email })
-
-    const address = params.address.toLowerCase()
     const userAddress = await UserAddress.create({ address, userId: user.id })
     user.addresses = (!user.addresses) ? [userAddress] : user.addresses.concat([userAddress])
-
     response.status(200).send(user)
   },
 
