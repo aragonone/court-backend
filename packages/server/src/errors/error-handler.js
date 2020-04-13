@@ -15,11 +15,11 @@ export default app => (err, req, res, next) => {
   }
   else if (err instanceof SyntaxError) {
     code = 400
-    body = { error: 'Make sure your request is a well formed JSON' }
+    body = { errors: [{ request: 'Make sure your request is a well formed JSON' }] }
   }
   else if (err.message.includes('CORS')) {
     code = 400
-    body = { error: err.message }
+    body = { errors: [{ cors: err.message }] }
   }
   else {
     console.error(err.stack)
