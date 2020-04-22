@@ -25,7 +25,7 @@ export default () => {
   })
 
   return session({
-    // store,   // I disabled this for now because it doesn't work and I will be migrating to Objection in the next PR
+    store,
     resave: false,                                      // Don't force sessions to be saved back to the store even if they didn't change
     saveUninitialized: false,                           // Don't force uninitialized session to be saved to the store
     secret: process.env.SESSION_SECRET,                 // Secret used to generate session IDs
