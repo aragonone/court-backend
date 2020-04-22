@@ -16,12 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{ secrets.GITHUB_TOKEN }}
-    # use previously built image for cache if possible
-    - run: docker pull $REPO:latest || true
-    - run: docker pull $REPO:rolling || true
-    - run: docker build . -t $REPO:${GITHUB_SHA} -t $REPO:rolling --cache-from $REPO:rolling --cache-from $REPO:latest
-    - run: docker push $REPO:${GITHUB_SHA}
-    - run: docker push $REPO:rolling
+    - run: .github/scripts/docker-build.sh
 
   test-server:
     runs-on: ubuntu-latest
@@ -29,13 +24,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{ secrets.GITHUB_TOKEN }}
-    - run: |
-        cp .env.sample .github/test-server/.env
-        cd .github/test-server
-        export SERVER_IMAGE=$REPO:${GITHUB_SHA}
-        docker-compose up -d
-        sleep 10
-        docker-compose exec -T court_server npm run test:server
+    - run: .github/scripts/test-server/run.sh
 
   release:
     runs-on: ubuntu-latest
