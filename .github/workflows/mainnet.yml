@@ -18,7 +18,7 @@ jobs:
     # use previously built image for cache if possible
     - run: docker pull $REPO:latest || true
     - run: docker pull $REPO:rolling || true
-    - run: docker build . -t $REPO:${GITHUB_SHA} -t $REPO:rolling --cache-from $REPO:latest --cache-from $REPO:rolling
+    - run: docker build . -t $REPO:${GITHUB_SHA} -t $REPO:rolling --cache-from $REPO:rolling --cache-from $REPO:latest
     - run: docker push $REPO:${GITHUB_SHA}
     - run: docker push $REPO:rolling
 
