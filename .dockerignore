@@ -1,2 +1,4 @@
 .github
 monitoring
+docker-compose.yml
+README.md
