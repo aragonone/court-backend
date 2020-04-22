@@ -15,37 +15,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: &dockerlogin >
-        docker login docker.pkg.github.com
-        -u $GITHUB_ACTOR
-        -p ${{ secrets.GITHUB_TOKEN }}
+    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{ secrets.GITHUB_TOKEN }}
     # use previously built image for cache if possible
     - run: docker pull $REPO:latest || true
-    - run: >
-        docker build .
-        -t $REPO:${GITHUB_SHA}
-        --cache-from $REPO:latest
+    - run: docker build . -t $REPO:${GITHUB_SHA} --cache-from $REPO:latest
     - run: docker push $REPO:${GITHUB_SHA}
 
   test-server:
     runs-on: ubuntu-latest
     needs: build
     steps:
-    - run: *dockerlogin
-    - run: cp .env.sample .github/docker-compose/.env
-    - run: export SERVER_IMAGE=$REPO:${GITHUB_SHA}
-    - run: docker-compose -f .github/docker-compose/test-server.yml up -d
-    - run: >
-        docker-compose -f .github/docker-compose/test-server.yml
-        exec court_server 
-        npm run test:server
+    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{ secrets.GITHUB_TOKEN }}
+    - run: |
+        cp .env.sample .github/test-server/.env
+        cd .github/test-server
+        export SERVER_IMAGE=$REPO:${GITHUB_SHA}
+    - run: docker-compose up -d
+    - run: docker-compose exec court_server npm run test:server
 
   release:
     if: env.GITHUB_REF == 'refs/heads/development'
     runs-on: ubuntu-latest
     needs: test-server
     steps:
-    - run: *dockerlogin
+    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{ secrets.GITHUB_TOKEN }}
     - run: docker pull $REPO:${GITHUB_SHA}
     - run: docker tag $REPO:${GITHUB_SHA} $REPO:latest
     - run: docker push $REPO:latest
