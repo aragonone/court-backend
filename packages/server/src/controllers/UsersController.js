@@ -26,7 +26,7 @@ export default {
 
   sessions: {
     async create(req, res) {
-      const { params: { address } } = req
+      const { session, params: { address } } = req
       if (!Users.hasOwnProperty(address)) {
         Users[address] = {}
       }
@@ -34,7 +34,11 @@ export default {
       if (!UserSessions.hasOwnProperty(address)) {
         UserSessions[address] = {}
       }
-      UserSessions[address][req.session.id] = true
+      UserSessions[address][session.id] = true
+
+      session.modelId = address
+      session.modelType = 'user'
+
       const body = {
         authenticated: true
       }
@@ -52,7 +56,7 @@ export default {
       }
       next()
     },
-    
+
     async deleteCurrent(req, res) {
       const { params: { address } } = req
       delete UserSessions[address][req.session.id]
@@ -61,7 +65,7 @@ export default {
       }
       res.send(body)
     },
-    
+
     async deleteAll(req, res) {
       const { params: { address } } = req
       delete UserSessions[address]
@@ -95,7 +99,7 @@ export default {
       }
       res.send(body)
     },
-    
+
     async verify(req, res) {
       const { params: { address } } = req
       Users[address]['emailVerified'] = true
@@ -104,7 +108,7 @@ export default {
       }
       res.send(body)
     },
-    
+
     async send(req, res) {
       const { params: { address } } = req
       const body = {
@@ -112,7 +116,7 @@ export default {
       }
       res.send(body)
     },
-    
+
     async delete(req, res) {
       const { params: { address } } = req
       delete UserEmails[address]
@@ -127,7 +131,7 @@ export default {
   },
 
 
-  notifications: { 
+  notifications: {
     async change(req, res) {
       const { params: { address } } = req
       Users[address]['notificationsDisabled'] = req.body.disabled
