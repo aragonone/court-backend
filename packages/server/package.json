@@ -10,7 +10,8 @@
   "scripts": {
     "build": "babel ./src --out-dir ./build --source-maps --copy-files",
     "start": "npm run build && ./scripts/db-setup.sh && node ./build",
-    "start:dev": "./scripts/db-setup.sh && nodemon --ignore ./build --exec babel-node ./src/index.js"
+    "start:dev": "./scripts/db-setup.sh && nodemon --ignore ./build --exec babel-node ./src/index.js",
+    "test": "npx mocha test --recursive"
   },
   "dependencies": {
     "@aragon/court": "1.1.0",
@@ -27,7 +28,9 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "helmet": "^3.21.2",
+    "knex": "^0.21.0",
     "morgan": "^1.9.1",
+    "objection": "^2.1.3",
     "pg": "^7.15.1",
     "pg-hstore": "^2.3.3",
     "prom-client": "^11.5.3",
@@ -40,6 +43,9 @@
     "@babel/core": "^7.7.7",
     "@babel/node": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^7.1.1",
     "nodemon": "^2.0.2",
     "sequelize-cli": "^5.5.1"
   }
