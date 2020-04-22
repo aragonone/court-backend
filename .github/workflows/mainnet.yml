@@ -3,6 +3,8 @@ on:
   push:
     tags:
       - v*
+    branches:
+      - master
 env:
   # This is a base repository and we use ${GITHUB_REF##*/} to set the version of the container
   REPO: docker.pkg.github.com/aragonone/court-backend/mainnet
@@ -12,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: >
+    - run: &dockerlogin >
         docker login docker.pkg.github.com
         -u $GITHUB_ACTOR
         -p ${{ secrets.GITHUB_TOKEN }}
@@ -20,15 +22,37 @@ jobs:
     - run: docker pull $REPO:latest || true
     - run: >
         docker build .
-        -t $REPO:latest
-        -t $REPO:${GITHUB_REF##*/}
+        -t $REPO:${GITHUB_SHA}
         --cache-from $REPO:latest
-    - run: docker push $REPO:latest
+    - run: docker push $REPO:${GITHUB_SHA}
+
+  test-server:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - run: *dockerlogin
+    - run: cp .env.sample .github/docker-compose/.env
+    - run: export SERVER_IMAGE=$REPO:${GITHUB_SHA}
+    - run: docker-compose -f .github/docker-compose/test-server.yml up -d
+    - run: >
+        docker-compose -f .github/docker-compose/test-server.yml
+        exec court_server 
+        npm run test:server
+
+  release:
+    runs-on: ubuntu-latest
+    needs: test-server
+    steps:
+    - run: *dockerlogin
+    - run: docker pull $REPO:${GITHUB_SHA}
+    - run: docker tag $REPO:${GITHUB_SHA} $REPO:$REPO:${GITHUB_REF##*/}
+    - run: docker tag $REPO:${GITHUB_SHA} $REPO:latest
     - run: docker push $REPO:${GITHUB_REF##*/}
+    - run: docker push $REPO:latest
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: release
     steps:
     # config cluster access (requires KUBE_CA, KUBE_SERVER, KUBE_TOKEN secrets)
     - run: |

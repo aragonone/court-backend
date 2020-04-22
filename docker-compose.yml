@@ -19,6 +19,7 @@ services:
       - "9091:9091" # for debugging metrics
     volumes:
       - ./packages/server/src:/court-backend/packages/server/src
+      - ./packages/server/test:/court-backend/packages/server/test
     env_file:
       - .env
     logging: &loki

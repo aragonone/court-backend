@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  court_server_db:
+    image: postgres:11-alpine
+    environment:
+    - POSTGRES_PASSWORD=${DB_PASS}
+    - POSTGRES_USER=${DB_USER}
+
+  court_server:
+    image: ${SERVER_IMAGE}
+    command: npm run start:server
+    depends_on:
+    - court_server_db
+    env_file:
+    - .env

@@ -10,6 +10,9 @@ export default app => {
   // check user details
   app.get(    '/users/:address',                      asyncMiddleware(users.details))
 
+  // verify user email using provided token (needs to come before sessions to avoid session authentication)
+  app.post(   '/users/:address/email[:]verify',       asyncMiddleware(users.email.verify))
+
   // manage user sessions
   app.post(   '/users/:address/sessions',             asyncMiddleware(users.sessions.create))
   app.all(    '/users/:address/*',                    asyncMiddleware(users.sessions.authenticate))    // requests below need an authenticated session
@@ -19,7 +22,6 @@ export default app => {
   // manage user emails
   app.get(    '/users/:address/email',                asyncMiddleware(users.email.get))
   app.put(    '/users/:address/email',                asyncMiddleware(users.email.change))
-  app.post(   '/users/:address/email[:]verify',       asyncMiddleware(users.email.verify))
   app.post(   '/users/:address/email[:]send',         asyncMiddleware(users.email.send))
   app.delete( '/users/:address/email',                asyncMiddleware(users.email.delete))
 

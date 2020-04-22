@@ -35,6 +35,7 @@ export default {
         UserSessions[address] = {}
       }
       UserSessions[address][req.session.id] = true
+      req.session.authenticated = true
       const body = {
         authenticated: true
       }
