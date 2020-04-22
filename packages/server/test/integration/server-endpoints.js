@@ -5,10 +5,11 @@ const serverPort = process.env.SERVER_PORT || 8000
 const { expect } = chai
 chai.use(chaiHttp)
 
-// agent is used to persist authentication cookie across multiple tests
-const agent = chai.request.agent(`http://localhost:${serverPort}`)
-
 describe(`Server Endpoints`, () => {
+
+  // agent is used to persist authentication cookie across multiple tests
+  const agent = chai.request.agent(`http://localhost:${serverPort}`)
+  after(() => agent.close())
 
   it('should welcome user to the api', async () => {
     const res = await agent.get('/')
@@ -112,4 +113,3 @@ describe(`Server Endpoints`, () => {
   })
 
 })
-agent.close()
