@@ -34,7 +34,7 @@ jobs:
         cd .github/test-server
         export SERVER_IMAGE=$REPO:${GITHUB_SHA}
         docker-compose up -d
-        docker-compose exec court_server npm run test:server
+        docker-compose exec -T court_server npm run test:server
 
   release:
     if: github.ref == 'refs/heads/development'
