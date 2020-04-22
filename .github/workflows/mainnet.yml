@@ -15,48 +15,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{ secrets.GITHUB_TOKEN }}
-    - run: .github/scripts/docker-build.sh
+    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}}
+    - run: .github/scripts/docker-build.sh $REPO ${GITHUB_SHA}
 
   test-server:
     runs-on: ubuntu-latest
     needs: build
     steps:
     - uses: actions/checkout@v2
-    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{ secrets.GITHUB_TOKEN }}
-    - run: .github/scripts/test-server/run.sh
+    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}}
+    - run: .github/scripts/test-server/run.sh $REPO:${GITHUB_SHA}
 
   release:
     runs-on: ubuntu-latest
     needs: test-server
     steps:
-    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{ secrets.GITHUB_TOKEN }}
-    - run: docker pull $REPO:${GITHUB_SHA}
-    - run: docker tag $REPO:${GITHUB_SHA} $REPO:$REPO:${GITHUB_REF##*/}
-    - run: docker tag $REPO:${GITHUB_SHA} $REPO:latest
-    - run: docker push $REPO:${GITHUB_REF##*/}
-    - run: docker push $REPO:latest
+    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}}
+    - run: .github/scripts/docker-release.sh $REPO:${GITHUB_SHA} $REPO:${GITHUB_REF##*/}
+    - run: .github/scripts/docker-release.sh $REPO:${GITHUB_SHA} $REPO:latest
 
   deploy:
     runs-on: ubuntu-latest
     needs: release
     steps:
-    # config cluster access (requires KUBE_CA, KUBE_SERVER, KUBE_TOKEN secrets)
-    - run: |
-        echo ${{ secrets.KUBE_CA }} | base64 -d > ca.crt
-        kubectl config set-cluster aragon --server=${{ secrets.KUBE_SERVER }} --certificate-authority=ca.crt
-        kubectl config set-credentials aragon --token=$(base64 -d <<< ${{ secrets.KUBE_TOKEN }})
-        kubectl config set-context aragon --cluster=aragon --user=aragon
-        kubectl config use-context aragon
-    # replace deployment image
-    - run: >
-        kubectl set image deployment/court-backend
-        server=$REPO:${GITHUB_REF##*/}
-        services=$REPO:${GITHUB_REF##*/}
-        app=$REPO:${GITHUB_REF##*/}
-    # wait 5 min for the new pod to be ready. If the pod is not ready there is a problem with the new container
-    - run: >
-        kubectl wait pod --for condition=Ready --timeout=300s
-        $(kubectl get pods -l app=court-backend --sort-by {.metadata.creationTimestamp} -o jsonpath={.items[-1].metadata.name})
+    - run: .github/scripts/kubectl-config.sh ${{secrets.KUBE_CA}} ${{secrets.KUBE_SERVER}} ${{secrets.KUBE_TOKEN}}
+    - run: .github/scripts/kubectl-set-image.sh court-backend ${GITHUB_REF##*/}
+    - run: .github/scripts/kubectl-wait-ready.sh court-backend
     # wait 10 sec for k8s to reroute ingress and check app endpoint
     - run: sleep 10 && curl --fail https://court-backend-app.eth.aragon.network
