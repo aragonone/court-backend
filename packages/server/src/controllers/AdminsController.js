@@ -8,8 +8,8 @@ export default {
   async login(request, response) {
     const { body, session } = request
 
-    if (session.modelId && session.modelType === 'admin') {
-      const admin = await Admin.findByPk(session.modelId)
+    if (session.adminId) {
+      const admin = await Admin.findByPk(session.adminId)
       return response.status(200).send({ admin })
     }
 
@@ -17,8 +17,7 @@ export default {
     if (errors.length > 0) throw HttpError._400({ errors })
 
     const admin = await Admin.findByEmail(body.email)
-    session.modelId = admin.id
-    session.modelType = 'admin'
+    session.adminId = admin.id
     return response.status(200).send({ admin })
   },
 

@@ -1,56 +1,41 @@
 import Models from '../models'
 import HttpError from '../errors/http-error'
 import UsersValidator from '../validators/UsersValidator'
+import Users from '../models/objection/Users'
 
 const { User, UserAddress } = Models
-
-// temp dummy models
-let Users = { }
-let UserEmails = { }
-let UserSessions = { }
 
 
 export default {
   async details(req, res) {
     const { params: { address } } = req
-    const body = {
-      emailExists: false,
-      emailVerified: false,
-      addressVerified: false,
-      notificationsDisabled: false,
-      ... Users[address]
-    }
-    res.send(body)
+    const user = await Users.query().findOne({address}).withGraphFetched('[email, emailVerificationToken, notificationSettings]')
+    res.send({
+      emailExists: !!user?.email,
+      emailVerified: !!user?.email && !user?.emailVerificationToken,
+      addressVerified: user?.addressVerified ?? false,
+      notificationsDisabled: user?.notificationSettings?.notificationsDisabled ?? false
+    })
   },
 
 
   sessions: {
     async create(req, res) {
       const { session, params: { address } } = req
-      if (!Users.hasOwnProperty(address)) {
-        Users[address] = {}
+      let user = await Users.query().findOne({address})
+      if (!user) {
+        user = await Users.query().insert({address})
       }
-      Users[address]['addressVerified'] = true
-      if (!UserSessions.hasOwnProperty(address)) {
-        UserSessions[address] = {}
-      }
-      UserSessions[address][session.id] = true
-
-      session.modelId = address
-      session.modelType = 'user'
-
-      const body = {
+      await user.$query().update({addressVerified: true})
+      session.userId = user.id
+      res.send({
         authenticated: true
-      }
-      res.send(body)
+      })
     },
 
     async authenticate(req,res,next) {
-      const { params: { address } } = req
-      if (
-        !UserSessions.hasOwnProperty(address) ||
-        !UserSessions[address].hasOwnProperty(req.session.id)
-      ) {
+      const { session, params: { address } } = req
+      if (!session.userId) {
         const errors = [{access: `Unauthorized, please authenticate at /users/${address}/sessions`}]
         throw HttpError._403({ errors })
       }
@@ -58,21 +43,20 @@ export default {
     },
 
     async deleteCurrent(req, res) {
-      const { params: { address } } = req
-      delete UserSessions[address][req.session.id]
-      const body = {
-        deleted: true
-      }
-      res.send(body)
+      req.session.destroy(() => {
+        res.send({
+          deleted: true
+        })
+      })
     },
 
     async deleteAll(req, res) {
       const { params: { address } } = req
-      delete UserSessions[address]
-      const body = {
+      const user = await Users.query().findOne({address})
+      await user.$relatedQuery('sessions').del()
+      res.send({
         deleted: true
-      }
-      res.send(body)
+      })
     },
   },
 
@@ -80,65 +64,73 @@ export default {
   email: {
     async get(req, res) {
       const { params: { address } } = req
-      const body = {
-        email: UserEmails[address],
-      }
-      res.send(body)
+      const user = await Users.query().findOne({address})
+      const email = await user.$relatedQuery('email')
+      res.send({
+        email: email?.email ?? null,
+      })
     },
 
-    async change(req, res) {
-      const { params: { address } } = req
-      UserEmails[address] = req.body.email
-      if (!Users.hasOwnProperty(address)) {
-        Users[address] = {}
+    async set(req, res) {
+      const { params: { address }, body } = req
+      const user = await Users.query().findOne({address})
+      const email = await user.$relatedQuery('email')
+      if (email) {
+        await user.$relatedQuery('email').update({email: body.email})
+      } else {
+        await user.$relatedQuery('email').insert({email: body.email})
       }
-      Users[address]['emailExists'] = true
-      const body = {
-        email: req.body.email,
+      if (!email || email.email != body.email) {
+        await user.$relatedQuery('emailVerificationToken').del()
+        await user.$relatedQuery('emailVerificationToken').insert({email: body.email, token: 'dummy'})
+      }
+      res.send({
+        email: body.email,
         sent: true
-      }
-      res.send(body)
+      })
     },
 
     async verify(req, res) {
       const { params: { address } } = req
-      Users[address]['emailVerified'] = true
-      const body = {
+      const user = await Users.query().findOne({address})
+      await user.$relatedQuery('emailVerificationToken').del()
+      res.send({
         verified: true
-      }
-      res.send(body)
+      })
     },
 
     async send(req, res) {
-      const { params: { address } } = req
-      const body = {
+      res.send({
         sent: true
-      }
-      res.send(body)
+      })
     },
 
     async delete(req, res) {
       const { params: { address } } = req
-      delete UserEmails[address]
-      Users[address]['emailExists'] = false
-      Users[address]['emailVerified'] = false
-      Users[address]['notificationsDisabled'] = false // deleting notifications table entry
-      const body = {
+      const user = await Users.query().findOne({address})
+      await user.$relatedQuery('email').del()
+      await user.$relatedQuery('emailVerificationToken').del()
+      await user.$relatedQuery('notificationSettings').del()
+      res.send({
         deleted: true
-      }
-      res.send(body)
+      })
     },
   },
 
 
   notifications: {
-    async change(req, res) {
-      const { params: { address } } = req
-      Users[address]['notificationsDisabled'] = req.body.disabled
-      const body = {
-        disabled: req.body.disabled
+    async set(req, res) {
+      const { params: { address }, body: { disabled } } = req
+      const user = await Users.query().findOne({address})
+      const notificationSettings = await user.$relatedQuery('notificationSettings')
+      if (notificationSettings) {
+        await user.$relatedQuery('notificationSettings').update({notificationsDisabled: disabled})
+      } else {
+        await user.$relatedQuery('notificationSettings').insert({notificationsDisabled: disabled})
       }
-      res.send(body)
+      res.send({
+        disabled
+      })
     },
   },
 

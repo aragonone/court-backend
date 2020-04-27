@@ -21,12 +21,12 @@ export default app => {
 
   // manage user emails
   app.get(    '/users/:address/email',                asyncMiddleware(users.email.get))
-  app.put(    '/users/:address/email',                asyncMiddleware(users.email.change))
+  app.put(    '/users/:address/email',                asyncMiddleware(users.email.set))
   app.post(   '/users/:address/email[:]send',         asyncMiddleware(users.email.send))
   app.delete( '/users/:address/email',                asyncMiddleware(users.email.delete))
 
   // set notifications
-  app.put(    '/users/:address/notifications',        asyncMiddleware(users.notifications.change))
+  app.put(    '/users/:address/notifications',        asyncMiddleware(users.notifications.set))
 
 
   /*********** Old routes ***********/

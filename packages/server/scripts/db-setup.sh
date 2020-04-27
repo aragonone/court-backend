@@ -43,3 +43,17 @@ echo "Seeding Database"
 npx sequelize db:seed:all > /dev/null 2>&1
 
 exec "$@"
+
+
+# Knex migrations
+db_result=0
+echo "Running knex database migrations..."
+while [ "${db_result}" -ne "1" ]; do
+    npx knex migrate:latest 2>&1 | grep 'connect ECONNREFUSED' > /dev/null
+    db_result=$?
+    if [ "${db_result}" -eq "0" ]; then
+        echo "Waiting for DB..."
+        sleep 5
+    fi
+done
+echo "Database is ready!"

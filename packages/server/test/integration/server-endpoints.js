@@ -112,4 +112,26 @@ describe(`Server Endpoints`, () => {
     expect(res).to.have.status(403)
   })
 
+  it('should return session cookie', async () => {
+    const res = await agent.post('/users/testaddr/sessions').send({signature: 'test'})
+    expect(res).to.have.status(200)
+    expect(res).to.have.cookie('aragonCourtSessionID')
+    expect(res.body).to.deep.equal({
+      authenticated: true
+    })
+  })
+
+  it('should logout all sessions', async () => {
+    const res = await agent.delete('/users/testaddr/sessions').send({disabled: true})
+    expect(res).to.have.status(200)
+    expect(res.body).to.deep.equal({
+      deleted: true,
+    })
+  })
+  
+  it('should return authentication error', async () => {
+    const res = await agent.get('/users/testaddr/email')
+    expect(res).to.have.status(403)
+  })  
+
 })
