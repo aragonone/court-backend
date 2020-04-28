@@ -31,6 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: test-server
     steps:
+    - uses: actions/checkout@v2
     - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}}
     - run: .github/scripts/docker-release.sh $REPO:${GITHUB_SHA} $REPO:latest
 
@@ -39,6 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: release
     steps:
+    - uses: actions/checkout@v2
     - run: .github/scripts/kubectl-config.sh ${{secrets.KUBE_CA}} ${{secrets.KUBE_SERVER}} ${{secrets.KUBE_TOKEN}}
     - run: .github/scripts/kubectl-set-image.sh court-backend-rinkeby $REPO:${GITHUB_SHA}
     - run: .github/scripts/kubectl-set-image.sh court-backend-usability $REPO:${GITHUB_SHA}
