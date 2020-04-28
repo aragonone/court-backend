@@ -5,7 +5,7 @@ exports.up = function(knex) {
     table.string('sid').unique()
     table.jsonb('data')
     table.integer('adminId')
-    //table.foreign('adminId').references('Admins.id').onDelete('CASCADE')   // no constraint while we migrate Admins
+    table.foreign('adminId').references('Admins.id').onDelete('CASCADE')
     table.integer('userId')
     table.foreign('userId').references('Users.id').onDelete('CASCADE')
     table.datetime('createdAt').defaultTo(knex.fn.now())

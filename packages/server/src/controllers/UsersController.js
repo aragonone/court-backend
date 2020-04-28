@@ -34,8 +34,9 @@ export default {
   async all(req, res) {
     const page = req.query.page || 0
     const pageSize = req.query.limit || 20
-    const users = await Users.query().orderBy('createdAt', 'DESC').page(page, pageSize)
-    res.send({ users, total })
+    const users = await Users.query().orderBy('createdAt', 'DESC').withGraphFetched('email').page(page, pageSize)
+    const total = await Users.query().resultSize()
+    res.send({ users: users.results, total })
   },
 
 

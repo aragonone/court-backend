@@ -6,9 +6,9 @@ const { Admin } = Models
 
 const authenticate = route => async (request, response, next) => {
   const { session } = request
-  if (!session.modelId || !session.modelType) throw HttpError._403({ errors: [{ status: 'Unauthorized' }] })
+  if (!session.adminId) throw HttpError._403({ errors: [{ status: 'Unauthorized' }] })
 
-  request.currentAdmin = await Admin.findByPk(session.modelId)
+  request.currentAdmin = await Admin.findByPk(session.adminId)
   route(request, response, next)
 }
 
