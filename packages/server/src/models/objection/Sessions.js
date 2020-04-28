@@ -13,6 +13,14 @@ module.exports = class Sessions extends BaseModel {
           from: 'Sessions.userId',
           to: 'Users.id'
         },
+      },
+      admin: {
+        relation: BaseModel.BelongsToOneRelation,
+        modelClass: 'Admins',
+        join: {
+          from: 'Sessions.adminId',
+          to: 'Admins.id'
+        },
       }
     }
   }
