@@ -1,7 +1,7 @@
 const BaseModel = require('./BaseModel')
 module.exports = class Sessions extends BaseModel {
   static get tableName() {
-    return 'KnexSessions'
+    return 'Sessions'
   }
 
   static get relationMappings() {
@@ -10,8 +10,8 @@ module.exports = class Sessions extends BaseModel {
         relation: BaseModel.BelongsToOneRelation,
         modelClass: 'Users',
         join: {
-          from: 'KnexSessions.userId',
-          to: 'KnexUsers.id'
+          from: 'Sessions.userId',
+          to: 'Users.id'
         },
       }
     }

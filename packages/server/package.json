@@ -11,7 +11,7 @@
     "build": "babel ./src --out-dir ./build --source-maps --copy-files",
     "start": "npm run build && ./scripts/db-setup.sh && node ./build",
     "start:dev": "./scripts/db-setup.sh && nodemon --ignore ./build --exec babel-node ./src/index.js",
-    "test": "npx mocha test --recursive"
+    "test": "npx mocha test --recursive --exit"
   },
   "dependencies": {
     "@aragon/court": "1.1.0",

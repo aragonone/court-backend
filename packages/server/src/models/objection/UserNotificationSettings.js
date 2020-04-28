@@ -1,7 +1,7 @@
 const BaseModel = require('./BaseModel')
 module.exports = class UserNotificationSettings extends BaseModel {
   static get tableName() {
-    return 'KnexUserNotificationSettings'
+    return 'UserNotificationSettings'
   }
   static get relationMappings() {
     return {
@@ -9,8 +9,8 @@ module.exports = class UserNotificationSettings extends BaseModel {
         relation: BaseModel.BelongsToOneRelation,
         modelClass: 'Users',
         join: {
-          from: 'KnexUserNotificationSettings.userId',
-          to: 'KnexUsers.id'
+          from: 'UserNotificationSettings.userId',
+          to: 'Users.id'
         },
       }
     }

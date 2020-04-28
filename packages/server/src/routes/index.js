@@ -10,6 +10,9 @@ export default app => {
   // check user details
   app.get(    '/users/:address',                      asyncMiddleware(users.details))
 
+  // add new user address and email
+  app.post(   '/users',                               asyncMiddleware(users.create))
+
   // verify user email using provided token (needs to come before sessions to avoid session authentication)
   app.post(   '/users/:address/email[:]verify',       asyncMiddleware(users.email.verify))
 
@@ -29,10 +32,7 @@ export default app => {
   app.put(    '/users/:address/notifications',        asyncMiddleware(users.notifications.set))
 
 
-  /*********** Old routes ***********/
-
-  app.get(    '/user/:address',                       asyncMiddleware(users.exists))
-  app.post(   '/users',                               asyncMiddleware(users.create))
+  /*********** Reveals routes ***********/
 
   app.get(    '/reveal',                              asyncMiddleware(reveals.show))
   app.post(   '/reveals',                             asyncMiddleware(reveals.create))

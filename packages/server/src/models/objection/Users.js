@@ -1,7 +1,7 @@
 const BaseModel = require('./BaseModel')
 module.exports = class Users extends BaseModel {
   static get tableName() {
-    return 'KnexUsers'
+    return 'Users'
   }
   static get relationMappings() {
     return {
@@ -9,32 +9,32 @@ module.exports = class Users extends BaseModel {
         relation: BaseModel.HasManyRelation,
         modelClass: 'Sessions',
         join: {
-          from: 'KnexUsers.id',
-          to: 'KnexSessions.userId'
+          from: 'Users.id',
+          to: 'Sessions.userId'
         }
       },
       notificationSettings: {
         relation: BaseModel.HasOneRelation,
         modelClass: 'UserNotificationSettings',
         join: {
-          from: 'KnexUsers.id',
-          to: 'KnexUserNotificationSettings.userId'
+          from: 'Users.id',
+          to: 'UserNotificationSettings.userId'
         }
       },
       emailVerificationToken: {
         relation: BaseModel.HasOneRelation,
         modelClass: 'UserEmailVerificationTokens',
         join: {
-          from: 'KnexUsers.id',
-          to: 'KnexUserEmailVerificationTokens.userId'
+          from: 'Users.id',
+          to: 'UserEmailVerificationTokens.userId'
         }
       },
       email: {
         relation: BaseModel.BelongsToOneRelation,
         modelClass: 'UserEmails',
         join: {
-          from: 'KnexUsers.userEmailId',
-          to: 'KnexUserEmails.id'
+          from: 'Users.userEmailId',
+          to: 'UserEmails.id'
         },
       }
     }

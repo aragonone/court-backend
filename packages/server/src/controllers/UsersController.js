@@ -1,9 +1,7 @@
-import Models from '../models'
 import HttpError from '../errors/http-error'
 import UsersValidator from '../validators/UsersValidator'
 import Users from '../models/objection/Users'
-
-const { User, UserAddress } = Models
+import UserEmails from '../models/objection/UserEmails'
 
 
 export default {
@@ -12,10 +10,32 @@ export default {
     const user = await Users.query().findOne({address}).withGraphFetched('[email, emailVerificationToken, notificationSettings]')
     res.send({
       emailExists: !!user?.email,
-      emailVerified: !!user?.email && !user?.emailVerificationToken,
-      addressVerified: user?.addressVerified ?? false,
-      notificationsDisabled: user?.notificationSettings?.notificationsDisabled ?? false
+      emailVerified: !!user?.email && !user?.emailVerificationToken && !!user?.addressVerified,
+      addressVerified: !!user?.addressVerified,
+      notificationsDisabled: !!user?.notificationSettings?.notificationsDisabled
     })
+  },
+
+
+  async create(req, res) {
+    const params = req.body
+    const errors = await UsersValidator.validateForCreate(params)
+    if (errors.length > 0) throw HttpError._400({ errors })
+    const { email, address } = params
+    let userEmail = await UserEmails.query().findOne({email})
+    if (!userEmail) userEmail= await UserEmails.query().insert({email})
+    await userEmail.$relatedQuery('users').insert({address})
+    res.send({
+      created: true
+    })
+  },
+
+
+  async all(req, res) {
+    const page = req.query.page || 0
+    const pageSize = req.query.limit || 20
+    const users = await Users.query().orderBy('createdAt', 'DESC').page(page, pageSize)
+    res.send({ users, total })
   },
 
 
@@ -132,33 +152,5 @@ export default {
         disabled
       })
     },
-  },
-
-
-  async exists(request, response) {
-    const { params: { address } } = request
-    const exists = await UserAddress.exists(address)
-    response.status(200).send({ exists })
-  },
-
-  async create(request, response) {
-    const params = request.body
-    const errors = await UsersValidator.validateForCreate(params)
-    if (errors.length > 0) throw HttpError._400({ errors })
-    const { email, address } = params
-    let user = await User.findOne({ where: { email }, include: [{ model: UserAddress, as: 'addresses' }] })
-    if (!user) user = await User.create({ email })
-    const userAddress = await UserAddress.create({ address, userId: user.id })
-    user.addresses = (!user.addresses) ? [userAddress] : user.addresses.concat([userAddress])
-    response.status(200).send(user)
-  },
-
-  async all(request, response) {
-    const limit = request.query.limit || 20
-    const offset = (request.query.page || 0) * limit
-
-    const total = await User.count()
-    const users = await User.findAll({ limit, offset, include: [{ model: UserAddress, as: 'addresses' }], order: [['createdAt', 'DESC']] })
-    response.status(200).send({ users, total })
   },
 }

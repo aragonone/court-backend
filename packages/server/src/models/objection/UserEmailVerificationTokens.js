@@ -1,7 +1,7 @@
 const BaseModel = require('./BaseModel')
 module.exports = class UserEmailVerificationTokens extends BaseModel {
   static get tableName() {
-    return 'KnexUserEmailVerificationTokens'
+    return 'UserEmailVerificationTokens'
   }
   static get relationMappings() {
     return {
@@ -9,8 +9,8 @@ module.exports = class UserEmailVerificationTokens extends BaseModel {
         relation: BaseModel.BelongsToOneRelation,
         modelClass: 'Users',
         join: {
-          from: 'KnexUserEmailVerificationTokens.userId',
-          to: 'KnexUsers.id'
+          from: 'UserEmailVerificationTokens.userId',
+          to: 'Users.id'
         },
       }
     }

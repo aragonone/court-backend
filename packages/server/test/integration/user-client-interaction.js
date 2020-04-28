@@ -1,15 +1,27 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const serverPort = process.env.SERVER_PORT || 8000
 
+const Users = require('../../src/models/objection/Users')
+const serverPort = process.env.SERVER_PORT || 8000
 const { expect } = chai
 chai.use(chaiHttp)
+const TEST_ADDR = '0xCb47e0E2713673aeea07fe1D81ecf449aEDa891A'.toLowerCase()
+const TEST_EMAIL = 'user@client.test'
 
-describe(`Server Endpoints`, () => {
+
+describe('Client user interaction', () => {
 
   // agent is used to persist authentication cookie across multiple tests
   const agent = chai.request.agent(`http://localhost:${serverPort}`)
-  after(() => agent.close())
+  after(async () => {
+    agent.close()
+    // db cleanup
+    const user = await Users.query().findOne({address: TEST_ADDR})
+    if (user) {
+      await user.$relatedQuery('email').del()
+      await user.$query().del()
+    }
+  })
 
   it('should welcome user to the api', async () => {
     const res = await agent.get('/')
@@ -18,7 +30,7 @@ describe(`Server Endpoints`, () => {
   })
 
   it('should return session cookie', async () => {
-    const res = await agent.post('/users/testaddr/sessions').send({signature: 'test'})
+    const res = await agent.post(`/users/${TEST_ADDR}/sessions`).send({signature: 'test'})
     expect(res).to.have.status(200)
     expect(res).to.have.cookie('aragonCourtSessionID')
     expect(res.body).to.deep.equal({
@@ -27,18 +39,18 @@ describe(`Server Endpoints`, () => {
   })
 
   it('should set user email', async () => {
-    const res = await agent.put('/users/testaddr/email').send({
-      email: 'test@test.com'
+    const res = await agent.put(`/users/${TEST_ADDR}/email`).send({
+      email: TEST_EMAIL
     })
     expect(res).to.have.status(200)
     expect(res.body).to.deep.equal({
-      email: 'test@test.com',
+      email: TEST_EMAIL,
       sent: true
     })
   })
 
   it('should resend verification email', async () => {
-    const res = await agent.post('/users/testaddr/email:send').send({token: 'test'})
+    const res = await agent.post(`/users/${TEST_ADDR}/email:send`).send({token: 'test'})
     expect(res).to.have.status(200)
     expect(res.body).to.deep.equal({
       sent: true
@@ -46,15 +58,15 @@ describe(`Server Endpoints`, () => {
   })
 
   it('should return user email', async () => {
-    const res = await agent.get('/users/testaddr/email')
+    const res = await agent.get(`/users/${TEST_ADDR}/email`)
     expect(res).to.have.status(200)
     expect(res.body).to.deep.equal({
-      email: 'test@test.com'
+      email: TEST_EMAIL
     })
   })
 
   it('should verify user email', async () => {
-    const res = await agent.post('/users/testaddr/email:verify').send({token: 'test'})
+    const res = await agent.post(`/users/${TEST_ADDR}/email:verify`).send({token: 'test'})
     expect(res).to.have.status(200)
     expect(res.body).to.deep.equal({
       verified: true
@@ -62,7 +74,7 @@ describe(`Server Endpoints`, () => {
   })
 
   it('should disable user notifications', async () => {
-    const res = await agent.put('/users/testaddr/notifications').send({disabled: true})
+    const res = await agent.put(`/users/${TEST_ADDR}/notifications`).send({disabled: true})
     expect(res).to.have.status(200)
     expect(res.body).to.deep.equal({
       disabled: true
@@ -70,7 +82,7 @@ describe(`Server Endpoints`, () => {
   })
   
   it('should return user with all properties true', async () => {
-    const res = await agent.get('/users/testaddr').send({disabled: true})
+    const res = await agent.get(`/users/${TEST_ADDR}`).send({disabled: true})
     expect(res).to.have.status(200)
     expect(res.body).to.deep.equal({
       emailExists: true,
@@ -81,7 +93,7 @@ describe(`Server Endpoints`, () => {
   })
   
   it('should delete user email', async () => {
-    const res = await agent.delete('/users/testaddr/email').send({disabled: true})
+    const res = await agent.delete(`/users/${TEST_ADDR}/email`).send({disabled: true})
     expect(res).to.have.status(200)
     expect(res.body).to.deep.equal({
       deleted: true,
@@ -89,7 +101,7 @@ describe(`Server Endpoints`, () => {
   })
   
   it('should return user with only addressVerified: true', async () => {
-    const res = await agent.get('/users/testaddr').send({disabled: true})
+    const res = await agent.get(`/users/${TEST_ADDR}`).send({disabled: true})
     expect(res).to.have.status(200)
     expect(res.body).to.deep.equal({
       emailExists: false,
@@ -100,7 +112,7 @@ describe(`Server Endpoints`, () => {
   })
 
   it('should logout current session', async () => {
-    const res = await agent.delete('/users/testaddr/sessions:current').send({disabled: true})
+    const res = await agent.delete(`/users/${TEST_ADDR}/sessions:current`).send({disabled: true})
     expect(res).to.have.status(200)
     expect(res.body).to.deep.equal({
       deleted: true,
@@ -108,12 +120,12 @@ describe(`Server Endpoints`, () => {
   })
   
   it('should return authentication error', async () => {
-    const res = await agent.get('/users/testaddr/email')
+    const res = await agent.get(`/users/${TEST_ADDR}/email`)
     expect(res).to.have.status(403)
   })
 
   it('should return session cookie', async () => {
-    const res = await agent.post('/users/testaddr/sessions').send({signature: 'test'})
+    const res = await agent.post(`/users/${TEST_ADDR}/sessions`).send({signature: 'test'})
     expect(res).to.have.status(200)
     expect(res).to.have.cookie('aragonCourtSessionID')
     expect(res.body).to.deep.equal({
@@ -122,7 +134,7 @@ describe(`Server Endpoints`, () => {
   })
 
   it('should logout all sessions', async () => {
-    const res = await agent.delete('/users/testaddr/sessions').send({disabled: true})
+    const res = await agent.delete(`/users/${TEST_ADDR}/sessions`).send({disabled: true})
     expect(res).to.have.status(200)
     expect(res.body).to.deep.equal({
       deleted: true,
@@ -130,7 +142,7 @@ describe(`Server Endpoints`, () => {
   })
   
   it('should return authentication error', async () => {
-    const res = await agent.get('/users/testaddr/email')
+    const res = await agent.get(`/users/${TEST_ADDR}/email`)
     expect(res).to.have.status(403)
   })  
 

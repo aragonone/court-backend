@@ -1,7 +1,7 @@
 const BaseModel = require('./BaseModel')
 module.exports = class UserEmails extends BaseModel {
   static get tableName() {
-    return 'KnexUserEmails'
+    return 'UserEmails'
   }
   static get relationMappings() {
     return {
@@ -9,8 +9,8 @@ module.exports = class UserEmails extends BaseModel {
         relation: BaseModel.HasManyRelation,
         modelClass: 'Users',
         join: {
-          from: 'KnexUserEmails.id',
-          to: 'KnexUsers.userEmailId'
+          from: 'UserEmails.id',
+          to: 'Users.userEmailId'
         }
       }
     }
