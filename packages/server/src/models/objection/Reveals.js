@@ -1,5 +1,5 @@
-const BaseModel = require('./BaseModel')
-module.exports = class Reveals extends BaseModel {
+import BaseModel from './BaseModel'
+export default class Reveals extends BaseModel {
   static get tableName() {
     return 'Reveals'
   }

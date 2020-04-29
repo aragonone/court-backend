@@ -1,5 +1,5 @@
 
-exports.up = function(knex) {
+export function up(knex) {
   return knex.schema.dropTableIfExists('Sessions').createTable('Sessions', function (table) {
     table.increments('id')
     table.string('sid').unique().notNullable()
@@ -13,6 +13,6 @@ exports.up = function(knex) {
   })
 }
 
-exports.down = function(knex) {
+export function down(knex) {
   return knex.schema.dropTable('Sessions')
 }

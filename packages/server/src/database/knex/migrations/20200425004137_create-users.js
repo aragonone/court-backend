@@ -1,5 +1,5 @@
 
-exports.up = function(knex) {
+export function up(knex) {
   return knex.schema.hasTable('UserAddresses').then(function(sequelizeExists) {
     if (sequelizeExists) {
       return knex.schema.renameTable('UserAddresses', 'Users').alterTable('Users', function (table) {
@@ -24,6 +24,6 @@ exports.up = function(knex) {
   })
 }
 
-exports.down = function(knex) {
+export function down(knex) {
   return knex.schema.dropTable('Users')
 }

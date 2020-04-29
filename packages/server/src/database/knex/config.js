@@ -1,5 +1,5 @@
-const path = require('path')
-module.exports = {
+import path from 'path'
+const config = {
   client: 'pg',
   connection: {
     host: process.env.DB_HOST,
@@ -15,3 +15,5 @@ module.exports = {
     directory: path.resolve(__dirname, './seeds'),
   },
 }
+export default config
+export const {client, connection, migrations, seeds} = config // knex cli format

@@ -1,5 +1,5 @@
 
-exports.up = function(knex) {
+export function up(knex) {
   return knex.schema.hasTable('Admins').then(function(sequelizeExists) {
     if (sequelizeExists) {
       return knex.schema.alterTable('Admins', function (table) {
@@ -18,6 +18,6 @@ exports.up = function(knex) {
   })
 }
 
-exports.down = function(knex) {
+export function down(knex) {
   return knex.schema.dropTable('Admins')
 }

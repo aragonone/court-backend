@@ -1,5 +1,5 @@
 
-exports.up = function(knex) {
+export function up(knex) {
   return knex.schema.createTable('UserNotificationSettings', function (table) {
     table.increments('id')
     table.boolean('notificationsDisabled').defaultTo(false).notNullable()
@@ -10,6 +10,6 @@ exports.up = function(knex) {
   })
 }
 
-exports.down = function(knex) {
+export function down(knex) {
   return knex.schema.dropTable('UserNotificationSettings')
 }

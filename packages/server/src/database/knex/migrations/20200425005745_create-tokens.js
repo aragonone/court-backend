@@ -1,5 +1,5 @@
 
-exports.up = function(knex) {
+export function up(knex) {
   return knex.schema.createTable('UserEmailVerificationTokens', function (table) {
     table.increments('id')
     table.string('email').notNullable()
@@ -11,6 +11,6 @@ exports.up = function(knex) {
   })
 }
 
-exports.down = function(knex) {
+export function down(knex) {
   return knex.schema.dropTable('UserEmailVerificationTokens')
 }

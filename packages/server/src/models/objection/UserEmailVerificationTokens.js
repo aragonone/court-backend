@@ -1,5 +1,5 @@
-const BaseModel = require('./BaseModel')
-module.exports = class UserEmailVerificationTokens extends BaseModel {
+import BaseModel from './BaseModel'
+export default class UserEmailVerificationTokens extends BaseModel {
   static get tableName() {
     return 'UserEmailVerificationTokens'
   }

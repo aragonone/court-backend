@@ -1,5 +1,5 @@
-const BaseModel = require('./BaseModel')
-module.exports = class UserNotificationSettings extends BaseModel {
+import BaseModel from './BaseModel'
+export default class UserNotificationSettings extends BaseModel {
   static get tableName() {
     return 'UserNotificationSettings'
   }

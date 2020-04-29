@@ -11,6 +11,7 @@
     "build": "babel ./src --out-dir ./build --source-maps --copy-files",
     "start": "npm run build && ./scripts/db-setup.sh && node ./build",
     "start:dev": "./scripts/db-setup.sh && nodemon --ignore ./build --exec babel-node ./src/index.js",
+    "knex": "npx babel-node ./node_modules/.bin/knex",
     "test": "npx mocha test --recursive --exit --require @babel/register"
   },
   "dependencies": {

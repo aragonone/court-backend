@@ -1,8 +1,10 @@
-const { Model } = require('objection')
-const Knex = require('knex');
-const config = require('../../database/knex/config')
+import { Model } from 'objection'
+import Knex from 'knex'
+
+import config from '../../database/knex/config'
 Model.knex(Knex(config))
-module.exports = class BaseModel extends Model {
+
+export default class BaseModel extends Model {
   // modelPaths is used to allow modelClass relations be defined as a string to avoid require loops
   // https://vincit.github.io/objection.js/guide/relations.html#require-loops
   static get modelPaths() {
