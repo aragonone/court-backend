@@ -1,7 +1,14 @@
 import asyncMiddleware from '../helpers/async-middleware'
 import authenticateUser from './authenticate-user'
 import authenticateAdmin from './authenticate-admin'
-import { admins, users, reveals } from '../controllers'
+import {
+  users,
+  userSessions,
+  userEmail,
+  userNotifications,
+  admins,
+  reveals,
+} from '../controllers'
 
 export default app => {
   app.get('/', (request, response) => response.status(200).send({ message: 'Welcome to Aragon Court server' }))
@@ -15,19 +22,19 @@ export default app => {
   app.post(   '/users',                               asyncMiddleware(users.create))
 
   // manage user sessions
-  app.post(   '/users/:address/sessions',             asyncMiddleware(users.sessions.create))
-  app.delete( '/users/:address/sessions[:]current',   authenticateUser(users.sessions.deleteCurrent))
-  app.delete( '/users/:address/sessions',             authenticateUser(users.sessions.deleteAll))
+  app.post(   '/users/:address/sessions',             asyncMiddleware(userSessions.create))
+  app.delete( '/users/:address/sessions[:]current',   authenticateUser(userSessions.deleteCurrent))
+  app.delete( '/users/:address/sessions',             authenticateUser(userSessions.deleteAll))
 
   // manage user emails
-  app.get(    '/users/:address/email',                authenticateUser(users.email.get))
-  app.put(    '/users/:address/email',                authenticateUser(users.email.set))
-  app.post(   '/users/:address/email[:]send',         authenticateUser(users.email.send))
-  app.post(   '/users/:address/email[:]verify',       asyncMiddleware(users.email.verify))  // no authentication, validate using a token
-  app.delete( '/users/:address/email',                authenticateUser(users.email.delete))
+  app.get(    '/users/:address/email',                authenticateUser(userEmail.get))
+  app.put(    '/users/:address/email',                authenticateUser(userEmail.set))
+  app.post(   '/users/:address/email[:]send',         authenticateUser(userEmail.send))
+  app.post(   '/users/:address/email[:]verify',       asyncMiddleware(userEmail.verify))  // no authentication, validate using a token
+  app.delete( '/users/:address/email',                authenticateUser(userEmail.delete))
 
   // set notifications
-  app.put(    '/users/:address/notifications',        authenticateUser(users.notifications.set))
+  app.put(    '/users/:address/notifications',        authenticateUser(userNotifications.set))
 
 
   /*********** Reveals routes ***********/
