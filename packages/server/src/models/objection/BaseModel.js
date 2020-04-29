@@ -12,4 +12,21 @@ module.exports = class BaseModel extends Model {
   $beforeUpdate() {
     this.updatedAt = new Date().toISOString()
   }
+
+  // static query methods (table level)
+  static async findOneOrInsert(args) {
+    let row = await this.query().findOne(args)
+    if (!row) row = await this.query().insert(args)
+    return row
+  }
+
+  // instance query methods (row level)
+  async $relatedUpdateOrInsert(relation, args) {
+    const row = await this.$relatedQuery(relation)
+    if (row) {
+      await this.$relatedQuery(relation).update(args)
+    } else {
+      await this.$relatedQuery(relation).insert(args)
+    }
+  }
 }

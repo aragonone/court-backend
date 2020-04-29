@@ -22,8 +22,7 @@ export default {
     const errors = await UsersValidator.validateForCreate(params)
     if (errors.length > 0) throw HttpError._400({ errors })
     const { email, address } = params
-    let userEmail = await UserEmails.query().findOne({email})
-    if (!userEmail) userEmail= await UserEmails.query().insert({email})
+    const userEmail = await UserEmails.findOneOrInsert({email})
     await userEmail.$relatedQuery('users').insert({address})
     res.send({
       created: true
@@ -43,10 +42,7 @@ export default {
   sessions: {
     async create(req, res) {
       const { session, params: { address } } = req
-      let user = await Users.query().findOne({address})
-      if (!user) {
-        user = await Users.query().insert({address})
-      }
+      const user = await Users.findOneOrInsert({address})
       await user.$query().update({addressVerified: true})
       session.userId = user.id
       res.send({
@@ -94,17 +90,12 @@ export default {
 
     async set(req, res) {
       const { params: { address }, body } = req
-      const user = await Users.query().findOne({address})
-      const email = await user.$relatedQuery('email')
-      if (email) {
-        await user.$relatedQuery('email').update({email: body.email})
-      } else {
-        await user.$relatedQuery('email').insert({email: body.email})
-      }
-      if (!email || email.email != body.email) {
+      const user = await Users.query().findOne({address}).withGraphFetched('email')
+      if (!user.email || user.email.email != body.email) {
         await user.$relatedQuery('emailVerificationToken').del()
         await user.$relatedQuery('emailVerificationToken').insert({email: body.email, token: 'dummy'})
       }
+      await user.$relatedUpdateOrInsert('email', {email: body.email})
       res.send({
         email: body.email,
         sent: true
@@ -143,12 +134,7 @@ export default {
     async set(req, res) {
       const { params: { address }, body: { disabled } } = req
       const user = await Users.query().findOne({address})
-      const notificationSettings = await user.$relatedQuery('notificationSettings')
-      if (notificationSettings) {
-        await user.$relatedQuery('notificationSettings').update({notificationsDisabled: disabled})
-      } else {
-        await user.$relatedQuery('notificationSettings').insert({notificationsDisabled: disabled})
-      }
+      await user.$relatedUpdateOrInsert('notificationSettings', {notificationsDisabled: disabled})
       res.send({
         disabled
       })
