@@ -2,7 +2,7 @@ import validator from 'validator'
 import BaseValidator from './BaseValidator'
 import { isAddress } from 'web3-utils'
 
-import Users from '../models/objection/Users'
+import { Users } from '../models/objection'
 
 class UsersValidator extends BaseValidator {
   async validateForCreate({ email, address }) {

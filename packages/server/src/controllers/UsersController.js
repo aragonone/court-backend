@@ -1,7 +1,6 @@
 import HttpError from '../errors/http-error'
 import UsersValidator from '../validators/UsersValidator'
-import Users from '../models/objection/Users'
-import UserEmails from '../models/objection/UserEmails'
+import { Users, UserEmails } from '../models/objection'
 
 
 export default {

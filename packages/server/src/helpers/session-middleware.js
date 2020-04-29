@@ -1,5 +1,5 @@
 import expressSession from 'express-session'
-import Sessions from '../models/objection/Sessions'
+import { Sessions } from '../models/objection'
 
 const MINUTES = 60 * 1000
 const HOURS = 60 * MINUTES
