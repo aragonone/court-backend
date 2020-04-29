@@ -53,15 +53,6 @@ export default {
       })
     },
 
-    async authenticate(req,res,next) {
-      const { session, params: { address } } = req
-      if (!session.userId) {
-        const errors = [{access: `Unauthorized, please authenticate at /users/${address}/sessions`}]
-        throw HttpError._403({ errors })
-      }
-      next()
-    },
-
     async deleteCurrent(req, res) {
       req.session.destroy(() => {
         res.send({
