@@ -1,15 +1,15 @@
 require('dotenv').config()
 const bcrypt = require('bcryptjs')
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
 
-exports.seed = function(knex) {
-  return knex('Admins').where({'email': ADMIN_EMAIL}).then(function(rows) {
-    if (!rows.length) {
-      return knex('Admins').insert({
-        email: ADMIN_EMAIL,
-        password: bcrypt.hashSync(ADMIN_PASSWORD),
-      })
-    }
-  })
+const { env: { ADMIN_EMAIL, ADMIN_PASSWORD } } = process
+const Admins = require('../../../models/objection/Admins')
+
+exports.seed = function() {
+  const admin = Admins.query().where({'email': ADMIN_EMAIL})
+  if (!admin) {
+    return Admins.query().insert({
+      email: ADMIN_EMAIL,
+      password: bcrypt.hashSync(ADMIN_PASSWORD),
+    })
+  }
 }
