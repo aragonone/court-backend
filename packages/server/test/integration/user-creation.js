@@ -1,5 +1,6 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
+import HttpStatus from 'http-status-codes'
 
 import { User } from '../../src/models/objection'
 const serverPort = process.env.SERVER_PORT || 8000
@@ -25,7 +26,7 @@ describe('User creation', () => {
 
   it('should welcome user to the api', async () => {
     const res = await agent.get('/')
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body.message).to.equal('Welcome to Aragon Court server')
   })
 
@@ -34,7 +35,7 @@ describe('User creation', () => {
       address: TEST_ADDR,
       email: TEST_EMAIL,
     })
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       created: true
     })
@@ -42,7 +43,7 @@ describe('User creation', () => {
 
   it('should return user with emailExists: true', async () => {
     const res = await agent.get(`/users/${TEST_ADDR}`).send({disabled: true})
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       emailExists: true,
       emailVerified: false,
@@ -56,6 +57,6 @@ describe('User creation', () => {
       address: TEST_ADDR,
       email: TEST_EMAIL,
     })
-    expect(res).to.have.status(400)
+    expect(res).to.have.status(HttpStatus.BAD_REQUEST)
   })
 })

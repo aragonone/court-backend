@@ -1,4 +1,5 @@
 import { DBError } from 'objection'
+import HttpStatus from 'http-status-codes'
 import HttpError from './http-error'
 import MetricsReporter from '../helpers/metrics-reporter'
 
@@ -14,16 +15,16 @@ export default app => (err, req, res, next) => {
     body = err.content
   }
   else if (err instanceof SyntaxError) {
-    code = 400
+    code = HttpStatus.BAD_REQUEST
     body = { errors: [{ request: 'Make sure your request is a well formed JSON' }] }
   }
   else if (err.message.includes('CORS')) {
-    code = 400
+    code = HttpStatus.BAD_REQUEST
     body = { errors: [{ cors: err.message }] }
   }
   else {
     console.error(err.stack)
-    code = 500
+    code = HttpStatus.INTERNAL_SERVER_ERROR
     body = 'Something went wrong :('
 
     if (err instanceof DBError) {

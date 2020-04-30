@@ -1,5 +1,5 @@
 import HttpError from '../errors/http-error'
 
 export default () => (req, res, next) => {
-  throw HttpError._404({ errors: [{ status: 'Not found' }] })
+  throw HttpError.NOT_FOUND({ errors: [{ status: 'Not found' }] })
 }

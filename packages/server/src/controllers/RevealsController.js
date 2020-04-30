@@ -16,7 +16,7 @@ export default {
   async create(request, response) {
     const params = request.body
     const errors = await RevealsValidator.validateForCreate(params)
-    if (errors.length > 0) throw HttpError._400({ errors })
+    if (errors.length > 0) throw HttpError.BAD_REQUEST({ errors })
 
     const decodedVoteId = decodeVoteId(params.voteId)
     params.revealed = false

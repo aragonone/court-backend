@@ -4,7 +4,7 @@ import asyncMiddleware from '../helpers/async-middleware'
 
 const authenticate = route => async (request, response, next) => {
   const { session } = request
-  if (!session.adminId) throw HttpError._403({ errors: [{ status: 'Unauthorized' }] })
+  if (!session.adminId) throw HttpError.UNAUTHORIZED({ errors: [{ access: 'Unauthorized' }] })
 
   request.currentAdmin = await Admin.findById(session.adminId)
   route(request, response, next)

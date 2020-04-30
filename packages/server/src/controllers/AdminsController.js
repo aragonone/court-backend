@@ -12,7 +12,7 @@ export default {
     }
 
     const errors = await AdminValidator.validateForLogin(body)
-    if (errors.length > 0) throw HttpError._400({ errors })
+    if (errors.length > 0) throw HttpError.BAD_REQUEST({ errors })
 
     const admin = await Admin.findByEmail(body.email)
     session.adminId = admin.id
@@ -39,7 +39,7 @@ export default {
 
   async create(request, response) {
     const errors = await AdminValidator.validateForCreate(request.body)
-    if (errors.length > 0) throw HttpError._400({ errors })
+    if (errors.length > 0) throw HttpError.BAD_REQUEST({ errors })
 
     const admin = await Admin.create(request.body)
     admin.password = undefined
@@ -49,7 +49,7 @@ export default {
   async delete(request, response) {
     const id = request.params.id
     const errors = await AdminValidator.validateForDelete(id)
-    if (errors.length > 0) throw HttpError._400({ errors })
+    if (errors.length > 0) throw HttpError.BAD_REQUEST({ errors })
 
     const admin = await Admin.findById(id)
     await admin.destroy()

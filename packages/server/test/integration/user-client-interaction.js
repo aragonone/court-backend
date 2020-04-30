@@ -1,5 +1,6 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
+import HttpStatus from 'http-status-codes'
 
 import { User } from '../../src/models/objection'
 const serverPort = process.env.SERVER_PORT || 8000
@@ -25,13 +26,13 @@ describe('Client user interaction', () => {
 
   it('should welcome user to the api', async () => {
     const res = await agent.get('/')
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body.message).to.equal('Welcome to Aragon Court server')
   })
 
   it('should return session cookie', async () => {
     const res = await agent.post(`/users/${TEST_ADDR}/sessions`).send({signature: 'test'})
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res).to.have.cookie('aragonCourtSessionID')
     expect(res.body).to.deep.equal({
       authenticated: true
@@ -42,7 +43,7 @@ describe('Client user interaction', () => {
     const res = await agent.put(`/users/${TEST_ADDR}/email`).send({
       email: TEST_EMAIL
     })
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       email: TEST_EMAIL,
       sent: true
@@ -51,7 +52,7 @@ describe('Client user interaction', () => {
 
   it('should resend verification email', async () => {
     const res = await agent.post(`/users/${TEST_ADDR}/email:send`).send({token: 'test'})
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       sent: true
     })
@@ -59,7 +60,7 @@ describe('Client user interaction', () => {
 
   it('should return user email', async () => {
     const res = await agent.get(`/users/${TEST_ADDR}/email`)
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       email: TEST_EMAIL
     })
@@ -67,7 +68,7 @@ describe('Client user interaction', () => {
 
   it('should verify user email', async () => {
     const res = await agent.post(`/users/${TEST_ADDR}/email:verify`).send({token: 'test'})
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       verified: true
     })
@@ -75,7 +76,7 @@ describe('Client user interaction', () => {
 
   it('should disable user notifications', async () => {
     const res = await agent.put(`/users/${TEST_ADDR}/notifications`).send({disabled: true})
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       disabled: true
     })
@@ -83,7 +84,7 @@ describe('Client user interaction', () => {
   
   it('should return user with all properties true', async () => {
     const res = await agent.get(`/users/${TEST_ADDR}`).send({disabled: true})
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       emailExists: true,
       emailVerified: true,
@@ -94,7 +95,7 @@ describe('Client user interaction', () => {
   
   it('should delete user email', async () => {
     const res = await agent.delete(`/users/${TEST_ADDR}/email`).send({disabled: true})
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       deleted: true,
     })
@@ -102,7 +103,7 @@ describe('Client user interaction', () => {
   
   it('should return user with only addressVerified: true', async () => {
     const res = await agent.get(`/users/${TEST_ADDR}`).send({disabled: true})
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       emailExists: false,
       emailVerified: false,
@@ -113,7 +114,7 @@ describe('Client user interaction', () => {
 
   it('should logout current session', async () => {
     const res = await agent.delete(`/users/${TEST_ADDR}/sessions:current`).send({disabled: true})
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       deleted: true,
     })
@@ -121,12 +122,12 @@ describe('Client user interaction', () => {
   
   it('should return authentication error', async () => {
     const res = await agent.get(`/users/${TEST_ADDR}/email`)
-    expect(res).to.have.status(403)
+    expect(res).to.have.status(HttpStatus.UNAUTHORIZED)
   })
 
   it('should return session cookie', async () => {
     const res = await agent.post(`/users/${TEST_ADDR}/sessions`).send({signature: 'test'})
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res).to.have.cookie('aragonCourtSessionID')
     expect(res.body).to.deep.equal({
       authenticated: true
@@ -135,7 +136,7 @@ describe('Client user interaction', () => {
 
   it('should logout all sessions', async () => {
     const res = await agent.delete(`/users/${TEST_ADDR}/sessions`).send({disabled: true})
-    expect(res).to.have.status(200)
+    expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       deleted: true,
     })
@@ -143,7 +144,7 @@ describe('Client user interaction', () => {
   
   it('should return authentication error', async () => {
     const res = await agent.get(`/users/${TEST_ADDR}/email`)
-    expect(res).to.have.status(403)
+    expect(res).to.have.status(HttpStatus.UNAUTHORIZED)
   })  
 
 })

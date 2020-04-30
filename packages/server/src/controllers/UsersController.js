@@ -21,7 +21,7 @@ export default {
   async create(req, res) {
     const params = req.body
     const errors = await UsersValidator.validateForCreate(params)
-    if (errors.length > 0) throw HttpError._400({ errors })
+    if (errors.length > 0) throw HttpError.BAD_REQUEST({ errors })
     const { email, address } = params
     const userEmail = await UserEmail.findOneOrInsert({email})
     await userEmail.$relatedQuery('users').insert({address})
