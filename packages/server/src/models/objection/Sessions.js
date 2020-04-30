@@ -37,6 +37,7 @@ export default class Sessions extends BaseModel {
           sid,
           data: newData,
           [prop]: newData[prop],
+          expiresAt: newData.cookie._expires
         }
         const sessionData = await this.getData(sid)
         if (sessionData) {

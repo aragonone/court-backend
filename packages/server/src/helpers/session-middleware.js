@@ -43,7 +43,7 @@ class ObjectionStore extends expressSession.Store {
   }
 
   async expireSessions() {
-    await Sessions.query().where('updatedAt', '<', new Date(Date.now()-SESSION_MAXAGE)).del()
+    await Sessions.query().where('expiresAt', '<', new Date(Date.now()-SESSION_MAXAGE)).del()
     setTimeout(this.expireSessions.bind(this), SESSION_EXPIRE_INTERVAL)
   }
 }

@@ -1,6 +1,10 @@
 import HttpError from '../errors/http-error'
 import UsersValidator from '../validators/UsersValidator'
 import { Users, UserEmails } from '../models/objection'
+const MINUTES = 60 * 1000
+const HOURS = 60 * MINUTES
+const DAYS = 24 * HOURS
+const EMAIL_TOKEN_EXPIRES = DAYS
 
 
 export default {
@@ -92,7 +96,11 @@ export default {
       const user = await Users.query().findOne({address}).withGraphFetched('email')
       if (!user.email || user.email.email != body.email) {
         await user.$relatedQuery('emailVerificationToken').del()
-        await user.$relatedQuery('emailVerificationToken').insert({email: body.email, token: 'dummy'})
+        await user.$relatedQuery('emailVerificationToken').insert({
+          email: body.email,
+          token: 'dummy',
+          expiresAt: new Date(Date.now()+EMAIL_TOKEN_EXPIRES)
+        })
       }
       await user.$relatedUpdateOrInsert('email', {email: body.email})
       res.send({
