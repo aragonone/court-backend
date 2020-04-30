@@ -3,6 +3,7 @@ export function up(knex) {
   return knex.schema.hasTable('Reveals').then(function(sequelizeExists) {
     if (sequelizeExists) {
       return knex.schema.alterTable('Reveals', function (table) {
+        table.boolean('revealed').defaultTo(false).notNullable().alter()
         table.datetime('createdAt').defaultTo(knex.fn.now()).notNullable().alter()
         table.datetime('updatedAt').defaultTo(knex.fn.now()).notNullable().alter()
       })
