@@ -1,6 +1,6 @@
 {
   "name": "@aragonone/court-backend-monorepo",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "devDependencies": {
