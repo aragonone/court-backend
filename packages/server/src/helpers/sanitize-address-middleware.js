@@ -7,8 +7,8 @@ const sanitizeAddresses = object => {
   })
 }
 
-export default () => (req, res, next) => {
+export default req => {
   sanitizeAddresses(req.query)
+  sanitizeAddresses(req.params)
   sanitizeAddresses(req.body)
-  next()
 }

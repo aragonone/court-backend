@@ -5,7 +5,7 @@ import { User } from '../../src/models/objection'
 const serverPort = process.env.SERVER_PORT || 8000
 const { expect } = chai
 chai.use(chaiHttp)
-const TEST_ADDR = '0x6e26ADFa527BcC8B6aEf88716486cBdb4f7914e1'.toLowerCase()
+const TEST_ADDR = '0x6e26ADFa527BcC8B6aEf88716486cBdb4f7914e1'
 const TEST_EMAIL = 'user@create.test'
 
 
@@ -16,7 +16,7 @@ describe('User creation', () => {
   after(async () => {
     agent.close()
     // db cleanup
-    const user = await User.query().findOne({address: TEST_ADDR})
+    const user = await User.query().findOne({address: TEST_ADDR.toLowerCase()})
     if (user) {
       await user.$relatedQuery('email').del()
       await user.$query().del()
