@@ -51,7 +51,7 @@ describe('Client user interaction', () => {
   })
 
   it('should resend verification email', async () => {
-    const res = await agent.post(`/users/${TEST_ADDR}/email:send`).send({token: 'test'})
+    const res = await agent.post(`/users/${TEST_ADDR}/email:resend`).send({token: 'test'})
     expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       sent: true
@@ -67,7 +67,9 @@ describe('Client user interaction', () => {
   })
 
   it('should verify user email', async () => {
-    const res = await agent.post(`/users/${TEST_ADDR}/email:verify`).send({token: 'test'})
+    const res = await agent.post(`/users/${TEST_ADDR}/email:verify`).send({
+      token: 'dummy'
+    })
     expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       verified: true

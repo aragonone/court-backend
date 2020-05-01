@@ -29,7 +29,7 @@ export default app => {
   // manage user emails
   app.get(    '/users/:address/email',                authenticateUser(userEmail.get))
   app.put(    '/users/:address/email',                authenticateUser(userEmail.set))
-  app.post(   '/users/:address/email[:]send',         authenticateUser(userEmail.send))
+  app.post(   '/users/:address/email[:]resend',       authenticateUser(userEmail.resend))
   app.post(   '/users/:address/email[:]verify',       asyncMiddleware(userEmail.verify))  // no authentication, validate using a token
   app.delete( '/users/:address/email',                authenticateUser(userEmail.delete))
 

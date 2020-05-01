@@ -1,8 +1,14 @@
+import HttpError from '../errors/http-error'
+import UsersValidator from '../validators/UsersValidator'
 import { Users } from '../models/objection'
 
 export default {
   async create(req, res) {
     const { session, params: { address } } = req
+    let errors = await UsersValidator.validateBaseAddress({address})
+    if (errors.length > 0) {
+      throw HttpError.BAD_REQUEST({errors})
+    }
     const user = await Users.findOneOrInsert({address})
     await user.$query().update({addressVerified: true})
     session.userId = user.id
