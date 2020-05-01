@@ -1,13 +1,16 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 import HttpStatus from 'http-status-codes'
+import { ethers } from 'ethers'
 
 import { User } from '../../src/models/objection'
 const serverPort = process.env.SERVER_PORT || 8000
 const { expect } = chai
 chai.use(chaiHttp)
-const TEST_ADDR = '0xCb47e0E2713673aeea07fe1D81ecf449aEDa891A'
 const TEST_EMAIL = 'user@client.test'
+const TEST_PRIVATE_KEY = '0x3141592653589793238462643383279502884197169399375105820974944592'
+const TEST_ADDR = '0x7357589f8e367c2c31f51242fb77b350a11830f3'.toLowerCase()
+const wallet = new ethers.Wallet(TEST_PRIVATE_KEY)
 
 
 describe('Client user interaction', () => {
@@ -31,7 +34,12 @@ describe('Client user interaction', () => {
   })
 
   it('should return session cookie', async () => {
-    const res = await agent.post(`/users/${TEST_ADDR}/sessions`).send({signature: 'test'})
+    const timestamp = Date.now()
+    const signature = await wallet.signMessage(timestamp.toString())
+    const res = await agent.post(`/users/${TEST_ADDR}/sessions`).send({
+      signature,
+      timestamp
+    })
     expect(res).to.have.status(HttpStatus.OK)
     expect(res).to.have.cookie('aragonCourtSessionID')
     expect(res.body).to.deep.equal({
@@ -128,7 +136,12 @@ describe('Client user interaction', () => {
   })
 
   it('should return session cookie', async () => {
-    const res = await agent.post(`/users/${TEST_ADDR}/sessions`).send({signature: 'test'})
+    const timestamp = Date.now()
+    const signature = await wallet.signMessage(timestamp.toString())
+    const res = await agent.post(`/users/${TEST_ADDR}/sessions`).send({
+      signature,
+      timestamp
+    })
     expect(res).to.have.status(HttpStatus.OK)
     expect(res).to.have.cookie('aragonCourtSessionID')
     expect(res.body).to.deep.equal({
