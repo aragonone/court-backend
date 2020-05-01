@@ -8,6 +8,7 @@ export function up(knex) {
         table.index('userEmailId')
         table.dropForeign('userEmailId', 'UserAddresses_userId_fkey') // need to recreate constraint with set null on delete
         table.foreign('userEmailId').references('UserEmails.id').onDelete('SET NULL')
+        table.boolean('emailVerified').defaultTo(false).notNullable()
         table.datetime('createdAt').defaultTo(knex.fn.now()).notNullable().alter()
         table.datetime('updatedAt').defaultTo(knex.fn.now()).notNullable().alter()
       })
@@ -18,6 +19,7 @@ export function up(knex) {
         table.boolean('addressVerified').defaultTo(false).notNullable()
         table.integer('userEmailId').index()
         table.foreign('userEmailId').references('UserEmails.id').onDelete('SET NULL')
+        table.boolean('emailVerified').defaultTo(false).notNullable()
         table.datetime('createdAt').defaultTo(knex.fn.now()).notNullable()
         table.datetime('updatedAt').defaultTo(knex.fn.now()).notNullable()
       })
