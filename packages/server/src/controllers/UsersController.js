@@ -6,7 +6,8 @@ const { User, UserAddress } = Models
 
 export default {
   async exists(request, response) {
-    const { params: { address } } = request
+    let { params: { address } } = request
+    address = address.toLowerCase()
     const exists = await UserAddress.exists(address)
     response.status(200).send({ exists })
   },
