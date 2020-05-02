@@ -34,5 +34,5 @@ export default app => (err, req, res, next) => {
   }
 
   res.status(code).send(body)
-  console.error(body)
+  console.error(JSON.stringify(body))
 }
