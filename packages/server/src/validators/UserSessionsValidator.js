@@ -7,15 +7,16 @@ const SESSION_SIGNATURE_EXPIRES = HOURS
 
 class UserSessionsValidator  extends BaseValidator {
   async validateForCreate({address, signature, timestamp}) {
-    await this._validateTimestampFormat({timestamp})
-    await this._validateSignatureFormat({signature})
+    await this._validateAddressFormat(address)
+    await this._validateTimestampFormat(timestamp)
+    await this._validateSignatureFormat(signature)
     if (!this.errors.length) {
       await this._validateSignatureAddress({address, signature, timestamp})
     }
     return this.resetErrors()
   }
 
-  async _validateTimestampFormat({ timestamp }) {
+  async _validateTimestampFormat(timestamp) {
     if (!timestamp) {
       return this.addError({timestamp: 'A timestamp must be given'})
     }
@@ -27,7 +28,7 @@ class UserSessionsValidator  extends BaseValidator {
     }
   }
 
-  async _validateSignatureFormat({ signature }) {
+  async _validateSignatureFormat(signature) {
     if (!signature) {
       return this.addError({signature: 'A signature must be given'})
     }

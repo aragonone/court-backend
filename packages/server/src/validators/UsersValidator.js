@@ -1,5 +1,4 @@
 import validator from 'validator'
-import { isAddress } from 'web3-utils'
 
 import BaseValidator from './BaseValidator'
 import { User } from '../models/objection'
@@ -25,15 +24,6 @@ class UsersValidator extends BaseValidator {
       await this._validateEmailChange({address, email})
     }
     return this.resetErrors()
-  }
-
-  async _validateAddressFormat(address) {
-    if (!address) {
-      return this.addError({address: 'An address must be given'})
-    }
-    if (!isAddress(address)) {
-      return this.addError({address: 'Given address is not valid'})
-    }
   }
 
   async _validateAddressNew(address) {

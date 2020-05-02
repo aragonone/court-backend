@@ -59,7 +59,7 @@ describe('Client user interaction', () => {
   })
 
   it('should resend verification email', async () => {
-    const res = await agent.post(`/users/${TEST_ADDR}/email:resend`).send({token: 'test'})
+    const res = await agent.post(`/users/${TEST_ADDR}/email:resend`)
     expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       sent: true
@@ -75,8 +75,9 @@ describe('Client user interaction', () => {
   })
 
   it('should verify user email', async () => {
+    const user = await Users.query().findOne({address: TEST_ADDR}).withGraphFetched('emailVerificationToken')
     const res = await agent.post(`/users/${TEST_ADDR}/email:verify`).send({
-      token: 'dummy'
+      token: user.emailVerificationToken.token
     })
     expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
