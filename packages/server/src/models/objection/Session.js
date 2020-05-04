@@ -1,4 +1,5 @@
 import BaseModel from './BaseModel'
+
 export default class Session extends BaseModel {
   static get tableName() {
     return 'Sessions'

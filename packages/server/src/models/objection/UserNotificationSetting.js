@@ -1,8 +1,10 @@
 import BaseModel from './BaseModel'
+
 export default class UserNotificationSetting extends BaseModel {
   static get tableName() {
     return 'UserNotificationSettings'
   }
+
   static get relationMappings() {
     return {
       user: {

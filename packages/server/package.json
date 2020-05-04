@@ -21,7 +21,6 @@
     "@promster/server": "^4.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
-    "connect-session-sequelize": "^6.1.1",
     "cookie-parser": "^1.4.5",
     "core-js": "^3.6.2",
     "cors": "^2.8.5",
@@ -36,7 +35,6 @@
     "pg-hstore": "^2.3.3",
     "prom-client": "^11.5.3",
     "regenerator-runtime": "^0.13.3",
-    "sequelize": "^5.21.3",
     "web3-utils": "^1.2.4"
   },
   "devDependencies": {
@@ -47,7 +45,6 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "mocha": "^7.1.1",
-    "nodemon": "^2.0.2",
-    "sequelize-cli": "^5.5.1"
+    "nodemon": "^2.0.2"
   }
 }

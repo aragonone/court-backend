@@ -1,4 +1,5 @@
 import Admin from './Admin'
+import KeeperSuspiciousTransaction from './KeeperSuspiciousTransaction'
 import Reveal from './Reveal'
 import Session from './Session'
 import UserEmail from './UserEmail'
@@ -8,6 +9,7 @@ import User from './User'
 
 export {
   Admin,
+  KeeperSuspiciousTransaction,
   Reveal,
   Session,
   UserEmail,

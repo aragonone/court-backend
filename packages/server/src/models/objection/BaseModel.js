@@ -1,7 +1,7 @@
 import { Model } from 'objection'
 import Knex from 'knex'
 
-import config from '../../database/knex/config'
+import config from '../../database/config'
 Model.knex(Knex(config))
 
 export default class BaseModel extends Model {

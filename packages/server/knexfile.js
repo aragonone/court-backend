@@ -1,1 +1,1 @@
-export * from './src/database/knex/config'
+export * from './src/database/config'
