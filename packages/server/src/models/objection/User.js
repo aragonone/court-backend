@@ -1,4 +1,5 @@
 import BaseModel from './BaseModel'
+import { sendMagicLink } from '../..//helpers/email-client'
 import { tokenGenerate } from '../../helpers/token-manager'
 const MINUTES = 60 * 1000
 const HOURS = 60 * MINUTES
@@ -46,15 +47,21 @@ export default class User extends BaseModel {
       }
     }
   }
-
+  
   async $sendVerificationEmail() {
     const user = await this.$fetchGraph('email')
-    await user.$relatedQuery('emailVerificationToken').del()
-    const token = tokenGenerate()
-    await user.$relatedQuery('emailVerificationToken').insert({
-      email: user.email.email,
-      token: token,
+    const { email: {email}, address } = user
+    const tokenExpiresSeconds = EMAIL_TOKEN_EXPIRES/1000
+    const token = tokenGenerate(tokenExpiresSeconds)
+    await user.$relatedUpdateOrInsert('emailVerificationToken', {
+      email,
+      token,
       expiresAt: new Date(Date.now()+EMAIL_TOKEN_EXPIRES)
+    })
+    await sendMagicLink({
+      email, 
+      address, 
+      token
     })
   }
 }

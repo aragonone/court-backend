@@ -1,5 +1,7 @@
 import { DBError } from 'objection'
 import HttpStatus from 'http-status-codes'
+import { Errors as PostmarkErrors } from 'postmark'
+
 import HttpError from './http-error'
 import MetricsReporter from '../helpers/metrics-reporter'
 
@@ -17,6 +19,11 @@ export default app => (err, req, res, next) => {
   else if (err instanceof SyntaxError) {
     code = HttpStatus.BAD_REQUEST
     body = { errors: [{ request: 'Make sure your request is a well formed JSON' }] }
+  }
+  else if (err instanceof PostmarkErrors.PostmarkError) {
+    code = HttpStatus.INTERNAL_SERVER_ERROR
+    body = { errors: [{ email: 'Could not send email.' }] }
+    console.error(err.stack)
   }
   else if (err.message.includes('CORS')) {
     code = HttpStatus.BAD_REQUEST
