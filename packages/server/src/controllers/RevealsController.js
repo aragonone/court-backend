@@ -1,9 +1,7 @@
-import Models from '../models'
+import { Reveal } from '../models/objection'
 import HttpError from '../errors/http-error'
 import RevealsValidator from '../validators/RevealsValidator'
 import { decodeVoteId } from '@aragonone/court-backend-shared/helpers/voting'
-
-const { Reveal } = Models
 
 export default {
   async show(request, response) {
@@ -11,7 +9,7 @@ export default {
     const juror = body.juror || ''
     const voteId = body.voteId || ''
 
-    const reveal = await Reveal.findOne({ attributes: ['id', 'juror', 'voteId', 'disputeId', 'roundNumber', 'createdAt', 'updatedAt'], where: { juror, voteId } })
+    const reveal = await Reveal.query().select('id', 'juror', 'voteId', 'disputeId', 'roundNumber', 'createdAt', 'updatedAt').where({ juror, voteId })
     response.status(200).send({ reveal })
   },
 
@@ -31,11 +29,10 @@ export default {
   },
 
   async all(request, response) {
-    const limit = request.query.limit || 20
-    const offset = (request.query.page || 0) * limit
+    const page = request.query.page || 0
+    const pageSize = request.query.limit || 20
 
-    const total = await Reveal.count()
-    const reveals = await Reveal.findAll({ limit, offset, order: [['createdAt', 'DESC']] })
-    response.status(200).send({ reveals, total })
+    const revealsPage = await Reveal.query().orderBy('createdAt', 'DESC').page(page, pageSize)
+    response.status(200).send(revealsPage)
   },
 }
