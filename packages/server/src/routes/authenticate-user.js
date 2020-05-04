@@ -16,7 +16,7 @@ const authenticate = (route) => async (req, res, next) => {
     const errors = [{access: `You don't have permission to edit user ${address}`}]
     throw HttpError.FORBIDDEN({errors})
   }
-  route(req, res, next)
+  await route(req, res, next)
 }
 
 export default (route) => asyncMiddleware(authenticate(route))

@@ -7,7 +7,7 @@ const authenticate = route => async (request, response, next) => {
   if (!session.adminId) throw HttpError.UNAUTHORIZED({ errors: [{ access: 'Unauthorized' }] })
 
   request.currentAdmin = await Admin.findById(session.adminId)
-  route(request, response, next)
+  await route(request, response, next)
 }
 
 export default route => asyncMiddleware(authenticate(route))
