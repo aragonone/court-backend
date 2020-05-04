@@ -1,5 +1,6 @@
 import BaseValidator from './BaseValidator'
 import { User } from '../models/objection'
+import { tokenVerify } from '../helpers/token-manager'
 
 class UserEmailVerificationTokenValidator extends BaseValidator {
   async validateForVerify({ address, token }) {
@@ -11,7 +12,7 @@ class UserEmailVerificationTokenValidator extends BaseValidator {
   }
 
   async validateForResend({ address }) {
-    await this._validateTokenExists(address)
+    await this._validateEmailNotVerified(address)
     return this.resetErrors()
   }
 
@@ -29,12 +30,17 @@ class UserEmailVerificationTokenValidator extends BaseValidator {
     if (user.emailVerificationToken.expiresAt < new Date()) {
       return this.addError({token: 'Given token has expired'})
     }
+    try {
+      tokenVerify(token)
+    } catch {
+      return this.addError({token: 'Given token is invalid'})
+    }
   }
   
-  async _validateTokenExists(address) {
-    const user = await User.query().findOne({address}).withGraphFetched('emailVerificationToken')
-    if (!user?.emailVerificationToken) {
-      return this.addError({token: 'There is no existing verification request'})
+  async _validateEmailNotVerified(address) {
+    const user = await User.query().findOne({address})
+    if (user.emailVerified) {
+      return this.addError({token: 'Email is already verified'})
     }
   }
 }

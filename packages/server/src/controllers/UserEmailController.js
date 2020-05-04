@@ -2,10 +2,6 @@ import HttpError from '../errors/http-error'
 import UsersValidator from '../validators/UsersValidator'
 import UserEmailVerificationTokenValidator from '../validators/UserEmailVerificationTokenValidator'
 import { User } from '../models/objection'
-const MINUTES = 60 * 1000
-const HOURS = 60 * MINUTES
-const DAYS = 24 * HOURS
-const EMAIL_TOKEN_EXPIRES = DAYS
 
 export default {
   async get(req, res) {
@@ -23,12 +19,7 @@ export default {
     const user = await User.query().findOne({address})
     await user.$relatedUpdateOrInsert('email', {email})
     await user.$query().update({emailVerified: false})
-    await user.$relatedQuery('emailVerificationToken').del()
-    await user.$relatedQuery('emailVerificationToken').insert({
-      email,
-      token: 'dummy',
-      expiresAt: new Date(Date.now()+EMAIL_TOKEN_EXPIRES)
-    })
+    await user.$sendVerificationEmail()
     res.send({
       email,
       sent: true
@@ -51,6 +42,8 @@ export default {
     const { params: { address } } = req
     const errors = await UserEmailVerificationTokenValidator.validateForResend({address})
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
+    const user = await User.query().findOne({address})
+    await user.$sendVerificationEmail()
     res.send({
       sent: true
     })
