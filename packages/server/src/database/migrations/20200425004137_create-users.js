@@ -1,4 +1,3 @@
-
 export function up(knex) {
   return knex.schema.hasTable('UserAddresses').then(function(sequelizeExists) {
     if (sequelizeExists) {

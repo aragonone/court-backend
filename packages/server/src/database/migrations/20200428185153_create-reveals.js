@@ -1,4 +1,3 @@
-
 export function up(knex) {
   return knex.schema.hasTable('Reveals').then(function(sequelizeExists) {
     if (sequelizeExists) {

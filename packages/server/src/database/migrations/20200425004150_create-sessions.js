@@ -1,4 +1,3 @@
-
 export function up(knex) {
   return knex.schema.dropTableIfExists('Sessions').createTable('Sessions', function (table) {
     table.increments('id')

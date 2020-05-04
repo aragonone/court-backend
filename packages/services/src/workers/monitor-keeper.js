@@ -1,7 +1,7 @@
 import { ServerClient } from 'postmark'
 import Etherscan from '../models/Etherscan'
-import Models from '@aragonone/court-backend-server/build/models'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
+import { Admin, KeeperSuspiciousTransaction } from '@aragonone/court-backend-server/build/models/objection'
 
 import { fromWei } from 'web3-utils'
 import { bigExp } from '@aragonone/court-backend-shared/helpers/numbers'
@@ -9,8 +9,6 @@ import getWalletFromPk from '@aragonone/court-backend-shared/helpers/get-wallet-
 
 const FROM = 'noreply@aragon.one'
 const BALANCE_THRESHOLD = bigExp(1, 17) // 0.1 ETH
-
-const { Admin, KeeperSuspiciousTransaction } = Models
 
 export default async function (logger) {
   const { environment: { network } } = Network
@@ -60,7 +58,7 @@ async function monitorEthBalance(logger, etherscan, keeper, network) {
 async function sendNotification(logger, message) {
   logger.info(`Sending email notifications for '${message.Subject}'`)
   message.From = FROM
-  message.To = (await Admin.allEmails()).join(', ')
+  message.To = (await Admin.findAllEmails()).join(', ')
   const client = new ServerClient(process.env.POSTMARK_TOKEN)
   const response = await client.sendEmail(message)
   if (!response || response.ErrorCode != 0) logger.error(`Failed to send notification, received response: ${JSON.stringify(response)}`)

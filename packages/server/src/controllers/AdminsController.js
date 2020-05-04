@@ -1,15 +1,13 @@
-import Models from '../models'
+import { Admin } from '../models/objection'
 import HttpError from '../errors/http-error'
 import AdminValidator from '../validators/AdminValidator'
-
-const { Admin } = Models
 
 export default {
   async login(request, response) {
     const { body, session } = request
 
     if (session.adminId) {
-      const admin = await Admin.findByPk(session.adminId)
+      const admin = await Admin.findById(session.adminId)
       return response.status(200).send({ admin })
     }
 
@@ -33,11 +31,10 @@ export default {
   async all(request, response) {
     const { query } = request
     const page = query.page || 0
-    const limit = query.limit || 20
-    const offset = page * limit
+    const pageSize = query.limit || 20
 
-    const admins = await Admin.findAll({ limit, offset, order: [['createdAt', 'DESC']] })
-    response.status(200).send({ admins })
+    const adminsPage = await Admin.query().orderBy('createdAt', 'DESC').page(page, pageSize)
+    response.status(200).send(adminsPage)
   },
 
   async create(request, response) {
@@ -54,7 +51,7 @@ export default {
     const errors = await AdminValidator.validateForDelete(id)
     if (errors.length > 0) throw HttpError._400({ errors })
 
-    const admin = await Admin.findByPk(id)
+    const admin = await Admin.findById(id)
     await admin.destroy()
     response.status(200).send()
   },

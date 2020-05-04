@@ -1,8 +1,10 @@
 import BaseModel from './BaseModel'
+
 export default class User extends BaseModel {
   static get tableName() {
     return 'Users'
   }
+
   static get relationMappings() {
     return {
       sessions: {

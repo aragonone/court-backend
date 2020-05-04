@@ -1,7 +1,5 @@
-import Models from '../models'
+import { Admin } from '../models/objection'
 import BaseValidator from './BaseValidator'
-
-const { Admin } = Models
 
 class AdminValidator extends BaseValidator {
   async validateForLogin({ email, password }) {
@@ -46,7 +44,7 @@ class AdminValidator extends BaseValidator {
 
   async _validateAdminId(id) {
     if (!id) return this.addError({ id: 'An admin ID must be given' })
-    const count = await Admin.count({ where: { id }})
+    const count = await Admin.exists({ id: id })
     if (count === 0) this.addError({ id: 'Given id does not exist' })
   }
 }
