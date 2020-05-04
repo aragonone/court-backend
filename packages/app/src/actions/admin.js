@@ -45,7 +45,7 @@ const AdminActions = {
     return async function (dispatch) {
       try {
         const response = await Server.get('admins')
-        dispatch(AdminActions.receiveAdmins(response.data.admins))
+        dispatch(AdminActions.receiveAdmins(response.data.results))
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
@@ -56,7 +56,7 @@ const AdminActions = {
     return async function (dispatch) {
       try {
         const response = await Server.get('reveals')
-        dispatch(AdminActions.receiveReveals(response.data.reveals))
+        dispatch(AdminActions.receiveReveals(response.data.results))
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
@@ -67,7 +67,7 @@ const AdminActions = {
     return async function (dispatch) {
       try {
         const response = await Server.get('users')
-        dispatch(AdminActions.receiveUsers(response.data.users))
+        dispatch(AdminActions.receiveUsers(response.data.results))
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
