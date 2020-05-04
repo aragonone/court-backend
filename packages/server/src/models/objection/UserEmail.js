@@ -1,16 +1,16 @@
 import BaseModel from './BaseModel'
-export default class Admins extends BaseModel {
+export default class UserEmail extends BaseModel {
   static get tableName() {
-    return 'Admins'
+    return 'UserEmails'
   }
   static get relationMappings() {
     return {
-      sessions: {
+      users: {
         relation: BaseModel.HasManyRelation,
-        modelClass: 'Sessions',
+        modelClass: 'User',
         join: {
-          from: 'Admins.id',
-          to: 'Sessions.adminId'
+          from: 'UserEmails.id',
+          to: 'Users.userEmailId'
         }
       }
     }

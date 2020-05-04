@@ -1,15 +1,15 @@
 import BaseModel from './BaseModel'
-export default class UserEmailVerificationTokens extends BaseModel {
+export default class UserNotificationSetting extends BaseModel {
   static get tableName() {
-    return 'UserEmailVerificationTokens'
+    return 'UserNotificationSettings'
   }
   static get relationMappings() {
     return {
       user: {
         relation: BaseModel.BelongsToOneRelation,
-        modelClass: 'Users',
+        modelClass: 'User',
         join: {
-          from: 'UserEmailVerificationTokens.userId',
+          from: 'UserNotificationSettings.userId',
           to: 'Users.id'
         },
       }

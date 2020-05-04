@@ -1,5 +1,5 @@
 import BaseModel from './BaseModel'
-export default class Sessions extends BaseModel {
+export default class Session extends BaseModel {
   static get tableName() {
     return 'Sessions'
   }
@@ -8,7 +8,7 @@ export default class Sessions extends BaseModel {
     return {
       user: {
         relation: BaseModel.BelongsToOneRelation,
-        modelClass: 'Users',
+        modelClass: 'User',
         join: {
           from: 'Sessions.userId',
           to: 'Users.id'
@@ -16,7 +16,7 @@ export default class Sessions extends BaseModel {
       },
       admin: {
         relation: BaseModel.BelongsToOneRelation,
-        modelClass: 'Admins',
+        modelClass: 'Admin',
         join: {
           from: 'Sessions.adminId',
           to: 'Admins.id'

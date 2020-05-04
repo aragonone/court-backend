@@ -1,5 +1,5 @@
 import BaseModel from './BaseModel'
-export default class Users extends BaseModel {
+export default class User extends BaseModel {
   static get tableName() {
     return 'Users'
   }
@@ -7,15 +7,15 @@ export default class Users extends BaseModel {
     return {
       sessions: {
         relation: BaseModel.HasManyRelation,
-        modelClass: 'Sessions',
+        modelClass: 'Session',
         join: {
           from: 'Users.id',
           to: 'Sessions.userId'
         }
       },
-      notificationSettings: {
+      notificationSetting: {
         relation: BaseModel.HasOneRelation,
-        modelClass: 'UserNotificationSettings',
+        modelClass: 'UserNotificationSetting',
         join: {
           from: 'Users.id',
           to: 'UserNotificationSettings.userId'
@@ -23,7 +23,7 @@ export default class Users extends BaseModel {
       },
       emailVerificationToken: {
         relation: BaseModel.HasOneRelation,
-        modelClass: 'UserEmailVerificationTokens',
+        modelClass: 'UserEmailVerificationToken',
         join: {
           from: 'Users.id',
           to: 'UserEmailVerificationTokens.userId'
@@ -31,7 +31,7 @@ export default class Users extends BaseModel {
       },
       email: {
         relation: BaseModel.BelongsToOneRelation,
-        modelClass: 'UserEmails',
+        modelClass: 'UserEmail',
         join: {
           from: 'Users.userEmailId',
           to: 'UserEmails.id'

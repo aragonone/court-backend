@@ -1,5 +1,5 @@
 import expressSession from 'express-session'
-import { Sessions } from '../models/objection'
+import { Session } from '../models/objection'
 
 const MINUTES = 60 * 1000
 const HOURS = 60 * MINUTES
@@ -16,7 +16,7 @@ class ObjectionStore extends expressSession.Store {
 
   async get(sid, cb=()=>{}) {
     try {
-      const sessionData = await Sessions.getData(sid)
+      const sessionData = await Session.getData(sid)
       cb(null, sessionData)
     } catch (err) {
       cb(err)
@@ -26,7 +26,7 @@ class ObjectionStore extends expressSession.Store {
   // newData corresponds to req.session object in express
   async set(sid, newData, cb=()=>{}) {
     try {
-      await Sessions.setData(sid, newData)
+      await Session.setData(sid, newData)
       cb(null)
     } catch (err) {
       cb(err)
@@ -35,7 +35,7 @@ class ObjectionStore extends expressSession.Store {
 
   async destroy(sid, cb=()=>{}) {
     try {
-      await Sessions.query().where({sid}).del()
+      await Session.query().where({sid}).del()
       cb(null)
     } catch (err) {
       cb(err)
@@ -43,7 +43,7 @@ class ObjectionStore extends expressSession.Store {
   }
 
   async expireSessions() {
-    await Sessions.query().where('expiresAt', '<', new Date(Date.now()-SESSION_MAXAGE)).del()
+    await Session.query().where('expiresAt', '<', new Date(Date.now()-SESSION_MAXAGE)).del()
     setTimeout(this.expireSessions.bind(this), SESSION_EXPIRE_INTERVAL)
   }
 }

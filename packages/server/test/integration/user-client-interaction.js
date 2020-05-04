@@ -1,7 +1,7 @@
 import chai from 'chai'
 import chaiHttp from 'chai-http'
 
-import { Users } from '../../src/models/objection'
+import { User } from '../../src/models/objection'
 const serverPort = process.env.SERVER_PORT || 8000
 const { expect } = chai
 chai.use(chaiHttp)
@@ -16,7 +16,7 @@ describe('Client user interaction', () => {
   after(async () => {
     agent.close()
     // db cleanup
-    const user = await Users.query().findOne({address: TEST_ADDR})
+    const user = await User.query().findOne({address: TEST_ADDR})
     if (user) {
       await user.$relatedQuery('email').del()
       await user.$query().del()

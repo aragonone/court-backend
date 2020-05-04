@@ -1,17 +1,17 @@
-import Admins from './Admins'
-import Reveals from './Reveals'
-import Sessions from './Sessions'
-import UserEmails from './UserEmails'
-import UserEmailVerificationTokens from './UserEmailVerificationTokens'
-import UserNotificationSettings from './UserNotificationSettings'
-import Users from './Users'
+import Admin from './Admin'
+import Reveal from './Reveal'
+import Session from './Session'
+import UserEmail from './UserEmail'
+import UserEmailVerificationToken from './UserEmailVerificationToken'
+import UserNotificationSetting from './UserNotificationSetting'
+import User from './User'
 
 export {
-  Admins,
-  Reveals,
-  Sessions,
-  UserEmails,
-  UserEmailVerificationTokens,
-  UserNotificationSettings,
-  Users,
+  Admin,
+  Reveal,
+  Session,
+  UserEmail,
+  UserEmailVerificationToken,
+  UserNotificationSetting,
+  User,
 }
