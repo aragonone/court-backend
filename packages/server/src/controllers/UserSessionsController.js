@@ -1,13 +1,13 @@
 import HttpError from '../errors/http-error'
 import UserSessionsValidator from '../validators/UserSessionsValidator'
-import { Users } from '../models/objection'
+import { User } from '../models/objection'
 
 export default {
   async create(req, res) {
     const { session, params: { address }, body: { signature, timestamp } } = req
     const errors = await UserSessionsValidator.validateForCreate({address, signature, timestamp})
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
-    const user = await Users.findOneOrInsert({address})
+    const user = await User.findOneOrInsert({address})
     await user.$query().update({addressVerified: true})
     session.userId = user.id
     res.send({
@@ -25,7 +25,7 @@ export default {
 
   async deleteAll(req, res) {
     const { params: { address } } = req
-    const user = await Users.query().findOne({address})
+    const user = await User.query().findOne({address})
     await user.$relatedQuery('sessions').del()
     res.send({
       deleted: true

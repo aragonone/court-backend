@@ -1,10 +1,10 @@
 import HttpError from '../errors/http-error'
 import asyncMiddleware from '../helpers/async-middleware'
-import Users from '../models/objection/Users'
+import { User } from '../models/objection'
 
 const authenticate = (route) => async (req, res, next) => {
   const { session: { userId }, params: { address } } = req
-  const user = await Users.query().findOne({address})
+  const user = await User.query().findOne({address})
   if (!user) {
     throw HttpError.NOT_FOUND({ errors: [{ status: `User ${address} not found` }] })
   }

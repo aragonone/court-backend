@@ -75,7 +75,7 @@ describe('Client user interaction', () => {
   })
 
   it('should verify user email', async () => {
-    const user = await Users.query().findOne({address: TEST_ADDR}).withGraphFetched('emailVerificationToken')
+    const user = await User.query().findOne({address: TEST_ADDR}).withGraphFetched('emailVerificationToken')
     const res = await agent.post(`/users/${TEST_ADDR}/email:verify`).send({
       token: user.emailVerificationToken.token
     })

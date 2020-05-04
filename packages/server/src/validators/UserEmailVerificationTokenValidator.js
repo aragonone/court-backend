@@ -1,5 +1,5 @@
 import BaseValidator from './BaseValidator'
-import { Users } from '../models/objection'
+import { User } from '../models/objection'
 
 class UserEmailVerificationTokenValidator extends BaseValidator {
   async validateForVerify({ address, token }) {
@@ -16,7 +16,7 @@ class UserEmailVerificationTokenValidator extends BaseValidator {
   }
 
   async _validateTokenFormat({ address, token }) {
-    const user = await Users.query().findOne({address}).withGraphFetched('emailVerificationToken')
+    const user = await User.query().findOne({address}).withGraphFetched('emailVerificationToken')
     if (!user) {
       return this.addError({address:  `User ${address} not found`})
     }
@@ -32,7 +32,7 @@ class UserEmailVerificationTokenValidator extends BaseValidator {
   }
   
   async _validateTokenExists(address) {
-    const user = await Users.query().findOne({address}).withGraphFetched('emailVerificationToken')
+    const user = await User.query().findOne({address}).withGraphFetched('emailVerificationToken')
     if (!user?.emailVerificationToken) {
       return this.addError({token: 'There is no existing verification request'})
     }

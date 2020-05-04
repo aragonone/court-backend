@@ -1,5 +1,5 @@
 import HttpError from '../errors/http-error'
-import { Users } from '../models/objection'
+import { User } from '../models/objection'
 
 export default {
   async set(req, res) {
@@ -8,8 +8,8 @@ export default {
       const errors = [{disabled: 'request must contain a boolean "disabled" property'}]
       throw HttpError.BAD_REQUEST(errors)
     }
-    const user = await Users.query().findOne({address})
-    await user.$relatedUpdateOrInsert('notificationSettings', {notificationsDisabled: disabled})
+    const user = await User.query().findOne({address})
+    await user.$relatedUpdateOrInsert('notificationSetting', {notificationsDisabled: disabled})
     res.send({
       disabled: !!disabled
     })
