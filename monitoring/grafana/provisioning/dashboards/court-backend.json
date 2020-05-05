@@ -59,7 +59,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(http_requests_total{pod=\"$instance\"}[5m])",
+          "expr": "sum by (status_code) (irate(http_requests_total{service=\"$service\"}[5m]))",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -69,7 +69,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Server HTTP requests",
+      "title": "Server status codes",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -123,7 +123,7 @@
       },
       "targets": [
         {
-          "expr": "{instance=\"$instance\",container_name=~\".*server.*\"}",
+          "expr": "{app=\"$service\",container_name=~\".*server.*\"}",
           "refId": "A"
         }
       ],
@@ -173,7 +173,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(http_requests_total{pod=\"$instance\",status_code=\"400\"}[5m])",
+          "expr": "sum by (path) (irate(http_requests_total{service=\"$service\",status_code=~\"4.*\"}[5m]))",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -183,7 +183,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Server 400",
+      "title": "Server 4** by path",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -261,7 +261,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(http_requests_total{pod=\"$instance\",status_code=\"500\"}[5m])",
+          "expr": "sum by (path) (irate(http_requests_total{service=\"$service\",status_code=~\"5.*\"}[5m]))",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -271,7 +271,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Server 500s",
+      "title": "Server 5** by path",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -325,7 +325,7 @@
       },
       "targets": [
         {
-          "expr": "{instance=\"$instance\",container_name=~\".*services.*\"}|=\"[reveal]\"",
+          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[reveal]\"",
           "refId": "A"
         }
       ],
@@ -351,7 +351,7 @@
       },
       "targets": [
         {
-          "expr": "{instance=\"$instance\",container_name=~\".*services.*\"}|=\"[settlements]\"",
+          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[settlements]\"",
           "refId": "A"
         }
       ],
@@ -377,7 +377,7 @@
       },
       "targets": [
         {
-          "expr": "{instance=\"$instance\",container_name=~\".*services.*\"}|=\"[heartbeat]\"",
+          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[heartbeat]\"",
           "refId": "A"
         }
       ],
@@ -403,7 +403,7 @@
       },
       "targets": [
         {
-          "expr": "{instance=\"$instance\",container_name=~\".*services.*\"}|=\"[monitor-keeper]\"",
+          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[monitor-keeper]\"",
           "refId": "A"
         }
       ],
@@ -429,7 +429,7 @@
       },
       "targets": [
         {
-          "expr": "{instance=\"$instance\",container_name=~\".*services.*\"}|=\"[Provider]\"",
+          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[Provider]\"",
           "refId": "A"
         }
       ],
@@ -455,7 +455,7 @@
       },
       "targets": [
         {
-          "expr": "{instance=\"$instance\",container_name=~\".*(app|backoffice).*\"}",
+          "expr": "{app=\"$service\",container_name=~\".*(app|backoffice).*\"}",
           "refId": "A"
         }
       ],
@@ -479,15 +479,15 @@
           "value": "court-backend-c58bb8848-jnmvl"
         },
         "datasource": "Prometheus",
-        "definition": "label_values({job=~\"(.*/)?court-backend\"}, pod)",
+        "definition": "label_values({job=~\"(.*/)?court-backend(-.*)?\"}, service)",
         "hide": 0,
         "includeAll": false,
         "index": -1,
         "label": "",
         "multi": false,
-        "name": "instance",
+        "name": "service",
         "options": [],
-        "query": "label_values({job=~\"(.*/)?court-backend\"}, pod)",
+        "query": "label_values({job=~\"(.*/)?court-backend(-.*)?\"}, service)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,

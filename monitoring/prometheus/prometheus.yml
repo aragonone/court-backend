@@ -1,9 +1,9 @@
 # This config is required for Prometheus to scrape other containers
 scrape_configs:
-- job_name: default/court-backend
+- job_name: court-backend
   static_configs:
   - targets: 
     - court_server:9091
     labels:
       # required to be compatible with k8s metrics
-      pod: localhost
+      service: court-backend
