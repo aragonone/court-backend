@@ -18,7 +18,7 @@ export default class BaseModel extends Model {
 
   // static query methods (table level)
 
-  static async findOneOrInsert(args) {
+  static async findOrInsert(args) {
     let row = await this.query().findOne(args)
     if (!row) row = await this.query().insert(args)
     return row

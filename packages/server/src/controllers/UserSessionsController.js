@@ -7,7 +7,7 @@ export default {
     const { session, params: { address }, body: { signature, timestamp } } = req
     const errors = await UserSessionsValidator.validateForCreate({address, signature, timestamp})
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
-    const user = await User.findOneOrInsert({address})
+    const user = await User.findOrInsert({address})
     await user.$query().update({addressVerified: true})
     session.userId = user.id
     res.send({

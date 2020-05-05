@@ -21,7 +21,7 @@ export default {
     const errors = await UsersValidator.validateForCreate(params)
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
     const { email, address } = params
-    const userEmail = await UserEmail.findOneOrInsert({email})
+    const userEmail = await UserEmail.findOrInsert({email})
     await userEmail.$relatedQuery('users').insert({address})
     res.send({
       created: true
