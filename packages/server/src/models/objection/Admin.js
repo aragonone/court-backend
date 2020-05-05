@@ -57,8 +57,8 @@ export default class Admin extends BaseModel {
     this.hashPassword()
   }
 
-  async $beforeUpdate(queryContext) {
-    await super.$beforeUpdate(queryContext)
+  async $beforeUpdate(opt, queryContext) {
+    await super.$beforeUpdate(opt, queryContext)
     this.hashPassword()
   }
 }
