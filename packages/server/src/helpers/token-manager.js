@@ -6,7 +6,6 @@ const { env: {
 
 function tokenGenerate(expiresIn='24h') {
   const payload = { timestamp: Date.now() }
-  console.log(expiresIn)
   return jwt.sign(payload, EMAIL_JWT_PRIVATE_KEY, {expiresIn})
 }
 
