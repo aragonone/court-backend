@@ -9,7 +9,7 @@ const { expect } = chai
 chai.use(chaiHttp)
 const TEST_EMAIL = 'user@client.test'
 const TEST_PRIVATE_KEY = '0x3141592653589793238462643383279502884197169399375105820974944592'
-const TEST_ADDR = '0x7357589f8e367c2c31f51242fb77b350a11830f3'.toLowerCase()
+const TEST_ADDR = '0x7357589f8e367c2c31f51242fb77b350a11830f3'
 const wallet = new ethers.Wallet(TEST_PRIVATE_KEY)
 
 
