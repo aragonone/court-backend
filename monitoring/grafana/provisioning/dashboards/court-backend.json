@@ -15,7 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1588680622399,
+  "id": 1,
+  "iteration": 1588712050879,
   "links": [],
   "panels": [
     {
@@ -474,9 +475,8 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
-          "text": "court-backend-c58bb8848-jnmvl",
-          "value": "court-backend-c58bb8848-jnmvl"
+          "text": "court-backend",
+          "value": "court-backend"
         },
         "datasource": "Prometheus",
         "definition": "label_values({job=~\"(.*/)?court-backend(-.*)?\"}, service)",
@@ -521,5 +521,8 @@
   "timezone": "",
   "title": "Court Backend",
   "uid": "ZxStqeuWz",
-  "version": 1
+  "variables": {
+    "list": []
+  },
+  "version": 4
 }
