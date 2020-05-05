@@ -1,6 +1,6 @@
 import { utils } from 'ethers'
-
 import BaseValidator from './BaseValidator'
+
 const MINUTES = 60 * 1000
 const HOURS = 60 * MINUTES
 const SESSION_SIGNATURE_EXPIRES = HOURS
@@ -35,14 +35,14 @@ class UserSessionsValidator  extends BaseValidator {
     try {
       utils.splitSignature(signature)
     } catch {
-      return this.addError({signature: 'Given signature is invalid'})
+      this.addError({ signature: 'Given signature is invalid' })
     }
   }
 
   async _validateSignatureAddress({address, signature, timestamp}) {
     const signedAddress = utils.verifyMessage(timestamp.toString(), signature)
     if (address.toLowerCase() !== signedAddress.toLowerCase()) {
-      return this.addError({signature: 'Signature address and user address do not match'})
+      this.addError({ signature: 'Signature address and user address do not match' })
     }
   }
 }

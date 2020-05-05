@@ -4,9 +4,9 @@ const { env: {
   EMAIL_JWT_PRIVATE_KEY,
 }} = process
 
-function tokenGenerate(expiresIn='24h') {
+function tokenGenerate(expiresIn = '24h') {
   const payload = { timestamp: Date.now() }
-  return jwt.sign(payload, EMAIL_JWT_PRIVATE_KEY, {expiresIn})
+  return jwt.sign(payload, EMAIL_JWT_PRIVATE_KEY, { expiresIn })
 }
 
 function tokenVerify(token) {

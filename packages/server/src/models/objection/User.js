@@ -1,6 +1,7 @@
 import BaseModel from './BaseModel'
 import { sendMagicLink } from '../..//helpers/email-client'
 import { tokenGenerate } from '../../helpers/token-manager'
+
 const MINUTES = 60 * 1000
 const HOURS = 60 * MINUTES
 const DAYS = 24 * HOURS

@@ -29,23 +29,22 @@ class UsersValidator extends BaseValidator {
   async _validateAddressNew(address) {
     const count = await User.getCount({address})
     if (count > 0) {
-      return this.addError({address: 'Given address is already registered'})
+     this.addError({address: 'Given address is already registered'})
     }
   }
 
   async _validateEmailFormat(email) {
     if (!email) {
-      return this.addError({email: 'An email address must be given'})
-    }
-    if (!validator.isEmail(email)) {
-      return this.addError({email: 'Given email address is not valid'})
+      this.addError({email: 'An email address must be given'})
+    } else if (!validator.isEmail(email)) {
+      this.addError({email: 'Given email address is not valid'})
     }
   }
 
   async _validateEmailChange({ address, email }) {
     const user = await User.query().findOne({address}).withGraphFetched('email')
     if (user?.email?.email == email) {
-      return this.addError({email: 'Given email is already set'})
+     this.addError({email: 'Given email is already set'})
     }
   }
 }
