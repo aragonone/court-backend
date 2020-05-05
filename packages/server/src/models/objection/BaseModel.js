@@ -25,8 +25,7 @@ export default class BaseModel extends Model {
   }
 
   static async getCount(args) {
-    const count = await this.query().where(args).resultSize()
-    return count
+    return this.query().where(args).resultSize()
   }
   
 
