@@ -1,5 +1,5 @@
+import { DBError } from 'objection'
 import HttpError from './http-error'
-import SequelizeBaseError from 'sequelize/lib/errors/base-error'
 import MetricsReporter from '../helpers/metrics-reporter'
 
 export default app => (err, req, res, next) => {
@@ -26,7 +26,7 @@ export default app => (err, req, res, next) => {
     code = 500
     body = 'Something went wrong :('
 
-    if (err instanceof SequelizeBaseError) {
+    if (err instanceof DBError) {
       const reporter = MetricsReporter(app)
       reporter.dbError()
     }

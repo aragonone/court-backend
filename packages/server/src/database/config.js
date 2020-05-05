@@ -1,23 +1,24 @@
-require('dotenv').config()
+import path from 'path'
+import dotenv from 'dotenv'
 
-module.exports = {
-  development: {
-    database: process.env.DB_NAME,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
+dotenv.config()
+
+const config = {
+  client: 'pg',
+  connection: {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
-    dialect: 'postgres',
-    logging: process.env.DB_LOGGING === 'true'
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
   },
-
-  production: {
-    database: process.env.DB_NAME,
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: 'postgres',
-    logging: process.env.DB_LOGGING === 'true'
-  }
+  migrations: {
+    directory: path.resolve(__dirname, './migrations'),
+  },
+  seeds: {
+    directory: path.resolve(__dirname, './seeds'),
+  },
 }
+
+export default config
+export const { client, connection, migrations, seeds } = config // knex cli format

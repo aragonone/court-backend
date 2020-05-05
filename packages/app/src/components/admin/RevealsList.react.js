@@ -32,7 +32,6 @@ export default class RevealsList extends React.Component {
                 <th>Outcome</th>
                 <th>Salt</th>
                 <th>Revealed</th>
-                <th>Error</th>
                 <th>Created at</th>
               </tr>
             </thead>

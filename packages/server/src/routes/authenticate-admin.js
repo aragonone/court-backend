@@ -1,14 +1,12 @@
-import Models from '../models'
+import { Admin } from '../models/objection'
 import HttpError from '../errors/http-error'
 import asyncMiddleware from '../helpers/async-middleware'
 
-const { Admin } = Models
-
 const authenticate = route => async (request, response, next) => {
   const { session } = request
-  if (!session.modelId || !session.modelType) throw HttpError._403({ errors: [{ status: 'Unauthorized' }] })
+  if (!session.adminId) throw HttpError._403({ errors: [{ status: 'Unauthorized' }] })
 
-  request.currentAdmin = await Admin.findByPk(session.modelId)
+  request.currentAdmin = await Admin.findById(session.adminId)
   route(request, response, next)
 }
 

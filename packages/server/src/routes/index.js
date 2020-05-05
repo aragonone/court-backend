@@ -10,6 +10,9 @@ export default app => {
   // check user details
   app.get(    '/users/:address',                      asyncMiddleware(users.details))
 
+  // add new user address and email
+  app.post(   '/users',                               asyncMiddleware(users.create))
+
   // verify user email using provided token (needs to come before sessions to avoid session authentication)
   app.post(   '/users/:address/email[:]verify',       asyncMiddleware(users.email.verify))
 
@@ -21,18 +24,15 @@ export default app => {
 
   // manage user emails
   app.get(    '/users/:address/email',                asyncMiddleware(users.email.get))
-  app.put(    '/users/:address/email',                asyncMiddleware(users.email.change))
+  app.put(    '/users/:address/email',                asyncMiddleware(users.email.set))
   app.post(   '/users/:address/email[:]send',         asyncMiddleware(users.email.send))
   app.delete( '/users/:address/email',                asyncMiddleware(users.email.delete))
 
   // set notifications
-  app.put(    '/users/:address/notifications',        asyncMiddleware(users.notifications.change))
+  app.put(    '/users/:address/notifications',        asyncMiddleware(users.notifications.set))
 
 
-  /*********** Old routes ***********/
-
-  app.get(    '/user/:address',                       asyncMiddleware(users.exists))
-  app.post(   '/users',                               asyncMiddleware(users.create))
+  /*********** Reveals routes ***********/
 
   app.get(    '/reveal',                              asyncMiddleware(reveals.show))
   app.post(   '/reveals',                             asyncMiddleware(reveals.create))

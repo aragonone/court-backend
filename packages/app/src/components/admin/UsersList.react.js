@@ -24,8 +24,11 @@ export default class UsersList extends React.Component {
             <thead>
               <tr>
                 <th>ID</th>
+                <th>Address</th>
+                <th>Address Verified?</th>
+                <th>Email ID</th>
+                <th>Email Verified?</th>
                 <th>Email</th>
-                <th>Addresses</th>
                 <th>Created at</th>
               </tr>
             </thead>
@@ -43,8 +46,11 @@ export default class UsersList extends React.Component {
       return (
         <tr key={index}>
           <td>{user.id}</td>
+          <td>{user.address}</td>
+          <td>{user.addressVerified ? 'Yes' : 'No'}</td>
+          <td>{user.userEmailId}</td>
+          <td>{user.emailVerified ? 'Yes' : 'No'}</td>
           <td>{user.email}</td>
-          <td>{user.addresses.map(userAddress => userAddress.address).join(', ')}</td>
           <td>{user.createdAt}</td>
         </tr>
       )

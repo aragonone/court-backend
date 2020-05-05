@@ -1,9 +1,7 @@
-import Models from '../models'
+import { Reveal } from '../models/objection'
 import Network from '../web3/Network'
 import BaseValidator from './BaseValidator'
 const { hashVote } = require('@aragonone/court-backend-shared/helpers/voting')
-
-const { Reveal } = Models
 
 class RevealsValidator extends BaseValidator {
   async validateForCreate({ juror, voteId, outcome, salt }) {
@@ -26,7 +24,7 @@ class RevealsValidator extends BaseValidator {
     if (!exists) this.addError({ voteId: `Vote with ID ${voteId} does not exist` })
 
     if (juror) {
-      const reveal = await Reveal.findOne({ attributes: ['id'], where: { juror, voteId } })
+      const reveal = await Reveal.findOne({ juror, voteId })
       if (reveal !== null) this.addError({ voteId: `Vote with ID ${voteId} was already registered to be revealed for juror ${juror}` })
     }
   }

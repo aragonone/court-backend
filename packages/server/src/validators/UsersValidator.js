@@ -1,9 +1,8 @@
-import Models from '../models'
 import validator from 'validator'
 import BaseValidator from './BaseValidator'
 import { isAddress } from 'web3-utils'
 
-const { UserAddress } = Models
+import { User } from '../models/objection'
 
 class UsersValidator extends BaseValidator {
   async validateForCreate({ email, address }) {
@@ -19,8 +18,7 @@ class UsersValidator extends BaseValidator {
 
   async _validateAddress(address) {
     if (!isAddress(address)) return this.addError({ address: 'Given address is not valid' })
-
-    const count = await UserAddress.count({ where: { address }})
+    const count = await User.query().where({ address }).resultSize()
     if (count > 0) this.addError({ address: 'Given address was already registered' })
   }
 }
