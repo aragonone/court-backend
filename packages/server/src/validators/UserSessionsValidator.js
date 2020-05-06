@@ -2,8 +2,7 @@ import { utils } from 'ethers'
 import BaseValidator from './BaseValidator'
 
 const MINUTES = 60 * 1000
-const HOURS = 60 * MINUTES
-const SESSION_SIGNATURE_EXPIRES = HOURS
+const SESSION_SIGNATURE_EXPIRES = MINUTES * 10
 
 class UserSessionsValidator  extends BaseValidator {
   async validateForCreate({address, signature, timestamp}) {
