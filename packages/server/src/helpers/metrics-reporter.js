@@ -3,6 +3,9 @@ const COUNTER_METRICS = {
     { name: 'queries', help: 'DB queries per table' },
     { name: 'errors', help: 'DB errors' },
   ],
+  email: [
+    { name: 'errors', help: 'Total email errors' },
+  ]
 }
 
 class MetricsReporter {
@@ -16,6 +19,10 @@ class MetricsReporter {
 
   dbError() {
     this.db.errors.inc()
+  }
+
+  emailError() {
+    this.email.errors.inc()
   }
 
   _initializeCounterMetrics(app) {

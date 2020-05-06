@@ -10,6 +10,7 @@ export default app => (err, req, res, next) => {
     return next(err)
   }
 
+  const reporter = MetricsReporter(app)
   let code, body
 
   if (err instanceof HttpError) {
@@ -24,6 +25,7 @@ export default app => (err, req, res, next) => {
     code = HttpStatus.INTERNAL_SERVER_ERROR
     body = { errors: [{ email: 'Could not send email.' }] }
     console.error(err.stack)
+    reporter.emailError()
   }
   else if (err.message.includes('CORS')) {
     code = HttpStatus.BAD_REQUEST
@@ -35,7 +37,6 @@ export default app => (err, req, res, next) => {
     body = 'Something went wrong :('
 
     if (err instanceof DBError) {
-      const reporter = MetricsReporter(app)
       reporter.dbError()
     }
   }
