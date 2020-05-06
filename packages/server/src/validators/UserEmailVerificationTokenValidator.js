@@ -1,6 +1,6 @@
 import BaseValidator from './BaseValidator'
 import { User } from '../models/objection'
-import { verifyToken } from '../helpers/token-manager'
+import { isTokenValid } from '../helpers/token-manager'
 
 class UserEmailVerificationTokenValidator extends BaseValidator {
   async validateForVerify({ address, token }) {
