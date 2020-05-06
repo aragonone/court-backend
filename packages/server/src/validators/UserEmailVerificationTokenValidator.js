@@ -1,6 +1,6 @@
 import BaseValidator from './BaseValidator'
 import { User } from '../models/objection'
-import { tokenVerify } from '../helpers/token-manager'
+import { verifyToken } from '../helpers/token-manager'
 
 class UserEmailVerificationTokenValidator extends BaseValidator {
   async validateForVerify({ address, token }) {
@@ -30,17 +30,15 @@ class UserEmailVerificationTokenValidator extends BaseValidator {
     if (user.emailVerificationToken.expiresAt < new Date()) {
       return this.addError({token: 'Given token has expired'})
     }
-    try {
-      tokenVerify(token)
-    } catch {
-      return this.addError({token: 'Given token is invalid'})
+    if (!isTokenValid(token)) {
+      this.addError({token: 'Given token is invalid'})
     }
   }
   
   async _validateEmailNotVerified(address) {
     const user = await User.query().findOne({address})
     if (user.emailVerified) {
-      return this.addError({token: 'Email is already verified'})
+      this.addError({token: 'Email is already verified'})
     }
   }
 }
