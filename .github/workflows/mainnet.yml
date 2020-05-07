@@ -1,9 +1,6 @@
 name: Mainnet CI/CD
 on:
   push:
-    # executes when creating a tag in master branch
-    branches:
-    - master
     tags:
     - v*
 env:
