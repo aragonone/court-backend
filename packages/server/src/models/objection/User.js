@@ -30,6 +30,14 @@ export default class User extends BaseModel {
           to: 'UserNotificationSettings.userId'
         }
       },
+      notifications: {
+        relation: BaseModel.HasManyRelation,
+        modelClass: 'UserNotification',
+        join: {
+          from: 'Users.id',
+          to: 'UserNotifications.userId'
+        }
+      },
       emailVerificationToken: {
         relation: BaseModel.HasOneRelation,
         modelClass: 'UserEmailVerificationToken',

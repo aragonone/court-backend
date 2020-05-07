@@ -33,6 +33,14 @@ const workers = [
     times: 0,
     repeat: ONE_MINUTE * 30,
   },
+  {
+    name: 'notifications',
+    color: 'blue',
+    path: './src/workers/notifications',
+    processes: 1,
+    times: 0,
+    repeat: ONE_MINUTE,
+  },
 ]
 
 export {

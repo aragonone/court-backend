@@ -24,13 +24,17 @@ class EmailClient {
       TemplateAlias: POSTMARK_TEMPLATE_ALIAS_VERIFY,
       TemplateModel: { verifyEmailUrl },
     }
-    message = this._sanitizeMessage(message)
     await postmarkClient.sendEmailWithTemplate(message)
   }
 
   async sendEmail(message) {
     message = this._sanitizeMessage(message)
     await postmarkClient.sendEmail(message)
+  }
+
+  async sendEmailWithTemplate(message) {
+    message = this._sanitizeMessage(message)
+    await postmarkClient.sendEmailWithTemplate(message)
   }
 
   _sanitizeMessage(message) {
