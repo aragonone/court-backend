@@ -25,7 +25,7 @@ class EmailClient {
       TemplateModel: { verifyEmailUrl },
     }
     message = this._sanitizeMessage(message)
-    await postmarkClient.sendEmailWithTemplate(emailOptions)
+    await postmarkClient.sendEmailWithTemplate(message)
   }
 
   async sendEmail(message) {
