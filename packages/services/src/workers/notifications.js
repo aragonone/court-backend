@@ -3,6 +3,10 @@ import Network from '@aragonone/court-backend-server/build/web3/Network'
 import { User } from '@aragonone/court-backend-server/build/models/objection'
 import emailClient from '@aragonone/court-backend-shared/helpers/email-client'
 
+const MINUTES = 60 * 1000
+const HOURS = 60 * MINUTES
+const NOTIFICATION_REPEAT = HOURS * 1
+
 export default async function (logger) {
   //const court = await Network.getCourt()
 
@@ -19,7 +23,10 @@ async function checkNotification(logger, court, notificationQuery) {
   for (const address of addresses) {
     const user = await User.query().findOne({address}).withGraphFetched('[email, notificationSetting]')
     if (user?.addressVerified && user?.emailVerified && !user?.notificationSetting?.notificationsDisabled) {
-      const notificationSent = !!await user.$relatedQuery('notifications').findOne({type})
+      const notificationSent = !!await user.$relatedQuery('notifications')
+        .where({type})
+        .andWhere('sentAt', '<', new Date(Date.now()-NOTIFICATION_REPEAT))
+        .first()
       if (!notificationSent) {
         sendNotification(Logger, user, notificationQuery)
       }
@@ -35,6 +42,9 @@ async function sendNotification(logger, user, notificationQuery) {
     TemplateModel: { },
   }
   await emailClient.sendEmailWithTemplate(message)
-  await user.$relatedQuery('notifications').insert({type})
+  await user.$relatedUpdateOrInsert('notifications', {
+    type,
+    sentAt: new Date()
+  })
   logger.success(`Notification ${type} sent for user ${user.address}`)
 }
