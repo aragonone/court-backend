@@ -1,5 +1,5 @@
 import BaseModel from './BaseModel'
-import { sendMagicLink } from '../..//helpers/email-client'
+import emailClient from '@aragonone/court-backend-shared/helpers/email-client'
 import { generateToken } from '../../helpers/token-manager'
 
 const MINUTES = 60 * 1000
@@ -59,7 +59,7 @@ export default class User extends BaseModel {
       token,
       expiresAt: new Date(Date.now()+EMAIL_TOKEN_EXPIRES)
     })
-    await sendMagicLink({
+    await emailClient.sendMagicLink({
       email, 
       address, 
       token
