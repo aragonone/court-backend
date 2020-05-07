@@ -15,7 +15,7 @@ import corsMiddleware from './helpers/cors-middleware'
 import sessionMiddleware from './helpers/session-middleware'
 import notFoundMiddleware from './helpers/not-found-middleware'
 
-// Load env variables and check DB connection
+// Load env variables
 dotenv.config()
 
 // Set up express layers

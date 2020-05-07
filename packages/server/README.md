@@ -273,3 +273,6 @@ All the provided endpoints are `Content-Type: application/json`
 ### Keys
 
 This repo needs the private key to be defined as a envrionment variable `PRIVATE_KEY`. 
+
+Also email verification requires JWT private key `EMAIL_JWT_PRIVATE_KEY`.
+This can be generated with `node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"`

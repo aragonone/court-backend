@@ -1,4 +1,4 @@
-import { ServerClient } from 'postmark'
+import emailClient from '@aragonone/court-backend-shared/helpers/email-client'
 import Etherscan from '../models/Etherscan'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
 import { Admin, KeeperSuspiciousTransaction } from '@aragonone/court-backend-server/build/models/objection'
@@ -58,10 +58,8 @@ async function monitorEthBalance(logger, etherscan, keeper, network) {
 async function sendNotification(logger, message) {
   logger.info(`Sending email notifications for '${message.Subject}'`)
   message.From = FROM
-  message.To = (await Admin.findAllEmails()).join(', ')
-  const client = new ServerClient(process.env.POSTMARK_TOKEN)
-  const response = await client.sendEmail(message)
-  if (!response || response.ErrorCode != 0) logger.error(`Failed to send notification, received response: ${JSON.stringify(response)}`)
+  message.To = await Admin.findAllEmails()
+  await emailClient.sendEmail(message)
 }
 
 function buildSuspiciousTransactionMessage(keeper, { to, value, blockNumber, hash }, network) {

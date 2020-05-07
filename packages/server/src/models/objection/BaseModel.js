@@ -15,14 +15,22 @@ export default class BaseModel extends Model {
     this.updatedAt = new Date().toISOString()
   }
 
+
   // static query methods (table level)
-  static async findOneOrInsert(args) {
+
+  static async findOrInsert(args) {
     let row = await this.query().findOne(args)
     if (!row) row = await this.query().insert(args)
     return row
   }
 
+  static async getCount(args) {
+    return this.query().where(args).resultSize()
+  }
+  
+
   // instance query methods (row level)
+  
   async $relatedUpdateOrInsert(relation, args) {
     const row = await this.$relatedQuery(relation)
     if (row) {
