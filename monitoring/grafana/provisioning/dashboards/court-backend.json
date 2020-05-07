@@ -2,7 +2,6 @@
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:33",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -16,7 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1585755457933,
+  "id": 1,
+  "iteration": 1588712050879,
   "links": [],
   "panels": [
     {
@@ -28,8 +28,8 @@
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 9,
-        "w": 24,
+        "h": 8,
+        "w": 12,
         "x": 0,
         "y": 0
       },
@@ -60,7 +60,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(http_requests_total{pod=\"$instance\"}[5m])",
+          "expr": "sum by (status_code) (irate(http_requests_total{service=\"$service\"}[5m]))",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -70,7 +70,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Server HTTP requests",
+      "title": "Server status codes",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -86,7 +86,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:84",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -95,7 +94,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:85",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -113,9 +111,9 @@
       "datasource": "Loki",
       "gridPos": {
         "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 9
+        "w": 12,
+        "x": 12,
+        "y": 0
       },
       "id": 4,
       "options": {
@@ -126,7 +124,7 @@
       },
       "targets": [
         {
-          "expr": "{instance=\"$instance\",container_name=~\".*server.*\"}",
+          "expr": "{app=\"$service\",container_name=~\".*server.*\"}",
           "refId": "A"
         }
       ],
@@ -136,12 +134,188 @@
       "type": "logs"
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 9,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum by (path) (irate(http_requests_total{service=\"$service\",status_code=~\"4.*\"}[5m]))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Server 4** by path",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum by (path) (irate(http_requests_total{service=\"$service\",status_code=~\"5.*\"}[5m]))",
+          "interval": "",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Server 5** by path",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "datasource": "Loki",
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
         "x": 0,
-        "y": 17
+        "y": 16
       },
       "id": 6,
       "options": {
@@ -152,22 +326,126 @@
       },
       "targets": [
         {
-          "expr": "{instance=\"$instance\",container_name=~\".*services.*\"}",
+          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[reveal]\"",
           "refId": "A"
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Services logs",
+      "title": "Reveals",
       "type": "logs"
     },
     {
       "datasource": "Loki",
       "gridPos": {
         "h": 8,
-        "w": 24,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 11,
+      "options": {
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[settlements]\"",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Settlements",
+      "type": "logs"
+    },
+    {
+      "datasource": "Loki",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
         "x": 0,
-        "y": 25
+        "y": 24
+      },
+      "id": 12,
+      "options": {
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[heartbeat]\"",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Heartbeats",
+      "type": "logs"
+    },
+    {
+      "datasource": "Loki",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 24
+      },
+      "id": 15,
+      "options": {
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[monitor-keeper]\"",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Monitor keeper",
+      "type": "logs"
+    },
+    {
+      "datasource": "Loki",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 32
+      },
+      "id": 14,
+      "options": {
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "targets": [
+        {
+          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[Provider]\"",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "RPC calls",
+      "type": "logs"
+    },
+    {
+      "datasource": "Loki",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 32
       },
       "id": 8,
       "options": {
@@ -178,7 +456,7 @@
       },
       "targets": [
         {
-          "expr": "{instance=\"$instance\",container_name=~\".*(app|backoffice).*\"}",
+          "expr": "{app=\"$service\",container_name=~\".*(app|backoffice).*\"}",
           "refId": "A"
         }
       ],
@@ -197,19 +475,19 @@
       {
         "allValue": null,
         "current": {
-          "text": "localhost",
-          "value": "localhost"
+          "text": "court-backend",
+          "value": "court-backend"
         },
         "datasource": "Prometheus",
-        "definition": "label_values({job=~\"(.*/)?court-backend\"}, pod)",
+        "definition": "label_values({job=~\"(.*/)?court-backend(-.*)?\"}, service)",
         "hide": 0,
         "includeAll": false,
         "index": -1,
         "label": "",
         "multi": false,
-        "name": "instance",
+        "name": "service",
         "options": [],
-        "query": "label_values({job=~\"(.*/)?court-backend\"}, pod)",
+        "query": "label_values({job=~\"(.*/)?court-backend(-.*)?\"}, service)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -246,5 +524,5 @@
   "variables": {
     "list": []
   },
-  "version": 1
+  "version": 4
 }
