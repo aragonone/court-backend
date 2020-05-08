@@ -21,9 +21,6 @@ class UserEmailVerificationTokenValidator extends BaseValidator {
 
   async _validateTokenFormat({ address, token }) {
     const user = await User.query().findOne({address}).withGraphFetched('emailVerificationToken')
-    if (!user) {
-      return this.addError({address: `User ${address} not found`})
-    }
     if (!token) {
       return this.addError({token: 'A token must be given'})
     }
@@ -40,11 +37,11 @@ class UserEmailVerificationTokenValidator extends BaseValidator {
   
   async _validateEmailNotVerified(address) {
     const user = await User.query().findOne({address}).withGraphFetched('email')
-    if (user?.emailVerified) {
-      return this.addError({email: 'Email is already verified'})
-    }
     if (!user?.email) {
-      this.addError({email: 'No associated email found'})
+      return this.addError({email: 'No associated email found'})
+    }
+    if (user?.emailVerified) {
+      this.addError({email: 'Email is already verified'})
     }
   }
 }
