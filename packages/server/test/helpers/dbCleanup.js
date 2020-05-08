@@ -1,4 +1,3 @@
-
 import { User } from '../../src/models/objection'
 
 export default async function dbCleanup(address) {
