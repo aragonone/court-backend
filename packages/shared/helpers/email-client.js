@@ -18,7 +18,7 @@ class EmailClient {
       message.TextBody = 'test'
       return await this.sendEmail(message)
     }
-    const verifyEmailUrl = `${EMAIL_VERIFICATION_TARGET_HOST}?address=${address}&token=${token}`
+    const verifyEmailUrl = `${EMAIL_VERIFICATION_TARGET_HOST}?preferences=notifications&address=${address}&token=${token}`
     message = {
       ... message,
       TemplateAlias: POSTMARK_TEMPLATE_ALIAS_VERIFY,
