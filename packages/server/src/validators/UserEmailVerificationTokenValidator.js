@@ -4,7 +4,10 @@ import { isTokenValid } from '../helpers/token-manager'
 
 class UserEmailVerificationTokenValidator extends BaseValidator {
   async validateForVerify({ address, token }) {
-    await this._validateAddressFormat(address)
+    await this._validateAddressFormat(address)  // need to check address since this is an unauthenticated endpoint
+    if (!this.errors.length) {
+      await this._validateEmailNotVerified(address)
+    }
     if (!this.errors.length) {
       await this._validateTokenFormat({address, token})
     }
@@ -19,7 +22,7 @@ class UserEmailVerificationTokenValidator extends BaseValidator {
   async _validateTokenFormat({ address, token }) {
     const user = await User.query().findOne({address}).withGraphFetched('emailVerificationToken')
     if (!user) {
-      return this.addError({address:  `User ${address} not found`})
+      return this.addError({address: `User ${address} not found`})
     }
     if (!token) {
       return this.addError({token: 'A token must be given'})
@@ -36,9 +39,12 @@ class UserEmailVerificationTokenValidator extends BaseValidator {
   }
   
   async _validateEmailNotVerified(address) {
-    const user = await User.query().findOne({address})
-    if (user.emailVerified) {
-      this.addError({token: 'Email is already verified'})
+    const user = await User.query().findOne({address}).withGraphFetched('email')
+    if (user?.emailVerified) {
+      return this.addError({email: 'Email is already verified'})
+    }
+    if (!user?.email) {
+      this.addError({email: 'No associated email found'})
     }
   }
 }
