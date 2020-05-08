@@ -14,7 +14,15 @@ export default class UserNotification extends BaseModel {
           from: 'UserNotifications.userId',
           to: 'Users.id'
         },
-      }
+      },
+      type: {
+        relation: BaseModel.BelongsToOneRelation,
+        modelClass: 'UserNotificationType',
+        join: {
+          from: 'UserNotifications.userNotificationTypeId',
+          to: 'UserNotificationTypes.id'
+        },
+      },
     }
   }
 }

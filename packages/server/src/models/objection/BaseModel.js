@@ -18,14 +18,26 @@ export default class BaseModel extends Model {
 
   // static query methods (table level)
 
+  static async exists(args) {
+    return !!(await this.query().findOne(args))
+  }
+
+  static async getCount(args) {
+    return this.query().where(args).resultSize()
+  }
+
+  static async findById(id) {
+    return this.query().findById(id)
+  }
+
   static async findOrInsert(args) {
     let row = await this.query().findOne(args)
     if (!row) row = await this.query().insert(args)
     return row
   }
 
-  static async getCount(args) {
-    return this.query().where(args).resultSize()
+  static async create(args = {}) {
+    return this.query().insert(args)
   }
   
 
