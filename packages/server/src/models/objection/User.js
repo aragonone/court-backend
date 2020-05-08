@@ -1,4 +1,5 @@
 import BaseModel from './BaseModel'
+import UserEmail from './UserEmail'
 import emailClient from '@aragonone/court-backend-shared/helpers/email-client'
 import { generateToken } from '../../helpers/token-manager'
 
@@ -56,10 +57,33 @@ export default class User extends BaseModel {
       }
     }
   }
+
+  async $relateEmail(email) {
+    await this.$unrelateEmail()
+    const emailInstance = await UserEmail.query().findOne({email})
+    if (emailInstance) {
+      await this.$relatedQuery('email').relate(emailInstance)
+    } else {
+      await this.$relatedQuery('email').insert({email})
+    }
+  }
+
+  async $unrelateEmail() {
+    const user = await this.$fetchGraph('email')
+    let emailInstance = user.email
+    await user.$relatedQuery('email').unrelate()
+    // clean emails with no users
+    if (emailInstance) {
+      emailInstance = await emailInstance.$fetchGraph('users')
+      if (emailInstance.users.length == 0) {
+        await emailInstance.$query().del()
+      }
+    }
+  }
   
   async $sendVerificationEmail() {
     const user = await this.$fetchGraph('email')
-    const { email: {email}, address } = user
+    const { email: { email }, address } = user
     const tokenExpiresSeconds = EMAIL_TOKEN_EXPIRES/1000
     const token = generateToken(tokenExpiresSeconds)
     await user.$relatedUpdateOrInsert('emailVerificationToken', {

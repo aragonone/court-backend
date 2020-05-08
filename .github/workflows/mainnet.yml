@@ -1,9 +1,6 @@
 name: Mainnet CI/CD
 on:
   push:
-    # executes when creating a tag in master branch
-    branches:
-    - master
     tags:
     - v*
 env:
@@ -41,7 +38,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: .github/scripts/kubectl-config.sh ${{secrets.KUBE_CA}} ${{secrets.KUBE_SERVER}} ${{secrets.KUBE_TOKEN}}
-    - run: .github/scripts/kubectl-set-image.sh court-backend ${GITHUB_REF##*/}
+    - run: .github/scripts/kubectl-set-image.sh court-backend $REPO:${GITHUB_REF##*/}
     - run: .github/scripts/kubectl-wait-ready.sh court-backend
     # wait 10 sec for k8s to reroute ingress and check app endpoint
     - run: sleep 10 && curl --fail https://court-backend-app.eth.aragon.network

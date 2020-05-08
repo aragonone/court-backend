@@ -4,6 +4,7 @@ import HttpStatus from 'http-status-codes'
 import { ethers } from 'ethers'
 
 import { User } from '../../src/models/objection'
+import dbCleanup from '../helpers/dbCleanup'
 const serverPort = process.env.SERVER_PORT || 8000
 const { expect } = chai
 chai.use(chaiHttp)
@@ -12,19 +13,21 @@ const TEST_PRIVATE_KEY = '0x3141592653589793238462643383279502884197169399375105
 const TEST_ADDR = '0x7357589f8e367c2c31f51242fb77b350a11830f3'
 const wallet = new ethers.Wallet(TEST_PRIVATE_KEY)
 
+// test another address for the same email
+const TEST_PRIVATE_KEY2 = '11966d3e21165a13ba565bccf7685cb59afc552e7136e244df283f5e0bc59e3a'
+const TEST_ADDR2 = '0x60AE14A674532B680e8eE77De4d46923ea7Dd595'
+const wallet2 = new ethers.Wallet(TEST_PRIVATE_KEY2)
 
 describe('Client user interaction', () => {
 
   // agent is used to persist authentication cookie across multiple tests
   const agent = chai.request.agent(`http://localhost:${serverPort}`)
+  const agent2 = chai.request.agent(`http://localhost:${serverPort}`)
   after(async () => {
     agent.close()
-    // db cleanup
-    const user = await User.query().findOne({address: TEST_ADDR.toLowerCase()})
-    if (user) {
-      await user.$relatedQuery('email').del()
-      await user.$query().del()
-    }
+    agent2.close()
+    await dbCleanup(TEST_ADDR)
+    await dbCleanup(TEST_ADDR2)
   })
 
   it('should welcome user to the api', async () => {
@@ -68,6 +71,24 @@ describe('Client user interaction', () => {
 
   it('should return user email', async () => {
     const res = await agent.get(`/users/${TEST_ADDR}/email`)
+    expect(res).to.have.status(HttpStatus.OK)
+    expect(res.body).to.deep.equal({
+      email: TEST_EMAIL
+    })
+  })
+
+  it('should set same email for second user with no errors', async () => {
+    const timestamp = Date.now()
+    const signature = await wallet2.signMessage(timestamp.toString())
+    await agent2.post(`/users/${TEST_ADDR2}/sessions`).send({
+      signature,
+      timestamp
+    })
+    let res = await agent2.put(`/users/${TEST_ADDR2}/email`).send({
+      email: TEST_EMAIL
+    })
+    expect(res).to.have.status(HttpStatus.OK)
+    res = await agent2.get(`/users/${TEST_ADDR2}/email`)
     expect(res).to.have.status(HttpStatus.OK)
     expect(res.body).to.deep.equal({
       email: TEST_EMAIL

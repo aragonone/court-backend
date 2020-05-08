@@ -16,7 +16,13 @@ export default {
   async create(request, response) {
     const params = request.body
     const errors = await RevealsValidator.validateForCreate(params)
-    if (errors.length > 0) throw HttpError.BAD_REQUEST({ errors })
+    if (errors.length > 0) {
+      // TODO: This is temporarily
+      console.error(`Reveal request error:`)
+      console.error(`Params ${JSON.stringify(params)}`)
+      console.error(`Errors ${JSON.stringify(errors)}`)
+      throw HttpError.BAD_REQUEST({ errors })
+    }
 
     const decodedVoteId = decodeVoteId(params.voteId)
     params.revealed = false

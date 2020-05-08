@@ -50,7 +50,7 @@ export default class UsersList extends React.Component {
           <td>{user.addressVerified ? 'Yes' : 'No'}</td>
           <td>{user.userEmailId}</td>
           <td>{user.emailVerified ? 'Yes' : 'No'}</td>
-          <td>{user.email}</td>
+          <td>{user.email.email}</td>
           <td>{user.createdAt}</td>
         </tr>
       )

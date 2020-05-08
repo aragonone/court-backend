@@ -6,7 +6,8 @@ const authenticate = (route) => async (req, res, next) => {
   const { session: { userId }, params: { address } } = req
   const user = await User.query().findOne({address})
   if (!user) {
-    throw HttpError.NOT_FOUND({ errors: [{ status: `User ${address} not found` }] })
+    const errors = [{address: `User ${address} not found` }]
+    throw HttpError.NOT_FOUND({errors})
   }
   if (!userId) {
     const errors = [{access: `Unauthorized, please authenticate at /users/${address}/sessions`}]
