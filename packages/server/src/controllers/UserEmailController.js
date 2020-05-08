@@ -17,7 +17,7 @@ export default {
     const errors = await UsersValidator.validateForEmailSet({address, email})
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
     const user = await User.query().findOne({address})
-    await user.$relatedUpdateOrInsert('email', {email})
+    await user.$relateEmail(email)
     await user.$query().update({emailVerified: false})
     await user.$sendVerificationEmail()
     res.send({
@@ -53,7 +53,7 @@ export default {
     const { params: { address } } = req
     const user = await User.query().findOne({address})
     await user.$query().update({emailVerified: false})
-    await user.$relatedQuery('email').del()
+    await user.$unrelateEmail()
     await user.$relatedQuery('emailVerificationToken').del()
     await user.$relatedQuery('notificationSetting').del()
     res.send({

@@ -2,7 +2,7 @@ import chai from 'chai'
 import chaiHttp from 'chai-http'
 import HttpStatus from 'http-status-codes'
 
-import { User } from '../../src/models/objection'
+import dbCleanup from '../helpers/dbCleanup'
 const serverPort = process.env.SERVER_PORT || 8000
 const { expect } = chai
 chai.use(chaiHttp)
@@ -16,12 +16,7 @@ describe('User creation', () => {
   const agent = chai.request.agent(`http://localhost:${serverPort}`)
   after(async () => {
     agent.close()
-    // db cleanup
-    const user = await User.query().findOne({address: TEST_ADDR.toLowerCase()})
-    if (user) {
-      await user.$relatedQuery('email').del()
-      await user.$query().del()
-    }
+    await dbCleanup(TEST_ADDR)
   })
 
   it('should welcome user to the api', async () => {
