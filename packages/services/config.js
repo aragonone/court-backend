@@ -34,12 +34,20 @@ const workers = [
     repeat: ONE_MINUTE * 30,
   },
   {
-    name: 'notifications',
+    name: 'notification-scanner',
     color: 'blue',
-    path: './src/workers/notifications',
+    path: './src/workers/notification-scanner',
     processes: 1,
     times: 0,
     repeat: ONE_MINUTE,
+  },
+  {
+    name: 'notification-sender',
+    color: 'blue',
+    path: './src/workers/notification-sender',
+    processes: 1,
+    times: 0,
+    repeat: ONE_MINUTE * 5,
   },
 ]
 
