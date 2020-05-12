@@ -1,39 +1,33 @@
-import queries from '../helpers/notification-queries'
-import Network from '@aragonone/court-backend-server/build/web3/Network'
-import { UserNotification, UserNotificationType } from '@aragonone/court-backend-server/build/models/objection'
-/*
-const MINUTES = 60 * 1000
-const HOURS = 60 * MINUTES
-const NOTIFICATION_REPEAT = HOURS * 1
-*/
+import { User, UserNotification, UserNotificationType } from '@aragonone/court-backend-server/build/models/objection'
+import * as notificationScanners from '../models/notification-scanners'
+
+/**
+ * This worker loops over all notification scanner objects and 
+ * inserts a notification DB entry for every email that should be sent
+ */
 export default async function (logger) {
-  const notificationTypes = await UserNotification().query().whereNull('sentAt')
-  for (const notificationType of notificationTypes) {
-    await scanNotification(logger, notificationType)
-  }
+  Object.keys(notificationScanners).forEach(async (model) => {
+    await tryRunScanner(logger, model)
+  })
 }
 
-async function scanNotification(logger, notificationType) {
-
-  // need a way to retrieve new notifications to be inserted into table
-  // there has to be some notification <- type mapping library
-  // notifications should contain userId, userNotificationTypeId and details to be found/inserted
-  const { notifications } = await UserNotificationType.getstuff()
-
-  for (notification of notifications) {
-    await UserNotification.findOrInsert(notification)
+export async function tryRunScanner(logger, model) {
+  const type = await UserNotificationType.findOrInsert({model})
+  const scanner = notificationScanners[model]
+  const { scannedAt } = type
+  const { scanPeriod } = scanner
+  if (scannedAt && scannedAt.getTime()+scanPeriod > Date.now()) return
+  const notifications = await scanner.scan()
+  for (const notification of notifications) {
+    const { address, details } = notification
+    const user = await User.query().findOne({address})
+    if (!await scanner.checkUser(user)) continue
+    await UserNotification.findOrInsert({
+      userId: user.id,
+      userNotificationTypeId: type.id,
+      details
+    })
   }
-
-  /*
-    const user = await User.query().findOne({address}).withGraphFetched('[email, notificationSetting]')
-    if (user?.addressVerified && user?.emailVerified && !user?.notificationSetting?.notificationsDisabled) {
-      const notificationSent = !!await user.$relatedQuery('notifications')
-        .where({type})
-        .andWhere('sentAt', '<', new Date(Date.now()-NOTIFICATION_REPEAT))
-        .first()
-      if (!notificationSent) {
-        sendNotification(Logger, user, notificationQuery)
-      }
-    }
-  */
+  await type.$query().update({scannedAt: new Date()})
+  logger.success(`Notification type ${model} scanned.`)
 }

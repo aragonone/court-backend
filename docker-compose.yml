@@ -42,6 +42,7 @@ services:
     volumes:
     - ./packages/services/bin:/court-backend/packages/services/bin
     - ./packages/services/src:/court-backend/packages/services/src
+    - ./packages/services/test:/court-backend/packages/services/test
     env_file:
     - .env
     logging: *loki
