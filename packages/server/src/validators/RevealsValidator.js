@@ -25,7 +25,7 @@ class RevealsValidator extends BaseValidator {
 
     if (juror) {
       const reveal = await Reveal.query().findOne({ juror, voteId })
-      if (reveal !== null) this.addError({ voteId: `Vote with ID ${voteId} was already registered to be revealed for juror ${juror}` })
+      if (reveal) this.addError({ voteId: `Vote with ID ${voteId} was already registered to be revealed for juror ${juror}` })
     }
   }
 
