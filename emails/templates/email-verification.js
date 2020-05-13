@@ -1,51 +1,55 @@
-const { action, base, link, vspace } = require('../template-utils')
+const { action, base, link, trimMultiline, vspace } = require('../template-utils')
 
 module.exports = function() {
   return {
     template: base(
       {
         title: 'Email Verification',
-        subtitle: `
-          Verify your email to receive email notifications about important news
-          and upcoming tasks.
-        `,
+        subtitle: '{{subtitle}}',
       },
       `
         <div style="font-size:16px;line-height:24px;color:#212B36">
-          To complete the verification process, please click on the button
-          below. Please note that by completing this process you are agreeing
-          to receive email notifications from Aragon Court.
+          {{content}}
         </div>
 
         ${vspace(40)}
 
-        ${action('Verify your email', '{{verifyEmailUrl}}')}
+        ${action('{{actionLabel}}', '{{actionUrl}}')}
 
         ${vspace(40)}
 
         <div style="font-size:16px;line-height:24px;color:#212B36">
           Or copy and paste this URL into your browser:
-          ${link('{{verifyEmailUrl}}', '{{verifyEmailUrl}}')}
+          ${link('{{actionUrl}}', '{{actionUrl}}')}
         </div>
       `
     ),
     templateText: `
       Email Verification
 
-      Verify your email to receive email notifications about important news
-      and upcoming tasks.
+      {{subtitle}}
 
-      To complete the verification process, please click on the button below.
-      Please note that by completing this process you are agreeing to receive
-      email notifications from Aragon Court.
+      {{content}}
 
-      Verify your email by copying and pasting this URL into your browser:
-      {{verifyEmailUrl}}
+      {{actionLabel}}
+
+      Or copy and paste this URL into your browser:
+      {{actionUrl}}
     `,
     mockData: {
       date: 'Thursday, 17 Dec. 2019',
-      verifyEmailUrl:
-        'https://app.aragon.org/confirm?email=paty%40aragon.one&token=BxN5wBjmCz47mrx0KsfA9KvE&mode=signup',
+      subtitle: trimMultiline(`
+        Verify your email to receive email notifications about important news
+        and upcoming tasks.
+      `),
+      content: trimMultiline(`
+        To complete the verification process, please click on the button
+        below. Please note that by completing this process you are agreeing
+        to receive email notifications from Aragon Court.
+      `),
+      actionLabel: 'Verify your email',
+      actionUrl:
+        'https://court.aragon.org/confirm?email=paty%40aragon.one&token=BxN5wBjmCz47mrx0KsfA9KvE&mode=signup',
     },
   }
 }
