@@ -25,13 +25,13 @@ module.exports = function() {
 
         ${vspace(40)}
 
-        ${action('Complete the verification process', '{{emailSettingsUrl}}')}
+        ${action('Complete the verification process', '{{emailPreferencesUrl}}')}
 
         ${vspace(40)}
 
         <div style="font-size:16px;line-height:24px;color:#212B36">
           Or copy and paste this URL into your browser:
-          ${link('{{emailSettingsUrl}}', '{{emailSettingsUrl}}')}
+          ${link('{{emailPreferencesUrl}}', '{{emailPreferencesUrl}}')}
         </div>
       `
     ),
@@ -46,10 +46,10 @@ module.exports = function() {
 
       To do so, please copy and paste this URL into your browser and follow 
       the instructions:
-      {{emailSettingsUrl}}
+      {{emailPreferencesUrl}}
     `,
     mockData: {
-      emailSettingsUrl:
+      emailPreferencesUrl:
         'https://app.aragon.org/?preferences=notifications',
     },
   }
