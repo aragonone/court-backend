@@ -17,7 +17,7 @@ module.exports = function() {
       `
         ${infobox({
           mode: 'negative',
-          primary: `Your vote wasn’t revealed on time`,
+          primary: '{{actionTitle}}',
           secondary: `Some of your ${link(
             'locked ANJ balance',
             '{{lockedAnjBalanceUrl}}'
@@ -31,8 +31,9 @@ module.exports = function() {
 
       Your account {{account}} received a notification on {{date}}:
 
-      Your vote wasn’t revealed on time. Some of your locked ANJ [1] balance has
-      been forfeit.
+      {{actionTitle}}
+
+      Some of your locked ANJ [1] balance has been forfeit.
 
       Learn more: {{learnMoreUrl}}
 
@@ -47,6 +48,7 @@ module.exports = function() {
     mockData: {
       ...accountData('0xef0f7ecef8385483ac8a2e92d761f571c4b782bd'),
       date: 'Thursday, 17 Dec. 2019',
+      actionTitle: "Your vote wasn't cast on time",
       lockedAnjBalanceUrl: '',
       learnMoreUrl: '',
     },
