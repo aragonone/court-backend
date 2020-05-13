@@ -4,7 +4,7 @@ module.exports = function() {
   return {
     template: base(
       {
-        title: 'Email Verification',
+        title: 'Email Verification Reminder',
         subtitle: `
           Verify your email to receive email notifications about important news
           and upcoming tasks.
@@ -19,20 +19,19 @@ module.exports = function() {
         ${vspace(20)}
 
         <div style="font-size:16px;line-height:24px;color:#212B36">
-          To do so, please click on the button below. Please note that by
-          completing this process you are agreeing to receive email
-          notifications from Aragon Court.
+          To do so, please click on the button below and follow
+          the instructions:
         </div>
 
         ${vspace(40)}
 
-        ${action('Verify your email', '{{verifyEmailUrl}}')}
+        ${action('Complete the verification process', '{{emailSettingsUrl}}')}
 
         ${vspace(40)}
 
         <div style="font-size:16px;line-height:24px;color:#212B36">
           Or copy and paste this URL into your browser:
-          ${link('{{verifyEmailUrl}}', '{{verifyEmailUrl}}')}
+          ${link('{{emailSettingsUrl}}', '{{emailSettingsUrl}}')}
         </div>
       `
     ),
@@ -45,17 +44,13 @@ module.exports = function() {
       You recently subscribed to Aragon Court email notifications, but did not
       complete the email verification process.
 
-      To do so, please click on the button below. Please note that by completing
-      this process you are agreeing to receive email notifications from Aragon
-      Court.
-
-      Verify your email by copying and pasting this URL into your browser:
-      {{verifyEmailUrl}}
+      To do so, please copy and paste this URL into your browser and follow 
+      the instructions:
+      {{emailSettingsUrl}}
     `,
     mockData: {
-      date: 'Thursday, 17 Dec. 2019',
-      verifyEmailUrl:
-        'https://app.aragon.org/confirm?email=paty%40aragon.one&token=BxN5wBjmCz47mrx0KsfA9KvE&mode=signup',
+      emailSettingsUrl:
+        'https://app.aragon.org/?preferences=notifications',
     },
   }
 }
