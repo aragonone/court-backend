@@ -35,7 +35,6 @@ module.exports = function() {
       Verify your email to receive email notifications about important news
       and upcoming tasks.
 
-      To complete the verification process, please click on the button below.
       Please note that by completing this process you are agreeing to receive
       email notifications from Aragon Court.
 
@@ -43,7 +42,6 @@ module.exports = function() {
       {{verifyEmailUrl}}
     `,
     mockData: {
-      date: 'Thursday, 17 Dec. 2019',
       verifyEmailUrl:
         'https://app.aragon.org/confirm?email=paty%40aragon.one&token=BxN5wBjmCz47mrx0KsfA9KvE&mode=signup',
     },
