@@ -2,7 +2,6 @@ const Wallet = require('../providers/Wallet')
 const Environment = require('./Environment')
 const JsonRpcProvider = require('../providers/JsonRpcProvider')
 const DynamicArtifacts = require('../artifacts/DynamicArtifacts')
-const GasPriceOracle = require('../../helpers/gas-price-oracle')
 
 require('dotenv').config() // Load env vars from .env file
 
@@ -36,9 +35,7 @@ class LocalEnvironment extends Environment {
 
   async _getSigner() {
     const provider = await this.getProvider()
-    const network = await provider.getNetwork()
-    const gasPrice = (await GasPriceOracle.fetch(network.chainId)) || GAS_PRICE
-    return new Wallet(PRIVATE_KEY, provider, { gasPrice, gasLimit: GAS })
+    return new Wallet(PRIVATE_KEY, provider, { gasPrice: GAS_PRICE, gasLimit: GAS })
   }
 
   async _getArtifacts() {
