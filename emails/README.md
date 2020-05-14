@@ -30,6 +30,10 @@ Set this to the name of the template you want to extract the data for. This is u
 
 Set this to `1` in order to sync templates to the postmark server.
 
+### POSTMARK_SERVER_API_TOKEN
+
+Required when `SYNC_TEMPLATES` is set to `1` in order to authenticate to postmark.
+
 ## Examples
 
 To develop or test (e.g. on Litmus), use the `build:mock` script:
