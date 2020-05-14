@@ -1,8 +1,8 @@
 const { ServerClient } = require('postmark')
 
 const { env: {
+  CLIENT_URL,
   EMAIL_FROM_DEFAULT,
-  EMAIL_VERIFICATION_TARGET_HOST,
   POSTMARK_SERVER_API_TOKEN,
   POSTMARK_TEMPLATE_ALIAS_VERIFY,
 }} = process
@@ -10,7 +10,7 @@ const postmarkClient = new ServerClient(POSTMARK_SERVER_API_TOKEN)
 
 class EmailClient {
   async sendMagicLink({ email, address, token }) {
-    const verifyEmailUrl = `${EMAIL_VERIFICATION_TARGET_HOST}?preferences=notifications&address=${address}&token=${token}`
+    const verifyEmailUrl = `${CLIENT_URL}?preferences=notifications&address=${address}&token=${token}`
     const message = {
       To: email,
       TemplateAlias: POSTMARK_TEMPLATE_ALIAS_VERIFY,

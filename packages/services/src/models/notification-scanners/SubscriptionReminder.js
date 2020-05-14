@@ -17,13 +17,16 @@ class SubscriptionReminder extends BaseModel {
       notifications.push({ 
         address: user.address,
         details: {
-          emailTemplateModel: {}  // still need to add missing reminder email details
+          emailTemplateModel: {
+            emailPreferencesUrl: `${this._CLIENT_URL}?preferences=notifications`
+          },
+          token: user.emailVerificationToken?.id ?? null
         }
       })
     }
     return notifications
   }
-  get emailTemplateAlias() { return 'court-subscription-reminder' }
+  get emailTemplateAlias() { return 'email-verification-reminder' }
   get scanPeriod() { return this._DAYS }
   get _sendUnverified() { return true }
 }

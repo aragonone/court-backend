@@ -15,6 +15,7 @@ const notificationTypeModel = 'SubscriptionReminder'
 const MINUTES = 60 * 1000
 const HOURS = 60 * MINUTES
 const DAYS = 24 * HOURS
+const { env: { CLIENT_URL } } = process
 
 
 describe('SubscriptionReminder notifications', () => {
@@ -86,7 +87,10 @@ describe('SubscriptionReminder notifications', () => {
     const type = await userNotificationTypeByModel(notificationTypeModel)
     expect(type.notifications.length).to.equal(1)
     expect(type.notifications[0].details).to.deep.equal({
-      emailTemplateModel: {}
+      emailTemplateModel: {
+        emailPreferencesUrl: `${CLIENT_URL}?preferences=notifications`
+      },
+      token: null
     })
     expect(logger.success).to.have.callCount(1)
   })
@@ -94,7 +98,7 @@ describe('SubscriptionReminder notifications', () => {
   it('should create a notification for a user with a day old verification token', async () => {
     await userDbCleanup(TEST_ADDR, TEST_EMAIL)
     await userNotificationTypeDbCleanup(notificationTypeModel)
-    await User.query().insertGraph({
+    const user = await User.query().insertGraph({
       address: TEST_ADDR,
       addressVerified: true,
       emailVerified: false,
@@ -111,7 +115,10 @@ describe('SubscriptionReminder notifications', () => {
     const type = await userNotificationTypeByModel(notificationTypeModel)
     expect(type.notifications.length).to.equal(1)
     expect(type.notifications[0].details).to.deep.equal({
-      emailTemplateModel: {}
+      emailTemplateModel: {
+        emailPreferencesUrl: `${CLIENT_URL}?preferences=notifications`
+      },
+      token: user.emailVerificationToken.id
     })
     expect(logger.success).to.have.callCount(1)
   })

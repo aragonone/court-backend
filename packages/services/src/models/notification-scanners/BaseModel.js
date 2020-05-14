@@ -1,3 +1,5 @@
+const { env: { CLIENT_URL } } = process
+
 export default class BaseModel {
   async checkUser(user) {
     user = await user.$fetchGraph('[email, notificationSetting]')
@@ -10,6 +12,7 @@ export default class BaseModel {
   get _MINUTES() { return 60 * 1000 }
   get _HOURS() { return 60 * this._MINUTES }
   get _DAYS() { return 24 * this._HOURS }
+  get _CLIENT_URL() { return CLIENT_URL }
 
   // mandatory methods and functions for extended models
   async scan() { 
