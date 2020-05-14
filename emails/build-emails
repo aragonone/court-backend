@@ -41,8 +41,7 @@ function renderTemplate(filename) {
 
 async function syncPostmark(files) {
   if (!POSTMARK_SERVER_API_TOKEN) {
-    console.error('You must specify a valid POSTMARK_SERVER_API_TOKEN environment variable.')
-    process.exit(1)
+    throw 'You must specify a valid POSTMARK_SERVER_API_TOKEN environment variable.'
   }
   const client = new postmark.ServerClient(POSTMARK_SERVER_API_TOKEN)
   for (const filename of files) {
@@ -66,9 +65,9 @@ async function syncPostmark(files) {
 function generateTemplates(files) {
   execSync(`rm -rf "${DIST_DIR}"`)
 
+  fs.mkdirSync(DIST_DIR, { recursive: true })
   files.forEach(filename => {
     const { name, template, templateText } = renderTemplate(filename)
-    fs.mkdirSync(DIST_DIR, { recursive: true })
     fs.writeFileSync(path.join(DIST_DIR, name + '.html'), template, 'utf8')
     fs.writeFileSync(path.join(DIST_DIR, name + '.txt'), templateText, 'utf8')
   })
@@ -83,11 +82,8 @@ function printTemplateData(files, filename) {
   const templateFile = files.find(filename => filename === name + '.js')
 
   if (!templateFile) {
-    console.error(
-      `Error: the template ${PRINT_DATA_FOR} couldn’t be found. ` +
+    throw `Error: the template ${PRINT_DATA_FOR} couldn’t be found. ` +
         `Please check the PRINT_DATA_FOR variable.`
-    )
-    process.exit(1)
   }
 
   const createTemplate = require(path.join(
@@ -111,13 +107,13 @@ async function main() {
 
   // Print template data
   if (PRINT_DATA_FOR) {
-    await printTemplateData(files, PRINT_DATA_FOR)
+    printTemplateData(files, PRINT_DATA_FOR)
     return
   }
 
   // sync templates to postmark
   if (SYNC_TEMPLATES) {
-    syncPostmark(files)
+    await syncPostmark(files)
     return
   }
 
