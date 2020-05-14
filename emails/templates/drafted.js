@@ -9,6 +9,7 @@ const { accountData } = require('../mock-utils')
 
 module.exports = function() {
   return {
+    subject: 'You have been selected to arbitrate Dispute {{disputeId}} on Aragon Court',
     template: base(
       {
         title: 'Notifications',

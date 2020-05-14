@@ -10,6 +10,7 @@ const { accountData } = require('../mock-utils')
 
 module.exports = function() {
   return {
+    subject: 'Appeals are open for Dispute for dispute {{disputeId}}',
     template: base(
       {
         title: 'Notifications',

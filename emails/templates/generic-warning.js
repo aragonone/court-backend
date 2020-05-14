@@ -8,6 +8,7 @@ const {
 
 module.exports = function() {
   return {
+    subject: '{{title}}',
     template: base2(
       {
         title: '{{title}}',

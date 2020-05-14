@@ -11,6 +11,7 @@ const { accountData } = require('../mock-utils')
 
 module.exports = function() {
   return {
+    subject: '{{title}}',
     template: base(
       {
         title: 'Notifications',
