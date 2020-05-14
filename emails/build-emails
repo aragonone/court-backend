@@ -36,7 +36,7 @@ function renderTemplate(filename) {
     templateText = handlebars.compile(templateText)(mockData)
   }
 
-  return {subject, name, template, templateText}
+  return { subject, name, template, templateText }
 }
 
 async function syncPostmark(files) {
@@ -120,6 +120,7 @@ async function main() {
   // Generate the templates
   generateTemplates(files)
 }
+
 main().catch((error) => {
   console.error(error)
   process.exit(1)
