@@ -9,6 +9,7 @@ const { accountData } = require('../mock-utils')
 
 module.exports = function() {
   return {
+    subject: 'Your vote wasn’t revealed on time',
     template: base(
       {
         title: 'Notifications',

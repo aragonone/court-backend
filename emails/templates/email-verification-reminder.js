@@ -4,6 +4,7 @@ module.exports = function() {
   return {
     template: base(
       {
+        subject: 'Aragon Court email verification reminder',
         title: 'Email Verification Reminder',
         subtitle: `
           Verify your email to receive email notifications about important news
