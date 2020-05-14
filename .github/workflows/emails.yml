@@ -1,0 +1,26 @@
+name: Email templates/assets sync
+on:
+  push:
+    branches:
+    - master
+    - development
+    paths:
+    - 'emails/**'
+env:
+  POSTMARK_SERVER_API_TOKEN: ${{secrets.POSTMARK_SERVER_API_TOKEN}}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+    - run: |
+        cd emails
+        yarn install
+        yarn sync:assets
+        yarn sync:templates
