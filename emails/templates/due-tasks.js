@@ -22,6 +22,7 @@ module.exports = function() {
   `
 
   return {
+    subject: 'You have pending tasks on Aragon Court',
     template: base(
       {
         title: 'Task Reminder',

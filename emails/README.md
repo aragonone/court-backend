@@ -26,6 +26,14 @@ Set this to `1` to replace the mustache variables by the `mockData` provided in 
 
 Set this to the name of the template you want to extract the data for. This is useful to generate the Postmark request that will fill the corresponding template.
 
+### SYNC_TEMPLATES
+
+Set this to `1` in order to sync templates to the postmark server.
+
+### POSTMARK_SERVER_API_TOKEN
+
+Required when `SYNC_TEMPLATES` is set to `1` in order to authenticate to postmark.
+
 ## Examples
 
 To develop or test (e.g. on Litmus), use the `build:mock` script:
@@ -50,4 +58,16 @@ Use `PRINT_DATA_FOR` to get the data corresponding to a template:
 
 ```console
 PRINT_DATA_FOR=generic yarn build
+```
+
+#### Automatic sync
+
+This repo also automatically synchronizes templates to postmark server and pushes assets to the google storage bucket.
+
+This flow is defined in: [../.github/workflows/emails.yml](../.github/workflows/emails.yml)
+
+You can also execute the sync commands manually if you have the required postmark/google cloud credentials:
+```console
+yarn sync:assets
+yarn sync:templates
 ```

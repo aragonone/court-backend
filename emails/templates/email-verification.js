@@ -2,6 +2,7 @@ const { action, base, link, vspace } = require('../template-utils')
 
 module.exports = function() {
   return {
+    subject: 'Verify your email on Aragon Court',
     template: base(
       {
         title: 'Email Verification',
