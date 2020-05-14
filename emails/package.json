@@ -14,5 +14,6 @@
     "build:mock": "MOCK_DATA=1 yarn build",
     "build:postmark": "ASSETS_URL=https://storage.googleapis.com/aragon/court-backend/emails/assets yarn build",
     "sync:templates": "ASSETS_URL=https://storage.googleapis.com/aragon/court-backend/emails/assets SYNC_TEMPLATES=1 yarn build",
-    "sync:assets": "gsutil cp assets/* gs://aragon/court-backend/emails/assets/"  }
+    "sync:assets": "gsutil cp assets/* gs://aragon/court-backend/emails/assets/"
+  }
 }
