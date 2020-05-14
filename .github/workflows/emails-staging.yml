@@ -2,7 +2,7 @@ name: Email templates/assets sync
 on:
   push:
     branches:
-    - master
+    - development
     paths:
     - 'emails/**'
 
@@ -16,4 +16,4 @@ jobs:
         project_id: ${{secrets.GCP_PROJECT_ID}}
         service_account_key: ${{secrets.GCP_SA_KEY}}
         export_default_credentials: true
-    - run: .github/scripts/emails-sync.sh ${{secrets.POSTMARK_SERVER_API_TOKEN}}
+    - run: .github/scripts/emails-sync.sh ${{secrets.POSTMARK_SERVER_API_TOKEN_STAGING}}
