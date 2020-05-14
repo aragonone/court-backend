@@ -4,8 +4,6 @@ on:
     branches:
     - development
     - emails_ci_cd
-    paths:
-    - 'emails/**'
 
 jobs:
   sync:
