@@ -2,9 +2,9 @@ const { action, base, link, vspace } = require('../template-utils')
 
 module.exports = function() {
   return {
+    subject: 'Aragon Court email verification reminder',
     template: base(
       {
-        subject: 'Aragon Court email verification reminder',
         title: 'Email Verification Reminder',
         subtitle: `
           Verify your email to receive email notifications about important news
