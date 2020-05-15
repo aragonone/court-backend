@@ -6,6 +6,9 @@ on:
     # This is useful to see if tests are passing during PR review
     - '**'
     - '!master'
+    paths-ignore:
+    - 'monitoring/**'
+    - 'emails/**'
 env:
   # This is a base repository and we use ${GITHUB_SHA} to set the version of the container
   REPO: docker.pkg.github.com/aragonone/court-backend/testnet
