@@ -20,7 +20,7 @@ export async function tryRunScanner(logger, model) {
   const notifications = await scanner.scan()
   for (const notification of notifications) {
     const { address, details } = notification
-    const user = await User.query().findOne({address})
+    const user = await User.findOne({address})
     if (!await scanner.checkUser(user)) continue
     await UserNotification.findOrInsert({
       userId: user.id,

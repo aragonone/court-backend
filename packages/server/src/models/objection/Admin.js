@@ -24,7 +24,7 @@ export default class Admin extends BaseModel {
   }
 
   static async findByEmail(email) {
-    return this.query().findOne({ email })
+    return this.findOne({ email })
   }
 
   static async findAllEmails() {

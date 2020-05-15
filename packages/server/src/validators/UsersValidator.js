@@ -27,7 +27,7 @@ class UsersValidator extends BaseValidator {
   }
 
   async _validateAddressNew(address) {
-    const count = await User.getCount({address})
+    const count = await User.count({address})
     if (count > 0) {
      this.addError({address: 'Given address is already registered'})
     }
@@ -42,7 +42,7 @@ class UsersValidator extends BaseValidator {
   }
 
   async _validateEmailChange({ address, email }) {
-    const user = await User.query().findOne({address}).withGraphFetched('email')
+    const user = await User.findOne({address}).withGraphFetched('email')
     if (user?.email?.email == email) {
      this.addError({email: 'Given email is already set'})
     }

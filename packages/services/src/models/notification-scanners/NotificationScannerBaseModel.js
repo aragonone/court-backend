@@ -1,6 +1,6 @@
 const { env: { CLIENT_URL } } = process
 
-export default class BaseModel {
+export default class NotificationScannerBaseModel {
   async checkUser(user) {
     user = await user.$fetchGraph('[email, notificationSetting]')
     return (
@@ -29,6 +29,6 @@ export default class BaseModel {
   get scanPeriod() { return 0 * this._DAYS }
 
   // optional methods and functions
-  get _sendUnverified() { return false }
+  get _sendUnverified() { return false }  // only SubscriptionReminder should set this to true
   
 }

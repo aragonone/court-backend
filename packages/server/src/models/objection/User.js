@@ -58,9 +58,13 @@ export default class User extends BaseModel {
     }
   }
 
+  static findWithUnverifiedEmail() {
+    return this.query().where({emailVerified: false}).withGraphFetched('[email,emailVerificationToken]')
+  }
+
   async $relateEmail(email) {
     await this.$unrelateEmail()
-    const emailInstance = await UserEmail.query().findOne({email})
+    const emailInstance = await UserEmail.findOne({email})
     if (emailInstance) {
       await this.$relatedQuery('email').relate(emailInstance)
     } else {

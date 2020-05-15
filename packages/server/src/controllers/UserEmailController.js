@@ -6,7 +6,7 @@ import { User } from '../models/objection'
 export default {
   async get(req, res) {
     const { params: { address } } = req
-    const user = await User.query().findOne({address}).withGraphFetched('email')
+    const user = await User.findOne({address}).withGraphFetched('email')
     res.send({
       email: user?.email?.email ?? null,
     })
@@ -16,7 +16,7 @@ export default {
     const { params: { address }, body: { email } } = req
     const errors = await UsersValidator.validateForEmailSet({address, email})
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
-    const user = await User.query().findOne({address})
+    const user = await User.findOne({address})
     await user.$relateEmail(email)
     await user.$query().update({emailVerified: false})
     await user.$sendVerificationEmail()
@@ -30,7 +30,7 @@ export default {
     const { params: { address }, body: { token } } = req
     const errors = await UserEmailVerificationTokenValidator.validateForVerify({address, token})
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
-    const user = await User.query().findOne({address})
+    const user = await User.findOne({address})
     await user.$relatedQuery('emailVerificationToken').del()
     await user.$query().update({emailVerified: true})
     res.send({
@@ -42,7 +42,7 @@ export default {
     const { params: { address } } = req
     const errors = await UserEmailVerificationTokenValidator.validateForResend({address})
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
-    const user = await User.query().findOne({address})
+    const user = await User.findOne({address})
     await user.$sendVerificationEmail()
     res.send({
       sent: true
@@ -51,7 +51,7 @@ export default {
 
   async delete(req, res) {
     const { params: { address } } = req
-    const user = await User.query().findOne({address})
+    const user = await User.findOne({address})
     await user.$query().update({emailVerified: false})
     await user.$unrelateEmail()
     await user.$relatedQuery('emailVerificationToken').del()

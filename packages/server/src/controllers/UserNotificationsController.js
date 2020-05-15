@@ -8,7 +8,7 @@ export default {
       const errors = [{disabled: 'request must contain a boolean "disabled" property'}]
       throw HttpError.BAD_REQUEST(errors)
     }
-    const user = await User.query().findOne({address})
+    const user = await User.findOne({address})
     await user.$relatedUpdateOrInsert('notificationSetting', {notificationsDisabled: disabled})
     res.send({
       disabled: !!disabled

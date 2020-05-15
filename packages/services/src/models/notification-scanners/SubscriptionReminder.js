@@ -1,10 +1,10 @@
-import BaseModel from './BaseModel'
+import NotificationScannerBaseModel from './NotificationScannerBaseModel'
 import { User } from '@aragonone/court-backend-server/build/models/objection'
 
-class SubscriptionReminder extends BaseModel {
+class SubscriptionReminder extends NotificationScannerBaseModel {
   async scan() {
     let notifications = []
-    const users = await User.query().where({emailVerified: false}).withGraphFetched('[email,emailVerificationToken]')
+    const users = await User.findWithUnverifiedEmail()
     for (const user of users) {
       /**
        * Generate subscription reminders in two cases:

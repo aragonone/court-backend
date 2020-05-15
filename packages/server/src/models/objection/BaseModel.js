@@ -22,12 +22,16 @@ export default class BaseModel extends Model {
     return !!(await this.query().findOne(args))
   }
 
-  static async getCount(args) {
+  static async count(args) {
     return this.query().where(args).resultSize()
   }
 
   static async findById(id) {
     return this.query().findById(id)
+  }
+
+  static async findOne(args) {
+    return this.query().findOne(args)
   }
 
   static async findOrInsert(args) {

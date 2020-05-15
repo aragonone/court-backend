@@ -7,7 +7,7 @@ export default {
     const { params: { address } } = req
     const errors = await UsersValidator.validateBaseAddress({address})
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
-    const user = await User.query().findOne({address}).withGraphFetched('[email, notificationSetting]')
+    const user = await User.findOne({address}).withGraphFetched('[email, notificationSetting]')
     res.send({
       emailExists: !!user?.email,
       emailVerified: !!user?.emailVerified,
