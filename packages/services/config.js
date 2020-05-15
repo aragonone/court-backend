@@ -43,7 +43,7 @@ const workers = [
   },
   {
     name: 'notification-sender',
-    color: 'blue',
+    color: 'magenta',
     path: './src/workers/notification-sender',
     processes: 1,
     times: 0,

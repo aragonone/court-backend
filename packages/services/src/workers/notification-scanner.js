@@ -28,6 +28,6 @@ export async function tryRunScanner(logger, model) {
       details
     })
   }
-  await type.$query().update({scannedAt: new Date()})
+  await type.$query().update({ scannedAt: new Date() })
   logger.success(`Notification type ${model} scanned.`)
 }
