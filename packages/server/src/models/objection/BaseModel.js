@@ -22,15 +22,15 @@ export default class BaseModel extends Model {
     return !!(await this.query().findOne(args))
   }
 
-  static async count(args) {
+  static count(args) {
     return this.query().where(args).resultSize()
   }
 
-  static async findById(id) {
+  static findById(id) {
     return this.query().findById(id)
   }
 
-  static async findOne(args) {
+  static findOne(args) {
     return this.query().findOne(args)
   }
 
@@ -40,7 +40,7 @@ export default class BaseModel extends Model {
     return row
   }
 
-  static async create(args = {}) {
+  static create(args = {}) {
     return this.query().insert(args)
   }
   

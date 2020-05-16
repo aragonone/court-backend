@@ -59,7 +59,7 @@ export default class User extends BaseModel {
     }
   }
 
-  async static findWithUnverifiedEmail() {
+  static async findWithUnverifiedEmail() {
     const users = await this.query().where({emailVerified: false}).withGraphFetched('[email, emailVerificationToken]')
     return users.filter(user => !!user.email)
   }
