@@ -16,9 +16,7 @@ export async function tryRunScanner(logger, model) {
   const scanner = notificationScanners[model]
   if (!scanner) throw `Notification scanner ${model} not found.`
   const type = await UserNotificationType.findOrInsert({model})
-  const { scannedAt } = type
-  const { scanPeriod } = scanner
-  if (scannedAt && scannedAt.getTime()+scanPeriod > Date.now()) return
+  if (!shouldScanNow(type, scanner)) return
   const notifications = await scanner.scan()
   for (const notification of notifications) {
     const { address, details } = notification
@@ -32,4 +30,10 @@ export async function tryRunScanner(logger, model) {
   }
   await type.$query().update({ scannedAt: new Date() })
   logger.success(`Notification type ${model} scanned.`)
+}
+
+function shouldScanNow(type, scanner) {
+  const { scannedAt } = type
+  const { scanPeriod } = scanner
+  return !scannedAt || scannedAt.getTime()+scanPeriod <= Date.now()
 }
