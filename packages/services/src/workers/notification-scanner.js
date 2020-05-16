@@ -6,14 +6,16 @@ import * as notificationScanners from '../models/notification-scanners'
  * inserts a notification DB entry for every email that should be sent
  */
 export default async function (logger) {
-  Object.keys(notificationScanners).forEach(async (model) => {
+  const models = Object.keys(notificationScanners)
+  for (const model of models) {
     await tryRunScanner(logger, model)
-  })
+  }
 }
 
 export async function tryRunScanner(logger, model) {
-  const type = await UserNotificationType.findOrInsert({model})
   const scanner = notificationScanners[model]
+  if (!scanner) throw `Notification scanner ${model} not found.`
+  const type = await UserNotificationType.findOrInsert({model})
   const { scannedAt } = type
   const { scanPeriod } = scanner
   if (scannedAt && scannedAt.getTime()+scanPeriod > Date.now()) return
