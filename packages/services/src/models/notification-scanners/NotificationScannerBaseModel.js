@@ -1,7 +1,7 @@
 const { env: { CLIENT_URL } } = process
 
 export default class NotificationScannerBaseModel {
-  async checkUser(user) {
+  async shouldNotifyUser(user) {
     user = await user.$fetchGraph('[email, notificationSetting]')
     return (
       user?.email &&

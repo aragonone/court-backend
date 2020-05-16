@@ -19,7 +19,7 @@ export async function trySendNotification(logger, notification) {
   const { user, type: { model } } = notification
   const scanner = notificationScanners[model]
   if (!scanner) throw `Notification scanner ${model} not found.`
-  if (!await scanner.checkUser(user)) {
+  if (!await scanner.shouldNotifyUser(user)) {
     logger.warn(`Deleting stale notification type ${model} for user ${user.address}`)
     await notification.$query().del()
     return
