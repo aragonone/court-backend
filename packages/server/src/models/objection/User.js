@@ -7,6 +7,7 @@ const MINUTES = 60 * 1000
 const HOURS = 60 * MINUTES
 const DAYS = 24 * HOURS
 const EMAIL_TOKEN_EXPIRES = DAYS
+const EMAIL_TOKEN_OLD = DAYS
 
 export default class User extends BaseModel {
   static get tableName() {
@@ -58,8 +59,19 @@ export default class User extends BaseModel {
     }
   }
 
-  static findWithUnverifiedEmail() {
-    return this.query().where({emailVerified: false}).withGraphFetched('[email,emailVerificationToken]')
+  async static findWithUnverifiedEmail() {
+    const users = await this.query().where({emailVerified: false}).withGraphFetched('[email, emailVerificationToken]')
+    return users.filter(user => !!user.email)
+  }
+
+  async $registeredOnAnj() {
+    const user = await this.$fetchGraph('email')
+    return !user.addressVerified && user.email
+  }
+
+  async $hasOldVerificationToken() {
+    const user = await this.$fetchGraph('emailVerificationToken')
+    return user.emailVerificationToken && user.emailVerificationToken.expiresAt <= new Date(Date.now()-EMAIL_TOKEN_OLD)
   }
 
   async $relateEmail(email) {
