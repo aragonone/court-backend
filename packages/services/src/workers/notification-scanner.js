@@ -14,7 +14,10 @@ export default async function (logger) {
 
 export async function tryRunScanner(logger, model) {
   const scanner = notificationScanners[model]
-  if (!scanner) throw `Notification scanner ${model} not found.`
+  if (!scanner) {
+    logger.error(`Notification scanner ${model} not found.`)
+    return
+  }
   const type = await UserNotificationType.findOrInsert({model})
   if (!shouldScanNow(type, scanner)) return
   const notifications = await scanner.scan()
