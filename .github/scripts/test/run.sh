@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e  # immediately fail script on any command error
 DIR=$(dirname "$0")
 cp .env.sample $DIR/.env
 cd $DIR
