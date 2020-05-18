@@ -19,7 +19,7 @@ export default class BaseModel extends Model {
   // static query methods (table level)
 
   static async exists(args) {
-    return !!(await this.query().findOne(args))
+    return !!(await this.findOne(args))
   }
 
   static count(args) {
@@ -35,8 +35,8 @@ export default class BaseModel extends Model {
   }
 
   static async findOrInsert(args) {
-    let row = await this.query().findOne(args)
-    if (!row) row = await this.query().insert(args)
+    let row = await this.findOne(args)
+    if (!row) row = await this.create(args)
     return row
   }
 
