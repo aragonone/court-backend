@@ -47,7 +47,7 @@ export default class BaseModel extends Model {
 
   // instance query methods (row level)
   
-  async $relatedUpdateOrInsert(relation, args) {
+  async relatedUpdateOrInsert(relation, args) {
     const row = await this.$relatedQuery(relation)
     if (row) {
       await this.$relatedQuery(relation).update(args)

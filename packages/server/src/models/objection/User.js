@@ -64,18 +64,18 @@ export default class User extends BaseModel {
     return users.filter(user => !!user.email)
   }
 
-  async $registeredOnAnj() {
+  async registeredOnAnj() {
     const user = await this.$fetchGraph('email')
     return !user.addressVerified && user.email
   }
 
-  async $hasOldVerificationToken() {
+  async hasOldVerificationToken() {
     const user = await this.$fetchGraph('emailVerificationToken')
     return user.emailVerificationToken && user.emailVerificationToken.expiresAt <= new Date(Date.now()-EMAIL_TOKEN_OLD)
   }
 
-  async $relateEmail(email) {
-    await this.$unrelateEmail()
+  async relateEmail(email) {
+    await this.unrelateEmail()
     const emailInstance = await UserEmail.findOne({email})
     if (emailInstance) {
       await this.$relatedQuery('email').relate(emailInstance)
@@ -84,7 +84,7 @@ export default class User extends BaseModel {
     }
   }
 
-  async $unrelateEmail() {
+  async unrelateEmail() {
     const user = await this.$fetchGraph('email')
     let emailInstance = user.email
     await user.$relatedQuery('email').unrelate()
@@ -97,12 +97,12 @@ export default class User extends BaseModel {
     }
   }
   
-  async $sendVerificationEmail() {
+  async sendVerificationEmail() {
     const user = await this.$fetchGraph('email')
     const { email: { email }, address } = user
     const tokenExpiresSeconds = EMAIL_TOKEN_EXPIRES/1000
     const token = generateToken(tokenExpiresSeconds)
-    await user.$relatedUpdateOrInsert('emailVerificationToken', {
+    await user.relatedUpdateOrInsert('emailVerificationToken', {
       email,
       token,
       expiresAt: new Date(Date.now()+EMAIL_TOKEN_EXPIRES)

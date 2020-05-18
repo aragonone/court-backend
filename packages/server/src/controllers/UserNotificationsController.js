@@ -9,7 +9,7 @@ export default {
       throw HttpError.BAD_REQUEST(errors)
     }
     const user = await User.findOne({address})
-    await user.$relatedUpdateOrInsert('notificationSetting', {notificationsDisabled: disabled})
+    await user.relatedUpdateOrInsert('notificationSetting', {notificationsDisabled: disabled})
     res.send({
       disabled: !!disabled
     })
