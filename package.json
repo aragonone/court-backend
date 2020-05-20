@@ -12,6 +12,7 @@
     "start:server:dev": "lerna run --scope=@aragonone/court-backend-server --concurrency=1 --stream start:dev",
     "start:services": "lerna run --scope=@aragonone/court-backend-services --concurrency=1 --stream start",
     "start:services:dev": "lerna run --scope=@aragonone/court-backend-services --concurrency=1 --stream start:dev",
-    "test:server": "lerna run --scope=@aragonone/court-backend-server --concurrency=1 --stream test"
+    "test:server": "lerna run --scope=@aragonone/court-backend-server --concurrency=1 --stream test",
+    "test:services": "lerna run --scope=@aragonone/court-backend-services --concurrency=1 --stream test"
   }
 }

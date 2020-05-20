@@ -18,20 +18,36 @@ export default class BaseModel extends Model {
 
   // static query methods (table level)
 
+  static async exists(args) {
+    return !!(await this.findOne(args))
+  }
+
+  static count(args) {
+    return this.query().where(args).resultSize()
+  }
+
+  static findById(id) {
+    return this.query().findById(id)
+  }
+
+  static findOne(args) {
+    return this.query().findOne(args)
+  }
+
   static async findOrInsert(args) {
-    let row = await this.query().findOne(args)
-    if (!row) row = await this.query().insert(args)
+    let row = await this.findOne(args)
+    if (!row) row = await this.create(args)
     return row
   }
 
-  static async getCount(args) {
-    return this.query().where(args).resultSize()
+  static create(args = {}) {
+    return this.query().insert(args)
   }
   
 
   // instance query methods (row level)
   
-  async $relatedUpdateOrInsert(relation, args) {
+  async relatedUpdateOrInsert(relation, args) {
     const row = await this.$relatedQuery(relation)
     if (row) {
       await this.$relatedQuery(relation).update(args)
