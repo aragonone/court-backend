@@ -2,11 +2,12 @@ const { env: { CLIENT_URL } } = process
 
 export default class NotificationScannerBaseModel {
   async shouldNotifyUser(user) {
+    if (!user) return false
     user = await user.$fetchGraph('[email, notificationSetting]')
     return (
-      user?.email &&
-      !user?.notificationSetting?.notificationsDisabled &&
-      (user?.emailVerified || this._sendUnverified)
+      user.email &&
+      !user.notificationSetting?.notificationsDisabled &&
+      (user.emailVerified || this._sendUnverified)
     )
   }
   get _MINUTES() { return 60 * 1000 }

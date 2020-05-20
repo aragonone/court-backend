@@ -6,7 +6,7 @@ chai.use(sinonChai)
 
 import { userDbCleanup, userNotificationTypeDbCleanup } from '../../helpers/dbCleanup'
 import userNotificationTypeByModel from '../../helpers/userNotificationTypeByModel'
-const TEST_ADDR = '0xfc3771B19123F1f0237C737e92645BA6d628e2cB'.toLowerCase()
+const TEST_ADDR = '0xfc3771B19123F1f0237C737e92645BA6d628e2cB'
 const TEST_EMAIL = 'subscription@reminder.test'
 import { tryRunScanner } from '../../../src/workers/notification-scanner'
 import { trySendNotification } from '../../../src/workers/notification-sender'

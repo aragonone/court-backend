@@ -5,7 +5,7 @@ class SubscriptionReminder extends NotificationScannerBaseModel {
   async scan() {
     let notifications = []
     const users = await User.findWithUnverifiedEmail()
-    for (let user of users) {
+    for (const user of users) {
       if (!await user.registeredOnAnj() && !await user.hasOldVerificationToken()) continue
       notifications.push({ 
         address: user.address,

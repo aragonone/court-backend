@@ -59,6 +59,21 @@ export default class User extends BaseModel {
     }
   }
 
+  static findOne(args) {
+    args.address = args.address?.toLowerCase()
+    return super.findOne(args)
+  }
+
+  async $beforeInsert(queryContext) {
+    await super.$beforeInsert(queryContext)
+    this.address = this.address?.toLowerCase()
+  }
+
+  async $beforeUpdate(opt, queryContext) {
+    await super.$beforeUpdate(opt, queryContext)
+    this.address = this.address?.toLowerCase()
+  }
+
   static async findWithUnverifiedEmail() {
     const users = await this.query().where({emailVerified: false}).withGraphFetched('[email, emailVerificationToken]')
     return users.filter(user => !!user.email)

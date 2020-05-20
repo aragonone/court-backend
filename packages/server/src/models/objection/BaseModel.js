@@ -55,4 +55,8 @@ export default class BaseModel extends Model {
       await this.$relatedQuery(relation).insert(args)
     }
   }
+
+  get createdAtDateString() {
+    return this.createdAt.toLocaleDateString('en-US', {dateStyle: 'full'}) // format: Tuesday, May 19, 2020
+  }
 }
