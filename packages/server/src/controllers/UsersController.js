@@ -22,7 +22,8 @@ export default {
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
     const { email, address } = params
     const userEmail = await UserEmail.findOrInsert({email})
-    await userEmail.$relatedQuery('users').insert({address})
+    const user = await userEmail.$relatedQuery('users').insert({address})
+    await user.sendVerificationEmail()
     res.send({
       created: true
     })

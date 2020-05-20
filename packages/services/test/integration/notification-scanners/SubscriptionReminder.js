@@ -6,16 +6,17 @@ chai.use(sinonChai)
 
 import { userDbCleanup, userNotificationTypeDbCleanup } from '../../helpers/dbCleanup'
 import userNotificationTypeByModel from '../../helpers/userNotificationTypeByModel'
-const TEST_ADDR = '0xfc3771B19123F1f0237C737e92645BA6d628e2cB'
-const TEST_EMAIL = 'subscription@reminder.test'
 import { tryRunScanner } from '../../../src/workers/notification-scanner'
 import { trySendNotification } from '../../../src/workers/notification-sender'
 import { User, UserEmail, UserNotification } from '@aragonone/court-backend-server/build/models/objection'
+
+const { env: { CLIENT_URL } } = process
 const notificationTypeModel = 'SubscriptionReminder'
+const TEST_ADDR = '0xfc3771B19123F1f0237C737e92645BA6d628e2cB'
+const TEST_EMAIL = 'subscription@reminder.test'
 const MINUTES = 60 * 1000
 const HOURS = 60 * MINUTES
 const DAYS = 24 * HOURS
-const { env: { CLIENT_URL } } = process
 
 
 describe('SubscriptionReminder notifications', () => {
@@ -72,29 +73,6 @@ describe('SubscriptionReminder notifications', () => {
     expect(logger.success).to.have.callCount(1)
   })
 
-  it('should create a notification for a user with unverified address/email (from anj.aragon.org)', async () => {
-    await userDbCleanup(TEST_ADDR, TEST_EMAIL)
-    await userNotificationTypeDbCleanup(notificationTypeModel)
-    await User.query().insertGraph({
-      address: TEST_ADDR,
-      addressVerified: false,
-      emailVerified: false,
-      email: {
-        email: TEST_EMAIL
-      }
-    })
-    await tryRunScanner(logger, notificationTypeModel)
-    const type = await userNotificationTypeByModel(notificationTypeModel)
-    expect(type.notifications.length).to.equal(1)
-    expect(type.notifications[0].details).to.deep.equal({
-      emailTemplateModel: {
-        emailPreferencesUrl: `${CLIENT_URL}?preferences=notifications`
-      },
-      token: null
-    })
-    expect(logger.success).to.have.callCount(1)
-  })
-
   it('should create a notification for a user with a day old verification token', async () => {
     await userDbCleanup(TEST_ADDR, TEST_EMAIL)
     await userNotificationTypeDbCleanup(notificationTypeModel)
@@ -116,7 +94,7 @@ describe('SubscriptionReminder notifications', () => {
     expect(type.notifications.length).to.equal(1)
     expect(type.notifications[0].details).to.deep.equal({
       emailTemplateModel: {
-        emailPreferencesUrl: `${CLIENT_URL}?preferences=notifications`
+        emailPreferencesUrl: CLIENT_URL
       },
       token: user.emailVerificationToken.id
     })
