@@ -73,29 +73,6 @@ describe('SubscriptionReminder notifications', () => {
     expect(logger.success).to.have.callCount(1)
   })
 
-  it('should create a notification for a user with unverified address/email (from anj.aragon.org)', async () => {
-    await userDbCleanup(TEST_ADDR, TEST_EMAIL)
-    await userNotificationTypeDbCleanup(notificationTypeModel)
-    await User.query().insertGraph({
-      address: TEST_ADDR,
-      addressVerified: false,
-      emailVerified: false,
-      email: {
-        email: TEST_EMAIL
-      }
-    })
-    await tryRunScanner(logger, notificationTypeModel)
-    const type = await userNotificationTypeByModel(notificationTypeModel)
-    expect(type.notifications.length).to.equal(1)
-    expect(type.notifications[0].details).to.deep.equal({
-      emailTemplateModel: {
-        emailPreferencesUrl: `${CLIENT_URL}?preferences=notifications`
-      },
-      token: null
-    })
-    expect(logger.success).to.have.callCount(1)
-  })
-
   it('should create a notification for a user with a day old verification token', async () => {
     await userDbCleanup(TEST_ADDR, TEST_EMAIL)
     await userNotificationTypeDbCleanup(notificationTypeModel)
@@ -117,7 +94,7 @@ describe('SubscriptionReminder notifications', () => {
     expect(type.notifications.length).to.equal(1)
     expect(type.notifications[0].details).to.deep.equal({
       emailTemplateModel: {
-        emailPreferencesUrl: `${CLIENT_URL}?preferences=notifications`
+        emailPreferencesUrl: CLIENT_URL
       },
       token: user.emailVerificationToken.id
     })
