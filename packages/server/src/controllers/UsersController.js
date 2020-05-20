@@ -7,7 +7,7 @@ export default {
     const { params: { address } } = req
     const errors = await UsersValidator.validateBaseAddress({address})
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
-    const user = await User.query().findOne({address}).withGraphFetched('[email, notificationSetting]')
+    const user = await User.findOne({address}).withGraphFetched('[email, notificationSetting]')
     res.send({
       emailExists: !!user?.email,
       emailVerified: !!user?.emailVerified,
@@ -22,7 +22,8 @@ export default {
     if (errors.length > 0) throw HttpError.BAD_REQUEST({errors})
     const { email, address } = params
     const userEmail = await UserEmail.findOrInsert({email})
-    await userEmail.$relatedQuery('users').insert({address})
+    const user = await userEmail.$relatedQuery('users').insert({address})
+    await user.sendVerificationEmail()
     res.send({
       created: true
     })

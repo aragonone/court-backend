@@ -5,6 +5,8 @@ import Session from './Session'
 import UserEmail from './UserEmail'
 import UserEmailVerificationToken from './UserEmailVerificationToken'
 import UserNotificationSetting from './UserNotificationSetting'
+import UserNotification from './UserNotification'
+import UserNotificationType from './UserNotificationType'
 import User from './User'
 
 export {
@@ -15,5 +17,7 @@ export {
   UserEmail,
   UserEmailVerificationToken,
   UserNotificationSetting,
+  UserNotification,
+  UserNotificationType,
   User,
 }

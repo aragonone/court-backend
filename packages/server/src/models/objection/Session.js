@@ -27,7 +27,7 @@ export default class Session extends BaseModel {
   }
 
   static async getData(sid) {
-    const session = await this.query().findOne({sid})
+    const session = await this.findOne({sid})
     return session?.data
   }
 

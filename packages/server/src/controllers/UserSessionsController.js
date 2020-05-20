@@ -25,7 +25,7 @@ export default {
 
   async deleteAll(req, res) {
     const { params: { address } } = req
-    const user = await User.query().findOne({address})
+    const user = await User.findOne({address})
     await user.$relatedQuery('sessions').del()
     res.send({
       deleted: true

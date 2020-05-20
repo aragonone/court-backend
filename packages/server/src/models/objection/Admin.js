@@ -19,24 +19,12 @@ export default class Admin extends BaseModel {
     }
   }
 
-  static async create(params = {}) {
-    return this.query().insert(params)
-  }
-
-  static async exists(params) {
-    return !!(await this.query().findOne(params))
-  }
-
   static async countByEmail(email) {
     return this.query().where({ email }).count()
   }
 
-  static async findById(id) {
-    return this.query().findById(id)
-  }
-
   static async findByEmail(email) {
-    return this.query().findOne({ email })
+    return this.findOne({ email })
   }
 
   static async findAllEmails() {

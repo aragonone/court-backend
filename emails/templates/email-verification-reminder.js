@@ -20,8 +20,10 @@ module.exports = function() {
         ${vspace(20)}
 
         <div style="font-size:16px;line-height:24px;color:#212B36">
-          To do so, please click on the button below and follow
-          the instructions:
+          To do so, please click on the button below and 
+          1) connect your account 
+          2) go to your notifications settings (top right)
+          3) click Resend verification email
         </div>
 
         ${vspace(40)}
@@ -39,14 +41,13 @@ module.exports = function() {
     templateText: `
       Email Verification
 
-      Verify your email to receive email notifications about important news
-      and upcoming tasks.
-
       You recently subscribed to Aragon Court email notifications, but did not
       complete the email verification process.
 
-      To do so, please copy and paste this URL into your browser and follow 
-      the instructions:
+      To do so, please copy and paste this URL into your browser and 
+      1) connect your account 
+      2) go to your notifications settings (top right)
+      3) click Resend verification email
       {{emailPreferencesUrl}}
     `,
     mockData: {

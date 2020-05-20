@@ -8,7 +8,8 @@
   "scripts": {
     "build:server": "cd node_modules/@aragonone/court-backend-server && npm run build",
     "start": "npm run build:server && babel-node ./bin/main.js",
-    "start:dev": "npm run build:server && nodemon --ignore ./build --exec babel-node ./bin/main.js"
+    "start:dev": "npm run build:server && nodemon --ignore ./build --exec babel-node ./bin/main.js",
+    "test": "npx mocha test --recursive --exit --require @babel/register"
   },
   "dependencies": {
     "@aragonone/court-backend-server": "^0.2.6",
@@ -23,6 +24,10 @@
     "@babel/core": "^7.7.7",
     "@babel/node": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
-    "nodemon": "^2.0.2"
+    "chai": "^4.2.0",
+    "mocha": "^7.1.2",
+    "nodemon": "^2.0.2",
+    "sinon": "^9.0.2",
+    "sinon-chai": "^3.5.0"
   }
 }
