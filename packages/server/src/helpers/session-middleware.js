@@ -60,6 +60,8 @@ export default () => {
       secure: process.env.SESSION_SECURE === 'true',    // Compliant clients will not send the cookie back to the server if the browser does not have an HTTPS connection
       maxAge: SESSION_MAXAGE,                           // The maximum age in milliseconds of a valid session
       httpOnly: true,                                   // Request cookies only to be used for http communication
+      sameSite: 'none',                                 // must set samesite: none with secure for Chrome 80+:
+      secure: true                                      // https://blog.chromium.org/2019/10/developers-get-ready-for-new.html
     }
   })
 }
