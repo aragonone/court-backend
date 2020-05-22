@@ -57,6 +57,7 @@ export default () => {
     secret: process.env.SESSION_SECRET,                 // Secret used to generate session IDs
     name: 'aragonCourtSessionID',                       // Cookie name to be used
     cookie: {
+      sameSite: 'none',                                 // Must set Samesite=None for cross-site cookies for Chrome 80+
       secure: process.env.SESSION_SECURE === 'true',    // Compliant clients will not send the cookie back to the server if the browser does not have an HTTPS connection
       maxAge: SESSION_MAXAGE,                           // The maximum age in milliseconds of a valid session
       httpOnly: true,                                   // Request cookies only to be used for http communication
