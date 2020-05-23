@@ -6,7 +6,7 @@ const {
   link,
   trimMultiline,
 } = require('../template-utils')
-const { accountData } = require('../mock-utils')
+const { accountData } = require('../helpers')
 
 module.exports = function() {
   return {

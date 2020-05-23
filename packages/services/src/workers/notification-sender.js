@@ -1,7 +1,7 @@
 import emailClient from '@aragonone/court-backend-shared/helpers/email-client'
 import { UserNotification } from '@aragonone/court-backend-server/build/models/objection'
 import * as notificationScanners from '../models/notification-scanners'
-import { accountData } from '../../../../emails/mock-utils'
+import { accountData } from '../../../../emails/helpers'
 
 /**
  * This worker loops over all unprocessed notification DB entries
