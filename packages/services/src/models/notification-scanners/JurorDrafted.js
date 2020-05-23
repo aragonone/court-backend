@@ -7,8 +7,11 @@ class JurorDrafted extends NotificationScannerBaseModel {
     const query = `
     {
       adjudicationRounds(where: {state: Committing}, orderBy: createdAt) {
-        jurors {
+        id
+        dispute {
           id
+        }
+        jurors {
           juror {id}
         } 
       }
@@ -16,15 +19,20 @@ class JurorDrafted extends NotificationScannerBaseModel {
     `
     const { adjudicationRounds } = await Network.query(query)
     for (const adjudicationRound of adjudicationRounds) {
-      const { jurors } = adjudicationRound
+      const { 
+        id: adjudicationRoundId,
+        dispute: { id: disputeId },
+        jurors
+      } = adjudicationRound
       for (const juror of jurors) {
         notifications.push({ 
           address: juror.juror.id,
           details: {
             emailTemplateModel: {
-              disputeId: juror.id,
-              disputeUrl: `${this._CLIENT_URL}`
-            }
+              disputeId,
+              disputeUrl: `${this._CLIENT_URL}disputes/${disputeId}`
+            },
+            adjudicationRoundId
           }
         })
       }
