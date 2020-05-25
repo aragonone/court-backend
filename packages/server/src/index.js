@@ -20,6 +20,7 @@ dotenv.config()
 
 // Set up express layers
 const app = express()
+app.set('trust proxy', 1) // required for secure sessions
 app.use(createMiddleware({ app }))
 app.use(helmet())
 app.use(morgan('dev'))

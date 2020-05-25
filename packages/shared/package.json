@@ -1,6 +1,6 @@
 {
   "name": "@aragonone/court-backend-shared",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
@@ -12,6 +12,7 @@
     "@aragonone/erc20-faucet": "^1.0.0",
     "@aragonone/precedence-campaign-arbitrable": "^1.0.0",
     "@truffle/config": "1.2.7",
+    "axios": "^0.19.0",
     "chalk": "^2.4.2",
     "dotenv": "^8.2.0",
     "ethers": "^4.0.46",
