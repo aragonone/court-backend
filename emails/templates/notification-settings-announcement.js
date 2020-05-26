@@ -6,15 +6,15 @@ const {
 
 module.exports = function() {
   return {
-    subject: 'Modify your email notification settings',
+    subject: 'New on Aragon Court: modify your juror notification settings from the Dashboard',
     template: base(
       {
-        title: 'Modify your email notification settings',
-        subtitle: `You have received this email since your provided your email on anj.aragon.org`,
+        title: 'Notification Settings',
+        subtitle: `You have received this email because you provided your email on anj.aragon.org`,
       },
       `
         <div style="font-size:16px;line-height:24px;color:#212B36">
-          You can now modify your email notification settings by visiting Court Dashboard.
+          You can now modify your email notification settings by visiting the Aragon Court Dashboard.
         </div>
 
         ${vspace(20)}
@@ -25,13 +25,13 @@ module.exports = function() {
 
         ${vspace(40)}
 
-        ${action('Go to Court Dashboard', '{{dashboardUrl}}')}
+        ${action('Go to the Aragon Court Dashboard', '{{dashboardUrl}}')}
       `
     ),
     templateText: `
-      You have received this email since your provided your email on anj.aragon.org
+      You have received this email because you provided your email on anj.aragon.org.
 
-      You can now modify your email notification settings by visiting Court Dashboard.
+      You can now modify your email notification settings by visiting the Aragon Court Dashboard.
 
       To do so, please copy and paste this URL into your browser and follow the instructions:
       {{dashboardUrl}}
