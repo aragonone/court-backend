@@ -1,7 +1,8 @@
 const {
   action,
   base,
-  vspace
+  vspace,
+  trimMultiline
 } = require('../template-utils')
 
 module.exports = function() {
@@ -14,7 +15,7 @@ module.exports = function() {
       },
       `
         <div style="font-size:16px;line-height:24px;color:#212B36">
-          You can now modify your email notification settings by visiting the Aragon Court Dashboard.
+          You can now modify your email notification settings by visiting the Aragon Court Dashboard and connect your Ethereum account
         </div>
 
         ${vspace(20)}
@@ -31,7 +32,7 @@ module.exports = function() {
     templateText: `
       You have received this email because you provided your email on anj.aragon.org.
 
-      You can now modify your email notification settings by visiting the Aragon Court Dashboard.
+      You can now modify your email notification settings by visiting the Aragon Court Dashboard and connect your Ethereum account
 
       To do so, please copy and paste this URL into your browser and follow the instructions:
       {{dashboardUrl}}
