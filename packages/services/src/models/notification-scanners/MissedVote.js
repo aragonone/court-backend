@@ -29,6 +29,9 @@ class MissedVote extends NotificationScannerBaseModel {
         notifications.push({ 
           address: juror.juror.id,
           details: {
+            emailTemplateModel: {
+              lockedAnjBalanceUrl: `${this._CLIENT_URL}dashboard`
+            },
             disputeId,
             adjudicationRoundId
           }

@@ -21,7 +21,7 @@ module.exports = function() {
           primary: `Your vote wasn’t revealed on time`,
           secondary: `Some of your ${link(
             'locked ANJ balance',
-            'https://court.aragon.org/dashboard'
+            '{{lockedAnjBalanceUrl}}'
           )} has been forfeit.`,
         })}
         ${action('Learn more', 'https://help.aragon.org/article/43-dispute-lifecycle#vote-reveal', { padding: '16px 0 0' })}
@@ -42,12 +42,13 @@ module.exports = function() {
       can contact us at support@aragon.org if you not longer wish to receive
       these.
 
-      [1] https://court.aragon.org/dashboard
+      [1] {{lockedAnjBalanceUrl}}
       [2] https://aragon.one/
     `,
     mockData: {
       ...accountData('0xef0f7ecef8385483ac8a2e92d761f571c4b782bd'),
       date: 'Thursday, 17 Dec. 2019',
+      lockedAnjBalanceUrl: 'https://court.aragon.org/dashboard'
     },
   }
 }

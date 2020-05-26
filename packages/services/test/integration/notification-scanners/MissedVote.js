@@ -62,6 +62,9 @@ describe('MissedVote notifications', () => {
     const type = await userNotificationTypeByModel(notificationTypeModel)
     expect(type.notifications.length).to.equal(1)
     expect(type.notifications[0].details).to.deep.equal({
+      emailTemplateModel: {
+        lockedAnjBalanceUrl: `${CLIENT_URL}dashboard`
+      },
       disputeId: TEST_DISPUTE_ID,
       adjudicationRoundId: TEST_ROUND_ID
     })
