@@ -1,8 +1,7 @@
 const {
   action,
   base,
-  vspace,
-  trimMultiline
+  vspace
 } = require('../template-utils')
 
 module.exports = function() {
