@@ -3,7 +3,7 @@ import { User } from '../src/models/objection'
 import emailClient from '@aragonone/court-backend-shared/helpers/email-client'
 
 async function main() {
-  const users = await User.findNewAnjRegistrations()
+  const users = await User.findUnverifiedAnjRegistrations()
   for (const user of users) {
     const { email: { email }, address } = user
     await emailClient.sendEmailWithTemplate({
