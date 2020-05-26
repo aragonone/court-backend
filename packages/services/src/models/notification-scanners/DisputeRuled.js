@@ -10,6 +10,7 @@ class DisputeRuled extends NotificationScannerBaseModel {
       adjudicationRounds(where: {state: Ended, createdAt_gt: ${nineDaysBeforeNow}}, orderBy: createdAt) {
         dispute {
           id
+          finalRuling
         }
         jurors {
           juror {id}
@@ -20,7 +21,7 @@ class DisputeRuled extends NotificationScannerBaseModel {
     const { adjudicationRounds } = await Network.query(query)
     for (const adjudicationRound of adjudicationRounds) {
       const { 
-        dispute: { id: disputeId },
+        dispute: { id: disputeId, finalRuling },
         jurors
       } = adjudicationRound
       for (const juror of jurors) {
@@ -30,7 +31,7 @@ class DisputeRuled extends NotificationScannerBaseModel {
             emailTemplateModel: {
               disputeId,
               disputeUrl: `${this._CLIENT_URL}disputes/${disputeId}`,
-              disputeResult: 'Allowed'      // how do I get this result? I only see finalRuling which is an integer
+              disputeResult: this.finalRulingWord(finalRuling)
             },
           }
         })
@@ -38,6 +39,22 @@ class DisputeRuled extends NotificationScannerBaseModel {
     }
     return notifications
   }
+
+  finalRulingWord(finalRuling) {
+    const OUTCOMES = {
+      Missing: 0,
+      Leaked: 1,
+      Refused: 2,
+      Against: 3,
+      InFavor: 4,
+    }
+    for (const [ rulingWord, rulingNum ] of Object.entries(OUTCOMES) ) {
+      if (finalRuling == rulingNum) {
+        return rulingWord
+      }
+    }
+  }
+
   get emailTemplateAlias() { return 'ruled' }
   get scanPeriod() { return this._MINUTES }
 }

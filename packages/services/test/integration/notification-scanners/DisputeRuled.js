@@ -15,6 +15,7 @@ const notificationTypeModel = 'DisputeRuled'
 const TEST_ADDR = '0xfc3771B19123F1f0237C737e92645BA6d628e2cB'
 const TEST_EMAIL = 'notifications@service.test'
 const TEST_DISPUTE_ID = '3'
+const TEST_DISPUTE_RULING = 4
 
 describe('DisputeRuled notifications', () => {
 
@@ -44,7 +45,8 @@ describe('DisputeRuled notifications', () => {
       "adjudicationRounds": [
         {
           "dispute": {
-            "id":TEST_DISPUTE_ID
+            "finalRuling": TEST_DISPUTE_RULING,
+            "id": TEST_DISPUTE_ID
           },
           "jurors": [
             {
@@ -63,7 +65,7 @@ describe('DisputeRuled notifications', () => {
       emailTemplateModel: {
         disputeId: TEST_DISPUTE_ID,
         disputeUrl: `${CLIENT_URL}disputes/${TEST_DISPUTE_ID}`,
-        disputeResult: 'Allowed'
+        disputeResult: 'InFavor'
       }
     })
     expect(logger.success).to.have.callCount(1)
