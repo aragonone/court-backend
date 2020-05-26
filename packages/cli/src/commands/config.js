@@ -2,14 +2,14 @@ const path = require('path')
 const logger = require('@aragonone/court-backend-shared/helpers/logger')('config')
 
 const command = 'config'
-const describe = 'Call court hearbeat'
+const describe = 'Get current court config or set a new one'
 
 const builder = {
-  config: { alias: 'c', describe: 'Config file, in the same format as in aragon-network-deploy repo', type: 'string' },
+  file: { alias: 'f', describe: 'Config file, in the same format as in aragon-network-deploy repo', type: 'string' },
   term: { alias: 't', describe: 'First term id the config will be effective at', type: 'string' }
 }
 
-const handlerAsync = async (environment, { config: configFilename, term: fromTermId }) => {
+const handlerAsync = async (environment, { file: configFilename, term: fromTermId }) => {
   const config = require(path.resolve(process.cwd(), configFilename))
 
   const court = await environment.getCourt()
@@ -49,6 +49,7 @@ const handlerAsync = async (environment, { config: configFilename, term: fromTer
     ],
     config.jurors.minActiveBalance                 // minActiveBalance Minimum amount of juror tokens that can be activated
   )
+
   logger.success(`Changed config in tx ${receipt.hash}`)
 }
 
