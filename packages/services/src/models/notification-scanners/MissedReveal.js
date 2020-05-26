@@ -29,10 +29,7 @@ class MissedReveal extends NotificationScannerBaseModel {
         notifications.push({ 
           address: juror.juror.id,
           details: {
-            emailTemplateModel: {
-              lockedAnjBalanceUrl: 'test',
-              learnMoreUrl: 'test',
-            },
+            disputeId,
             adjudicationRoundId
           }
         })

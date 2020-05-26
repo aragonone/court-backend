@@ -21,10 +21,10 @@ module.exports = function() {
           primary: `Your vote wasn’t cast on time`,
           secondary: `Some of your ${link(
             'locked ANJ balance',
-            '{{lockedAnjBalanceUrl}}'
+            'https://court.aragon.org/dashboard'
           )} has been forfeit.`,
         })}
-        ${action('Learn more', '{{learnMoreUrl}}', { padding: '16px 0 0' })}
+        ${action('Learn more', 'https://help.aragon.org/article/43-dispute-lifecycle#voting-period', { padding: '16px 0 0' })}
       `
     ),
     templateText: `
@@ -35,21 +35,19 @@ module.exports = function() {
       Your vote wasn’t cast on time. Some of your locked ANJ [1] balance has
       been forfeit.
 
-      Learn more: {{learnMoreUrl}}
+      Learn more: https://help.aragon.org/article/43-dispute-lifecycle#voting-period
 
       This service is provided by Aragon One AG [2]. You are receiving this
       email because you are subscribed to Aragon Court Email Notifications. You
       can contact us at support@aragon.org if you not longer wish to receive
       these.
 
-      [1] {{lockedAnjBalanceUrl}}
+      [1] https://court.aragon.org/dashboard
       [2] https://aragon.one/
     `,
     mockData: {
       ...accountData('0xef0f7ecef8385483ac8a2e92d761f571c4b782bd'),
       date: 'Thursday, 17 Dec. 2019',
-      lockedAnjBalanceUrl: '',
-      learnMoreUrl: '',
     },
   }
 }
