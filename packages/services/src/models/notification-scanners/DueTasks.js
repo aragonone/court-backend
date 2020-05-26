@@ -69,7 +69,7 @@ class DueTasks extends NotificationScannerBaseModel {
   _dueDateString(createdAt, type) {
     const daysFromCreated = type == 'commit' ? 2 : 4
     const date = new Date((createdAt*1000)+(daysFromCreated*this._DAYS))
-    return dateFormat(date, 'dddd, mmmm d, yyyy, h:MM TT Z', true)
+    return dateFormat(date, 'dddd, mmmm d, yyyy, h:MMtt Z', true)
   }
 
   get emailTemplateAlias() { return 'due-tasks' }
