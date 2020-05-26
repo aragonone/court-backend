@@ -1,5 +1,12 @@
 import NotificationScannerBaseModel from './NotificationScannerBaseModel'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
+const OUTCOMES = {
+  0: 'Missing',
+  1: 'Leaked',
+  2: 'Refused',
+  3: 'Against',
+  4: 'InFavor',
+}
 
 class DisputeRuled extends NotificationScannerBaseModel {
   async scan() {
@@ -31,28 +38,13 @@ class DisputeRuled extends NotificationScannerBaseModel {
             emailTemplateModel: {
               disputeId,
               disputeUrl: `${this._CLIENT_URL}disputes/${disputeId}`,
-              disputeResult: this.finalRulingWord(finalRuling)
+              disputeResult: OUTCOMES[finalRuling]
             },
           }
         })
       }
     }
     return notifications
-  }
-
-  finalRulingWord(finalRuling) {
-    const OUTCOMES = {
-      Missing: 0,
-      Leaked: 1,
-      Refused: 2,
-      Against: 3,
-      InFavor: 4,
-    }
-    for (const [ rulingWord, rulingNum ] of Object.entries(OUTCOMES) ) {
-      if (finalRuling == rulingNum) {
-        return rulingWord
-      }
-    }
   }
 
   get emailTemplateAlias() { return 'ruled' }
