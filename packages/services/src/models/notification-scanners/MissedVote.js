@@ -7,7 +7,7 @@ class MissedVote extends NotificationScannerBaseModel {
     const twoDaysBeforeNow = Math.floor((Date.now()-(2*this._DAYS))/1000)
     const query = `
     {
-      adjudicationRounds(where: {stateInt_in: [1,2,3,4], createdAt_lt: ${twoDaysBeforeNow}}, orderBy: createdAt) {
+      adjudicationRounds(where: {stateInt_in: [1,2], createdAt_lt: ${twoDaysBeforeNow}}, orderBy: createdAt) {
         id
         dispute {
           id
