@@ -1,6 +1,17 @@
-// usage: npx babel-node scripts/notify-new-anj-registrations.js
+/**
+ * Usage: npx babel-node scripts/notify-unverified-anj-registrations
+ * requires .env file / env vars with
+ * DB_NAME=
+ * DB_USER=
+ * DB_PASS=
+ * DB_PORT=
+ * DB_HOST=
+ * POSTMARK_SERVER_API_TOKEN=
+ */
 import { User } from '../src/models/objection'
 import emailClient from '@aragonone/court-backend-shared/helpers/email-client'
+import dotenv from 'dotenv'
+dotenv.config()
 
 async function main() {
   const users = await User.findUnverifiedAnjRegistrations()
