@@ -28,8 +28,7 @@ module.exports = class {
 
   async feeToken() {
     if (!this._feeToken) {
-      const currentTermId = await this.currentTerm()
-      const { feeToken } = await this.instance.getConfig(currentTermId)
+      const { feeToken } = await this.getConfigAt()
       const MiniMeToken = await this.environment.getArtifact('MiniMeToken', '@aragon/minime')
       this._feeToken = await MiniMeToken.at(feeToken)
     }
@@ -72,12 +71,32 @@ module.exports = class {
     return this._subscriptions
   }
 
+  async termDuration() {
+    return this.instance.getTermDuration()
+  }
+
   async currentTerm() {
     return this.instance.getCurrentTermId()
   }
 
   async neededTransitions() {
     return this.instance.getNeededTermTransitions()
+  }
+
+  async getConfigAt(termId = undefined) {
+    if (!termId) termId = await this.currentTerm()
+    const rawConfig = await this.instance.getConfig(termId)
+    const { feeToken, fees, roundStateDurations: rounds, pcts, roundParams, appealCollateralParams, minActiveBalance } = rawConfig
+
+    return {
+      feeToken,
+      fees: { jurorFee: fees[0], draftFee: fees[1], settleFee: fees[2] },
+      roundParams: { firstRoundJurorsNumber: roundParams[0], appealStepFactor: roundParams[1], maxRegularAppealRounds: roundParams[2] },
+      roundDurations: { evidenceTerms: rounds[0], commitTerms: rounds[1], revealTerms: rounds[2], appealTerms: rounds[3], appealConfirmationTerms: rounds[4] },
+      appealCollateralParams: { appealCollateralFactor: appealCollateralParams[0], appealConfirmCollateralFactor: appealCollateralParams[1] },
+      pcts: { penaltyPct: pcts[0], finalRoundReduction: pcts[1] },
+      minActiveBalance
+    }
   }
 
   async canSettle(disputeId) {
