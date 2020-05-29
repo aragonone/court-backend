@@ -28,8 +28,7 @@ module.exports = class {
 
   async feeToken() {
     if (!this._feeToken) {
-      const currentTermId = await this.currentTerm()
-      const { feeToken } = await this.instance.getConfig(currentTermId)
+      const { feeToken } = await this.getConfigAt()
       const MiniMeToken = await this.environment.getArtifact('MiniMeToken', '@aragon/minime')
       this._feeToken = await MiniMeToken.at(feeToken)
     }
@@ -84,7 +83,7 @@ module.exports = class {
     return this.instance.getNeededTermTransitions()
   }
 
-  async config(termId = undefined) {
+  async getConfigAt(termId = undefined) {
     if (!termId) termId = await this.currentTerm()
     const rawConfig = await this.instance.getConfig(termId)
     const { feeToken, fees, roundStateDurations: rounds, pcts, roundParams, appealCollateralParams, minActiveBalance } = rawConfig
