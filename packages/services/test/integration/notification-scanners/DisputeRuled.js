@@ -42,18 +42,16 @@ describe('DisputeRuled notifications', () => {
       }
     })
     Network.query = () => ({
-      "adjudicationRounds": [
+      "disputes": [
         {
-          "dispute": {
-            "finalRuling": TEST_DISPUTE_RULING,
-            "id": TEST_DISPUTE_ID
-          },
+          "finalRuling": TEST_DISPUTE_RULING,
+          "id": TEST_DISPUTE_ID,
           "jurors": [
             {
               "juror": {
                 "id": TEST_ADDR
               }
-            },
+            }
           ]
         }
       ]

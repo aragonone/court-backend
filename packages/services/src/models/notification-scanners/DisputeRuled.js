@@ -11,26 +11,25 @@ const OUTCOMES = {
 class DisputeRuled extends NotificationScannerBaseModel {
   async scan() {
     let notifications = []
-    const nineDaysBeforeNow = Math.floor((Date.now()-(9*this._DAYS))/1000)
+    const twoDaysBeforeNow = Math.floor((Date.now()-(2*this._DAYS))/1000)
     const query = `
     {
-      adjudicationRounds(where: {state: Ended, createdAt_gt: ${nineDaysBeforeNow}}, orderBy: createdAt) {
-        dispute {
-          id
-          finalRuling
-        }
+      disputes(where: {ruledAt_gt: ${twoDaysBeforeNow}}, orderBy: createdAt) {
+        id
+        finalRuling
         jurors {
           juror {id}
-        } 
+        }
       }
     }
     `
-    const { adjudicationRounds } = await Network.query(query)
-    for (const adjudicationRound of adjudicationRounds) {
+    const { disputes } = await Network.query(query)
+    for (const dispute of disputes) {
       const { 
-        dispute: { id: disputeId, finalRuling },
+        id: disputeId,
+        finalRuling,
         jurors
-      } = adjudicationRound
+      } = dispute
       for (const juror of jurors) {
         notifications.push({ 
           address: juror.juror.id,
