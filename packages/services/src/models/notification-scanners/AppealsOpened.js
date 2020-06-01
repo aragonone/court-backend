@@ -1,13 +1,14 @@
 import NotificationScannerBaseModel from './NotificationScannerBaseModel'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
+import draftTermIdFor from '../../helpers/term-id-getter'
 
 class AppealsOpened extends NotificationScannerBaseModel {
   async scan() {
     let notifications = []
-    const fourDaysBeforeNow = Math.floor((Date.now()-(4*this._DAYS))/1000)
+    const termId = await draftTermIdFor('appealing')
     const query = `
     {
-      adjudicationRounds(where: {stateInt_in: [1,2,3], createdAt_lt: ${fourDaysBeforeNow}}, orderBy: createdAt) {
+      adjudicationRounds(where: {stateInt_in: [1,2,3], draftTermId_lte: ${termId}}, orderBy: createdAt) {
         id
         dispute {
           id

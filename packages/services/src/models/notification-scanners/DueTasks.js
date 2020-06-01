@@ -1,15 +1,16 @@
 import NotificationScannerBaseModel from './NotificationScannerBaseModel'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
+import draftTermIdFor from '../../helpers/term-id-getter'
 import dateFormat from 'dateformat'
 
 class DueTasks extends NotificationScannerBaseModel {
   async scan() {
     let notifications = []
-    const oneDayBeforeNow = Math.floor((Date.now()-this._DAYS)/1000)
-    const threeDaysBeforeNow = Math.floor((Date.now()-(3*this._DAYS))/1000)
+    const committingTermId = await draftTermIdFor('commit-reminder')
+    const revealingTermId = await draftTermIdFor('reveal-reminder')
     const query = `
     {
-      committingRounds: adjudicationRounds(where: {state: Committing, createdAt_lt: ${oneDayBeforeNow}}, orderBy: createdAt) {
+      committingRounds: adjudicationRounds(where: {state: Committing, draftTermId_lte: ${committingTermId}}, orderBy: createdAt) {
         createdAt
         dispute {
           id
@@ -18,7 +19,7 @@ class DueTasks extends NotificationScannerBaseModel {
           juror {id}
         } 
       }
-     	revealingRounds: adjudicationRounds(where: {stateInt_in: [1,2], createdAt_lt: ${threeDaysBeforeNow}}, orderBy: createdAt) {
+     	revealingRounds: adjudicationRounds(where: {stateInt_in: [1,2], draftTermId_lte: ${revealingTermId}}, orderBy: createdAt) {
         createdAt
         dispute {
           id

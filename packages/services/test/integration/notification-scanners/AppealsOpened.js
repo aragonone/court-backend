@@ -9,6 +9,7 @@ import userNotificationTypeByModel from '../../helpers/userNotificationTypeByMod
 import { tryRunScanner } from '../../../src/workers/notification-scanner'
 import { User } from '@aragonone/court-backend-server/build/models/objection'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
+import * as termIdGetter from '../../../src/helpers/term-id-getter'
 
 const { env: { CLIENT_URL } } = process
 const notificationTypeModel = 'AppealsOpened'
@@ -30,6 +31,7 @@ describe('AppealsOpened notifications', () => {
       success: sinon.fake(),
       warn: sinon.fake(),
     }
+    termIdGetter.default = () => 1
   })
   
   it('should create a notification for opened appeals', async () => {

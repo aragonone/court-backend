@@ -1,13 +1,14 @@
 import NotificationScannerBaseModel from './NotificationScannerBaseModel'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
+import termIdFor from '../../helpers/term-id-getter'
 
 class MissedVote extends NotificationScannerBaseModel {
   async scan() {
     let notifications = []
-    const twoDaysBeforeNow = Math.floor((Date.now()-(2*this._DAYS))/1000)
+    const termId = await termIdFor('revealing')
     const query = `
     {
-      adjudicationRounds(where: {stateInt_in: [1,2], createdAt_lt: ${twoDaysBeforeNow}}, orderBy: createdAt) {
+      adjudicationRounds(where: {stateInt_in: [1,2], draftTermId_lte: ${termId}}, orderBy: createdAt) {
         id
         dispute {
           id
