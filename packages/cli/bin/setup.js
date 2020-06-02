@@ -36,9 +36,9 @@ async function setup() {
   }
 
   // check court has started
-  const currentTerm = await court.currentTerm()
+  const currentTermId = await court.currentTermId()
   const neededTransitions = await court.neededTransitions()
-  if (currentTerm.eq(bn(0)) && neededTransitions.eq(bn(0))) {
+  if (currentTermId.eq(bn(0)) && neededTransitions.eq(bn(0))) {
     logger.warn('Court has not started yet, please make sure Court is at term 1 to create disputes and run the script again.')
   } else {
 

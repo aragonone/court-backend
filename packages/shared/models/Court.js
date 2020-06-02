@@ -75,8 +75,17 @@ module.exports = class {
     return this.instance.getTermDuration()
   }
 
-  async currentTerm() {
+  async startTime() {
+    const { startTime } = await this.instance.getTerm(1)
+    return startTime // in seconds
+  }
+
+  async currentTermId() {
     return this.instance.getCurrentTermId()
+  }
+
+  async getTerm(id) {
+    return this.instance.getTerm(id)
   }
 
   async neededTransitions() {
@@ -84,7 +93,7 @@ module.exports = class {
   }
 
   async getConfigAt(termId = undefined) {
-    if (!termId) termId = await this.currentTerm()
+    if (!termId) termId = await this.currentTermId()
     const rawConfig = await this.instance.getConfig(termId)
     const { feeToken, fees, roundStateDurations: rounds, pcts, roundParams, appealCollateralParams, minActiveBalance } = rawConfig
 

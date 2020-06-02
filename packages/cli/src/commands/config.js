@@ -16,7 +16,7 @@ const handlerAsync = async (environment, { params: configFilename, term: fromTer
   const court = await environment.getCourt()
 
   if (!fromTermId) {
-    fromTermId = await court.currentTerm()
+    fromTermId = await court.currentTermId()
   }
 
   const receipt = await court.instance.setConfig(
