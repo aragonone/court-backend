@@ -24,7 +24,7 @@ module.exports = function() {
             '{{lockedAnjBalanceUrl}}'
           )} has been forfeit.`,
         })}
-        ${action('Learn more', '{{learnMoreUrl}}', { padding: '16px 0 0' })}
+        ${action('Learn more', 'https://help.aragon.org/article/43-dispute-lifecycle#vote-reveal', { padding: '16px 0 0' })}
       `
     ),
     templateText: `
@@ -35,7 +35,7 @@ module.exports = function() {
       Your vote wasn’t revealed on time. Some of your locked ANJ [1] balance has
       been forfeit.
 
-      Learn more: {{learnMoreUrl}}
+      Learn more: https://help.aragon.org/article/43-dispute-lifecycle#vote-reveal
 
       This service is provided by Aragon One AG [2]. You are receiving this
       email because you are subscribed to Aragon Court Email Notifications. You
@@ -48,8 +48,7 @@ module.exports = function() {
     mockData: {
       ...accountData('0xef0f7ecef8385483ac8a2e92d761f571c4b782bd'),
       date: 'Thursday, 17 Dec. 2019',
-      lockedAnjBalanceUrl: '',
-      learnMoreUrl: '',
+      lockedAnjBalanceUrl: 'https://court.aragon.org/dashboard'
     },
   }
 }
