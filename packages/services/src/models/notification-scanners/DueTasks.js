@@ -74,7 +74,7 @@ class DueTasks extends NotificationScannerBaseModel {
   }
 
   get emailTemplateAlias() { return 'due-tasks' }
-  get scanPeriod() { return this._DAYS }
+  get scanPeriod() { return this._MINUTES }
 }
 
 export default new DueTasks()
