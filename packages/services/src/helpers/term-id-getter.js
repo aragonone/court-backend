@@ -18,4 +18,21 @@ async function draftTermIdFor(state) {
   }
 }
 
-export default draftTermIdFor
+async function dueDateFor(draftTermId, type) {
+  const court = await Network.getCourt()
+  const { roundDurations: { commitTerms, revealTerms } } = await court.getConfigAt()
+  draftTermId = parseInt(draftTermId)
+  let terms
+  if (type == 'commit') {
+    terms = commitTerms.add(draftTermId)
+  }
+  else if (type == 'reveal') {
+    terms = commitTerms.add(revealTerms).add(draftTermId)
+  }
+  const startTime = await court.startTime()
+  const termDuration = await court.termDuration()
+  const dueDateSeconds = termDuration.mul(terms).add(startTime)
+  return dueDateSeconds
+}
+
+export { draftTermIdFor, dueDateFor }

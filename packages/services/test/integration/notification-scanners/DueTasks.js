@@ -16,7 +16,7 @@ const notificationTypeModel = 'DueTasks'
 const TEST_ADDR = '0xfc3771B19123F1f0237C737e92645BA6d628e2cB'
 const TEST_EMAIL = 'notifications@service.test'
 const TEST_DISPUTE_ID = '3'
-const TEST_CREATED_AT = '1587471211'
+const TEST_DRAFT_TERM_ID = '10'
 
 describe('DueTasks notifications', () => {
 
@@ -31,7 +31,8 @@ describe('DueTasks notifications', () => {
       success: sinon.fake(),
       warn: sinon.fake(),
     }
-    termIdGetter.default = () => 1
+    termIdGetter.draftTermIdFor = () => 1
+    termIdGetter.dueDateFor = (draftTermId, type) => type == 'commit' ? 1591123146 : 1591126746
   })
   
   it('should create a notification with commit and reveal due tasks', async () => {
@@ -46,7 +47,7 @@ describe('DueTasks notifications', () => {
     Network.query = () => ({
       "committingRounds": [
         {
-          "createdAt": TEST_CREATED_AT,
+          "draftTermId": TEST_DRAFT_TERM_ID,
           "dispute": {
             "id": TEST_DISPUTE_ID
           },
@@ -61,7 +62,7 @@ describe('DueTasks notifications', () => {
       ],
       "revealingRounds": [
         {
-          "createdAt": TEST_CREATED_AT,
+          "draftTermId": TEST_DRAFT_TERM_ID,
           "dispute": {
             "id": TEST_DISPUTE_ID
           },
@@ -85,13 +86,13 @@ describe('DueTasks notifications', () => {
             name: 'Commit vote',
             disputeId: TEST_DISPUTE_ID,
             disputeUrl: `${CLIENT_URL}disputes/${TEST_DISPUTE_ID}`,
-            dueDate: `Thursday, April 23, 2020, 12:13pm UTC`,
+            dueDate: `Tuesday, June 2, 2020, 6:39pm UTC`,
           },
           {
             name: 'Reveal vote',
             disputeId: TEST_DISPUTE_ID,
             disputeUrl: `${CLIENT_URL}disputes/${TEST_DISPUTE_ID}`,
-            dueDate: `Saturday, April 25, 2020, 12:13pm UTC`,
+            dueDate: `Tuesday, June 2, 2020, 7:39pm UTC`,
           },
         ],
       },

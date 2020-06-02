@@ -1,11 +1,11 @@
 import NotificationScannerBaseModel from './NotificationScannerBaseModel'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
-import termIdFor from '../../helpers/term-id-getter'
+import { draftTermIdFor } from '../../helpers/term-id-getter'
 
 class MissedVote extends NotificationScannerBaseModel {
   async scan() {
     let notifications = []
-    const termId = await termIdFor('revealing')
+    const termId = await draftTermIdFor('revealing')
     const query = `
     {
       adjudicationRounds(where: {stateInt_in: [1,2], draftTermId_lte: ${termId}}, orderBy: createdAt) {

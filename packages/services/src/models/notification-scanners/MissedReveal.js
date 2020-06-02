@@ -1,6 +1,6 @@
 import NotificationScannerBaseModel from './NotificationScannerBaseModel'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
-import draftTermIdFor from '../../helpers/term-id-getter'
+import { draftTermIdFor } from '../../helpers/term-id-getter'
 
 class MissedReveal extends NotificationScannerBaseModel {
   async scan() {

@@ -31,7 +31,7 @@ describe('MissedReveal notifications', () => {
       success: sinon.fake(),
       warn: sinon.fake(),
     }
-    termIdGetter.default = () => 1
+    termIdGetter.draftTermIdFor = () => 1
   })
   
   it('should create a notification for missed reveal', async () => {
