@@ -1,7 +1,8 @@
 import { Reveal } from '@aragonone/court-backend-server/build/models/objection'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
 
-export default async function (logger) {
+export default async function (ctx) {
+  const { logger } = ctx
   const reveals = await Reveal.query().where({ revealed: false }).orderBy('createdAt', 'DESC')
   logger.info(`${reveals.length} reveals pending`)
 

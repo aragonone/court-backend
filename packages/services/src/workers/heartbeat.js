@@ -5,7 +5,8 @@ const HEARBEAT_TRIES_PER_JOB = 3
 const SECONDS_BETWEEN_INTENTS = 3
 const MAX_TRANSITIONS_PER_CALL = 20
 
-export default async function (logger) {
+export default async function (ctx) {
+  const { logger } = ctx
   const court = await Network.getCourt()
   await heartbeat(logger, court)
 }

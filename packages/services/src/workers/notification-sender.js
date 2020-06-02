@@ -7,14 +7,15 @@ import { accountData } from '../../../../emails/helpers'
  * This worker loops over all unprocessed notification DB entries
  * and sends an associated email
  */
-export default async function (logger) {
+export default async function (ctx) {
   const notifications = await UserNotification.query().whereNull('sentAt')
   for (const notification of notifications) {
-    await trySendNotification(logger, notification)
+    await trySendNotification(ctx, notification)
   }
 }
 
-export async function trySendNotification(logger, notification) {
+export async function trySendNotification(ctx, notification) {
+  const { logger, metrics } = ctx
   if (notification.sentAt != null) return
   notification = await notification.$fetchGraph('[user.email, type]')
   const { user, type: { model } } = notification
@@ -42,4 +43,5 @@ export async function trySendNotification(logger, notification) {
   await emailClient.sendEmailWithTemplate(message)
   await notification.$query().update({sentAt: new Date()})
   logger.success(`Notification type ${model} sent for user ${user.address}`)
+  metrics.notificationSent(model)
 }

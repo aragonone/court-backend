@@ -26,11 +26,17 @@ describe('SubscriptionReminder notifications', () => {
     await userNotificationTypeDbCleanup(notificationTypeModel)
   })
 
-  let logger = {}
+  let ctx = {}
   beforeEach(async () => {
-    logger = {
-      success: sinon.fake(),
-      warn: sinon.fake(),
+    ctx = {
+      logger: {
+        success: sinon.fake(),
+        warn: sinon.fake(),
+      },
+      metrics: {
+        notificationScanned: sinon.fake(),
+        notificationSent: sinon.fake(),
+      }
     }
   })
 
@@ -45,10 +51,10 @@ describe('SubscriptionReminder notifications', () => {
         email: TEST_EMAIL
       }
     })
-    await tryRunScanner(logger, notificationTypeModel)
+    await tryRunScanner(ctx, notificationTypeModel)
     const type = await userNotificationTypeByModel(notificationTypeModel)
     expect(type.notifications.length).to.equal(0)
-    expect(logger.success).to.have.callCount(1)
+    expect(ctx.logger.success).to.have.callCount(1)
   })
 
   it('should not create a notification for a user with a recent verification token', async () => {
@@ -67,10 +73,10 @@ describe('SubscriptionReminder notifications', () => {
         expiresAt: new Date()
       }
     })
-    await tryRunScanner(logger, notificationTypeModel)
+    await tryRunScanner(ctx, notificationTypeModel)
     const type = await userNotificationTypeByModel(notificationTypeModel)
     expect(type.notifications.length).to.equal(0)
-    expect(logger.success).to.have.callCount(1)
+    expect(ctx.logger.success).to.have.callCount(1)
   })
 
   it('should create a notification for a user with a day old verification token', async () => {
@@ -89,7 +95,7 @@ describe('SubscriptionReminder notifications', () => {
         expiresAt: new Date(Date.now()-DAYS)
       }
     })
-    await tryRunScanner(logger, notificationTypeModel)
+    await tryRunScanner(ctx, notificationTypeModel)
     const type = await userNotificationTypeByModel(notificationTypeModel)
     expect(type.notifications.length).to.equal(1)
     expect(type.notifications[0].details).to.deep.equal({
@@ -98,18 +104,18 @@ describe('SubscriptionReminder notifications', () => {
       },
       token: user.emailVerificationToken.id
     })
-    expect(logger.success).to.have.callCount(1)
+    expect(ctx.logger.success).to.have.callCount(1)
   })
 
   it('should not run scan again before scan period', async () => {
-    await tryRunScanner(logger, notificationTypeModel)
-    expect(logger.success).to.have.callCount(0)
+    await tryRunScanner(ctx, notificationTypeModel)
+    expect(ctx.logger.success).to.have.callCount(0)
   })
 
   it('should not change existing notifications on second scan', async () => {
     const type = await userNotificationTypeByModel(notificationTypeModel)
     await type.$query().update({scannedAt: null})
-    await tryRunScanner(logger, notificationTypeModel)
+    await tryRunScanner(ctx, notificationTypeModel)
     const newType = await userNotificationTypeByModel(notificationTypeModel)
     expect(type.notifications).to.deep.equal(newType.notifications)
   })
@@ -118,17 +124,17 @@ describe('SubscriptionReminder notifications', () => {
     const currentDate = new Date()
     const type = await userNotificationTypeByModel(notificationTypeModel)
     const notification = type.notifications[0]
-    await trySendNotification(logger, notification)
+    await trySendNotification(ctx, notification)
     const newNotification = await UserNotification.query().findById(notification.id)
     expect(newNotification.sentAt).to.be.at.least(currentDate)
-    expect(logger.success).to.have.callCount(1)
+    expect(ctx.logger.success).to.have.callCount(1)
   })
 
   it('should not send same notification twice', async () => {
     const type = await userNotificationTypeByModel(notificationTypeModel)
     const notification = type.notifications[0]
-    await trySendNotification(logger, notification)
-    expect(logger.success).to.have.callCount(0)
+    await trySendNotification(ctx, notification)
+    expect(ctx.logger.success).to.have.callCount(0)
   })
 
   it('should delete stale notification with no user email', async () => {
@@ -136,10 +142,10 @@ describe('SubscriptionReminder notifications', () => {
     const notification = type.notifications[0]
     await notification.$query().update({sentAt: null})
     await UserEmail.query().where({email: TEST_EMAIL}).del()
-    await trySendNotification(logger, notification)
+    await trySendNotification(ctx, notification)
     const newType = await userNotificationTypeByModel(notificationTypeModel)
     expect(newType.notifications.length).to.equal(0)
-    expect(logger.warn).to.have.callCount(1)
+    expect(ctx.logger.warn).to.have.callCount(1)
   })
 
 })

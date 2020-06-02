@@ -5,14 +5,15 @@ import * as notificationScanners from '../models/notification-scanners'
  * This worker loops over all notification scanner objects and 
  * inserts a notification DB entry for every email that should be sent
  */
-export default async function (logger) {
+export default async function (ctx) {
   const models = Object.keys(notificationScanners)
   for (const model of models) {
-    await tryRunScanner(logger, model)
+    await tryRunScanner(ctx, model)
   }
 }
 
-export async function tryRunScanner(logger, model) {
+export async function tryRunScanner(ctx, model) {
+  const { logger, metrics } = ctx
   const scanner = notificationScanners[model]
   if (!scanner) {
     logger.error(`Notification scanner ${model} not found.`)
@@ -33,6 +34,7 @@ export async function tryRunScanner(logger, model) {
   }
   await type.$query().update({ scannedAt: new Date() })
   logger.success(`Notification type ${model} scanned.`)
+  metrics.notificationScanned(model)
 }
 
 function shouldScanNow(type, scanner) {
