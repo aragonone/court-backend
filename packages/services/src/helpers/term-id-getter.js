@@ -1,8 +1,9 @@
 import Network from '@aragonone/court-backend-server/build/web3/Network'
+import { bn } from '@aragonone/court-backend-shared/helpers/numbers'
 
 async function draftTermIdFor(state) {
   const court = await Network.getCourt()
-  const currentTerm = await court.currentTerm()
+  const currentTerm = await court.currentTermId()
   const { roundDurations: { commitTerms, revealTerms } } = await court.getConfigAt()
   if (state == 'revealing') {
     return currentTerm.sub(commitTerms)
@@ -11,17 +12,17 @@ async function draftTermIdFor(state) {
     return currentTerm.sub(commitTerms).sub(revealTerms) 
   }
   if (state == 'commit-reminder') {
-    return currentTerm.sub(commitTerms.add(1).div(2))
+    return currentTerm.sub(commitTerms.add(bn(1)).div(bn(2)))
   }
   if (state == 'reveal-reminder') {
-    return currentTerm.sub(commitTerms).sub(revealTerms.add(1).div(2))
+    return currentTerm.sub(commitTerms).sub(revealTerms.add(bn(1)).div(bn(2)))
   }
 }
 
 async function dueDateFor(draftTermId, type) {
   const court = await Network.getCourt()
   const { roundDurations: { commitTerms, revealTerms } } = await court.getConfigAt()
-  draftTermId = parseInt(draftTermId)
+  draftTermId = bn(parseInt(draftTermId))
   let terms
   if (type == 'commit') {
     terms = commitTerms.add(draftTermId)
