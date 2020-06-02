@@ -4,14 +4,14 @@ import Environment from '@aragonone/court-backend-shared/models/evironments/Brow
 const FAUCET = {
   staging: '0x9a2F850C701b457b73c8dC8B1534Cc187B33F5FD',
   ropsten: '0x83c1ECDC6fAAb783d9e3ac2C714C0eEce3349638',
-  rinkeby: '0x3b86Fd8C30445Ddcbed79CE7eB052fe935D34Fd2',
+  rinkeby: '0x5561f73c3BBe8202F4D7E51aD2A1F22f1E056eFE',
   usability: '0x109dB6047d83f4dd5a8d9da3b9e9228728E3710a',
 }
 
 const ANT = {
   staging: '0x245B220211b7D3C6dCB001Aa2C3bf48ac4CaA03E',
   ropsten: '0x0cb95D9537c8Fb0C947eD48FDafc66A7b72EfC86',
-  rinkeby: '0x5cC7986D7A793b9930BD80067ca54c3E6D2F261B',
+  rinkeby: '0x8cf8196c14A654dc8Aceb3cbb3dDdfd16C2b652D',
   usability: '0xbF932fdf8D600398d64614eF9A10401fF046f449',
   mainnet: '0x960b236A07cf122663c4303350609A66A7B288C0'
 }
