@@ -25,10 +25,10 @@ async function dueDateFor(draftTermId, type) {
   draftTermId = bn(parseInt(draftTermId))
   let terms
   if (type == 'commit') {
-    terms = commitTerms.add(draftTermId)
+    terms = commitTerms.add(draftTermId).sub(bn(1))
   }
   else if (type == 'reveal') {
-    terms = commitTerms.add(revealTerms).add(draftTermId)
+    terms = commitTerms.add(revealTerms).add(draftTermId).sub(bn(1))
   }
   const startTime = await court.startTime()
   const termDuration = await court.termDuration()
