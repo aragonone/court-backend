@@ -6,7 +6,7 @@ const {
   link,
   trimMultiline,
 } = require('../template-utils')
-const { accountData } = require('../mock-utils')
+const { accountData } = require('../helpers')
 
 module.exports = function() {
   return {
@@ -25,9 +25,15 @@ module.exports = function() {
               '{{disputeUrl}}',
               { nowrap: true }
             )}`,
-          secondary: '{{secondary}}',
+          secondary: trimMultiline(`
+            Now that Voting has ended, Preliminary Rulings can be appealed by
+            anyone, including you. If you disagree with the ruling made by your
+            fellow jurors and believe it will be overturned by a larger set of
+            jurors, you can appeal the dispute and earn a reward if your appeal
+            is successful.
+          `),
         })}
-        ${action('{{actionLabel}}', '{{actionUrl}}', {
+        ${action('Appeal Ruling', '{{disputeUrl}}', {
           padding: '16px 0 0',
         })}
       `
@@ -39,9 +45,13 @@ module.exports = function() {
 
       Appeals are now open for a Preliminary Ruling of Dispute #{{disputeId}}.
 
-      {{secondary}}
+      Now that Voting has ended, Preliminary Rulings can be appealed by
+      anyone, including you. If you disagree with the ruling made by your
+      fellow jurors and believe it will be overturned by a larger set of
+      jurors, you can appeal the dispute and earn a reward if your appeal
+      is successful.
 
-      {{actionLabel}}: {{actionUrl}}
+      Appeal Ruling: {{disputeUrl}}
 
       This service is provided by Aragon One AG [1]. You are receiving this email
       because you are subscribed to Aragon Court Email Notifications. You can
@@ -54,15 +64,6 @@ module.exports = function() {
       date: 'Thursday, 17 Dec. 2019',
       disputeId: '14',
       disputeUrl: 'https://example.org/',
-      actionLabel: 'Appeal Ruling',
-      actionUrl: 'https://example.org/',
-      secondary: trimMultiline(`
-        Now that Voting has ended, Preliminary Rulings can be appealed by
-        anyone, including you. If you disagree with the ruling made by your
-        fellow jurors and believe it will be overturned by a larger set of
-        jurors, you can appeal the dispute and earn a reward if your appeal
-        is successful.
-      `),
     },
   }
 }

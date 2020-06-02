@@ -393,18 +393,19 @@ function base({ title, subtitle }, content) {
                                 This service is provided by ${link(
                                   'Aragon One AG',
                                   'https://aragon.one/'
-                                )}. You are receiving this email because you are
+                                )}.
+                                
+                                You are receiving this email because you are 
                                 subscribed to
                                 <strong style="${style(`
                                   font-weight: 300;
                                   color: #637381
                                 `)}">Aragon Court Email Notifications</strong>.
-                                You can contact us at
-                                <a href="mailto:support@aragon.org" style="${style(`
-                                  color: #637381;
-                                  text-decoration: none;
-                                `)}">support@aragon.org</a>
-                                if you no longer wish to receive these.
+                                
+                                To modify your email notification settings, visit the ${link(
+                                  'Notifications section',
+                                  'https://court.aragon.org/dashboard?preferences=notifications'
+                                )} of the Court Dashboard Settings
                               </div>
                             </td>
                           </tr>
@@ -783,12 +784,10 @@ function base2(
                                     <strong class="email-footer-strong">Aragon
                                     Court Email Notifications</strong>.
 
-                                    You can contact us at
-                                    <a
-                                      href="mailto:support@aragon.org"
-                                      style="text-decoration: none"
-                                    >support@aragon.org</a>
-                                    if you no longer wish to receive these.
+                                    To modify your email notification settings, visit the ${link(
+                                      'Notifications section',
+                                      'https://court.aragon.org/dashboard?preferences=notifications'
+                                    )} of the Court Dashboard Settings
                                   </p>
                                 </div>
                               </td>

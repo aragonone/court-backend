@@ -12,7 +12,7 @@ import { User, UserEmail, UserNotification } from '@aragonone/court-backend-serv
 
 const { env: { CLIENT_URL } } = process
 const notificationTypeModel = 'SubscriptionReminder'
-const TEST_ADDR = '0xfc3771B19123F1f0237C737e92645BA6d628e2cB'.toLowerCase()
+const TEST_ADDR = '0xfc3771B19123F1f0237C737e92645BA6d628e2cB'
 const TEST_EMAIL = 'subscription@reminder.test'
 const MINUTES = 60 * 1000
 const HOURS = 60 * MINUTES

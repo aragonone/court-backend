@@ -30,11 +30,10 @@ class Logger {
 
   log(msg, emoji, color = 'white') {
     if (DEFAULTS.silent) return
-    const padding = 15 - this.actor.length
     let formattedMessage = chalk.keyword(color)(`${emoji}  ${this._stringify(msg)}`)
     if (DEFAULTS.verbose) {
       const formatedPrefix = chalk.keyword(this.color)(`[${this.actor}]`)
-      formattedMessage = `${formatedPrefix}${' '.repeat(padding)}${formattedMessage}`
+      formattedMessage = `${formatedPrefix} ${formattedMessage}`
     }
     console.error(formattedMessage)
   }

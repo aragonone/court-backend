@@ -1,6 +1,7 @@
 import emailClient from '@aragonone/court-backend-shared/helpers/email-client'
 import { UserNotification } from '@aragonone/court-backend-server/build/models/objection'
 import * as notificationScanners from '../models/notification-scanners'
+import { accountData } from '../../../../emails/helpers'
 
 /**
  * This worker loops over all unprocessed notification DB entries
@@ -27,10 +28,16 @@ export async function trySendNotification(logger, notification) {
     await notification.$query().del()
     return
   }
+  let TemplateModel = notification.details.emailTemplateModel ?? {}
+  TemplateModel = {
+    ...TemplateModel,
+    ...accountData(user.address),
+    date: notification.createdAtDateString
+  }
   const message = {
     To: user.email.email,
     TemplateAlias: scanner.emailTemplateAlias,
-    TemplateModel: notification.details.emailTemplateModel ?? {},
+    TemplateModel,
   }
   await emailClient.sendEmailWithTemplate(message)
   await notification.$query().update({sentAt: new Date()})
