@@ -3,6 +3,7 @@ on:
   push:
     branches:
     - master
+    - development
     paths:
     - monitoring/grafana/provisioning/dashboards/court-backend.json
 
