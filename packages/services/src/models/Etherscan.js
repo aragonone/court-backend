@@ -35,7 +35,7 @@ export default class Etherscan {
 
   _getBaseUrl(network) {
     if (network === 'rinkeby' || network === 'ropsten') return BASE_URL.replace('<network>', network)
-    else if (network === 'staging' || network === 'usability') return BASE_URL.replace('<network>', 'rinkeby')
+    else if (network === 'staging') return BASE_URL.replace('<network>', 'rinkeby')
     return BASE_URL.replace('<network>', 'api')
   }
 }
