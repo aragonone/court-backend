@@ -1,7 +1,8 @@
 import queries from '../helpers/settlement-queries'
 import Network from '@aragonone/court-backend-server/build/web3/Network'
 
-export default async function (logger) {
+export default async function (ctx) {
+  const { logger } = ctx
   const court = await Network.getCourt()
 
   for (const disputesQuery of queries) {

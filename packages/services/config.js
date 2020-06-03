@@ -8,6 +8,7 @@ const workers = [
     processes: 1,
     times: 0,
     repeat: ONE_MINUTE * 10,
+    metricsPort: process.env.SERVICE_PORT_HEARTBEAT
   },
   {
     name: 'reveal',
@@ -16,6 +17,7 @@ const workers = [
     processes: 1,
     times: 0,
     repeat: ONE_MINUTE,
+    metricsPort: process.env.SERVICE_PORT_REVEAL
   },
   {
     name: 'settlements',
@@ -24,6 +26,7 @@ const workers = [
     processes: 1,
     times: 0,
     repeat: ONE_MINUTE * 5,
+    metricsPort: process.env.SERVICE_PORT_SETTLEMENTS
   },
   {
     name: 'monitor-keeper',
@@ -32,6 +35,7 @@ const workers = [
     processes: 1,
     times: 0,
     repeat: ONE_MINUTE * 30,
+    metricsPort: process.env.SERVICE_PORT_MONITOR_KEEPER
   },
   {
     name: 'notification-scanner',
@@ -40,6 +44,7 @@ const workers = [
     processes: 1,
     times: 0,
     repeat: ONE_MINUTE,
+    metricsPort: process.env.SERVICE_PORT_NOTIFICATION_SCANNER
   },
   {
     name: 'notification-sender',
@@ -48,6 +53,7 @@ const workers = [
     processes: 1,
     times: 0,
     repeat: ONE_MINUTE * 5,
+    metricsPort: process.env.SERVICE_PORT_NOTIFICATION_SENDER
   },
 ]
 

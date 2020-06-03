@@ -5,5 +5,35 @@ scrape_configs:
   - targets: 
     - court_server:9091
     labels:
-      # required to be compatible with k8s metrics
       service: court-backend
+      endpoint: server-metrics
+  - targets: 
+    - court_services:9081
+    labels:
+      service: court-backend
+      endpoint: metrics-hbeat
+  - targets: 
+    - court_services:9082
+    labels:
+      service: court-backend
+      endpoint: metrics-reveal
+  - targets: 
+    - court_services:9083
+    labels:
+      service: court-backend
+      endpoint: metrics-settle
+  - targets: 
+    - court_services:9084
+    labels:
+      service: court-backend
+      endpoint: metrics-keeper
+  - targets: 
+    - court_services:9085
+    labels:
+      service: court-backend
+      endpoint: metrics-scanner
+  - targets: 
+    - court_services:9086
+    labels:
+      service: court-backend
+      endpoint: metrics-sender

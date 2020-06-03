@@ -10,7 +10,8 @@ import getWalletFromPk from '@aragonone/court-backend-shared/helpers/get-wallet-
 const FROM = 'noreply@aragon.one'
 const BALANCE_THRESHOLD = bigExp(1, 17) // 0.1 ETH
 
-export default async function (logger) {
+export default async function (ctx) {
+  const { logger } = ctx
   const { environment: { network } } = Network
   const etherscan = new Etherscan(network, process.env.ETHERSCAN_API_KEY)
   const keeper = getWalletFromPk(process.env.PRIVATE_KEY).getAddressString()

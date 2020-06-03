@@ -24,11 +24,17 @@ describe('DisputeRuled notifications', () => {
     await userNotificationTypeDbCleanup(notificationTypeModel)
   })
 
-  let logger = {}
+  let ctx = {}
   beforeEach(async () => {
-    logger = {
-      success: sinon.fake(),
-      warn: sinon.fake(),
+    ctx = {
+      logger: {
+        success: sinon.fake(),
+        warn: sinon.fake(),
+      },
+      metrics: {
+        notificationScanned: sinon.fake(),
+        notificationSent: sinon.fake(),
+      }
     }
   })
   
@@ -56,7 +62,7 @@ describe('DisputeRuled notifications', () => {
         }
       ]
     })
-    await tryRunScanner(logger, notificationTypeModel)
+    await tryRunScanner(ctx, notificationTypeModel)
     const type = await userNotificationTypeByModel(notificationTypeModel)
     expect(type.notifications.length).to.equal(1)
     expect(type.notifications[0].details).to.deep.equal({
@@ -66,7 +72,7 @@ describe('DisputeRuled notifications', () => {
         disputeResult: 'InFavor'
       }
     })
-    expect(logger.success).to.have.callCount(1)
+    expect(ctx.logger.success).to.have.callCount(1)
   })
 
 })

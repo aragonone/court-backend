@@ -25,11 +25,17 @@ describe('DueTasks notifications', () => {
     await userNotificationTypeDbCleanup(notificationTypeModel)
   })
 
-  let logger = {}
+  let ctx = {}
   beforeEach(async () => {
-    logger = {
-      success: sinon.fake(),
-      warn: sinon.fake(),
+    ctx = {
+      logger: {
+        success: sinon.fake(),
+        warn: sinon.fake(),
+      },
+      metrics: {
+        notificationScanned: sinon.fake(),
+        notificationSent: sinon.fake(),
+      }
     }
     termIdGetter.draftTermIdFor = () => 1
     termIdGetter.dueDateFor = (draftTermId, type) => type == 'commit' ? 1591123146 : 1591126746
@@ -76,7 +82,7 @@ describe('DueTasks notifications', () => {
         },
       ]
     })
-    await tryRunScanner(logger, notificationTypeModel)
+    await tryRunScanner(ctx, notificationTypeModel)
     const type = await userNotificationTypeByModel(notificationTypeModel)
     expect(type.notifications.length).to.equal(1)
     expect(type.notifications[0].details).to.deep.equal({
@@ -97,7 +103,7 @@ describe('DueTasks notifications', () => {
         ],
       },
     })
-    expect(logger.success).to.have.callCount(1)
+    expect(ctx.logger.success).to.have.callCount(1)
   })
 
 })
