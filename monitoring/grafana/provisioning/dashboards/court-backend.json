@@ -138,7 +138,7 @@
       "repeatDirection": "h",
       "targets": [
         {
-          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"service-metrics-heartbeat\"})",
+          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"metrics-hbeat\"})",
           "interval": "",
           "legendFormat": "$endpoint",
           "refId": "A"
@@ -196,7 +196,7 @@
       "repeatDirection": "h",
       "targets": [
         {
-          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"service-metrics-reveal\"})",
+          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"metrics-reveal\"})",
           "interval": "",
           "legendFormat": "$endpoint",
           "refId": "A"
@@ -254,7 +254,7 @@
       "repeatDirection": "h",
       "targets": [
         {
-          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"service-metrics-settlements\"})",
+          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"metrics-settle\"})",
           "interval": "",
           "legendFormat": "$endpoint",
           "refId": "A"
@@ -312,7 +312,7 @@
       "repeatDirection": "h",
       "targets": [
         {
-          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"service-metrics-monitor-keeper\"})",
+          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"metrics-keeper\"})",
           "interval": "",
           "legendFormat": "$endpoint",
           "refId": "A"
@@ -370,7 +370,7 @@
       "repeatDirection": "h",
       "targets": [
         {
-          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"service-metrics-notification-scanner\"})",
+          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"metrics-scanner\"})",
           "interval": "",
           "legendFormat": "$endpoint",
           "refId": "A"
@@ -428,7 +428,7 @@
       "repeatDirection": "h",
       "targets": [
         {
-          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"service-metrics-notification-sender\"})",
+          "expr": "sum by (service) (up{service=\"$service\",endpoint=\"metrics-sender\"})",
           "interval": "",
           "legendFormat": "$endpoint",
           "refId": "A"
