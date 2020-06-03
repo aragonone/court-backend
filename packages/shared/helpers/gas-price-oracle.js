@@ -2,7 +2,7 @@ const axios = require('axios')
 
 const GAS_STATION_API_URL = 'https://ethgasstation.info/json/ethgasAPI.json'
 
-const DEFAULT_TESTNET_GAS_PRICE = 1e6
+const DEFAULT_TESTNET_GAS_PRICE = 10e9
 
 const MAINNET_ID = 1
 const TESTNET_IDS = [3, 4, 42] // ropsten, rinkeby and kovan
