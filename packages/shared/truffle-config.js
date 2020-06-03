@@ -9,7 +9,7 @@ const { networks: { rpc, ropsten, rinkeby, usability, staging, mainnet } } = con
 rpc.court = undefined
 staging.court = '0x52180af656a1923024d1accf1d827ab85ce48878'
 ropsten.court = '0x3b26bc496aebaed5b3E0E81cDE6B582CDe71396e'
-rinkeby.court = '0xb5ffbe75fa785725eea5f931b64fc04e516c9c5d'
+rinkeby.court = '0xe9180dBE762Fe39520fC9883f7f7EFeBA6506534'
 usability.court = '0x44f788370206696b20B94BC77c4f73Ca264aa05E'
 mainnet.court = '0xee4650cBe7a2B23701D416f58b41D8B76b617797'
 
