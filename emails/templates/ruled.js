@@ -9,7 +9,7 @@ const { accountData } = require('../helpers')
 
 module.exports = function() {
   return {
-    subject: 'Dispute {{disputeId}} has been ruled as “{{disputeResult}}”',
+    subject: 'The final ruling in Dispute #{{disputeId}} is “{{disputeResult}}”',
     template: base(
       {
         title: 'Notifications',
@@ -18,13 +18,14 @@ module.exports = function() {
       `
         ${infobox({
           mode: 'positive',
-          primary: `
-            ${link('Dispute #{{disputeId}}', '{{disputeUrl}}', {
-              nowrap: true,
-            })} has been ruled as “{{disputeResult}}”`,
-          secondary: 'You can see the final result and claim any rewards',
+          primary: `The final ruling in ${link(
+            'Dispute #{{disputeId}}',
+            '{{disputeUrl}}',
+            { nowrap: true }
+          )} has been ruled as “{{disputeResult}}”`,
+          secondary: 'You can now see the final ruling and claim your rewards',
         })}
-        ${action('See result', '{{disputeUrl}}', {
+        ${action('See final ruling', '{{disputeUrl}}', {
           padding: '16px 0 0',
         })}
       `
@@ -34,10 +35,10 @@ module.exports = function() {
 
       Your account {{account}} received a notification on {{date}}:
 
-      Dispute #{{disputeId}} has been ruled as {{disputeResult}}. You can see
-      the final result and claim any rewards.
+      The final ruling in Dispute #{{disputeId}} is “{{disputeResult}}”. 
+      You can now see the final ruling and claim your rewards.
 
-      See result: {{disputeUrl}}
+      See final ruling: {{disputeUrl}}
 
       This service is provided by Aragon One AG [1]. You are receiving this email
       because you are subscribed to Aragon Court Email Notifications. You can

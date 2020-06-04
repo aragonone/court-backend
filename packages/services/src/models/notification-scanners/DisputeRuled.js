@@ -3,9 +3,9 @@ import Network from '@aragonone/court-backend-server/build/web3/Network'
 const OUTCOMES = {
   0: 'Missing',
   1: 'Leaked',
-  2: 'Refused',
-  3: 'Against',
-  4: 'InFavor',
+  2: 'Refuse to vote',
+  3: 'Block',
+  4: 'Allow',
 }
 
 class DisputeRuled extends NotificationScannerBaseModel {
