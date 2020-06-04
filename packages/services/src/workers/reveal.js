@@ -15,8 +15,14 @@ async function reveal(logger, court, reveal) {
   try {
     logger.info(`Revealing vote #${voteId} for juror ${juror}`)
     await court.revealFor(voteId, juror, outcome, salt)
-    await reveal.$query().update({ revealed: true })
-    logger.success(`Revealed vote #${voteId} for juror ${juror}`)
+    const actualOutcome = await court.getOutcome(voteId, juror)
+
+    if (actualOutcome.toString() === outcome.toString()) {
+      await reveal.$query().update({ revealed: true })
+      logger.success(`Revealed vote #${voteId} for juror ${juror}`)
+    } else {
+      logger.error(`Failed to reveal vote #${voteId} for juror ${juror}. Expected outcome ${outcome}, got ${actualOutcome.toString()}`)
+    }
   } catch (error) {
     logger.error(`Failed to reveal vote #${voteId} for juror ${juror}`, error)
   }

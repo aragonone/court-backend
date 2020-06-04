@@ -150,6 +150,11 @@ module.exports = class {
     return (!result || !result.jurorDrafts || result.jurorDrafts.length === 0) ? undefined : result.jurorDrafts[0].commitment
   }
 
+  async getOutcome(voteId, voter) {
+    const voting = await this.voting()
+    return voting.getVoterOutcome(voteId, voter)
+  }
+
   async getPeriod(periodId) {
     const subscriptions = await this.subscriptions()
     const provider = await this.environment.getProvider()
