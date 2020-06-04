@@ -31,9 +31,10 @@ class MissedReveal extends NotificationScannerBaseModel {
           address: juror.juror.id,
           details: {
             emailTemplateModel: {
+              disputeId,
+              disputeUrl: `${this._CLIENT_URL}disputes/${disputeId}`,
               lockedAnjBalanceUrl: `${this._CLIENT_URL}dashboard`
             },
-            disputeId,
             adjudicationRoundId
           }
         })

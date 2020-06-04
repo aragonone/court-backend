@@ -18,7 +18,11 @@ module.exports = function() {
       `
         ${infobox({
           mode: 'negative',
-          primary: `Your vote wasn’t cast on time`,
+          primary: `Your vote wasn’t cast on time for ${link(
+            'Dispute #{{disputeId}}',
+            '{{disputeUrl}}',
+            { nowrap: true }
+          )}`,
           secondary: `Some of your ${link(
             'locked ANJ balance',
             '{{lockedAnjBalanceUrl}}'
@@ -48,6 +52,8 @@ module.exports = function() {
     mockData: {
       ...accountData('0xef0f7ecef8385483ac8a2e92d761f571c4b782bd'),
       date: 'Thursday, 17 Dec. 2019',
+      disputeId: '14',
+      disputeUrl: '',
       lockedAnjBalanceUrl: 'https://court.aragon.org/dashboard'
     },
   }
