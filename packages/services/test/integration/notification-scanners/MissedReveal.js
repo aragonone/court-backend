@@ -71,9 +71,10 @@ describe('MissedReveal notifications', () => {
     expect(type.notifications.length).to.equal(1)
     expect(type.notifications[0].details).to.deep.equal({
       emailTemplateModel: {
+        disputeId: TEST_DISPUTE_ID,
+        disputeUrl: `${CLIENT_URL}disputes/${TEST_DISPUTE_ID}`,
         lockedAnjBalanceUrl: `${CLIENT_URL}dashboard`
       },
-      disputeId: TEST_DISPUTE_ID,
       adjudicationRoundId: TEST_ROUND_ID
     })
     expect(ctx.logger.success).to.have.callCount(1)
