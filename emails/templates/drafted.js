@@ -25,9 +25,9 @@ module.exports = function() {
               { nowrap: true }
             )}`,
           secondary:
-            'You can start reviewing the evidence and then commit your vote',
+            'You can start reviewing the arguments and then commit your vote',
         })}
-        ${action('Start reviewing evidence', '{{disputeUrl}}', {
+        ${action('Review the arguments and vote', '{{disputeUrl}}', {
           padding: '16px 0 0',
         })}
       `
@@ -38,9 +38,9 @@ module.exports = function() {
       Your account {{account}} received a notification on {{date}}:
 
       You have been selected to arbitrate Dispute #{{disputeId}}. You can start
-      reviewing the evidence and then commit your vote.
+      reviewing the arguments and then commit your vote.
 
-      Start reviewing evidence: {{disputeUrl}}
+      Review the arguments and vote: {{disputeUrl}}
 
       This service is provided by Aragon One AG [1]. You are receiving this email
       because you are subscribed to Aragon Court Email Notifications. You can

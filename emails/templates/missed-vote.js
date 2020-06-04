@@ -36,18 +36,19 @@ module.exports = function() {
 
       Your account {{account}} received a notification on {{date}}:
 
-      Your vote wasn’t cast on time. Some of your locked ANJ [1] balance has
-      been forfeit.
+      Your vote wasn’t cast on time for Dispute #{{disputeId}} [1]. 
+      Some of your locked ANJ [2] balance has been forfeit.
 
       Learn more: https://help.aragon.org/article/43-dispute-lifecycle#voting-period
 
-      This service is provided by Aragon One AG [2]. You are receiving this
+      This service is provided by Aragon One AG [3]. You are receiving this
       email because you are subscribed to Aragon Court Email Notifications. You
       can contact us at support@aragon.org if you not longer wish to receive
       these.
 
-      [1] {{lockedAnjBalanceUrl}}
-      [2] https://aragon.one/
+      [1] {{disputeUrl}}
+      [2] {{lockedAnjBalanceUrl}}
+      [3] https://aragon.one/
     `,
     mockData: {
       ...accountData('0xef0f7ecef8385483ac8a2e92d761f571c4b782bd'),
