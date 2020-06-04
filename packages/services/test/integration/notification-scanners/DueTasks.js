@@ -40,7 +40,7 @@ describe('DueTasks notifications', () => {
     termIdGetter.draftTermIdFor = () => 1
     termIdGetter.dueDateFor = (draftTermId, type) => type == 'commit' ? 1591123146 : 1591126746
   })
-  
+
   it('should create a notification with commit and reveal due tasks', async () => {
     await User.query().insertGraph({
       address: TEST_ADDR,
@@ -53,7 +53,7 @@ describe('DueTasks notifications', () => {
     Network.query = () => ({
       "committingRounds": [
         {
-          "draftTermId": TEST_DRAFT_TERM_ID,
+          "draftedTermId": TEST_DRAFT_TERM_ID,
           "dispute": {
             "id": TEST_DISPUTE_ID
           },
@@ -68,7 +68,7 @@ describe('DueTasks notifications', () => {
       ],
       "revealingRounds": [
         {
-          "draftTermId": TEST_DRAFT_TERM_ID,
+          "draftedTermId": TEST_DRAFT_TERM_ID,
           "dispute": {
             "id": TEST_DISPUTE_ID
           },
