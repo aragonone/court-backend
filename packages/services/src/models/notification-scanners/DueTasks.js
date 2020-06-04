@@ -10,8 +10,8 @@ class DueTasks extends NotificationScannerBaseModel {
     const revealingTermId = await draftTermIdFor('reveal-reminder')
     const query = `
     {
-      committingRounds: adjudicationRounds(where: {state: Committing, draftTermId_lte: ${committingTermId}}, orderBy: createdAt) {
-        draftTermId
+      committingRounds: adjudicationRounds(where: {state: Committing, draftedTermId_lte: ${committingTermId}}, orderBy: createdAt) {
+        draftedTermId
         dispute {
           id
         }
@@ -19,8 +19,8 @@ class DueTasks extends NotificationScannerBaseModel {
           juror {id}
         } 
       }
-     	revealingRounds: adjudicationRounds(where: {stateInt_in: [1,2], draftTermId_lte: ${revealingTermId}}, orderBy: createdAt) {
-        draftTermId
+     	revealingRounds: adjudicationRounds(where: {stateInt_in: [1,2], draftedTermId_lte: ${revealingTermId}}, orderBy: createdAt) {
+        draftedTermId
         dispute {
           id
         }
@@ -35,7 +35,7 @@ class DueTasks extends NotificationScannerBaseModel {
     await this._getTasks(jurorTasks, committingRounds, 'commit')
     await this._getTasks(jurorTasks, revealingRounds, 'reveal')
     for (const [address, tasks] of Object.entries(jurorTasks)) {
-      notifications.push({ 
+      notifications.push({
         address,
         details: {
           emailTemplateModel: {tasks}
@@ -48,11 +48,11 @@ class DueTasks extends NotificationScannerBaseModel {
   async _getTasks(jurorTasks, adjudicationRounds, type) {
     for (const adjudicationRound of adjudicationRounds) {
       const {
-        draftTermId,
+        draftedTermId,
         dispute: { id: disputeId },
         jurors
       } = adjudicationRound
-      const dueDate = await this._dueDateString(draftTermId, type)
+      const dueDate = await this._dueDateString(draftedTermId, type)
       for (const juror of jurors) {
         const address = juror.juror.id
         if (!jurorTasks[address]) jurorTasks[address] = []

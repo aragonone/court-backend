@@ -8,7 +8,7 @@ class MissedVote extends NotificationScannerBaseModel {
     const termId = await draftTermIdFor('revealing')
     const query = `
     {
-      adjudicationRounds(where: {stateInt_in: [1,2], draftTermId_lte: ${termId}}, orderBy: createdAt) {
+      adjudicationRounds(where: {stateInt_in: [1,2], draftedTermId_lte: ${termId}}, orderBy: createdAt) {
         id
         dispute {
           id
@@ -21,13 +21,13 @@ class MissedVote extends NotificationScannerBaseModel {
     `
     const { adjudicationRounds } = await Network.query(query)
     for (const adjudicationRound of adjudicationRounds) {
-      const { 
+      const {
         id: adjudicationRoundId,
         dispute: { id: disputeId },
         jurors
       } = adjudicationRound
       for (const juror of jurors) {
-        notifications.push({ 
+        notifications.push({
           address: juror.juror.id,
           details: {
             emailTemplateModel: {
