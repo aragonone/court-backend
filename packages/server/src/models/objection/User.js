@@ -60,18 +60,18 @@ export default class User extends BaseModel {
   }
 
   static findOne(args) {
-    args.address = args.address?.toLowerCase()
+    if (args.address) args.address = args.address.toLowerCase()
     return super.findOne(args)
   }
 
   async $beforeInsert(queryContext) {
     await super.$beforeInsert(queryContext)
-    this.address = this.address?.toLowerCase()
+    if (this.address) this.address = this.address.toLowerCase()
   }
 
   async $beforeUpdate(opt, queryContext) {
     await super.$beforeUpdate(opt, queryContext)
-    this.address = this.address?.toLowerCase()
+    if (this.address) this.address = this.address.toLowerCase()
   }
 
   static async findWithUnverifiedEmail() {
