@@ -22,7 +22,7 @@ module.exports = function() {
             'Dispute #{{disputeId}}',
             '{{disputeUrl}}',
             { nowrap: true }
-          )} has been ruled as “{{disputeResult}}”`,
+          )} is “{{disputeResult}}”`,
           secondary: 'You can now see the final ruling and claim your rewards',
         })}
         ${action('See final ruling', '{{disputeUrl}}', {
