@@ -29,7 +29,7 @@ module.exports = function() {
       `
     ),
     templateText: `
-      Aragon Court Notifications
+      Aragon Court Task Reminder
 
       You have tasks due soon:
       {{#each tasks}}

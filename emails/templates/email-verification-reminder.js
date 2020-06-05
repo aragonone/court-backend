@@ -5,7 +5,7 @@ module.exports = function() {
     subject: 'Aragon Court email verification reminder',
     template: base(
       {
-        title: 'Email Verification Reminder',
+        title: 'Notifications',
         subtitle: `
           Verify your email to receive email notifications about important news
           and upcoming tasks.
@@ -22,8 +22,8 @@ module.exports = function() {
         <div style="font-size:16px;line-height:24px;color:#212B36">
           To do so, please click on the button below and 
           1) connect your account 
-          2) go to your notifications settings (top right)
-          3) click Resend verification email
+          2) go to your notification settings (top right)
+          3) click “Resend verification email”
         </div>
 
         ${vspace(40)}
@@ -39,15 +39,15 @@ module.exports = function() {
       `
     ),
     templateText: `
-      Email Verification
+      Aragon Court Notifications
 
       You recently subscribed to Aragon Court email notifications, but did not
       complete the email verification process.
 
       To do so, please copy and paste this URL into your browser and 
       1) connect your account 
-      2) go to your notifications settings (top right)
-      3) click Resend verification email
+      2) go to your notification settings (top right)
+      3) click “Resend verification email”
       {{emailPreferencesUrl}}
     `,
     mockData: {

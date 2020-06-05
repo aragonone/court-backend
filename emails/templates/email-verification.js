@@ -5,7 +5,7 @@ module.exports = function() {
     subject: 'Verify your email on Aragon Court',
     template: base(
       {
-        title: 'Email Verification',
+        title: 'Notifications',
         subtitle: `
           Verify your email to receive email notifications about important news
           and upcoming tasks.
@@ -31,7 +31,7 @@ module.exports = function() {
       `
     ),
     templateText: `
-      Email Verification
+      Aragon Court Notifications
 
       Verify your email to receive email notifications about important news
       and upcoming tasks.
