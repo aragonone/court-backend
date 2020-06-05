@@ -9,7 +9,7 @@ const { accountData } = require('../helpers')
 
 module.exports = function() {
   return {
-    subject: 'The final ruling in Dispute #{{disputeId}} is “{{disputeResult}}”',
+    subject: 'The final ruling for Dispute #{{disputeId}} is “{{disputeResult}}”',
     template: base(
       {
         title: 'Notifications',
@@ -18,7 +18,7 @@ module.exports = function() {
       `
         ${infobox({
           mode: 'positive',
-          primary: `The final ruling in ${link(
+          primary: `The final ruling for ${link(
             'Dispute #{{disputeId}}',
             '{{disputeUrl}}',
             { nowrap: true }
@@ -35,7 +35,7 @@ module.exports = function() {
 
       Your account {{account}} received a notification on {{date}}:
 
-      The final ruling in Dispute #{{disputeId}} is “{{disputeResult}}”. 
+      The final ruling for Dispute #{{disputeId}} is “{{disputeResult}}”. 
       You can now see the final ruling and claim your rewards.
 
       See final ruling: {{disputeUrl}}
