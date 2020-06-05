@@ -1,10 +1,12 @@
 const {
   action,
+  addressBadge,
   base,
   link,
   vspace,
-  textFooter
+  textFooter,
 } = require('../template-utils')
+const { accountData } = require('../helpers')
 
 module.exports = function() {
   return {
@@ -12,10 +14,7 @@ module.exports = function() {
     template: base(
       {
         title: 'Notifications',
-        subtitle: `
-          Verify your email to receive email notifications about important news
-          and upcoming tasks.
-        `,
+        subtitle: `Your account ${addressBadge()} received a notification on {{date}}`,
       },
       `
         <div style="font-size:16px;line-height:24px;color:#212B36">
@@ -47,6 +46,8 @@ module.exports = function() {
     templateText: `
       Aragon Court Notifications
 
+      Your account {{account}} received a notification on {{date}}:
+
       You recently subscribed to Aragon Court email notifications, but did not
       complete the email verification process.
 
@@ -58,6 +59,8 @@ module.exports = function() {
       ${textFooter()}
     `,
     mockData: {
+      ...accountData('0xef0f7ecef8385483ac8a2e92d761f571c4b782bd'),
+      date: 'Thursday, 17 Dec. 2019',
       emailPreferencesUrl:
         'https://app.aragon.org/?preferences=notifications',
     },
