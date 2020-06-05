@@ -4,6 +4,7 @@ const {
   base2,
   button,
   trimMultiline,
+  textFooter
 } = require('../template-utils')
 
 module.exports = function() {
@@ -31,12 +32,7 @@ module.exports = function() {
       {{content}}
 
       {{actionLabel}}: {{actionUrl}}
-
-      This service is provided by Aragon One AG [1]. You are receiving this email
-      because you are subscribed to Aragon Court Email Notifications. You can
-      contact us at support@aragon.org if you not longer wish to receive these.
-
-      [1] https://aragon.one/
+      ${textFooter()}
     `,
     mockData: {
       actionLabel: 'New Campaign Details >>',

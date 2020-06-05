@@ -69,7 +69,7 @@ describe('DisputeRuled notifications', () => {
       emailTemplateModel: {
         disputeId: TEST_DISPUTE_ID,
         disputeUrl: `${CLIENT_URL}disputes/${TEST_DISPUTE_ID}`,
-        disputeResult: 'InFavor'
+        disputeResult: 'Allowed'
       }
     })
     expect(ctx.logger.success).to.have.callCount(1)

@@ -1075,6 +1075,18 @@ function dataTable(listName, headers) {
   `
 }
 
+function textFooter() {
+  return `
+    This service is provided by Aragon One AG [1]. You are receiving this email
+    because you are subscribed to Aragon Court Email Notifications. To modify 
+    your email notification settings, visit the Notifications section [2] of
+    the Court Dashboard Settings
+
+    [1] https://aragon.one/
+    [2] https://court.aragon.org/dashboard?preferences=notifications
+  `
+}
+
 module.exports = {
   action,
   addressBadge,
@@ -1090,4 +1102,5 @@ module.exports = {
   table,
   trimMultiline,
   vspace,
+  textFooter
 }
