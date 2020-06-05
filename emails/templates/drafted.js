@@ -4,6 +4,7 @@ const {
   base,
   infobox,
   link,
+  textFooter
 } = require('../template-utils')
 const { accountData } = require('../helpers')
 
@@ -41,12 +42,7 @@ module.exports = function() {
       reviewing the arguments and then commit your vote.
 
       Review the arguments and vote: {{disputeUrl}}
-
-      This service is provided by Aragon One AG [1]. You are receiving this email
-      because you are subscribed to Aragon Court Email Notifications. You can
-      contact us at support@aragon.org if you not longer wish to receive these.
-
-      [1] https://aragon.one/
+      ${textFooter()}
     `,
     mockData: {
       ...accountData('0xef0f7ecef8385483ac8a2e92d761f571c4b782bd'),

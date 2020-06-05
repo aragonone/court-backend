@@ -1,7 +1,8 @@
 const {
   action,
   base,
-  vspace
+  vspace,
+  textFooter
 } = require('../template-utils')
 
 module.exports = function() {
@@ -37,6 +38,7 @@ module.exports = function() {
 
       To do so, please copy and paste this URL into your browser and follow the instructions:
       {{dashboardUrl}}
+      ${textFooter()}
     `,
     mockData: {
       dashboardUrl: 'https://court.aragon.org/dashboard',

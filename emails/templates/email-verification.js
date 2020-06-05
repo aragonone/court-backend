@@ -1,4 +1,10 @@
-const { action, base, link, vspace } = require('../template-utils')
+const {
+  action,
+  base,
+  link,
+  vspace,
+  textFooter
+} = require('../template-utils')
 
 module.exports = function() {
   return {
@@ -41,6 +47,7 @@ module.exports = function() {
 
       Verify your email by copying and pasting this URL into your browser:
       {{verifyEmailUrl}}
+      ${textFooter()}
     `,
     mockData: {
       verifyEmailUrl:

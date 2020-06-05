@@ -1,4 +1,10 @@
-const { action, base, link, vspace } = require('../template-utils')
+const {
+  action,
+  base,
+  link,
+  vspace,
+  textFooter
+} = require('../template-utils')
 
 module.exports = function() {
   return {
@@ -49,6 +55,7 @@ module.exports = function() {
       2) go to your notification settings (top right)
       3) click “Resend verification email”
       {{emailPreferencesUrl}}
+      ${textFooter()}
     `,
     mockData: {
       emailPreferencesUrl:
