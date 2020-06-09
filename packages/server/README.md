@@ -106,8 +106,6 @@ All the provided endpoints are `Content-Type: application/json`
           "voteId": "0", 
           "disputeId": "0", 
           "roundNumber": "0",
-          "revealed": true,
-          "failedAttempts": 2,
           "createdAt": "2019-12-25T14:58:58.705Z",
           "updatedAt":"2019-12-25T14:58:58.705Z"
         }
@@ -129,8 +127,6 @@ All the provided endpoints are `Content-Type: application/json`
           "voteId": "0", 
           "disputeId": "0", 
           "roundNumber": "0",
-          "revealed": true,
-          "failedAttempts": 2,
           "createdAt": "2019-12-25T14:58:58.705Z",
           "updatedAt":"2019-12-25T14:58:58.705Z"
         }
