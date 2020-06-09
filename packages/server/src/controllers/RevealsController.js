@@ -9,7 +9,7 @@ export default {
     const juror = body.juror || ''
     const voteId = body.voteId || ''
 
-    const reveal = await Reveal.query().select('id', 'juror', 'voteId', 'disputeId', 'roundNumber', 'createdAt', 'updatedAt').where({ juror, voteId })
+    const reveal = await Reveal.query().select('id', 'juror', 'voteId', 'disputeId', 'roundNumber', 'revealed', 'failedAttempts', 'createdAt', 'updatedAt').where({ juror, voteId })
     response.status(200).send({ reveal })
   },
 
@@ -30,8 +30,8 @@ export default {
     params.roundNumber = decodedVoteId.roundId.toString()
     const reveal = await Reveal.create(params)
 
-    const { id, juror, voteId, disputeId, roundNumber, createdAt, updatedAt } = reveal
-    response.status(200).send({ reveal: { id, juror, voteId, disputeId, roundNumber, createdAt, updatedAt }})
+    const { id, juror, voteId, disputeId, roundNumber, revealed, failedAttempts, createdAt, updatedAt } = reveal
+    response.status(200).send({ reveal: { id, juror, voteId, disputeId, roundNumber, revealed, failedAttempts, createdAt, updatedAt }})
   },
 
   async all(request, response) {
