@@ -5,11 +5,8 @@ import { decodeVoteId } from '@aragonone/court-backend-shared/helpers/voting'
 
 export default {
   async show(request, response) {
-    const { body } = request
-    const juror = body.juror || ''
-    const voteId = body.voteId || ''
-
-    const reveal = await Reveal.query().select('id', 'juror', 'voteId', 'disputeId', 'roundNumber', 'revealed', 'failedAttempts', 'createdAt', 'updatedAt').where({ juror, voteId })
+    const { params: { juror, voteId } } = request
+    const reveal = await Reveal.query().select('id', 'juror', 'voteId', 'disputeId', 'roundNumber', 'revealed', 'failedAttempts', 'createdAt', 'updatedAt').findOne({ juror, voteId })
     response.status(200).send({ reveal })
   },
 
