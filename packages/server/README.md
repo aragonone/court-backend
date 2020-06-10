@@ -114,11 +114,8 @@ All the provided endpoints are `Content-Type: application/json`
 
 ##### 2.2. Show
 
-- URL: /reveal
+- URL: /reveals/:juror/:voteId
 - Method: GET
-- Body: 
-  - `juror`: Ethereum address of the juror requesting for the reveal 
-  - `voteId`: Vote ID to be revealed for the given juror
 - Response: 
   - Code: 200
   - Content example: 

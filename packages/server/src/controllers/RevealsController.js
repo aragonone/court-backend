@@ -5,24 +5,15 @@ import { decodeVoteId } from '@aragonone/court-backend-shared/helpers/voting'
 
 export default {
   async show(request, response) {
-    const { body } = request
-    const juror = body.juror || ''
-    const voteId = body.voteId || ''
-
-    const reveal = await Reveal.query().select('id', 'juror', 'voteId', 'disputeId', 'roundNumber', 'revealed', 'failedAttempts', 'createdAt', 'updatedAt').where({ juror, voteId })
+    const { params: { juror, voteId } } = request
+    const reveal = await Reveal.query().select('id', 'juror', 'voteId', 'disputeId', 'roundNumber', 'createdAt', 'updatedAt').findOne({ juror, voteId })
     response.status(200).send({ reveal })
   },
 
   async create(request, response) {
     const params = request.body
     const errors = await RevealsValidator.validateForCreate(params)
-    if (errors.length > 0) {
-      // TODO: This is temporarily
-      console.error(`Reveal request error:`)
-      console.error(`Params ${JSON.stringify(params)}`)
-      console.error(`Errors ${JSON.stringify(errors)}`)
-      throw HttpError.BAD_REQUEST({ errors })
-    }
+    if (errors.length > 0) throw HttpError.BAD_REQUEST({ errors })
 
     const decodedVoteId = decodeVoteId(params.voteId)
     params.revealed = false
