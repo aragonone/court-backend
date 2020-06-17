@@ -28,6 +28,7 @@ export default class JurorsList extends React.Component {
             <div ref="jurorsSummary">
               <p>Total staked balance: {fromWei(module.totalStaked)} </p>
               <p>Total active balance: {fromWei(module.totalActive)} </p>
+              <p>Total deactivation balance: {fromWei(module.totalDeactivation)} </p>
               <p>Total number of jurors: {jurors.length} </p>
               <p>Total number of active jurors: {jurors.filter(juror => juror.activeBalance > 0).length} </p>
             </div>
