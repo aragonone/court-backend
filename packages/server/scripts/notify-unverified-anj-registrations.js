@@ -15,11 +15,11 @@ dotenv.config()
 
 async function main() {
   const users = await User.findUnverifiedAnjRegistrations()
-  const emails = {}
+  const emails = new Set()
   for (const user of users) {
     const { email: { email }, address } = user
-    if (emails[email]) continue
-    emails[email] = 1
+    if (emails.has(email.toLowerCase())) continue
+    emails.add(email.toLowerCase())
     try {
       await emailClient.sendEmailWithTemplate({
         To: email,
@@ -34,7 +34,7 @@ async function main() {
     }
     console.log(`sent email to ${email} for address ${address}`)
   }
-  console.log(`Total emails: ${Object.keys(emails).length}`)
+  console.log(`Total emails: ${emails.size}`)
   process.exit(0)
 }
 
