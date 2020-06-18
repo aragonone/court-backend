@@ -15,17 +15,26 @@ dotenv.config()
 
 async function main() {
   const users = await User.findUnverifiedAnjRegistrations()
+  const emails = new Set()
   for (const user of users) {
     const { email: { email }, address } = user
-    await emailClient.sendEmailWithTemplate({
-      To: email,
-      TemplateAlias: 'notification-settings-announcement',
-      TemplateModel: {
-        dashboardUrl: 'https://court.aragon.org/dashboard',
-      },
-    })
+    if (emails.has(email.toLowerCase())) continue
+    emails.add(email.toLowerCase())
+    try {
+      await emailClient.sendEmailWithTemplate({
+        To: email,
+        From: 'notifications@court.aragon.org',
+        TemplateAlias: 'notification-settings-announcement',
+        TemplateModel: {
+          dashboardUrl: 'https://court.aragon.org/dashboard',
+        },
+      })
+    } catch (err) {
+      console.log(err.message)
+    }
     console.log(`sent email to ${email} for address ${address}`)
   }
+  console.log(`Total emails: ${emails.size}`)
   process.exit(0)
 }
 
