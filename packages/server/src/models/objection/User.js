@@ -3,9 +3,7 @@ import UserEmail from './UserEmail'
 import emailClient from '@aragonone/court-backend-shared/helpers/email-client'
 import { generateToken } from '../../helpers/token-manager'
 
-const MINUTES = 60 * 1000
-const HOURS = 60 * MINUTES
-const DAYS = 24 * HOURS
+import { DAYS } from '@aragonone/court-backend-shared/helpers/times'
 const EMAIL_TOKEN_EXPIRES = DAYS
 const EMAIL_TOKEN_OLD = DAYS
 

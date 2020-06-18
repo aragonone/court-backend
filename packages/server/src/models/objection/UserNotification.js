@@ -1,6 +1,5 @@
 import BaseModel from './BaseModel'
-const MINUTES = 60 * 1000
-const HOURS = 60 * MINUTES
+import { HOURS } from '@aragonone/court-backend-shared/helpers/times'
 
 export default class UserNotification extends BaseModel {
   static get tableName() {
