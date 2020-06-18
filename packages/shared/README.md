@@ -26,6 +26,11 @@ The first one is only used by the back-office frontend app where all the compone
 ### Helpers
 
 It provides the following helper functions:
+- [`email-client`](./helpers/email-client.js): Handles sending emails through Postmark
+- [`gas-price-oracle`](./helpers/gas-price-oracle.js): ADD SOMETHING
+- [`get-wallet-from-pk`](./helpers/get-wallet-from-pk.js): ADD SOMETHING
 - [`logger`](./helpers/logger.js): Logger object that provides a friendly interface for fancy logging 
 - [`numbers`](./helpers/numbers.js): BigNumber-related helper functions
 - [`sleep`](./helpers/sleep.js): Sleep function to wait a number of seconds 
+- [`times`](./helpers/times.js): Time constants for using with `Date()`
+- [`voting`](./helpers/voting.js): ADD SOMETHING
