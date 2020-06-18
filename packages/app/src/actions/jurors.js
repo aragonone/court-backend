@@ -125,6 +125,7 @@ const JurorsActions = {
             id
             totalStaked
             totalActive
+            totalDeactivation
           }
         }`)
         dispatch(JurorsActions.receiveModule(result.jurorsRegistryModules[0]))
