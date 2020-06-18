@@ -8,7 +8,7 @@ import { accountData } from '../../../../emails/helpers'
  * and sends an associated email
  */
 export default async function (ctx) {
-  const notifications = await UserNotification.query().whereNull('sentAt')
+  const notifications = await UserNotification.findUnsent()
   for (const notification of notifications) {
     await trySendNotification(ctx, notification)
   }

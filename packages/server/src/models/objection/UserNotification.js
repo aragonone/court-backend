@@ -1,4 +1,6 @@
 import BaseModel from './BaseModel'
+const MINUTES = 60 * 1000
+const HOURS = 60 * MINUTES
 
 export default class UserNotification extends BaseModel {
   static get tableName() {
@@ -24,5 +26,11 @@ export default class UserNotification extends BaseModel {
         },
       },
     }
+  }
+
+  static findUnsent() {
+    return this.query()
+      .whereNull('sentAt')
+      .andWhere('createdAt', '>', new Date(Date.now()-HOURS))
   }
 }
