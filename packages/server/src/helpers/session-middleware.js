@@ -1,9 +1,7 @@
 import expressSession from 'express-session'
 import { Session } from '../models/objection'
 
-const MINUTES = 60 * 1000
-const HOURS = 60 * MINUTES
-const DAYS = 24 * HOURS
+import { HOURS, DAYS } from '@aragonone/court-backend-shared/helpers/times'
 const SESSION_MAXAGE = 30 * DAYS
 const SESSION_EXPIRE_INTERVAL = HOURS
 

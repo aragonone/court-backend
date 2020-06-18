@@ -8,7 +8,7 @@ import { accountData } from '../../../../emails/helpers'
  * and sends an associated email
  */
 export default async function (ctx) {
-  const notifications = await UserNotification.query().whereNull('sentAt')
+  const notifications = await UserNotification.findUnsent()
   for (const notification of notifications) {
     await trySendNotification(ctx, notification)
   }
@@ -40,8 +40,14 @@ export async function trySendNotification(ctx, notification) {
     TemplateAlias: scanner.emailTemplateAlias,
     TemplateModel,
   }
-  await emailClient.sendEmailWithTemplate(message)
-  await notification.$query().update({sentAt: new Date()})
-  logger.success(`Notification type ${model} sent for user ${user.address}`)
-  metrics.notificationSent(model)
+  try {
+    await emailClient.sendEmailWithTemplate(message)
+    await notification.$query().update({sentAt: new Date()})
+    logger.success(`Notification type ${model} sent for user ${user.address}`)
+    metrics.notificationSent(model)
+  }
+  catch (error) {
+    metrics.workerError()
+    logger.error(`Could not send notification type ${model} for user ${user.address}`, error)
+  }
 }

@@ -14,9 +14,7 @@ const { env: { CLIENT_URL } } = process
 const notificationTypeModel = 'SubscriptionReminder'
 const TEST_ADDR = '0xfc3771B19123F1f0237C737e92645BA6d628e2cB'
 const TEST_EMAIL = 'subscription@reminder.test'
-const MINUTES = 60 * 1000
-const HOURS = 60 * MINUTES
-const DAYS = 24 * HOURS
+import { DAYS } from '@aragonone/court-backend-shared/helpers/times'
 
 
 describe('SubscriptionReminder notifications', () => {
