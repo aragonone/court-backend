@@ -30,7 +30,7 @@ All the provided endpoints are `Content-Type: application/json`
   - Code: `200 OK`
   - Body:
 
-  ```json
+  ```
   {
     "emailExists": true || false,
     "emailVerified": true || false,
@@ -74,7 +74,7 @@ All the provided endpoints are `Content-Type: application/json`
   - Code: `400 Bad Request`
   - Body:
 
-  ```json
+  ```
   {
     "errors": [
       { "signature": "Given signature is invalid" }
@@ -135,7 +135,7 @@ All the provided endpoints are `Content-Type: application/json`
   - Code: `200 OK`
   - Body:
 
-  ```json
+  ```
   {
     "email": "new-juror@aragoncourt.com" || null
   }
@@ -174,7 +174,7 @@ All the provided endpoints are `Content-Type: application/json`
   - Code: `400 Bad Request`
   - Body:
 
-  ```json
+  ```
   {
     "errors": [
       { "email": "Given email is already set" }
@@ -229,7 +229,7 @@ All the provided endpoints are `Content-Type: application/json`
   - Code: `400 Bad Request`
   - Body:
 
-  ```json
+  ```
   {
     "errors": [
       { "email": "No associated email found" }
@@ -269,7 +269,7 @@ All the provided endpoints are `Content-Type: application/json`
   - Code: `400 Bad Request`
   - Body:
 
-  ```json
+  ```
   {
     "errors": [
       { "email": "No associated email found" }
@@ -319,7 +319,7 @@ All the provided endpoints are `Content-Type: application/json`
   - Path: `/users/<address>/notifications`
   - Body:
 
-  ```json
+  ```
   {
     "disabled": true || false
   }
@@ -330,7 +330,7 @@ All the provided endpoints are `Content-Type: application/json`
   - Code: `200 OK`
   - Body:
 
-  ```json
+  ```
   {
     "disabled": true || false
   }
