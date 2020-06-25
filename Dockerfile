@@ -11,10 +11,6 @@ COPY ./lerna.json /court-backend/lerna.json
 RUN mkdir -p /packages/app
 COPY ./packages/app/package.json /court-backend/packages/app/package.json
 
-# copy cli package json
-RUN mkdir -p /packages/cli
-COPY ./packages/cli/package.json /court-backend/packages/cli/package.json
-
 # copy server package json
 RUN mkdir -p /packages/server
 COPY ./packages/server/package.json /court-backend/packages/server/package.json
