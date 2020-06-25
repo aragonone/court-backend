@@ -31,11 +31,12 @@ async function monitorTransactions(logger, etherscan, keeper, network) {
   try {
     for (const transaction of transactions) {
       const { hash, to, value, blockNumber } = transaction
-      logger.info(`Found transaction ${hash} on block ${blockNumber}`)
       if (value !== '0' || !courtAddresses.includes(to)) {
         await KeeperSuspiciousTransaction.create({ blockNumber, txHash: hash })
         logger.warn(`Found suspicious transaction ${hash} on block ${blockNumber}`)
         await sendNotification(logger, buildSuspiciousTransactionMessage(keeper, transaction, network))
+      } else {
+        logger.info(`Found transaction ${hash} on block ${blockNumber}`)
       }
     }
   } catch (error) {
@@ -45,7 +46,7 @@ async function monitorTransactions(logger, etherscan, keeper, network) {
   const { blockNumber } = transactions[0]
   const last = await KeeperSuspiciousTransaction.last()
   !last || !!last.txHash ? await KeeperSuspiciousTransaction.create({ blockNumber }) : await last.udpate({ blockNumber })
-  logger.success(`Checked transactions until block ${lastInspectedBlockNumber} successfully`)
+  logger.success(`Successfully checked transactions until block ${lastInspectedBlockNumber} successfully`)
 }
 
 async function monitorEthBalance(logger, etherscan, keeper, network) {
