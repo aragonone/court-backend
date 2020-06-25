@@ -15,7 +15,7 @@ docker-compose up -d
 
 It provides the following list of worker services:
 - [`Heartbeat`](./src/workers/heartbeat.js): It will try to update the court in case it is outdated. Configured initially to run one time per hour indefinitely.
-- [`Monitor Keeper`](./src/workers/monitor-keeper.js): ADD SOMETHING
+- [`Monitor Keeper`](./src/workers/monitor-keeper.js): Loops over all the transactions sent from the keeper address looking for suspicious transactions to report them.
 - [`Notification Scanner`](./src/workers/notification-scanner.js): Loops over all notification scanner objects and inserts a notification DB entry for every email that should be sent. Runs every minute.
 - [`Notification Sender`](./src/workers/notification-sender.js): Loops over all unprocessed notification DB entries and sends an associated email. Runs every 5 minutes.
 - [`Reveals`](./src/workers/reveal.js): It will try to execute all the reveals requested by the users. Configured initially to run one time per minute indefinitely.
