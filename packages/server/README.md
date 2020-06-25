@@ -349,6 +349,48 @@ All the provided endpoints are `Content-Type: application/json`
   }
   ```
 
+##### 1.11. Create unverified user
+
+  - Method: `POST`
+  - Path: `/users`
+  - Body:
+
+  ```json
+  {
+    "email": "juror@aragoncourt.com",
+    "address": "0x6e26ADFa527BcC8B6aEf88716486cBdb4f7914e1"
+  }
+  ```
+
+  Successful response:
+
+  - Code: `200 OK`
+  - Body:
+
+  ```json
+  {
+    "created": true
+  }
+  ```
+
+  Error response: address / email errors
+
+  ```
+  {
+    "errors": [
+      { "address": "An address must be given" }
+      ...
+      { "address": "Given address is not valid" }
+      ...
+      { "email": "An email address must be given" }
+      ...
+      { "email": "An email address must be given" }
+      ...
+      { "email": "Given email address is not valid" }
+    ]
+  }
+  ```
+
 
 ##### 1.A1. Session error responses
 
