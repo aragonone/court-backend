@@ -1,4 +1,4 @@
-import Environment from '@aragonone/court-backend-shared/models/evironments/LocalEnvironment'
+import Environment from '@aragonone/court-backend-shared/models/environments/LocalEnvironment'
 
 const Network = {
   get environment() {

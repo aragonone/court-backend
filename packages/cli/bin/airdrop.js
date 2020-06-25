@@ -4,7 +4,7 @@ const yargs = require('yargs')
 const { execSync } = require('child_process')
 const errorHandler = require('../src/helpers/error-handler')
 const Logger = require('@aragonone/court-backend-shared/helpers/logger')
-const Environment = require('@aragonone/court-backend-shared/models/evironments/TruffleEnvironment')
+const Environment = require('@aragonone/court-backend-shared/models/environments/TruffleEnvironment')
 
 Logger.setDefaults(false, false)
 const logger = Logger('airdrop')
