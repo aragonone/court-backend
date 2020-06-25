@@ -375,6 +375,9 @@ All the provided endpoints are `Content-Type: application/json`
 
   Error response: address / email errors
 
+  - Code: `400 Bad Request`
+  - Body:
+
   ```
   {
     "errors": [
