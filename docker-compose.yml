@@ -56,7 +56,7 @@ services:
     - loki
     ports:
     - "3000:3000"
-    - "35729:35729"
+    - "35729:35729"  # port used for hot-reloading
     volumes:
     - ./packages/app/src:/court-backend/packages/app/src
     - ./packages/app/public:/court-backend/packages/app/public
@@ -87,7 +87,7 @@ services:
     - loki
     ports:
     - "5000:3000"
-    environment: 
+    environment:
       GF_AUTH_ANONYMOUS_ENABLED: "true"
       GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
     volumes:
