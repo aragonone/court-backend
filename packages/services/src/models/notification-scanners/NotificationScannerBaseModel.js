@@ -27,18 +27,18 @@ export default class NotificationScannerBaseModel {
    *   }
    * ]
    */
-  async scan() { throw 'subclass responsibility' }
+  async scan() { throw new Error('subclass responsibility') }
 
   /**
    * Must return one of the email aliases available in postmark
    */
-  get emailTemplateAlias() { throw 'subclass responsibility' }
+  get emailTemplateAlias() { throw new Error('subclass responsibility') }
 
   /**
    * Use one of the provided time constants:
    * this._MINUTES, this._HOURS, this._DAYS
    */
-  get scanPeriod() { throw 'subclass responsibility' }
+  get scanPeriod() { throw new Error('subclass responsibility') }
 
   // optional methods and functions
   get _sendUnverified() { return false }  // only SubscriptionReminder should set this to true
