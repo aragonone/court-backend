@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const yargs = require('yargs')
 const Logger = require('@aragonone/court-backend-shared/helpers/logger')
-const Environment = require('@aragonone/court-backend-shared/models/evironments/TruffleEnvironment')
+const Environment = require('@aragonone/court-backend-shared/models/environments/TruffleEnvironment')
 const errorHandler = require('../src/helpers/error-handler')
 
 const DEFAULT_OPTIONS = {

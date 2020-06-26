@@ -4,7 +4,7 @@ const yargs = require('yargs')
 const { toChecksumAddress } = require('web3-utils')
 const { bn } = require('@aragonone/court-backend-shared/helpers/numbers')
 const Logger = require('@aragonone/court-backend-shared/helpers/logger')
-const Environment = require('@aragonone/court-backend-shared/models/evironments/TruffleEnvironment')
+const Environment = require('@aragonone/court-backend-shared/models/environments/TruffleEnvironment')
 const errorHandler = require('../src/helpers/error-handler')
 
 Logger.setDefaults(false, true)
