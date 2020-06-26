@@ -16,19 +16,29 @@ export default class NotificationScannerBaseModel {
   get _DAYS() { return DAYS }
   get _CLIENT_URL() { return CLIENT_URL }
 
-  // mandatory methods and functions for extended models
-  async scan() { 
-    return [
-      { 
-        address: null,
-        details: {
-          emailTemplateModel: {}
-        }
-      }
-    ]
-  }
-  get emailTemplateAlias() { return null }
-  get scanPeriod() { return 0 * this._DAYS }
+  /**
+   * Each scan must return an object with address and details with optional emailTemplateModel:
+   * return [
+   *   { 
+   *     address: null,
+   *     details: {
+   *       emailTemplateModel: {}
+   *     }
+   *   }
+   * ]
+   */
+  async scan() { throw 'subclass responsibility' }
+
+  /**
+   * Must return one of the email aliases available in postmark
+   */
+  get emailTemplateAlias() { throw 'subclass responsibility' }
+
+  /**
+   * Use one of the provided time constants:
+   * this._MINUTES, this._HOURS, this._DAYS
+   */
+  get scanPeriod() { throw 'subclass responsibility' }
 
   // optional methods and functions
   get _sendUnverified() { return false }  // only SubscriptionReminder should set this to true
