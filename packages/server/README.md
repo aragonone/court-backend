@@ -17,72 +17,424 @@ All the provided endpoints are `Content-Type: application/json`
 
 #### 1. Users
 
-##### 1.1. Create
+##### 1.1. Check existing subscription details
 
-- URL: /users
-- Method: POST
-- Body: 
-  - `email`: Email address, string mandatory
-  - `address`: Ethereum address, string mandatory
-- Response: 
-  - Code: 200
-  - Content example: 
-    ```json
-      {
-        "id": 4,
-        "email": "bla@gmail.com",
-        "address": "0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
-        "updatedAt":"2019-12-19T16:00:18.208Z",
-        "createdAt":"2019-12-19T16:00:18.208Z"
-      }
-    ```
+  Request:
 
-##### 1.2. Exists
+  - Method: `GET`
+  - Path: `/users/<address>`
+  - Body: None
 
-- URL: /user/:address
-- Method: GET
-- Response: 
-  - Code: 200
-  - Content example: 
-    ```json
-        {
-          "exists": true
-        }
-    ```
+  Successful response: 
 
-##### 1.3. All
+  - Code: `200 OK`
+  - Body:
 
-- URL: /users
-- Method: GET
-- Header:
-  - Cookie: `aragonCourtSessionID=<SID>`
-- Query: 
-  - `limit`: Number of items to be fetched
-  - `page`: Page number to be used for the items to be fetched based on the limit requested
-- Response: 
-  - Code: 200
-  - Content example: 
-    ```json
-      {
-        "users":[
-          {
-            "id": 9,
-            "email": "someone@aragon.one",
-            "address": "0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
-            "createdAt": "2019-12-25T14:58:58.705Z",
-            "updatedAt":"2019-12-25T14:58:58.705Z"
-          },
-          {
-            "id": 8,
-            "email": "anotherone@aragon.one",
-            "address": "0x4ecc4fe717d70abee26e7e524b2e6caf29b6217d",
-            "createdAt": "2019-12-25T14:58:52.433Z",
-            "updatedAt": "2019-12-25T14:58:52.433Z"
-          }
-        ],
-        "total": 9
-      }
-    ```
+  ```
+  {
+    "emailExists": true || false,
+    "emailVerified": true || false,
+    "addressVerified": true || false,
+    "notificationsDisabled": true || false
+  }
+  ```
+
+##### 1.2. Create session
+
+  This request will authenticate the session with address signature and respond with the appropriate session `Set-Cookie` header. In addition, it will set `"addressVerified": true` using the provided signature.
+
+  All following requests should have the returned `Cookie` HTTP header in order to be authenticated.
+
+  Request:
+
+  - Method: `POST`
+  - Path: `/users/<address>/sessions`
+  - Body:
+
+  ```json
+  {
+    "signature": "0xa8afa92...8b1e52a",
+    "timestamp": 123456
+  }
+  ```
+
+  Successful response:
+
+  - Code: `200 OK`
+  - Body:
+
+  ```json
+  {
+    "authenticated": true
+  }
+  ```
+
+  Error responses: invalid signature / timestamp
+
+  - Code: `400 Bad Request`
+  - Body:
+
+  ```
+  {
+    "errors": [
+      { "signature": "Given signature is invalid" }
+      ...
+      { "timestamp": "Given timestamp is invalid" }
+    ]
+  }
+  ```
+
+##### 1.3. Delete session
+
+  Request:
+
+  - Method: `DELETE`
+  - Path: `/users/<address>/sessions:current`
+  - Body: None
+
+  Successful response:
+
+  - Code: `200 OK`
+  - Body:
+
+  ```json
+  {
+    "deleted": true
+  }
+  ```
+
+##### 1.4. Delete sessions on all user devices
+
+  Request:
+
+  - Method: `DELETE`
+  - Path: `/users/<address>/sessions`
+  - Body: None
+
+  Successful response:
+
+  - Code: `200 OK`
+  - Body:
+
+  ```json
+  {
+    "deleted": true
+  }
+  ```
+
+##### 1.5. Get current email
+
+  Request:
+
+  - Method: `GET`
+  - Path: `/users/<address>/email`
+  - Body: None
+
+  Successful response:
+
+  - Code: `200 OK`
+  - Body:
+
+  ```
+  {
+    "email": "new-juror@aragoncourt.com" || null
+  }
+  ```
+
+##### 1.6. Subscribe juror / Change juror email
+
+  Note: this will also automatically send verification email
+
+  Request:
+
+  - Method: `PUT`
+  - Path: `/users/<address>/email`
+  - Body:
+
+  ```json
+  {
+    "email": "juror@aragoncourt.com"
+  }
+  ```
+
+  Successful response:
+
+  - Code: `200 OK`
+  - Body:
+
+  ```json
+  {
+    "email": "juror@aragoncourt.com",
+    "sent": true
+  }
+  ```
+
+  Error response: email already set / bad format
+
+  - Code: `400 Bad Request`
+  - Body:
+
+  ```
+  {
+    "errors": [
+      { "email": "Given email is already set" }
+      ...
+      { "email": "Given email address is not valid" }
+    ]
+  }
+  ```
+
+  Error response: Could not send email
+
+  - Code: `500 Internal Server Error`
+  - Body:
+
+  ```json
+  {
+    "errors": [
+      { "email": "Could not send email." }
+    ]
+  }
+  ```
+
+##### 1.7. Verify juror email
+
+  Note: this endpoint is unauthenticated
+
+  Request:
+
+  - Method: `POST`
+  - Path: `/users/<address>/email:verify`
+  - Body:
+
+  ```json
+  {
+    "token": "V5Z6drJdytlNa98asfnOs13Gf90K9vZFVdSQ"
+  }
+  ```
+
+  Successful response:
+
+  - Code: `200 OK`
+  - Body:
+
+  ```json
+  {
+    "verified": true
+  }
+  ```
+
+  Error response: user email / token errors
+
+  - Code: `400 Bad Request`
+  - Body:
+
+  ```
+  {
+    "errors": [
+      { "email": "No associated email found" }
+      ...
+      { "email": "Email is already verified" }
+      ...
+      { "token": "A token must be given" }
+      ...
+      { "token": "Given token is invalid" }
+      ...
+      { "token": "Given token has expired" }
+    ]
+  }
+  ```
+
+##### 1.8. Re-send verification email
+
+  Request:
+
+  - Method: `POST`
+  - Path: `/users/<address>/email:resend`
+  - Body: None
+
+  Successful response:
+
+  - Code: `200 OK`
+  - Body:
+
+  ```json
+  {
+    "sent": true
+  }
+  ```
+
+  Error response: email errors
+
+  - Code: `400 Bad Request`
+  - Body:
+
+  ```
+  {
+    "errors": [
+      { "email": "No associated email found" }
+      ...
+      { "email": "Email is already verified" }
+    ]
+  }
+  ```
+
+  Error response: Could not send email
+
+  - Code: `500 Internal Server Error`
+  - Body:
+
+  ```json
+  {
+    "errors": [
+      { "email": "Could not send email." }
+    ]
+  }
+  ```
+
+##### 1.9. Delete email / Cancel sign up process
+
+  Request:
+
+  - Method: `DELETE`
+  - Path: `/users/<address>/email`
+  - Body: None
+
+  Successful response:
+
+  - Code: `200 OK`
+  - Body:
+
+  ```json
+  {
+    "deleted": true
+  }
+  ```
+
+##### 1.10. Switch notifications off/back on
+
+  Request:
+
+  - Method: `PUT`
+  - Path: `/users/<address>/notifications`
+  - Body:
+
+  ```
+  {
+    "disabled": true || false
+  }
+  ```
+
+  Successful response:
+
+  - Code: `200 OK`
+  - Body:
+
+  ```
+  {
+    "disabled": true || false
+  }
+  ```
+
+  Error response: missing option
+
+  - Code: `400 Bad Request`
+  - Body:
+
+  ```json
+  {
+    "errors": [
+      { "disabled": "request must contain a boolean \"disabled\" property" }
+    ]
+  }
+  ```
+
+##### 1.11. Create unverified user
+
+  - Method: `POST`
+  - Path: `/users`
+  - Body:
+
+  ```json
+  {
+    "email": "juror@aragoncourt.com",
+    "address": "0x6e26ADFa527BcC8B6aEf88716486cBdb4f7914e1"
+  }
+  ```
+
+  Successful response:
+
+  - Code: `200 OK`
+  - Body:
+
+  ```json
+  {
+    "created": true
+  }
+  ```
+
+  Error response: address / email errors
+
+  - Code: `400 Bad Request`
+  - Body:
+
+  ```
+  {
+    "errors": [
+      { "address": "An address must be given" }
+      ...
+      { "address": "Given address is not valid" }
+      ...
+      { "email": "An email address must be given" }
+      ...
+      { "email": "An email address must be given" }
+      ...
+      { "email": "Given email address is not valid" }
+    ]
+  }
+  ```
+
+
+##### 1.A1. Session error responses
+
+  Error response: missing user
+
+  - Code: `404 Not Found`
+  - Body:
+
+  ```json
+  {
+    "errors": [
+      { "address": "User <address> not found." }
+    ]
+  }
+  ```
+
+  Error response: no session found
+
+  - Code: `401 Unauthorized`
+  - Body:
+
+  ```json
+  {
+    "errors": [
+      { "access": "Unauthorized, please authenticate at /users/<address>/sessions" }
+    ]
+  }
+  ```
+
+  Error response: session found for another user
+
+  - Code: `403 Forbidden`
+  - Body:
+
+  ```json
+  {
+    "errors": [
+      { "access": "You don't have permission to edit user <address>" }
+    ]
+  }
+  ```
 
 #### 2. Reveals
 

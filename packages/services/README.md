@@ -15,6 +15,9 @@ docker-compose up -d
 
 It provides the following list of worker services:
 - [`Heartbeat`](./src/workers/heartbeat.js): It will try to update the court in case it is outdated. Configured initially to run one time per hour indefinitely.
+- [`Monitor Keeper`](./src/workers/monitor-keeper.js): Loops over all the transactions sent from the keeper address looking for suspicious transactions to report them.
+- [`Notification Scanner`](./src/workers/notification-scanner.js): Loops over all notification scanner objects and inserts a notification DB entry for every email that should be sent. Runs every minute.
+- [`Notification Sender`](./src/workers/notification-sender.js): Loops over all unprocessed notification DB entries and sends an associated email. Runs every 5 minutes.
 - [`Reveals`](./src/workers/reveal.js): It will try to execute all the reveals requested by the users. Configured initially to run one time per minute indefinitely.
 - [`Settlements`](./src/workers/settlements.js): It will try to execute and settle penalties, rewards, and appeals for all the rounds of a dispute if possible. Configured initially to run one time per five minutes indefinitely.
 
@@ -25,6 +28,7 @@ All the background services are configured through the `config.js` file using th
 - `times`: Number of jobs that will be run for each worker, use `0` to denote unlimited. It will assume `1` if undefined.
 - `repeat`: The number of seconds that the worker will wait until a new job is created. It will assume `0` if undefined.
 - `color`: Color used for the prefix when logging to the console
+- `metricsPort`: Port that should be used for Prometheus metrics.
 
 ### Keys
 
