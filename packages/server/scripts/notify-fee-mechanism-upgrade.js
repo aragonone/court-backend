@@ -28,7 +28,7 @@ async function main() {
         TemplateAlias: 'generic',
         TemplateModel: {
           actionLabel: 'Go to the Aragon Forum Post',
-          actionUrl: 'https://blog.aragon.org/juror-dispute-guide-app-mining/',
+          actionUrl: 'https://forum.aragon.org/t/request-for-comment-proposal-to-adjust-the-court-subscription-fee-mechanism/2163',
           title: 'Proposal to adjust the Court Subscription Fee Mechanism',
           bannerHtml: '',
           contentHtml: `
