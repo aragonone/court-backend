@@ -77,6 +77,11 @@ export default class User extends BaseModel {
     return users.filter(user => !!user.email)
   }
 
+  static async findWithoutDisabledNotifications() {
+    const users = await this.query().withGraphFetched('[email, notificationSetting]')
+    return users.filter(user => !!user.email && !user.notificationSetting?.notificationsDisabled)
+  }
+
   static async findWithOldVerificationToken() {
     const users = await this.findWithUnverifiedEmail()
     return users.filter(user => user.emailVerificationToken && user.emailVerificationToken.expiresAt <= new Date(Date.now()-EMAIL_TOKEN_OLD))
