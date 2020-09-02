@@ -30,7 +30,7 @@ class JurorDrafted extends NotificationScannerBaseModel {
           details: {
             emailTemplateModel: {
               disputeId,
-              disputeUrl: `${this._CLIENT_URL}disputes/${disputeId}`
+              disputeUrl: this.disputeUrl(disputeId)
             },
             adjudicationRoundId
           }
