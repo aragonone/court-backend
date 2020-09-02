@@ -72,7 +72,7 @@ describe('AppealsOpened notifications', () => {
     expect(type.notifications[0].details).to.deep.equal({
       emailTemplateModel: {
         disputeId: TEST_DISPUTE_ID,
-        disputeUrl: `${CLIENT_URL}disputes/${TEST_DISPUTE_ID}`
+        disputeUrl: `${CLIENT_URL}#/disputes/${TEST_DISPUTE_ID}`
       },
       adjudicationRoundId: TEST_ROUND_ID
     })

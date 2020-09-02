@@ -59,7 +59,7 @@ class DueTasks extends NotificationScannerBaseModel {
         jurorTasks[address].push({
           name: type == 'commit' ? 'Commit vote' : 'Reveal vote',
           disputeId,
-          disputeUrl: `${this._CLIENT_URL}disputes/${disputeId}`,
+          disputeUrl: this.disputeUrl(disputeId),
           dueDate
         })
       }

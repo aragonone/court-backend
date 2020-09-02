@@ -68,7 +68,7 @@ describe('DisputeRuled notifications', () => {
     expect(type.notifications[0].details).to.deep.equal({
       emailTemplateModel: {
         disputeId: TEST_DISPUTE_ID,
-        disputeUrl: `${CLIENT_URL}disputes/${TEST_DISPUTE_ID}`,
+        disputeUrl: `${CLIENT_URL}#/disputes/${TEST_DISPUTE_ID}`,
         disputeResult: 'Allowed'
       }
     })
