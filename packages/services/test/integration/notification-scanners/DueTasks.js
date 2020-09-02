@@ -91,13 +91,13 @@ describe('DueTasks notifications', () => {
           {
             name: 'Commit vote',
             disputeId: TEST_DISPUTE_ID,
-            disputeUrl: `${CLIENT_URL}disputes/${TEST_DISPUTE_ID}`,
+            disputeUrl: `${CLIENT_URL}#/disputes/${TEST_DISPUTE_ID}`,
             dueDate: `Tuesday, June 2, 2020, 6:39pm UTC`,
           },
           {
             name: 'Reveal vote',
             disputeId: TEST_DISPUTE_ID,
-            disputeUrl: `${CLIENT_URL}disputes/${TEST_DISPUTE_ID}`,
+            disputeUrl: `${CLIENT_URL}#/disputes/${TEST_DISPUTE_ID}`,
             dueDate: `Tuesday, June 2, 2020, 7:39pm UTC`,
           },
         ],

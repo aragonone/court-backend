@@ -16,6 +16,11 @@ export default class NotificationScannerBaseModel {
   get _DAYS() { return DAYS }
   get _CLIENT_URL() { return CLIENT_URL }
 
+  get dashboardUrl() { return `${CLIENT_URL}#/dashboard` }
+  disputeUrl(disputeId) {
+    return `${CLIENT_URL}#/disputes/${disputeId}`
+  }
+
   /**
    * Each scan must return an object with address and details with optional emailTemplateModel:
    * return [
