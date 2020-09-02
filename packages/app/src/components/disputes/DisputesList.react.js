@@ -55,7 +55,7 @@ export default class DisputesList extends React.Component {
             </Link>
           </td>
           <td>{dispute.subject.id}</td>
-          <td>{dispute.metadata}</td>
+          <td>{dispute.disputable ? `Disputable (${dispute.disputable.address}): ${dispute.disputable.title}` : dispute.metadata}</td>
           <td>{dispute.createTermId}</td>
           <td>{dispute.possibleRulings}</td>
           <td>{dispute.state}</td>
