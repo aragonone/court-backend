@@ -116,7 +116,7 @@ module.exports = class {
 
     const currentTerm = await this.currentTermId()
     const revealStartTerm = draftTerm.add(commitTerms)
-    const appealStartTerm = revealTerms.add(revealTerms)
+    const appealStartTerm = revealStartTerm.add(revealTerms)
 
     const expired = currentTerm.gte(appealStartTerm)
     const canReveal = currentTerm.gte(revealStartTerm) && !expired
