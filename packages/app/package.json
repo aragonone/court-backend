@@ -1,11 +1,11 @@
 {
   "name": "@aragonone/court-backend-app",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "dependencies": {
-    "@aragonone/court-backend-shared": "^0.2.13",
+    "@aragonone/court-backend-shared": "^0.2.14",
     "apollo-boost": "^0.1.28",
     "axios": "^0.19.0",
     "babel-runtime": "^6.26.0",
