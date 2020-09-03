@@ -25,7 +25,7 @@ async function reveal(logger, court, reveal) {
 
     if (expired) {
       await reveal.$query().update({ expired: true })
-      return logger.error(`Reveal vote #${voteId} for juror ${juror} is expired!`)
+      return logger.error(`Reveal vote #${voteId} for juror ${juror} has expired!`)
     } else if (!canReveal) {
       return logger.warn(`Cannot reveal round #${roundNumber} for dispute #${disputeId} yet`)
     }
