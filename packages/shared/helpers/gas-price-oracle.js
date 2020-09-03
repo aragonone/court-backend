@@ -17,7 +17,7 @@ module.exports = {
   async _fetchMainnetGasPrice() {
     try {
       const { data: responseData } = await axios.get(GAS_STATION_API_URL)
-      return (responseData.average / 10) * 1e9
+      return (responseData.fastest / 10) * 1e9
     } catch (error) {
       console.error(`Could not fetch gas price from ETH gas station: ${error}`)
       return 0
