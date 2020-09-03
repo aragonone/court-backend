@@ -108,6 +108,22 @@ module.exports = class {
     }
   }
 
+  async getRevealStatus(disputeId, roundNumber) {
+    const disputeManager = await this.disputeManager()
+    const { createTermId } = await disputeManager.getDispute(disputeId)
+    const { draftTerm } = await disputeManager.getRound(disputeId, roundNumber)
+    const { roundDurations: { commitTerms, revealTerms } } = await this.getConfigAt(createTermId)
+
+    const currentTerm = await this.currentTermId()
+    const revealStartTerm = draftTerm.add(commitTerms)
+    const appealStartTerm = revealTerms.add(revealTerms)
+
+    const expired = currentTerm.gte(appealStartTerm)
+    const canReveal = currentTerm.gte(revealStartTerm) && !expired
+
+    return { canReveal, expired }
+  }
+
   async canSettle(disputeId) {
     const disputeManager = await this.disputeManager()
 
