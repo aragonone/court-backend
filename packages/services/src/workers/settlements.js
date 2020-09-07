@@ -3,6 +3,9 @@ import Network from '@aragonone/court-backend-server/build/web3/Network'
 
 export default async function (ctx) {
   const { logger } = ctx
+  // TODO: Disabling settlements for now, we will re-enable these back in the future
+  return logger.warn('Disabling settlements for now, we will re-enable these back in the future')
+
   const court = await Network.getCourt()
 
   for (const disputesQuery of queries) {
@@ -25,9 +28,9 @@ async function settle(logger, court, disputeId, { ongoingDispute }) {
       const canSettle = await court.canSettle(disputeId)
       if (!canSettle) return logger.warn(`Ignoring dispute #${disputeId}, it cannot be settled now`)
 
-      // logger.info(`Executing ruling for dispute #${disputeId}`)
-      // await court.execute(disputeId)
-      // logger.success(`Executed ruling for dispute #${disputeId}`)
+      logger.info(`Executing ruling for dispute #${disputeId}`)
+      await court.execute(disputeId)
+      logger.success(`Executed ruling for dispute #${disputeId}`)
     }
 
     logger.info(`Settling dispute #${disputeId}`)
