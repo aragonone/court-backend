@@ -24,7 +24,7 @@ RUN mkdir -p /packages/shared
 COPY ./packages/shared/package.json /court-backend/packages/shared/package.json
 
 # install dependencies
-COPY ./yarn.lock /app/yarn.lock
+COPY ./yarn.lock /court-backend/yarn.lock
 RUN yarn install
 RUN yarn lerna link
 
