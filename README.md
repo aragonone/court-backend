@@ -10,7 +10,7 @@ This mono-repo includes a set of sub-repos that are in charge of different parts
 To understand better about these repos, you will find detailed information about them on their own READMEs.
 However, you can follow the following guide to understand you to set up everything locally:
 
-### Local set up
+## Local set up
 
 To test Aragon Court locally please do the following tasks:
 
@@ -67,8 +67,8 @@ First, open a separate terminal, clone this repo and install dependencies:
 ```bash
   git clone https://github.com/aragonone/court-backend/
   cd court-backend
-  npm i
-  npx lerna bootstrap
+  yarn install
+  yarn lerna link
 ```
 
 Finally, make sure you set the local court address in `packages/shared/truffle-config.js`.
@@ -96,11 +96,16 @@ You can now start playing with the available CLI commands:
 
 You can also use the `rpc:setup` NPM command to populate your local Aragon Court instance with jurors and disputes.
 
-##### 7. Spin up the backend using Docker 
+##### 7. Local Docker setup
 
-First make sure to create your own `.env` file, feel free to follow the template provided in `.env.sample`.
+Development environment is configured using [docker-compose](https://docs.docker.com/compose/).
 
-Docker setup also includes a Grafana dashboard for logs and metrics, which requires a docker plugin:
+First make sure to create your own `.env`:
+```bash
+cp .env.sample .env
+```
+
+Docker setup includes a Grafana dashboard for logs and metrics, which requires a Docker plugin:
 ```bash
 docker plugin install  grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
 ```
@@ -110,12 +115,42 @@ Finally, spin up docker containers with:
 docker-compose up --build -d
 ```
 
-- App is available at http://localhost:3000
+- Rest API is available at http://localhost:3000
 - Grafana dashboard is available at http://localhost:5000
 
-In order to update the dashboard, click `Ctrl+S` > `Copy JSON to clipboard` and overwrite the file in `monitoring/grafana/provisioning/dashboards/court-backend.json`. Additional dashboards can also be added to the `dashboards` folder in JSON format.
-
-You don't need to build the docker container every time. If you had run it before, make sure to remove it first:
+When finished remove the containers with:
 ```bash
 docker-compose down
 ```
+
+
+## Grafana dashboard updates
+
+To update the dashboard, click `Ctrl+S` > `Copy JSON to clipboard` and overwrite the file in `monitoring/grafana/provisioning/dashboards/court-backend.json`.
+
+
+## CI/CD
+
+For CI/CD we are using [GitHub Actions](https://github.com/features/actions).
+
+### 1. Testnet CI/CD
+
+- For automated tests -> on every non-master commit
+- For deploying to staging server -> on every commit in the `development` branch
+
+### 2. Mainnet CI/CD
+
+For automated tests and deploying to production when creating `v*` tags in the `master` branch.
+
+Deployments can be triggered using lerna:
+```bash
+yarn lerna version [ major | minor | patch ]
+```
+
+### 3. Dashboard CI/CD
+
+For pushing the Grafana dashboard on any change in `development`/`master` branch.
+
+### 4. Emails / Emails staging
+
+For synchronizing [./emails](./emails) with Postmark

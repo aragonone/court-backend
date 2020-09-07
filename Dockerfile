@@ -24,9 +24,10 @@ RUN mkdir -p /packages/shared
 COPY ./packages/shared/package.json /court-backend/packages/shared/package.json
 
 # install dependencies
-RUN npm install
-RUN npx lerna bootstrap
+COPY ./yarn.lock /app/yarn.lock
+RUN yarn install
+RUN yarn lerna link
 
 COPY . .
 
-CMD ["echo", "starting..."]
+CMD echo specify one of the package.json scripts in command line

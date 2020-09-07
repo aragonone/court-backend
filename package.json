@@ -1,8 +1,11 @@
 {
   "name": "@aragonone/court-backend-monorepo",
-  "version": "0.2.18",
   "author": "Aragon One",
-  "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
+  "license": "GPL-3.0-or-later",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
     "lerna": "^3.14.1"
   },
