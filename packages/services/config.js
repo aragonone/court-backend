@@ -23,7 +23,7 @@ const workers = [
     name: 'settlements',
     color: 'cyan',
     path: './src/workers/settlements',
-    processes: 1,
+    processes: 0,  // TODO: Disabling settlements for now, we will re-enable these back in the future
     times: 0,
     repeat: ONE_MINUTE * 5,
     metricsPort: process.env.SERVICE_PORT_SETTLEMENTS
