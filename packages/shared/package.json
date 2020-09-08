@@ -3,7 +3,11 @@
   "version": "0.2.18",
   "private": true,
   "workspaces": {
-    "nohoist": ["@aragon/court"]
+    "nohoist": [
+      "@aragon/minime",
+      "@aragon/court",
+      "@aragonone/precedence-campaign-arbitrable"
+    ]
   },
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
