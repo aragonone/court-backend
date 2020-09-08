@@ -2,6 +2,9 @@
   "name": "@aragonone/court-backend-shared",
   "version": "0.2.18",
   "private": true,
+  "workspaces": {
+    "nohoist": ["@aragon/court"]
+  },
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "dependencies": {
@@ -18,7 +21,6 @@
     "ethers": "^4.0.46",
     "graphql-request": "^1.8.2",
     "postmark": "^2.5.3",
-    "web3-eth-abi": "^1.2.11",
     "web3-utils": "^1.2.4"
   }
 }
