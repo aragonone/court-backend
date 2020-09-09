@@ -1,6 +1,6 @@
 {
   "name": "@aragonone/court-backend-cli",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
@@ -28,7 +28,7 @@
     "rpc:airdrop": "node ./bin/airdrop.js -n rpc"
   },
   "dependencies": {
-    "@aragonone/court-backend-shared": "^0.2.18",
+    "@aragonone/court-backend-shared": "^0.2.19",
     "yargs": "^14.0.0"
   }
 }

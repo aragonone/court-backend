@@ -1,6 +1,6 @@
 {
   "name": "@aragonone/court-backend-services",
-  "version": "0.2.18",
+  "version": "0.2.19",
   "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
@@ -12,8 +12,8 @@
     "test": "npx mocha test --recursive --exit --require @babel/register"
   },
   "dependencies": {
-    "@aragonone/court-backend-server": "^0.2.18",
-    "@aragonone/court-backend-shared": "^0.2.18",
+    "@aragonone/court-backend-server": "^0.2.19",
+    "@aragonone/court-backend-shared": "^0.2.19",
     "@promster/metrics": "^4.1.10",
     "@promster/server": "^4.2.12",
     "axios": "^0.19.0",
