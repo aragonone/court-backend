@@ -2,9 +2,10 @@ import axios from 'axios'
 import { bn } from '@aragonone/court-backend-shared/helpers/numbers'
 
 const BASE_URL = 'https://<network>.etherscan.io/api?'
+const DEFAULT_API_KEY = process.env.ETHERSCAN_API_KEY
 
 export default class Etherscan {
-  constructor(network, key) {
+  constructor(network = 'mainnet', key = DEFAULT_API_KEY) {
     this.key = key
     this.url = this._getBaseUrl(network)
   }
@@ -16,7 +17,7 @@ export default class Etherscan {
     return bn(response.result)
   }
 
-  async getTransactionsFrom(address, fromBlock) {
+  async getTransactionsFrom(address, fromBlock = 0) {
     const path = `${this.url}module=account&action=txlist&address=${address}&startblock=${fromBlock}&sort=desc`
     const response = await this._get(path)
 
@@ -25,7 +26,7 @@ export default class Etherscan {
 
     return response.result
       .filter(({ from }) => from === address)
-      .map(({ blockNumber, hash, to, value }) => ({ blockNumber, hash, value, to: to.toLowerCase() }))
+      .map(tx => ({...tx, to: tx.to.toLowerCase() }))
   }
 
   async _get(url) {

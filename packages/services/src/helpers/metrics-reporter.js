@@ -25,6 +25,12 @@ const workerMetrics = {
       { name: 'sent', help: 'Total notifications sent', labelNames: ['scannerName'] },
     ]
   },
+  'contract-monitor': {
+    ... generalMetrics,
+    transaction: [
+      { name: 'errors', help: 'Total recent transaction errors', labelNames: ['type'], metricType: 'gauge' },
+    ]
+  }
 }
 
 class MetricsReporter {
@@ -60,16 +66,28 @@ class MetricsReporter {
     })
   }
 
+  transactionErrors(type, count) {
+    this.transaction.errors.set({ type }, count)
+  }
+
   _initializeCounterMetrics(metrics) {
-    const { Counter, Registry: { globalRegistry: registry } } = Prometheus
+    const { Counter, Gauge, Registry: { globalRegistry: registry } } = Prometheus
     Object.keys(metrics).forEach(type => {
       this[type] = {}
-      metrics[type].forEach(({ name, help, labelNames }) => {
+      metrics[type].forEach(({ name, help, labelNames, metricType }) => {
         if (!labelNames) labelNames = []
         labelNames.push('workerName')
         const metricName = `${type}_${name}`
         const metric = registry.getSingleMetric(metricName)
-        this[type][name] = metric || new Counter({ name: metricName, help, labelNames })
+        if (metric) {
+          this[type][name] = metric  
+        }
+        else if (metricType == 'gauge') {
+          this[type][name] = new Gauge({ name: metricName, help, labelNames })
+        }
+        else {
+          this[type][name] = new Counter({ name: metricName, help, labelNames })
+        }
       })
     })
   }

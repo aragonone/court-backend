@@ -37,3 +37,8 @@ scrape_configs:
     labels:
       service: court-backend
       endpoint: metrics-sender
+  - targets: 
+    - court_services:9087
+    labels:
+      service: court-backend
+      endpoint: metrics-monitor

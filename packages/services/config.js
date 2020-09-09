@@ -55,6 +55,14 @@ const workers = [
     repeat: ONE_MINUTE * 5,
     metricsPort: process.env.SERVICE_PORT_NOTIFICATION_SENDER
   },
+  {
+    name: 'contract-monitor',
+    path: './src/workers/contract-monitor',
+    processes: 1,
+    times: 0,
+    repeat: ONE_MINUTE * 5,
+    metricsPort: process.env.SERVICE_PORT_CONTRACT_MONITOR
+  },
 ]
 
 export {

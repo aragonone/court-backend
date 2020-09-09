@@ -21,6 +21,7 @@
     "dotenv": "^8.2.0",
     "postmark": "^2.3.5",
     "prom-client": "^12.0.0",
+    "web3-eth-abi": "^1.2.11",
     "web3-utils": "^1.2.4"
   },
   "devDependencies": {
