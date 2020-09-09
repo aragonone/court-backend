@@ -1,5 +1,6 @@
 import Etherscan from '../models/Etherscan'
 import { DAYS } from '@aragonone/court-backend-shared/helpers/times'
+import getWalletFromPk from '@aragonone/court-backend-shared/helpers/get-wallet-from-pk'
 import abi from 'web3-eth-abi'
 
 const TRANSACTION_TYPES = [
@@ -25,12 +26,12 @@ const TRANSACTION_TYPES = [
   }
 ]
 const COUNT_PERIOD = 1 * DAYS
-const { COURT_ADDRESS } = process.env
 const etherscan = new Etherscan()
+const KEEPER_ADDRESS = getWalletFromPk(process.env.PRIVATE_KEY).getAddressString()
 
 export default async function (ctx) {
   const { logger, metrics } = ctx
-  const transactions = await etherscan.getTransactionsFrom(COURT_ADDRESS)
+  const transactions = await etherscan.getTransactionsFrom(KEEPER_ADDRESS)
   const transactionsRecent = transactions.filter(({ timeStamp }) => Number(timeStamp)*1000 > Date.now() - COUNT_PERIOD)
   const errorCounts = getErrorCounts(transactionsRecent)
   showMetrics(metrics, errorCounts)
