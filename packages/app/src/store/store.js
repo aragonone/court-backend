@@ -10,6 +10,7 @@ import drafts from '../reducers/drafts'
 import disputes from '../reducers/disputes'
 import subscriptions from '../reducers/subscriptions'
 import admin from '../reducers/admin'
+import emails from '../reducers/emails'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 
 const mainReducer = combineReducers({
@@ -24,6 +25,7 @@ const mainReducer = combineReducers({
   disputes,
   subscriptions,
   admin,
+  emails,
 })
 
 const Store = createStore(

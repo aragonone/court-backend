@@ -26,6 +26,7 @@ export default class Navbar extends React.Component {
           <Link to="/subscribers">Subscribers</Link>
           <Link to="/periods">Periods</Link>
           <Link to="/anj-balances">ANJ</Link>
+          { !admin.id && <Link to="/admin">Login</Link> }
           { admin.id && this._buildLoggedInItems() }
         </div>
         <div className="account">
@@ -40,6 +41,7 @@ export default class Navbar extends React.Component {
       <Link to="/admins" key="admins">Admins</Link>,
       <Link to="/users" key="users">Users</Link>,
       <Link to="/reveals" key="reveals">Reveals</Link>,
+      <Link to="/emails" key="emails">Emails</Link>,
       <Link to="/logout" key="logout">Logout</Link>,
     ]
   }
