@@ -4,6 +4,7 @@ import { Session } from '../models/objection'
 import { HOURS, DAYS } from '@aragonone/court-backend-shared/helpers/times'
 const SESSION_MAXAGE = 30 * DAYS
 const SESSION_EXPIRE_INTERVAL = HOURS
+const { SESSION_SECURE } = process.env
 
 
 class ObjectionStore extends expressSession.Store {
@@ -55,10 +56,10 @@ export default () => {
     secret: process.env.SESSION_SECRET,                 // Secret used to generate session IDs
     name: 'aragonCourtSessionID',                       // Cookie name to be used
     cookie: {
-      sameSite: 'none',                                 // Must set Samesite=None for cross-site cookies for Chrome 80+
-      secure: process.env.SESSION_SECURE === 'true',    // Compliant clients will not send the cookie back to the server if the browser does not have an HTTPS connection
-      maxAge: SESSION_MAXAGE,                           // The maximum age in milliseconds of a valid session
-      httpOnly: true,                                   // Request cookies only to be used for http communication
+      secure: SESSION_SECURE === 'true',                    // Compliant clients will not send the cookie back to the server if the browser does not have an HTTPS connection
+      sameSite: SESSION_SECURE === 'true' ? 'none' : null,  // Must set "Samesite=None Secure" for cross-site cookies for Chrome 80+
+      maxAge: SESSION_MAXAGE,                               // The maximum age in milliseconds of a valid session
+      httpOnly: true,                                       // Request cookies only to be used for http communication
     }
   })
 }

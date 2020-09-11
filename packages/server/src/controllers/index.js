@@ -4,6 +4,7 @@ import userEmail from './UserEmailController'
 import userNotifications from './UserNotificationsController'
 import admins from './AdminsController'
 import reveals from './RevealsController'
+import emails from './EmailsController'
 
 export {
   users,
@@ -12,4 +13,5 @@ export {
   userNotifications,
   admins,
   reveals,
+  emails
 }

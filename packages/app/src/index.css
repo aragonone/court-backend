@@ -83,3 +83,23 @@ table thead tr th {
   float: left;
   font-size: 15px;
 }
+
+#emailsForm {
+  max-width: 1000px;
+  width: 70%;
+  margin: 0 auto;
+}
+#emailsForm label {
+  display: block;
+  padding-top: 10px;
+  font-weight: bold;
+}
+#emailsForm input[type=text], #emailsForm textarea {
+  width: 97%;
+}
+#emailsForm button {
+  margin-top: 10px;
+}
+#emailsForm #emailLogs {
+  margin-top: 10px;
+}

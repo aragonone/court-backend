@@ -40,6 +40,7 @@ export default class Navbar extends React.Component {
       <Link to="/admins" key="admins">Admins</Link>,
       <Link to="/users" key="users">Users</Link>,
       <Link to="/reveals" key="reveals">Reveals</Link>,
+      <Link to="/emails" key="emails">Emails</Link>,
       <Link to="/logout" key="logout">Logout</Link>,
     ]
   }

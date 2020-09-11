@@ -10,6 +10,7 @@ import PrivateRoute from './PrivateRoute.react'
 import AdminsList from '../admin/AdminsList.react'
 import UsersList from '../admin/UsersList.react'
 import RevealsList from '../admin/RevealsList.react'
+import EmailsForm from '../admin/EmailsForm.react'
 import PeriodsList from '../subscriptions/PeriodsList.react'
 import PeriodDetail from '../subscriptions/PeriodDetail.react'
 import SubscribersList from '../subscriptions/SubscribersList.react'
@@ -71,6 +72,7 @@ class App extends React.Component {
             <PrivateRoute path="/admins" exact admin component={AdminsList}/>
             <PrivateRoute path="/users" exact admin component={UsersList}/>
             <PrivateRoute path="/reveals" exact admin component={RevealsList}/>
+            <PrivateRoute path="/emails" exact admin component={EmailsForm}/>
           </Switch>
         </div>
         <Modal open={fetching} progressBar message={fetching}/>

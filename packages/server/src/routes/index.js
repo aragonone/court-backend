@@ -8,6 +8,7 @@ import {
   userNotifications,
   admins,
   reveals,
+  emails,
 } from '../controllers'
 
 export default app => {
@@ -58,4 +59,7 @@ export default app => {
   // manage users and reveals
   app.get(    '/users',                               authenticateAdmin(users.all))
   app.get(    '/reveals',                             authenticateAdmin(reveals.all))
+
+  // send manual email
+  app.post(   '/emails',                              authenticateAdmin(emails.send))
 }
