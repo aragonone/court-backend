@@ -4,15 +4,15 @@ import sleep from '@aragonone/court-backend-shared/helpers/sleep'
 
 export default {
   async send(req, res) {
-    const { TemplateModel, testEmail, testEmailSent } = req.body
+    const { TemplateModel, testEmail, notifyAllJurors } = req.body
     let users = []
-    if (testEmailSent) {
+    if (notifyAllJurors) {
       users = await User.findWithoutDisabledNotifications()
     }
     else if (testEmail) {
       users = [{
         email: { email: testEmail },
-        address: 'TESTADDRESS'
+        address: '0x0000000000000000000000000000000000000000'
       }]
     }
     await sendEmails(users, TemplateModel, res)

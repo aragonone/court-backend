@@ -18,14 +18,11 @@ const EmailActions = {
           body: JSON.stringify(params),
         })
         const reader = response.body.getReader()
-        for (;;) {
-          const { done, value } = await reader.read()
+        for (let done, value; !done;) {
+          ({ done, value } = await reader.read())
           dispatch(EmailActions.receveEmailLog(decoder.decode(value)))
-          if (done) {
-            dispatch(EmailActions.testEmailSent(true))
-            break
-          }
         }
+        dispatch(EmailActions.emailFormEnabled(true))
       } catch (error) {
         dispatch(ErrorActions.show(error))
       }
@@ -36,12 +33,12 @@ const EmailActions = {
     return { type: ActionTypes.RESET_EMAIL_LOGS }
   },
 
-  receveEmailLog(emailLog) {
-    return { type: ActionTypes.RECEIVE_EMAIL_LOG, emailLog }
+  receveEmailLog(log) {
+    return { type: ActionTypes.RECEIVE_EMAIL_LOG, log }
   },
 
-  testEmailSent(testEmailSent) {
-    return { type: ActionTypes.RECEIVE_TEST_EMAIL_STATUS, testEmailSent }
+  emailFormEnabled(enabled) {
+    return { type: ActionTypes.RECEIVE_EMAIL_FORM_ENABLED, enabled }
   },
 }
 

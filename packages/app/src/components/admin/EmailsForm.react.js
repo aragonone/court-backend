@@ -53,7 +53,7 @@ export default class EmailsForm extends React.Component {
       }
     ]
     this.state = {
-      testEmailSent: false,
+      enabled: false,
       emailLogs: [],
     }
     this.fields.forEach(field => {
@@ -68,7 +68,7 @@ export default class EmailsForm extends React.Component {
           <h3>Send custom email</h3>
           {this.getFields()}
           <button onClick={this.sendTestEmail} id="submitTest">Send test email</button>
-          <button onClick={this.sendJurorEmails} id="submit" disabled={!this.state.testEmailSent}>Notify all jurors</button>
+          <button onClick={this.sendJurorEmails} id="submit" disabled={!this.state.enabled}>Notify all jurors</button>
           <div id="emailLogs">{this.getLogs()}</div>
         </form>
       </div>
@@ -105,7 +105,7 @@ export default class EmailsForm extends React.Component {
     this.setState({ 
       [e.target.id]: e.target.value,
     })
-    Store.dispatch(EmailActions.testEmailSent(false))
+    Store.dispatch(EmailActions.emailFormEnabled(false))
   }
 
   componentDidMount() {
@@ -114,9 +114,9 @@ export default class EmailsForm extends React.Component {
   }
 
   onStateChange() {
-    const { admin: { email }, emails: { emailLogs, testEmailSent } } = Store.getState()
+    const { admin: { email }, emails: { emailLogs, enabled } } = Store.getState()
     if (!this.state.testEmail && email) this.setState({ testEmail: email })
-    this.setState({ emailLogs, testEmailSent })
+    this.setState({ emailLogs, enabled })
   }
 
   componentWillUnmount() {
@@ -134,8 +134,9 @@ export default class EmailsForm extends React.Component {
 
   sendJurorEmails = e => {
     e.preventDefault()
-    if (!this.state.testEmailSent) return
+    if (!this.state.enabled) return
     let params = {
+      notifyAllJurors: true,
       TemplateModel: {},
     }
     this.sendEmails(params)
@@ -149,7 +150,7 @@ export default class EmailsForm extends React.Component {
       }
       params.TemplateModel[field.id] = this.state[field.id]
     }
-    Store.dispatch(EmailActions.testEmailSent(false))
+    Store.dispatch(EmailActions.emailFormEnabled(false))
     Store.dispatch(EmailActions.resetEmailLogs())
     Store.dispatch(EmailActions.sendEmails(params))
   }
