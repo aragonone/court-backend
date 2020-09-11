@@ -1,6 +1,6 @@
 {
   "name": "@aragonone/court-backend-shared",
-  "version": "0.2.19",
+  "version": "0.2.21",
   "private": true,
   "workspaces": {
     "nohoist": [
