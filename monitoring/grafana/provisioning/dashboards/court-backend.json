@@ -981,7 +981,7 @@
       },
       "targets": [
         {
-          "expr": "{app=\"$service\",container_name=~\".*server.*\"}",
+          "expr": "{app=\"$service\",container=~\".*server.*\"}",
           "refId": "A"
         }
       ],
@@ -1523,7 +1523,7 @@
       },
       "targets": [
         {
-          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[heartbeat]\"",
+          "expr": "{app=\"$service\",container=~\".*services.*\"}|=\"[heartbeat]\"",
           "refId": "A"
         }
       ],
@@ -1555,7 +1555,7 @@
       },
       "targets": [
         {
-          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[reveal]\"",
+          "expr": "{app=\"$service\",container=~\".*services.*\"}|=\"[reveal]\"",
           "refId": "A"
         }
       ],
@@ -1587,7 +1587,7 @@
       },
       "targets": [
         {
-          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[settlements]\"",
+          "expr": "{app=\"$service\",container=~\".*services.*\"}|=\"[settlements]\"",
           "refId": "A"
         }
       ],
@@ -1619,7 +1619,7 @@
       },
       "targets": [
         {
-          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[monitor-keeper]\"",
+          "expr": "{app=\"$service\",container=~\".*services.*\"}|=\"[monitor-keeper]\"",
           "refId": "A"
         }
       ],
@@ -1651,7 +1651,7 @@
       },
       "targets": [
         {
-          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[notification-scanner]\"",
+          "expr": "{app=\"$service\",container=~\".*services.*\"}|=\"[notification-scanner]\"",
           "refId": "A"
         }
       ],
@@ -1683,7 +1683,7 @@
       },
       "targets": [
         {
-          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[notification-sender]\"",
+          "expr": "{app=\"$service\",container=~\".*services.*\"}|=\"[notification-sender]\"",
           "refId": "A"
         }
       ],
@@ -1715,7 +1715,7 @@
       },
       "targets": [
         {
-          "expr": "{app=\"$service\",container_name=~\".*services.*\"}|=\"[Provider]\"",
+          "expr": "{app=\"$service\",container=~\".*services.*\"}|=\"[Provider]\"",
           "refId": "A"
         }
       ],
@@ -1747,7 +1747,7 @@
       },
       "targets": [
         {
-          "expr": "{app=\"$service\",container_name=~\".*services.*\"}",
+          "expr": "{app=\"$service\",container=~\".*services.*\"}",
           "refId": "A"
         }
       ],
@@ -1793,7 +1793,7 @@
       },
       "targets": [
         {
-          "expr": "{app=\"$service\",container_name=~\".*(app|backoffice).*\"}",
+          "expr": "{app=\"$service\",container=~\".*(app|backoffice).*\"}",
           "refId": "A"
         }
       ],
