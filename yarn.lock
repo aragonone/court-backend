@@ -2,10 +2,23 @@
 # yarn lockfile v1
 
 
+"@aragon/contract-helpers-test@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@aragon/contract-helpers-test/-/contract-helpers-test-0.1.0.tgz#5c5f09739a0b33ab66843bc4849cb2b997d88af0"
+  integrity sha512-xP2CqqP0Jw/6Jdo1mRg4OxL+3gmsCYV3EJRy7xN8xUrhQIqkOyRptC44X951O7Cr+VeqXJq22rpZSr01TJZhNg==
+  dependencies:
+    web3-eth-abi "1.2.5"
+    web3-utils "1.2.5"
+
 "@aragon/court@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@aragon/court/-/court-1.1.0.tgz#32bd7150d81946de26ed04b87fd730a98f63c741"
   integrity sha512-ccxsvGJEO8hbKeF3Q0m9d18z7DwW+PMLiafBx165p/FgTMRXmJsbHvE5sm5zwqUiPBNjh3rlmn1vp2DWCOotdA==
+
+"@aragon/court@1.2.0-rc.0":
+  version "1.2.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@aragon/court/-/court-1.2.0-rc.0.tgz#dc3af0113dbfadda8d47ed516bb55a5be0964c9b"
+  integrity sha512-Vk3pmyifTNuQZGgt19yRojF8JnT/4mYEYJCjYlax6JaxX/7hc/PIX+oFPJhqj6vYml6mZFJrp4YJBVctw2zr+Q==
 
 "@aragon/court@^1.1.0":
   version "1.1.3"
@@ -16,11 +29,6 @@
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@aragon/minime/-/minime-1.0.0.tgz#994284b38e2ca36b5ae923f090928948041c928f"
   integrity sha512-FU6xQXkkRfaxo0n6HEnlsizSA12Te2bghozqW9XLdDbzpC84yDeqUOQAxmrHo5yQPIezRfz7IrNzpLVL6ZBORA==
-
-"@aragon/test-helpers@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@aragon/test-helpers/-/test-helpers-2.1.0.tgz#5383d69a94b387c2c369f2496f290dd104fc2a4d"
-  integrity sha512-lL0seKOPBr0BDt5EiXQhevdXCtkJbv/ZFoJFLWmhlcdd8TKsWffj+c/hzYXP9l9OjCqPbO61JsDBPS0ZDF7ERA==
 
 "@aragon/truffle-config-v5@^1.0.1":
   version "1.0.1"
@@ -16980,6 +16988,15 @@ web3-eth-abi@1.2.11, web3-eth-abi@^1.2.11:
     underscore "1.9.1"
     web3-utils "1.2.11"
 
+web3-eth-abi@1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/web3-eth-abi/-/web3-eth-abi-1.2.5.tgz#7ffddd3a3e7bacd66a2186e5e388310786b9b548"
+  integrity sha512-Tz6AjGTlgZVpv01h2YgotoXoQAQgWacx82Zh72ZlZ4iBCs4SoiYvq6tfbW9pquylK2Egm23bELsrSSENz0204w==
+  dependencies:
+    ethers "4.0.0-beta.3"
+    underscore "1.9.1"
+    web3-utils "1.2.5"
+
 web3-eth-accounts@1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/web3-eth-accounts/-/web3-eth-accounts-1.2.1.tgz#2741a8ef337a7219d57959ac8bd118b9d68d63cf"
@@ -17260,6 +17277,20 @@ web3-utils@1.2.11, web3-utils@^1.2.4:
   dependencies:
     bn.js "^4.11.9"
     eth-lib "0.2.8"
+    ethereum-bloom-filters "^1.0.6"
+    ethjs-unit "0.1.6"
+    number-to-bn "1.7.0"
+    randombytes "^2.1.0"
+    underscore "1.9.1"
+    utf8 "3.0.0"
+
+web3-utils@1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/web3-utils/-/web3-utils-1.2.5.tgz#7691f981ce11dc919e123edbde159dce061a5a53"
+  integrity sha512-U0tNfB4Hep5ouzvNZ+Hr8I8kIftiHiDhwg+Eoh2Nvr5lLOPEH14B2exkRSARLXGY9xl2p3ykJWBCKoG1oCadug==
+  dependencies:
+    bn.js "4.11.8"
+    eth-lib "0.2.7"
     ethereum-bloom-filters "^1.0.6"
     ethjs-unit "0.1.6"
     number-to-bn "1.7.0"

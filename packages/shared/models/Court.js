@@ -1,11 +1,10 @@
 const logger = require('../helpers/logger')('Court')
 const { bn, bigExp } = require('../helpers/numbers')
-const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
 const { encodeVoteId, hashVote } = require('../helpers/voting')
 const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
 const { DISPUTE_MANAGER_ERRORS } = require('@aragon/court/test/helpers/utils/errors')
-const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
-const { sha3, fromWei, utf8ToHex, soliditySha3, padLeft, toHex } = require('web3-utils')
+const { getEventArgument, getEvents, decodeEvents } = require('@aragon/contract-helpers-test')
+const { sha3, fromWei, utf8ToHex, soliditySha3 } = require('web3-utils')
 
 const ROUND_STATE_ENDED = 5
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
@@ -174,45 +173,8 @@ module.exports = class {
 
   async getPeriod(periodId) {
     const subscriptions = await this.subscriptions()
-    const provider = await this.environment.getProvider()
-
-    // The period records are stored at the 7th index of the subscriptions contract storage
-    const periodsRecordsSlot = padLeft(7, 64)
-    // Parse period ID en hexadecimal and pad 64
-    const periodIdHex = padLeft(toHex(periodId), 64)
-    // The periods records variable is a mapping indexed by period IDs
-    const periodsSlot = soliditySha3(periodIdHex + periodsRecordsSlot.slice(2))
-    // The checkpoint and fee token are packed in the first element of the period struct, thus don't need to add any offset
-    const checkpointAndFeeTokenSlot = periodsSlot
-    // The fee amount is the second element of the struct, thus we add 1 to the period slot
-    const feeAmountSlot = bn(periodsSlot).add(bn(1)).toHexString()
-    // The total active balance is the third element of the struct, thus we add 2 to the period slot
-    const totalActiveBalanceSlot = bn(periodsSlot).add(bn(2)).toHexString()
-    // The collected fees is the fourth element of the struct, thus we add 3 to the period slot
-    const collectedFeesSlot = bn(periodsSlot).add(bn(3)).toHexString()
-
-
-    // The first part of the checkpoint and fee token slot is for the fee token
-    const checkpointAndFeeToken = await provider.getStorageAt(subscriptions.address, checkpointAndFeeTokenSlot)
-    const feeToken = `0x${checkpointAndFeeToken.substr(10, 40)}`
-
-    // The balance checkpoint is stored using a uint64 and its stored at the end of the slot
-    const rawBalanceCheckpoint = checkpointAndFeeToken.substr(50)
-    const balanceCheckpoint = bn(`0x${rawBalanceCheckpoint}`).toString()
-
-    // Parse the fee amount
-    const rawFeeAmount = await provider.getStorageAt(subscriptions.address, feeAmountSlot)
-    const feeAmount = bn(rawFeeAmount).toString()
-
-    // Parse the total active balance
-    const rawTotalActiveBalance = await provider.getStorageAt(subscriptions.address, totalActiveBalanceSlot)
-    const totalActiveBalance = bn(rawTotalActiveBalance).toString()
-
-    // Parse the collected fees
-    const rawCollectedFees = await provider.getStorageAt(subscriptions.address, collectedFeesSlot)
-    const collectedFees = bn(rawCollectedFees).toString()
-
-    return { balanceCheckpoint, feeToken, feeAmount, totalActiveBalance, collectedFees }
+    const { feeToken, balanceCheckpoint, totalActiveBalance, collectedFees, accumulatedGovernorFees } = await subscriptions.getPeriod(periodId)
+    return { balanceCheckpoint, feeToken, totalActiveBalance, collectedFees, accumulatedGovernorFees }
   }
 
   async heartbeat(transitions = undefined) {
@@ -306,13 +268,12 @@ module.exports = class {
     const arbitrable = await Arbitrable.at(subject)
 
     const shouldCreateAndSubmit = evidence.length === 2 && submitters.length === 2
-    const { hash } = shouldCreateAndSubmit
+    const receipt = shouldCreateAndSubmit
       ? (await arbitrable.createAndSubmit(rulings, utf8ToHex(metadata), submitters[0], submitters[1], utf8ToHex(evidence[0]), utf8ToHex(evidence[1])))
       : (await arbitrable.createDispute(rulings, utf8ToHex(metadata)))
 
     const DisputeManager = await this.environment.getArtifact('DisputeManager', '@aragon/court')
-    const { logs: rawLogs } = await this.environment.getTransaction(hash)
-    const logs = decodeEventsOfType({ receipt: { rawLogs }}, DisputeManager.abi, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE)
+    const logs = decodeEvents(receipt, DisputeManager.abi, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE)
     const disputeId = getEventArgument({ logs }, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE, 'disputeId')
 
     if (!shouldCreateAndSubmit) {
