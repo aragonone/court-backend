@@ -14,8 +14,8 @@ class DynamicArtifacts extends BaseArtifacts {
   }
 
   _findArtifact(paths) {
-    const path = paths.find(fs.existsSync)
-    return path ? require(path) : undefined
+    const artifactPath = paths.find(fs.existsSync)
+    return artifactPath ? require(artifactPath) : undefined
   }
 
   _getLocalBuildPaths(contractName) {
@@ -23,7 +23,7 @@ class DynamicArtifacts extends BaseArtifacts {
   }
 
   _getNodeModulesPaths(dependency, contractName) {
-    return BUILD_DIRS.map(dir => `${process.cwd()}/node_modules/${dependency}/${dir}/${contractName}.json`)
+    return BUILD_DIRS.map(dir => path.resolve(__dirname, `../../node_modules/${dependency}/${dir}/${contractName}.json`))
   }
 }
 

@@ -3,9 +3,6 @@
   "author": "Aragon One",
   "license": "GPL-3.0-or-later",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "lerna": "^3.14.1"
   },
@@ -17,5 +14,15 @@
     "start:services:dev": "lerna run --scope=@aragonone/court-backend-services --concurrency=1 --stream start:dev",
     "test:server": "lerna run --scope=@aragonone/court-backend-server --concurrency=1 --stream test",
     "test:services": "lerna run --scope=@aragonone/court-backend-services --concurrency=1 --stream test"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "@aragon/minime",
+      "@aragon/court",
+      "@aragonone/precedence-campaign-arbitrable"
+    ]
   }
 }
