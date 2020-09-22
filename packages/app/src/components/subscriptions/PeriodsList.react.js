@@ -27,10 +27,9 @@ export default class PeriodsList extends React.Component {
               <tr>
                 <th>ID</th>
                 <th>Fee token</th>
-                <th>Fee amount</th>
+                <th>Collected fees</th>
                 <th>Balance checkpoint</th>
                 <th>Total active balance</th>
-                <th>Collected fees</th>
               </tr>
             </thead>
             <tbody>
@@ -52,10 +51,9 @@ export default class PeriodsList extends React.Component {
             </Link>
           </td>
           <td>{period.feeToken}</td>
-          <td>{fromWei(period.feeAmount)}</td>
-          <td>{period.balanceCheckpoint ? period.balanceCheckpoint : 'loading...'}</td>
-          <td>{period.totalActiveBalance ? fromWei(period.totalActiveBalance) : 'loading...'}</td>
           <td>{fromWei(period.collectedFees)}</td>
+          <td>{period.balanceCheckpoint}</td>
+          <td>{period.totalActiveBalance}</td>
         </tr>
       )
     })

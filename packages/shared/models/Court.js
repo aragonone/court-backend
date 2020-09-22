@@ -174,45 +174,8 @@ module.exports = class {
 
   async getPeriod(periodId) {
     const subscriptions = await this.subscriptions()
-    const provider = await this.environment.getProvider()
-
-    // The period records are stored at the 7th index of the subscriptions contract storage
-    const periodsRecordsSlot = padLeft(7, 64)
-    // Parse period ID en hexadecimal and pad 64
-    const periodIdHex = padLeft(toHex(periodId), 64)
-    // The periods records variable is a mapping indexed by period IDs
-    const periodsSlot = soliditySha3(periodIdHex + periodsRecordsSlot.slice(2))
-    // The checkpoint and fee token are packed in the first element of the period struct, thus don't need to add any offset
-    const checkpointAndFeeTokenSlot = periodsSlot
-    // The fee amount is the second element of the struct, thus we add 1 to the period slot
-    const feeAmountSlot = bn(periodsSlot).add(bn(1)).toHexString()
-    // The total active balance is the third element of the struct, thus we add 2 to the period slot
-    const totalActiveBalanceSlot = bn(periodsSlot).add(bn(2)).toHexString()
-    // The collected fees is the fourth element of the struct, thus we add 3 to the period slot
-    const collectedFeesSlot = bn(periodsSlot).add(bn(3)).toHexString()
-
-
-    // The first part of the checkpoint and fee token slot is for the fee token
-    const checkpointAndFeeToken = await provider.getStorageAt(subscriptions.address, checkpointAndFeeTokenSlot)
-    const feeToken = `0x${checkpointAndFeeToken.substr(10, 40)}`
-
-    // The balance checkpoint is stored using a uint64 and its stored at the end of the slot
-    const rawBalanceCheckpoint = checkpointAndFeeToken.substr(50)
-    const balanceCheckpoint = bn(`0x${rawBalanceCheckpoint}`).toString()
-
-    // Parse the fee amount
-    const rawFeeAmount = await provider.getStorageAt(subscriptions.address, feeAmountSlot)
-    const feeAmount = bn(rawFeeAmount).toString()
-
-    // Parse the total active balance
-    const rawTotalActiveBalance = await provider.getStorageAt(subscriptions.address, totalActiveBalanceSlot)
-    const totalActiveBalance = bn(rawTotalActiveBalance).toString()
-
-    // Parse the collected fees
-    const rawCollectedFees = await provider.getStorageAt(subscriptions.address, collectedFeesSlot)
-    const collectedFees = bn(rawCollectedFees).toString()
-
-    return { balanceCheckpoint, feeToken, feeAmount, totalActiveBalance, collectedFees }
+    const { feeToken, balanceCheckpoint, totalActiveBalance, collectedFees, accumulatedGovernorFees } = await subscriptions.getPeriod(periodId)
+    return { balanceCheckpoint, feeToken, totalActiveBalance, collectedFees, accumulatedGovernorFees }
   }
 
   async heartbeat(transitions = undefined) {
