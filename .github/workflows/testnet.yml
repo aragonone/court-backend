@@ -52,6 +52,6 @@ jobs:
     - run: .github/scripts/kubectl-wait-ready.sh court-backend-staging
     - run: .github/scripts/kubectl-wait-ready.sh court-backend-ropsten
     # wait 10 sec for k8s to reroute ingress and check app endpoint
-    - run: sleep 10 && curl --fail https://court-backend-app-rinkeby.eth.aragon.network
-    - run: curl --fail https://court-backend-app-staging.eth.aragon.network
-    - run: curl --fail https://court-backend-app-ropsten.eth.aragon.network
+    - run: sleep 10 && curl --fail https://court-app-rinkeby.backend.aragon.org
+    - run: curl --fail https://court-app-staging.backend.aragon.org
+    - run: curl --fail https://court-app-ropsten.backend.aragon.org

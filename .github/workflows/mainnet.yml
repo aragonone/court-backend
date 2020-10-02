@@ -41,4 +41,4 @@ jobs:
     - run: .github/scripts/kubectl-set-image.sh court-backend $REPO:${GITHUB_REF##*/}
     - run: .github/scripts/kubectl-wait-ready.sh court-backend
     # wait 10 sec for k8s to reroute ingress and check app endpoint
-    - run: sleep 10 && curl --fail https://court-backend-app.eth.aragon.network
+    - run: sleep 10 && curl --fail https://court-app.backend.aragon.org
