@@ -1,7 +1,7 @@
 import { utils } from 'ethers'
 import BaseValidator from './BaseValidator'
 
-import { MINUTES } from '@aragonone/court-backend-shared/helpers/times'
+import { MINUTES } from '@aragonone/court-backend-shared/build/helpers/times'
 const SESSION_SIGNATURE_EXPIRES = MINUTES * 10
 
 class UserSessionsValidator  extends BaseValidator {

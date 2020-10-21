@@ -1,5 +1,5 @@
 import Etherscan from '../models/Etherscan'
-import { DAYS } from '@aragonone/court-backend-shared/helpers/times'
+import { DAYS } from '@aragonone/court-backend-shared/build/helpers/times'
 import getWalletFromPk from '@aragonone/court-backend-shared/helpers/get-wallet-from-pk'
 import abi from 'web3-eth-abi'
 

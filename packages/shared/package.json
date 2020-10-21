@@ -4,10 +4,20 @@
   "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "lint": "eslint src/** --ext .ts",
+    "build": "yarn lint && yarn build:types && yarn build:js",
+    "build:types": "tsc",
+    "build:js": "babel ./src --out-dir ./build --extensions .ts",
+    "build:clean": "yarn clean && yarn build",
+    "clean": "rm -rf ./build"
+  },
   "dependencies": {
+    "@aragon/contract-helpers-test": "^0.1.0",
     "@aragon/court": "1.2.0-rc.0",
     "@aragon/minime": "1.0.0",
-    "@aragon/contract-helpers-test": "^0.1.0",
     "@aragon/truffle-config-v5": "^1.0.1",
     "@aragonone/erc20-faucet": "^1.0.0",
     "@aragonone/precedence-campaign-arbitrable": "^1.0.0",
@@ -19,5 +29,15 @@
     "graphql-request": "^1.8.2",
     "postmark": "^2.5.3",
     "web3-utils": "^1.2.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
+    "@typescript-eslint/eslint-plugin": "^4.5.0",
+    "@typescript-eslint/parser": "^4.5.0",
+    "eslint": "^7.11.0",
+    "typescript": "^4.0.3"
   }
 }

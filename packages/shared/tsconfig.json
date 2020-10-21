@@ -1,0 +1,18 @@
+{
+  "include": [
+    "src/**/*"
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "./build",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "moduleResolution": "Node",
+    // allow advanced js features, proper targeting is done using Babel
+    "target": "ESNext",
+    // allow non-ES modules with 'export =' syntax as default imports
+    "esModuleInterop": true,
+    // allow json import
+    "resolveJsonModule": true
+  }
+}

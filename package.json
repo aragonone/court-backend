@@ -7,13 +7,15 @@
     "lerna": "^3.14.1"
   },
   "scripts": {
-    "start:app": "lerna run --scope=@aragonone/court-backend-app --concurrency=1 --stream start",
-    "start:server": "lerna run --scope=@aragonone/court-backend-server --concurrency=1 --stream start",
-    "start:server:dev": "lerna run --scope=@aragonone/court-backend-server --concurrency=1 --stream start:dev",
-    "start:services": "lerna run --scope=@aragonone/court-backend-services --concurrency=1 --stream start",
-    "start:services:dev": "lerna run --scope=@aragonone/court-backend-services --concurrency=1 --stream start:dev",
-    "test:server": "lerna run --scope=@aragonone/court-backend-server --concurrency=1 --stream test",
-    "test:services": "lerna run --scope=@aragonone/court-backend-services --concurrency=1 --stream test"
+    "build": "lerna run --stream build",
+    "build:shared": "yarn run --scope '*/*-shared' build",
+    "start:app": "lerna run --scope '*/*-app' --stream start",
+    "start:server": "lerna run --scope '*/*-server' --stream start",
+    "start:server:dev": "lerna run --scope '*/*-server' --stream start:dev",
+    "start:services": "lerna run --scope '*/*-services' --stream start",
+    "start:services:dev": "lerna run --scope '*/*-services' --stream start:dev",
+    "test:server": "lerna run --scope '*/*-server' --stream test",
+    "test:services": "lerna run --scope '*/*-services' --stream test"
   },
   "workspaces": {
     "packages": [

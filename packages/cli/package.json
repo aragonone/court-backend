@@ -5,6 +5,7 @@
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "scripts": {
+    "build:shared": "yarn workspace @aragonone/court-backend-shared build",
     "rpc:mint": "node ./bin/index.js mint -n rpc --verbose",
     "rpc:stake": "node ./bin/index.js stake -n rpc --verbose",
     "rpc:unstake": "node ./bin/index.js unstake -n rpc --verbose",

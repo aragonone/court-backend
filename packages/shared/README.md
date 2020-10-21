@@ -32,5 +32,16 @@ It provides the following helper functions:
 - [`logger`](./helpers/logger.js): Logger object that provides a friendly interface for fancy logging 
 - [`numbers`](./helpers/numbers.js): BigNumber-related helper functions
 - [`sleep`](./helpers/sleep.js): Sleep function to wait a number of seconds 
-- [`times`](./helpers/times.js): Time constants for using with `Date()`
+- [`times`](./src/helpers/times.ts): Time constants for using with `Date()`
 - [`voting`](./helpers/voting.js): Utils related to the CR Voting module of Aragon Court
+
+
+## TypeScript compilation
+
+Shared modules need to be compiled first before importing in other packages:
+```
+yarn build
+
+# from another package:
+yarn workspace @aragonone/court-backend-shared build
+```

@@ -6,7 +6,8 @@
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "main": "index.js",
   "scripts": {
-    "build:server": "cd node_modules/@aragonone/court-backend-server && npm run build",
+    "build:server": "yarn workspace @aragonone/court-backend-server build",
+    "build:shared": "yarn workspace @aragonone/court-backend-shared build",
     "start": "npm run build:server && babel-node ./bin/main.js",
     "start:dev": "npm run build:server && nodemon --ignore ./build --exec babel-node ./bin/main.js",
     "test": "npx mocha test --recursive --exit --require @babel/register"

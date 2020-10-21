@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "babel ./src --out-dir ./build --source-maps --copy-files",
+    "build:shared": "yarn workspace @aragonone/court-backend-shared build",
     "start": "npm run build && ./scripts/db-setup.sh && node ./build",
     "start:dev": "./scripts/db-setup.sh && nodemon --ignore ./build --exec babel-node ./src/index.js",
     "knex": "npx babel-node ./node_modules/.bin/knex",
