@@ -11,7 +11,7 @@ on:
     - 'emails/**'
 env:
   # This is a base repository and we use ${GITHUB_SHA} to set the version of the container
-  REPO: docker.pkg.github.com/aragonone/court-backend/testnet
+  REPO: docker.pkg.github.com/1Hive/celeste-backend/testnet
 
 jobs:
   build:
