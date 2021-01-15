@@ -10,7 +10,7 @@ const { accountData } = require('../helpers')
 
 module.exports = function() {
   return {
-    subject: 'You have pending tasks on Aragon Court',
+    subject: 'You have pending tasks on Celeste',
     template: base(
       {
         title: 'Task Reminder',
@@ -30,7 +30,7 @@ module.exports = function() {
       `
     ),
     templateText: `
-      Aragon Court Task Reminder
+      Celeste Task Reminder
 
       You have tasks due soon:
       {{#each tasks}}

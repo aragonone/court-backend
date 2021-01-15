@@ -10,7 +10,7 @@ export default class EmailsForm extends React.Component {
         id: 'title',
         label: 'Title',
         required: true,
-        default: 'New on Aragon Court',
+        default: 'New on Celeste',
       },
       {
         id: 'bannerHtml',

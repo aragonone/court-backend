@@ -10,7 +10,7 @@ const { accountData } = require('../helpers')
 
 module.exports = function() {
   return {
-    subject: 'Aragon Court email verification reminder',
+    subject: 'Celeste email verification reminder',
     template: base(
       {
         title: 'Notifications',
@@ -18,7 +18,7 @@ module.exports = function() {
       },
       `
         <div style="font-size:16px;line-height:24px;color:#212B36">
-          You recently subscribed to Aragon Court email notifications, but did
+          You recently subscribed to Celeste email notifications, but did
           not complete the email verification process.
         </div>
 
@@ -44,11 +44,11 @@ module.exports = function() {
       `
     ),
     templateText: `
-      Aragon Court Notifications
+      Celeste Notifications
 
       Your account {{account}} received a notification on {{date}}:
 
-      You recently subscribed to Aragon Court email notifications, but did not
+      You recently subscribed to Celeste email notifications, but did not
       complete the email verification process.
 
       To do so, please copy and paste this URL into your browser and 

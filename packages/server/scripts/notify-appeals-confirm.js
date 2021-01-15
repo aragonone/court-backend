@@ -27,7 +27,7 @@ async function main() {
         From: 'notifications@court.aragon.org',
         TemplateAlias: 'appeals-confirm',
         TemplateModel: {
-          subject: 'Aragon Court Dispute #20 and Dispute #21 have been APPEALED.',
+          subject: 'Celeste Dispute #20 and Dispute #21 have been APPEALED.',
           ...accountData(address),
           date: 'Tuesday, 8 Sep. 2020'
         },

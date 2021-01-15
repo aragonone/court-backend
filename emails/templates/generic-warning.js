@@ -53,7 +53,7 @@ module.exports = function() {
       contentHtml: `
         <p>
           The Juror Playground is a separate instance of the Juror Dashboard and
-          Aragon Court on the Rinkeby testnet.
+          Celeste on the Rinkeby testnet.
         </p>
 
         <p>
@@ -83,7 +83,7 @@ module.exports = function() {
       `,
       content: trimMultiline(`
         The Juror Playground is a separate instance of the Juror Dashboard and
-        Aragon Court on the Rinkeby testnet.
+        Celeste on the Rinkeby testnet.
 
         We’re opening the Playground to existing jurors who wish to participate
         in stress-testing the Dashboard and Court.
@@ -101,13 +101,13 @@ module.exports = function() {
         Have fun, and break things!
       `),
       noticeHtml: `
-        This is an email from <strong>Aragon Court’s Rinkeby test environment</strong>. This
+        This is an email from <strong>Celeste’s Rinkeby test environment</strong>. This
         environment has been configured so jurors can have a playground to try
         out the new dashboard and ensure that the system is working
         correctly.
       `,
       notice: trimMultiline(`
-        This is an email from Aragon Court’s Rinkeby test environment. This
+        This is an email from Celeste’s Rinkeby test environment. This
         environment has been configured so jurors can have a playground to try
         out the new dashboard and ensure that the system is working
         correctly.

@@ -69,7 +69,7 @@ function base({ title, subtitle }, content) {
       xmlns:o="urn:schemas-microsoft-com:office:office"
     >
       <head>
-        <title>Aragon Court ${title}</title>
+        <title>Celeste ${title}</title>
         <!--[if !mso]><!-- -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!--<![endif]-->
@@ -171,7 +171,7 @@ function base({ title, subtitle }, content) {
                     width: 744px;
                   `)}">
                     <img
-                      title="Aragon Court ${title}"
+                      title="Celeste ${title}"
                       src="${ASSETS_URL}/header-logo.png"
                       width="110"
                       height="110"
@@ -257,7 +257,7 @@ function base({ title, subtitle }, content) {
                                             <span style="${style(`
                                               font-weight: 400;
                                               color: #FF9184;
-                                            `)}">Aragon Court</span> ${title}
+                                            `)}">Celeste</span> ${title}
                                           </div>
                                         </td>
                                       </tr>
@@ -400,7 +400,7 @@ function base({ title, subtitle }, content) {
                                 <strong style="${style(`
                                   font-weight: 300;
                                   color: #637381
-                                `)}">Aragon Court Email Notifications</strong>.
+                                `)}">Celeste Email Notifications</strong>.
                                 
                                 To modify your email notification settings, visit the ${link(
                                   'Notifications section',
@@ -1078,7 +1078,7 @@ function dataTable(listName, headers) {
 function textFooter() {
   return `
     This service is provided by Aragon One AG [1]. You are receiving this email
-    because you are subscribed to Aragon Court Email Notifications. To modify 
+    because you are subscribed to Celeste Email Notifications. To modify 
     your email notification settings, visit the Notifications section [2] of
     the Court Dashboard Settings
 

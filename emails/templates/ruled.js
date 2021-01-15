@@ -32,7 +32,7 @@ module.exports = function() {
       `
     ),
     templateText: `
-      Aragon Court Notifications
+      Celeste Notifications
 
       Your account {{account}} received a notification on {{date}}:
 
