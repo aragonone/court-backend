@@ -4,27 +4,27 @@ services:
   court_server_db:
     image: postgres:11-alpine
     environment:
-    - POSTGRES_DB:${DB_NAME}
-    - POSTGRES_USER=${DB_USER}
-    - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB:${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
     ports:
-    - "5432:5432" # for debugging db
+      - "5432:5432" # for debugging db
 
   court_server:
     build: .
-    image: aragon/court-backend
-    command: npm run start:server:dev
+    image: gcr.io/hive-flora/celeste-backend:latest
+    command: npm run start:server
     depends_on:
-    - court_server_db
-    - loki
+      - court_server_db
+      - loki
     ports:
-    - "${SERVER_PORT}:${SERVER_PORT}"
-    - "${SERVER_METRICS_PORT}:${SERVER_METRICS_PORT}" # for debugging metrics
+      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "${SERVER_METRICS_PORT}:${SERVER_METRICS_PORT}" # for debugging metrics
     volumes:
-    - ./packages/server/src:/court-backend/packages/server/src
-    - ./packages/server/test:/court-backend/packages/server/test
+      - ./packages/server/src:/court-backend/packages/server/src
+      - ./packages/server/test:/court-backend/packages/server/test
     env_file:
-    - .env
+      - .env
     logging: &loki
       driver: loki
       options:
@@ -34,61 +34,60 @@ services:
 
   court_services:
     build: .
-    image: aragon/court-backend
-    command: npm run start:services:dev
+    image: gcr.io/hive-flora/celeste-backend:latest
+    command: npm run start:services
     depends_on:
-    - court_server
-    - loki
+      - court_server
+      - loki
     volumes:
-    - ./packages/services/bin:/court-backend/packages/services/bin
-    - ./packages/services/src:/court-backend/packages/services/src
-    - ./packages/services/test:/court-backend/packages/services/test
+      - ./packages/services/bin:/court-backend/packages/services/bin
+      - ./packages/services/src:/court-backend/packages/services/src
+      - ./packages/services/test:/court-backend/packages/services/test
     env_file:
-    - .env
+      - .env
     logging: *loki
 
   court_backoffice:
     build: .
-    image: aragon/court-backend
+    image: gcr.io/hive-flora/celeste-backend:latest
     command: npm run start:app
     depends_on:
-    - court_server
-    - loki
+      - court_server
+      - loki
     ports:
-    - "3000:3000"
-    - "35729:35729"  # port used for hot-reloading
+      - "3000:3000"
+      - "35729:35729" # port used for hot-reloading
     volumes:
-    - ./packages/app/src:/court-backend/packages/app/src
-    - ./packages/app/public:/court-backend/packages/app/public
+      - ./packages/app/src:/court-backend/packages/app/src
+      - ./packages/app/public:/court-backend/packages/app/public
     env_file:
-    - .env
+      - .env
     logging: *loki
 
-
-## Monitoring containers below
+  ## Monitoring containers below
 
   prometheus:
     image: prom/prometheus
     depends_on:
-    - court_server
-    - court_services
+      - court_server
+      - court_services
     volumes:
-    - ./monitoring/prometheus:/etc/prometheus
+      - ./monitoring/prometheus:/etc/prometheus
 
   loki:
     image: grafana/loki
     ports:
-    - "3100:3100"
+      - "3100:3100"
 
   grafana:
     image: grafana/grafana
     depends_on:
-    - prometheus
-    - loki
+      - prometheus
+      - loki
     ports:
-    - "5000:3000"
+      - "5000:3000"
     environment:
       GF_AUTH_ANONYMOUS_ENABLED: "true"
       GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
     volumes:
-    - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning

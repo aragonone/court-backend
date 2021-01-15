@@ -12,7 +12,7 @@ class Environment {
   getSubgraph() {
     const base = this.network === 'rpc' ? SUBGRAPH_LOCAL : SUBGRAPH_REMOTE
     const env = this.network === 'mainnet' ? '' : `-${this.network}`
-    return `${base}/subgraphs/name/aragon/aragon-court${env}`
+    return `${base}/subgraphs/name/1hive/celeste${env}`
   }
 
   async query(query) {
