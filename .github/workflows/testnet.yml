@@ -11,7 +11,7 @@ on:
     - 'emails/**'
 env:
   # This is a base repository and we use ${GITHUB_SHA} to set the version of the container
-  REPO: docker.pkg.github.com/1Hive/celeste-backend/testnet
+  REPO: docker.pkg.github.com/1hive/celeste-backend/testnet
 
 jobs:
   build:
@@ -46,12 +46,6 @@ jobs:
     - uses: actions/checkout@v2
     - run: .github/scripts/kubectl-config.sh ${{secrets.KUBE_CA}} ${{secrets.KUBE_SERVER}} ${{secrets.KUBE_TOKEN}}
     - run: .github/scripts/kubectl-set-image.sh court-backend-rinkeby $REPO:${GITHUB_SHA}
-    - run: .github/scripts/kubectl-set-image.sh court-backend-staging $REPO:${GITHUB_SHA}
-    - run: .github/scripts/kubectl-set-image.sh court-backend-ropsten $REPO:${GITHUB_SHA}
     - run: .github/scripts/kubectl-wait-ready.sh court-backend-rinkeby
-    - run: .github/scripts/kubectl-wait-ready.sh court-backend-staging
-    - run: .github/scripts/kubectl-wait-ready.sh court-backend-ropsten
     # wait 10 sec for k8s to reroute ingress and check app endpoint
-    - run: sleep 10 && curl --fail https://court-backend-app-rinkeby.eth.aragon.network
-    - run: curl --fail https://court-backend-app-staging.eth.aragon.network
-    - run: curl --fail https://court-backend-app-ropsten.eth.aragon.network
+    - run: sleep 10 && curl --fail http://celeste-app-rinkeby.1hive.org/
