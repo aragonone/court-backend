@@ -50,19 +50,17 @@ const CourtActions = {
             appealCollateralFactor
             appealConfirmCollateralFactor
             minActiveBalance
+            minMaxPctTotalSupply
+            maxMaxPctTotalSupply
             fundsGovernor
             configGovernor
+            feesUpdater
             modulesGovernor
             subscriptions {
               id
               currentPeriod
-              feeAmount
               feeToken
               periodDuration
-              prePaymentPeriods
-              resumePrePaidPeriods
-              latePaymentPenaltyPct
-              governorSharePct
             }
             modules {
               id

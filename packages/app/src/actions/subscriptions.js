@@ -12,7 +12,7 @@ const SubscriptionsActions = {
             id
             feeToken
             feeAmount
-            collectedFees
+            donatedFees
             jurorClaims {
               id
               juror { id }
@@ -50,7 +50,7 @@ const SubscriptionsActions = {
             id
             feeToken
             feeAmount
-            collectedFees
+            donatedFees
           }
         }`)
 
@@ -111,7 +111,6 @@ const SubscriptionsActions = {
             prePaymentPeriods
             resumePrePaidPeriods
             latePaymentPenaltyPct
-            governorSharePct
             totalPaid
             totalDonated
             totalCollected
