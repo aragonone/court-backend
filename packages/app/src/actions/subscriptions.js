@@ -11,7 +11,6 @@ const SubscriptionsActions = {
           subscriptionPeriod (id: "${id}") {
             id
             feeToken
-            feeAmount
             donatedFees
             jurorClaims {
               id
@@ -49,7 +48,6 @@ const SubscriptionsActions = {
           subscriptionPeriods (orderBy: createdAt, orderDirection: desc) {
             id
             feeToken
-            feeAmount
             donatedFees
           }
         }`)
@@ -105,7 +103,6 @@ const SubscriptionsActions = {
           subscriptionModules (first: 1) {
             id
             currentPeriod
-            feeAmount
             feeToken
             periodDuration
             prePaymentPeriods

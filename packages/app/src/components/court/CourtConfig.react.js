@@ -98,7 +98,6 @@ export default class CourtConfig extends React.Component {
         <h3>Subscriptions</h3>
         <p>Current period: {subscriptions.currentPeriod}</p>
         <p>Period duration: {subscriptions.periodDuration} court terms</p>
-        <p>Fee amount: {fromWei(subscriptions.feeAmount.toString())}</p>
         <p>Fee token: {subscriptions.feeToken}</p>
         <p>Pre payment periods: {subscriptions.prePaymentPeriods}</p>
         <p>Resume pre paid periods: {subscriptions.resumePrePaidPeriods}</p>
