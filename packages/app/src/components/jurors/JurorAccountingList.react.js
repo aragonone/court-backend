@@ -3,7 +3,6 @@ import Store from '../../store/store'
 import { fromWei } from 'web3-utils'
 import { toDate } from '../../helpers/toDate'
 import { summarize } from '../../helpers/summarize'
-import JurorsActions from '../../actions/jurors'
 
 export default class JurorAccountingList extends React.Component {
   constructor(props){
@@ -13,7 +12,6 @@ export default class JurorAccountingList extends React.Component {
 
   componentDidMount() {
     Store.subscribe(() => this._onChange())
-    Store.dispatch(JurorsActions.findAccounting(this.state.address))
   }
 
   render() {
