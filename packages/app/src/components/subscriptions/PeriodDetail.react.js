@@ -24,7 +24,7 @@ export default class PeriodDetail extends React.Component {
               <p>Fee token: {period.feeToken}</p>
               <p>Balance checkpoint: {period.balanceCheckpoint ? period.balanceCheckpoint : 'loading...'}</p>
               <p>Total active balance: {period.totalActiveBalance ? fromWei(period.totalActiveBalance) : 'loading...'}</p>
-              <p>Collected fees: {fromWei(period.collectedFees)}</p>
+              <p>Donated fees: {fromWei(period.donatedFees)}</p>
               <p>Claims: {this.state.period.jurorClaims.length === 0 && 'None'}</p>
               <ul>{this._buildClaimsList()}</ul>
             </div>

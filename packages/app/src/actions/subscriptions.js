@@ -105,13 +105,6 @@ const SubscriptionsActions = {
             currentPeriod
             feeToken
             periodDuration
-            prePaymentPeriods
-            resumePrePaidPeriods
-            latePaymentPenaltyPct
-            totalPaid
-            totalDonated
-            totalCollected
-            totalGovernorShares
           }
         }`)
         dispatch(SubscriptionsActions.receiveModule(result.subscriptionModules[0]))

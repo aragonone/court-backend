@@ -99,10 +99,6 @@ export default class CourtConfig extends React.Component {
         <p>Current period: {subscriptions.currentPeriod}</p>
         <p>Period duration: {subscriptions.periodDuration} court terms</p>
         <p>Fee token: {subscriptions.feeToken}</p>
-        <p>Pre payment periods: {subscriptions.prePaymentPeriods}</p>
-        <p>Resume pre paid periods: {subscriptions.resumePrePaidPeriods}</p>
-        <p>Late payment penalty pct: % {subscriptions.latePaymentPenaltyPct}</p>
-        <p>Governor share pct: % {subscriptions.governorSharePct}</p>
 
         <h3>Modules</h3>
           {modules.map((module, index) => {
