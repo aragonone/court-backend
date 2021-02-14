@@ -46,6 +46,6 @@ jobs:
     - uses: actions/checkout@v2
     - run: .github/scripts/kubectl-config.sh ${{secrets.KUBE_CA}} ${{secrets.KUBE_SERVER}} ${{secrets.KUBE_TOKEN}}
     - run: .github/scripts/kubectl-set-image.sh court-backend-rinkeby $REPO:latest
-    - run: .github/scripts/kubectl-wait-ready.sh court-backend-rinkeby
+#     - run: .github/scripts/kubectl-wait-ready.sh court-backend-rinkeby
     # wait 10 sec for k8s to reroute ingress and check app endpoint
-    - run: sleep 10 && curl --fail http://celeste-app-rinkeby.1hive.org/
+#     - run: sleep 10 && curl --fail http://celeste-app-rinkeby.1hive.org/
