@@ -9,8 +9,6 @@ on:
     paths-ignore:
     - 'monitoring/**'
     - 'emails/**'
-env:
-  REPO: celeste-backend/rinkeby
 
 jobs:
   build:
@@ -38,7 +36,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: $REPO:${GITHUB_SHA}
+          tags: celeste-backend/rinkeby:latest
   
   test:
     runs-on: ubuntu-latest
@@ -46,5 +44,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-    - run: .github/scripts/test/run.sh $REPO:${GITHUB_SHA}
+    - run: .github/scripts/test/run.sh celeste-backend/rinkeby:latest
       
