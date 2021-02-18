@@ -38,7 +38,7 @@ const Network = {
 
   async getCourt(address) {
     if (!this.court) {
-      const AragonCourt = await this.environment.getArtifact('AragonCourt', '@aragon/court')
+      const AragonCourt = await this.environment.getArtifact('AragonCourt', '@1hive/celeste')
       const court = await AragonCourt.at(address)
       this.court = new Court(court, this.environment)
     }

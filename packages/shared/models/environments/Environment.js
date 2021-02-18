@@ -21,7 +21,7 @@ class Environment {
   }
 
   async getCourt(address) {
-    const AragonCourt = await this.getArtifact('AragonCourt', '@aragon/court')
+    const AragonCourt = await this.getArtifact('AragonCourt', '@1hive/celeste')
     const court = await AragonCourt.at(address)
     return new Court(court, this)
   }
