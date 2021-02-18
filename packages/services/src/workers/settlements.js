@@ -1,5 +1,5 @@
 import queries from '../helpers/settlement-queries'
-import Network from '@aragonone/celeste-backend-server/build/web3/Network'
+import Network from '@1hive/celeste-backend-server/build/web3/Network'
 
 export default async function (ctx) {
   const { logger } = ctx

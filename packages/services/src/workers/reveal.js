@@ -1,5 +1,5 @@
-import { Reveal } from '@aragonone/celeste-backend-server/build/models/objection'
-import Network from '@aragonone/celeste-backend-server/build/web3/Network'
+import { Reveal } from '@1hive/celeste-backend-server/build/models/objection'
+import Network from '@1hive/celeste-backend-server/build/web3/Network'
 
 const REVEAL_TRIES = 3
 

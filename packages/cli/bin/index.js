@@ -3,8 +3,8 @@
 const fs = require('fs')
 const path = require('path')
 const yargs = require('yargs')
-const Logger = require('@aragonone/celeste-backend-shared/helpers/logger')
-const Environment = require('@aragonone/celeste-backend-shared/models/environments/TruffleEnvironment')
+const Logger = require('@1hive/celeste-backend-shared/helpers/logger')
+const Environment = require('@1hive/celeste-backend-shared/models/environments/TruffleEnvironment')
 const errorHandler = require('../src/helpers/error-handler')
 
 const DEFAULT_OPTIONS = {

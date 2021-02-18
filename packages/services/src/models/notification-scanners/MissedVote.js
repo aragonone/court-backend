@@ -1,5 +1,5 @@
 import NotificationScannerBaseModel from './NotificationScannerBaseModel'
-import Network from '@aragonone/celeste-backend-server/build/web3/Network'
+import Network from '@1hive/celeste-backend-server/build/web3/Network'
 import { draftTermIdFor } from '../../helpers/term-id-getter'
 
 class MissedVote extends NotificationScannerBaseModel {

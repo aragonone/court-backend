@@ -1,6 +1,6 @@
 import Etherscan from '../models/Etherscan'
-import { DAYS } from '@aragonone/celeste-backend-shared/helpers/times'
-import getWalletFromPk from '@aragonone/celeste-backend-shared/helpers/get-wallet-from-pk'
+import { DAYS } from '@1hive/celeste-backend-shared/helpers/times'
+import getWalletFromPk from '@1hive/celeste-backend-shared/helpers/get-wallet-from-pk'
 import abi from 'web3-eth-abi'
 
 const TRANSACTION_TYPES = [

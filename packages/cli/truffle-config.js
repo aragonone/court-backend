@@ -1,1 +1,1 @@
-module.exports = require('@aragonone/celeste-backend-shared/truffle-config')
+module.exports = require('@1hive/celeste-backend-shared/truffle-config')

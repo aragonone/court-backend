@@ -1,5 +1,5 @@
 {
-  "name": "@aragonone/celeste-backend-shared",
+  "name": "@1hive/celeste-backend-shared",
   "version": "0.2.22",
   "private": true,
   "workspaces": {

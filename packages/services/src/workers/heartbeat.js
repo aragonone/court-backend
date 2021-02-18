@@ -1,5 +1,5 @@
-import sleep from '@aragonone/celeste-backend-shared/helpers/sleep'
-import Network from '@aragonone/celeste-backend-server/build/web3/Network'
+import sleep from '@1hive/celeste-backend-shared/helpers/sleep'
+import Network from '@1hive/celeste-backend-server/build/web3/Network'
 
 const HEARTBEAT_TRIES_PER_JOB = 3
 const SECONDS_BETWEEN_INTENTS = 3

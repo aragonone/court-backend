@@ -1,4 +1,4 @@
-const logger = require('@aragonone/celeste-backend-shared/helpers/logger')('reveal')
+const logger = require('@1hive/celeste-backend-shared/helpers/logger')('reveal')
 
 const command = 'reveal'
 const describe = 'Reveal committed vote'

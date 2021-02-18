@@ -3,7 +3,7 @@ import Store from '../../store/store'
 import Network from '../../web3/Network'
 import CourtActions from '../../actions/court'
 import { fromWei } from 'web3-utils'
-import { bn } from '@aragonone/celeste-backend-shared/helpers/numbers'
+import { bn } from '@1hive/celeste-backend-shared/helpers/numbers'
 
 export default class CourtConfig extends React.Component {
 

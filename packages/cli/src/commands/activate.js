@@ -1,4 +1,4 @@
-const logger = require('@aragonone/celeste-backend-shared/helpers/logger')('activate')
+const logger = require('@1hive/celeste-backend-shared/helpers/logger')('activate')
 
 const command = 'activate'
 const describe = 'Activate ANJ to the Court'

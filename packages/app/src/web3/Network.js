@@ -1,5 +1,5 @@
-import Court from '@aragonone/celeste-backend-shared/models/Court'
-import Environment from '@aragonone/celeste-backend-shared/models/environments/BrowserEnvironment'
+import Court from '@1hive/celeste-backend-shared/models/Court'
+import Environment from '@1hive/celeste-backend-shared/models/environments/BrowserEnvironment'
 
 const FAUCET = {
   staging: '0x9a2F850C701b457b73c8dC8B1534Cc187B33F5FD',

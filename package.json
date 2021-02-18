@@ -1,5 +1,5 @@
 {
-  "name": "@aragonone/celeste-backend-monorepo",
+  "name": "@1hive/celeste-backend-monorepo",
   "author": "Aragon One",
   "license": "GPL-3.0-or-later",
   "private": true,
@@ -10,12 +10,12 @@
     "lerna": "^3.14.1"
   },
   "scripts": {
-    "start:app": "lerna run --scope=@aragonone/celeste-backend-app --concurrency=1 --stream start",
-    "start:server": "lerna run --scope=@aragonone/celeste-backend-server --concurrency=1 --stream start",
-    "start:server:dev": "lerna run --scope=@aragonone/celeste-backend-server --concurrency=1 --stream start:dev",
-    "start:services": "lerna run --scope=@aragonone/celeste-backend-services --concurrency=1 --stream start",
-    "start:services:dev": "lerna run --scope=@aragonone/celeste-backend-services --concurrency=1 --stream start:dev",
-    "test:server": "lerna run --scope=@aragonone/celeste-backend-server --concurrency=1 --stream test",
-    "test:services": "lerna run --scope=@aragonone/celeste-backend-services --concurrency=1 --stream test"
+    "start:app": "lerna run --scope=@1hive/celeste-backend-app --concurrency=1 --stream start",
+    "start:server": "lerna run --scope=@1hive/celeste-backend-server --concurrency=1 --stream start",
+    "start:server:dev": "lerna run --scope=@1hive/celeste-backend-server --concurrency=1 --stream start:dev",
+    "start:services": "lerna run --scope=@1hive/celeste-backend-services --concurrency=1 --stream start",
+    "start:services:dev": "lerna run --scope=@1hive/celeste-backend-services --concurrency=1 --stream start:dev",
+    "test:server": "lerna run --scope=@1hive/celeste-backend-server --concurrency=1 --stream test",
+    "test:services": "lerna run --scope=@1hive/celeste-backend-services --concurrency=1 --stream test"
   }
 }

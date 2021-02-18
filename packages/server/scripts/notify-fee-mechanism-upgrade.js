@@ -9,7 +9,7 @@
  * POSTMARK_SERVER_API_TOKEN=
  */
 import { User } from '../src/models/objection'
-import emailClient from '@aragonone/celeste-backend-shared/helpers/email-client'
+import emailClient from '@1hive/celeste-backend-shared/helpers/email-client'
 import dotenv from 'dotenv'
 import { trimMultiline } from '../../../emails/template-utils'
 dotenv.config()

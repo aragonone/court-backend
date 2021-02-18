@@ -1,4 +1,4 @@
-const logger = require('@aragonone/celeste-backend-shared/helpers/logger')('confirm-appeal')
+const logger = require('@1hive/celeste-backend-shared/helpers/logger')('confirm-appeal')
 
 const command = 'confirm-appeal'
 const describe = 'Confirm an existing appeal for a dispute'
