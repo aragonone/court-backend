@@ -1,7 +1,7 @@
 import { Reveal } from '../models/objection'
 import HttpError from '../errors/http-error'
 import RevealsValidator from '../validators/RevealsValidator'
-import { decodeVoteId } from '@aragonone/court-backend-shared/helpers/voting'
+import { decodeVoteId } from '@aragonone/celeste-backend-shared/helpers/voting'
 
 export default {
   async show(request, response) {

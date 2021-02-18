@@ -1,5 +1,5 @@
 {
-  "name": "@aragonone/court-backend-cli",
+  "name": "@aragonone/celeste-backend-cli",
   "version": "0.2.22",
   "private": true,
   "author": "Aragon One",
@@ -28,7 +28,7 @@
     "rpc:airdrop": "node ./bin/airdrop.js -n rpc"
   },
   "dependencies": {
-    "@aragonone/court-backend-shared": "^0.2.22",
+    "@aragonone/celeste-backend-shared": "^0.2.22",
     "yargs": "^14.0.0"
   }
 }

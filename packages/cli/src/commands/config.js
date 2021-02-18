@@ -1,6 +1,6 @@
 const path = require('path')
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('config')
-const { bn } = require('@aragonone/court-backend-shared/helpers/numbers')
+const logger = require('@aragonone/celeste-backend-shared/helpers/logger')('config')
+const { bn } = require('@aragonone/celeste-backend-shared/helpers/numbers')
 
 const command = 'config'
 const describe = 'Get current court config or set a new one'

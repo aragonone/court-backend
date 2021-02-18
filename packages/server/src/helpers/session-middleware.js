@@ -1,7 +1,7 @@
 import expressSession from 'express-session'
 import { Session } from '../models/objection'
 
-import { HOURS, DAYS } from '@aragonone/court-backend-shared/helpers/times'
+import { HOURS, DAYS } from '@aragonone/celeste-backend-shared/helpers/times'
 const SESSION_MAXAGE = 30 * DAYS
 const SESSION_EXPIRE_INTERVAL = HOURS
 const { SESSION_SECURE } = process.env

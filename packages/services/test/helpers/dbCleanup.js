@@ -1,4 +1,4 @@
-import { User, UserEmail, UserNotificationType } from '@aragonone/court-backend-server/build/models/objection'
+import { User, UserEmail, UserNotificationType } from '@aragonone/celeste-backend-server/build/models/objection'
 
 export async function userDbCleanup(address, email) {
   await UserEmail.findOne({email}).del()

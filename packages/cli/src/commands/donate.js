@@ -1,4 +1,4 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('donate')
+const logger = require('@aragonone/celeste-backend-shared/helpers/logger')('donate')
 
 const command = 'donate'
 const describe = 'Donate funds to court jurors'

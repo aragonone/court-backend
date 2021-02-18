@@ -1,4 +1,4 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('settle-juror')
+const logger = require('@aragonone/celeste-backend-shared/helpers/logger')('settle-juror')
 
 const command = 'settle-juror'
 const describe = 'Settle juror for a dispute'

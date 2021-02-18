@@ -1,5 +1,5 @@
 const { env: { CLIENT_URL } } = process
-import { MINUTES, HOURS, DAYS } from '@aragonone/court-backend-shared/helpers/times'
+import { MINUTES, HOURS, DAYS } from '@aragonone/celeste-backend-shared/helpers/times'
 
 export default class NotificationScannerBaseModel {
   async shouldNotifyUser(user) {

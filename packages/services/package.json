@@ -1,19 +1,19 @@
 {
-  "name": "@aragonone/court-backend-services",
+  "name": "@aragonone/celeste-backend-services",
   "version": "0.2.22",
   "private": true,
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "main": "index.js",
   "scripts": {
-    "build:server": "cd node_modules/@aragonone/court-backend-server && npm run build",
+    "build:server": "cd node_modules/@aragonone/celeste-backend-server && npm run build",
     "start": "npm run build:server && babel-node ./bin/main.js",
     "start:dev": "npm run build:server && nodemon --ignore ./build --exec babel-node ./bin/main.js",
     "test": "npx mocha test --recursive --exit --require @babel/register"
   },
   "dependencies": {
-    "@aragonone/court-backend-server": "^0.2.22",
-    "@aragonone/court-backend-shared": "^0.2.22",
+    "@aragonone/celeste-backend-server": "^0.2.22",
+    "@aragonone/celeste-backend-shared": "^0.2.22",
     "@promster/metrics": "^4.1.10",
     "@promster/server": "^4.2.12",
     "axios": "^0.19.0",

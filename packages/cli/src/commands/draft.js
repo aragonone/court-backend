@@ -1,4 +1,4 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('draft')
+const logger = require('@aragonone/celeste-backend-shared/helpers/logger')('draft')
 
 const command = 'draft'
 const describe = 'Draft dispute and close evidence submission period if necessary'

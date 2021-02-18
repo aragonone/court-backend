@@ -1,4 +1,4 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('commit')
+const logger = require('@aragonone/celeste-backend-shared/helpers/logger')('commit')
 
 const command = 'commit'
 const describe = 'Commit vote for a dispute round'

@@ -1,4 +1,4 @@
-import { User, UserNotification, UserNotificationType } from '@aragonone/court-backend-server/build/models/objection'
+import { User, UserNotification, UserNotificationType } from '@aragonone/celeste-backend-server/build/models/objection'
 import * as notificationScanners from '../models/notification-scanners'
 
 /**

@@ -1,5 +1,5 @@
 import NotificationScannerBaseModel from './NotificationScannerBaseModel'
-import Network from '@aragonone/court-backend-server/build/web3/Network'
+import Network from '@aragonone/celeste-backend-server/build/web3/Network'
 
 class JurorDrafted extends NotificationScannerBaseModel {
   async scan() {

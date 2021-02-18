@@ -1,4 +1,4 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('unstake')
+const logger = require('@aragonone/celeste-backend-shared/helpers/logger')('unstake')
 
 const command = 'unstake'
 const describe = 'Unstake ANJ tokens for a juror'

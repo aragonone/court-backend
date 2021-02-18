@@ -7,8 +7,8 @@ chai.use(sinonChai)
 import { userDbCleanup, userNotificationTypeDbCleanup } from '../../helpers/dbCleanup'
 import userNotificationTypeByModel from '../../helpers/userNotificationTypeByModel'
 import { tryRunScanner } from '../../../src/workers/notification-scanner'
-import { User } from '@aragonone/court-backend-server/build/models/objection'
-import Network from '@aragonone/court-backend-server/build/web3/Network'
+import { User } from '@aragonone/celeste-backend-server/build/models/objection'
+import Network from '@aragonone/celeste-backend-server/build/web3/Network'
 
 const { env: { CLIENT_URL } } = process
 const notificationTypeModel = 'DisputeRuled'

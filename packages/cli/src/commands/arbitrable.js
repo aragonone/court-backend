@@ -1,4 +1,4 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('arbitrable')
+const logger = require('@aragonone/celeste-backend-shared/helpers/logger')('arbitrable')
 
 const command = 'arbitrable'
 const describe = 'Create new Arbitrable instance for the Court'
