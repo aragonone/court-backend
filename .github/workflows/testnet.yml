@@ -36,7 +36,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/celeste-backend-rinkeby:latest
+          tags: ghcr.io/${{ github.repository_owner }}/celeste-backend-rinkeby:latest
   
   test:
     runs-on: ubuntu-latest
@@ -44,5 +44,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-    - run: .github/scripts/test/run.sh ghcr.io/celeste-backend-rinkeby:latest
+    - run: .github/scripts/test/run.sh ghcr.io/${{ github.repository_owner }}/celeste-backend-rinkeby:latest
       
