@@ -172,7 +172,7 @@ function base({ title, subtitle }, content) {
                   `)}">
                     <img
                       title="Celeste ${title}"
-                      src="${ASSETS_URL}/header-logo.png"
+                      src="${ASSETS_URL}/header-logo-v2.png"
                       width="110"
                       height="110"
                       style="${style(`
@@ -256,7 +256,7 @@ function base({ title, subtitle }, content) {
                                           `)}">
                                             <span style="${style(`
                                               font-weight: 400;
-                                              color: #FF9184;
+                                              color: #8854A7;
                                             `)}">Celeste</span> ${title}
                                           </div>
                                         </td>
@@ -876,9 +876,9 @@ function action(label, href, { padding = '0' } = {}) {
             line-height: 40px;
             font-size: 16px;
             background-color: #FF8888;
-            background-image: linear-gradient(184deg, #FFB36D -50%, #FF8888 90%);
+            background-image: linear-gradient(89.31deg, #6050B0 -42%, #8E54A5 117%);
             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
-            border-radius: 4px;
+            border-radius: 12px;
             text-decoration: none;
             color: #FFFFFF;
             white-space: nowrap;
@@ -894,9 +894,9 @@ function action(label, href, { padding = '0' } = {}) {
 function infobox({ mode, primary, secondary }) {
   const background = mode === 'negative' ? '#FFE8E8' : '#F9FAFC'
   const icon = (() => {
-    if (mode === 'negative') return 'icon-negative.png'
+    if (mode === 'negative') return 'icon-negative_v2.png'
     if (mode === 'appeals-opened') return 'icon-appeals-opened.png'
-    if (mode === 'positive') return 'icon-positive.png'
+    if (mode === 'positive') return 'icon-positive-v2.png'
     return 'icon-generic.png'
   })()
   const primaryColor = mode === 'negative' ? '#30404F' : '#26C395'
