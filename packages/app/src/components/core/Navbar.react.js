@@ -23,9 +23,8 @@ export default class Navbar extends React.Component {
           <Link to="/disputes">Disputes</Link>
           <Link to="/jurors">Jurors</Link>
           <Link to="/drafts">Drafts</Link>
-          <Link to="/subscribers">Subscribers</Link>
           <Link to="/periods">Periods</Link>
-          <Link to="/anj-balances">ANJ</Link>
+          <Link to="/anj-balances">HNY</Link>
           { admin.id && this._buildLoggedInItems() }
         </div>
         <div className="account">

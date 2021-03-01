@@ -77,25 +77,6 @@ const SubscriptionsActions = {
     }
   },
 
-  findAllSubscribers() {
-    return async function(dispatch) {
-      try {
-        const result = await Network.query(`{
-          subscribers {
-            id
-            subscribed
-            paused
-            lastPaymentPeriodId
-            previousDelayedPeriods
-          }
-        }`)
-        dispatch(SubscriptionsActions.receiveAllSubscribers(result.subscribers))
-      } catch(error) {
-        dispatch(ErrorActions.show(error))
-      }
-    }
-  },
-
   findModule() {
     return async function(dispatch) {
       try {
