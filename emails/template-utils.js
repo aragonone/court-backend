@@ -172,7 +172,7 @@ function base({ title, subtitle }, content) {
                   `)}">
                     <img
                       title="Celeste ${title}"
-                      src="${ASSETS_URL}/header-logo-v2.png"
+                      src="${ASSETS_URL}/header-logo-v3.png"
                       width="110"
                       height="110"
                       style="${style(`
