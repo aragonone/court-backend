@@ -404,7 +404,7 @@ function base({ title, subtitle }, content) {
                                 
                                 To modify your email notification settings, visit the ${link(
                                   'Notifications section',
-                                  'https://court.aragon.org/dashboard?preferences=notifications'
+                                  'https://celeste-rinkeby.1hive.org/#/dashboard?preferences=notifications'
                                 )} of the Court Dashboard Settings
                               </div>
                             </td>
@@ -786,7 +786,7 @@ function base2(
 
                                     To modify your email notification settings, visit the ${link(
                                       'Notifications section',
-                                      'https://court.aragon.org/dashboard?preferences=notifications'
+                                      'https://celeste-rinkeby.1hive.org/#/dashboard?preferences=notifications'
                                     )} of the Court Dashboard Settings
                                   </p>
                                 </div>
@@ -1077,13 +1077,13 @@ function dataTable(listName, headers) {
 
 function textFooter() {
   return `
-    This service is provided by Aragon One AG [1]. You are receiving this email
+    This service is provided by 1Hive [1]. You are receiving this email
     because you are subscribed to Celeste Email Notifications. To modify 
     your email notification settings, visit the Notifications section [2] of
-    the Court Dashboard Settings
+    the Celeste Dashboard Settings
 
-    [1] https://aragon.one/
-    [2] https://court.aragon.org/dashboard?preferences=notifications
+    [1] https://1hive.org/
+    [2] https://celeste-rinkeby.1hive.org/#/dashboard?preferences=notifications
   `
 }
 

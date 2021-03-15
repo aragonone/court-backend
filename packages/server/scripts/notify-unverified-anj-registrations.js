@@ -23,10 +23,10 @@ async function main() {
     try {
       await emailClient.sendEmailWithTemplate({
         To: email,
-        From: 'notifications@court.aragon.org',
+        From: 'notifications@1hive.org',
         TemplateAlias: 'notification-settings-announcement',
         TemplateModel: {
-          dashboardUrl: 'https://court.aragon.org/dashboard',
+          dashboardUrl: 'https://celeste-rinkeby.1hive.org/#/dashboard',
         },
       })
     } catch (err) {

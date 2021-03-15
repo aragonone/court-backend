@@ -24,7 +24,7 @@ async function main() {
     try {
       await emailClient.sendEmailWithTemplate({
         To: email,
-        From: 'notifications@court.aragon.org',
+        From: 'notifications@1hive.org',
         TemplateAlias: 'generic',
         TemplateModel: {
           actionLabel: 'Go to the Aragon Forum Post',
