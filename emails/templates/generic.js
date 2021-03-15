@@ -40,7 +40,7 @@ module.exports = function() {
       title: 'New disputes coming soon',
       bannerHtml: banner({
         height: 388,
-        url: asset('banner-precedence-restart.jpg'),
+        url: '',
         color: '#171717',
       }),
       contentHtml: `

@@ -71,7 +71,7 @@ module.exports = function() {
       title: 'Claim your subscription rewards',
       content: trimMultiline(`
         Congratulations! You have been rewarded a portion of this month's
-        Subscription rewards because your HNY was activated for a full Court
+        Subscription rewards because your HNY was activated for a full Celeste
         period. Claim them in the ‘Rewards’ section of the Dashboard.
       `),
       contentHtml: `
@@ -84,7 +84,7 @@ module.exports = function() {
           period. Claim them in the ‘Rewards’ section of the Dashboard.
         </p>
       `,
-      headerUrl: asset('header-anj.png'),
+      headerUrl: '',
       date: 'Thursday, 17 Dec. 2019',
       actionLabel: 'Claim rewards',
       actionUrl: '',

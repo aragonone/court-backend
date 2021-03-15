@@ -11,7 +11,7 @@ module.exports = function() {
     subject: 'Verify your email on Celeste',
     template: base(
       {
-        title: 'Notifications',
+        title: 'Email Verification',
         subtitle: `
           Verify your email to receive email notifications about important news
           and upcoming tasks.

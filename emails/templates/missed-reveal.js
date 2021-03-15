@@ -29,7 +29,7 @@ module.exports = function() {
             '{{lockedAnjBalanceUrl}}'
           )} has been forfeit.`,
         })}
-        ${action('Learn more', 'https://help.aragon.org/article/43-dispute-lifecycle#vote-reveal', { padding: '16px 0 0' })}
+        ${action('Learn more', 'https://wiki.1hive.org/projects/celeste', { padding: '16px 0 0' })}
       `
     ),
     templateText: `
@@ -40,7 +40,7 @@ module.exports = function() {
       Your vote wasn’t revealed on time for Dispute #{{disputeId}}.
       Some of your locked HNY balance has been forfeit.
 
-      Learn more: https://help.aragon.org/article/43-dispute-lifecycle#vote-reveal
+      Learn more: https://wiki.1hive.org/projects/celeste
       ${textFooter()}
     `,
     mockData: {

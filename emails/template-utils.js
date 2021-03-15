@@ -49,6 +49,7 @@ function table(attributes, content) {
       cellspacing: '0',
       role: 'presentation',
       width: '100%',
+      borderRadius: '16px',
       ...attributes,
     })}>
       <tbody>
@@ -172,7 +173,7 @@ function base({ title, subtitle }, content) {
                   `)}">
                     <img
                       title="Celeste ${title}"
-                      src="${ASSETS_URL}/header-logo-v3.png"
+                      src="${ASSETS_URL}/header-logo.png"
                       width="110"
                       height="110"
                       style="${style(`
@@ -198,8 +199,6 @@ function base({ title, subtitle }, content) {
                     text-align: center;
                   `)}">
                     <div style="${style(`
-                      background: #dde4e9;
-                      background-color: #dde4e9;
                       margin: 0 auto;
                       border-radius: 4px;
                       max-width: 776px;
@@ -208,8 +207,6 @@ function base({ title, subtitle }, content) {
                         {
                           align: 'center',
                           style: style(`
-                            background: #dde4e9;
-                            background-color: #dde4e9;
                             width: 100%;
                             border-radius: 4px;
                           `),
@@ -228,13 +225,13 @@ function base({ title, subtitle }, content) {
                               display: inline-block;
                               vertical-align: top;
                               width: 100%;
+                              border-radius: 16px;
+                              border: 1px solid #DDE4E9;
                             `)}">
                               ${table(
                                 { width: '100%' },
                                 `<tr>
                                   <td style="${style(`
-                                    background-color: #ffffff;
-                                    border-radius: 4px;
                                     vertical-align: top;
                                     padding: 40px;
                                   `)}">
@@ -391,8 +388,8 @@ function base({ title, subtitle }, content) {
                                 color: #9096B6;
                               `)}">
                                 This service is provided by ${link(
-                                  'Aragon One AG',
-                                  'https://aragon.one/'
+                                  '1Hive',
+                                  'https://wiki.1hive.org/'
                                 )}.
                                 
                                 You are receiving this email because you are 
@@ -775,8 +772,8 @@ function base2(
                                   <hr>
                                   <p class="ff align-center email-footer">
                                     This service is provided by ${link(
-                                      'Aragon One AG',
-                                      'https://aragon.one/'
+                                      '1Hive',
+                                      'https://wiki.1hive.org/'
                                     )}.
 
                                     You are receiving this email because you are
@@ -894,9 +891,9 @@ function action(label, href, { padding = '0' } = {}) {
 function infobox({ mode, primary, secondary }) {
   const background = mode === 'negative' ? '#FFE8E8' : '#F9FAFC'
   const icon = (() => {
-    if (mode === 'negative') return 'icon-negative_v2.png'
+    if (mode === 'negative') return 'icon-negative.png'
     if (mode === 'appeals-opened') return 'icon-appeals-opened.png'
-    if (mode === 'positive') return 'icon-positive-v2.png'
+    if (mode === 'positive') return 'icon-positive.png'
     return 'icon-generic.png'
   })()
   const primaryColor = mode === 'negative' ? '#30404F' : '#26C395'
@@ -907,7 +904,7 @@ function infobox({ mode, primary, secondary }) {
       class: 'infobox-table',
       style: style(`
         width: 100%;
-        border-radius: 4px;
+        border-radius: 12px;
         font-family: Overpass, sans-serif;
         background-color: ${background};
       `),
@@ -920,8 +917,8 @@ function infobox({ mode, primary, secondary }) {
             <td
               class="infobox-icon"
               style="${style(`
-                width: 75px;
-                padding: 8px 0 8px 8px;
+                width: 60px;
+                padding: 24px 0 24px 24px;
                 direction: ltr;
               `)}"
             >
@@ -934,8 +931,8 @@ function infobox({ mode, primary, secondary }) {
                   border: 0;
                   outline: none;
                   text-decoration: none;
-                  width: 75px;
-                  height: 80px;
+                  width: 60px;
+                  height: 60px;
                   font-size: 16px;
                 `)}"
               />
@@ -952,7 +949,7 @@ function infobox({ mode, primary, secondary }) {
               class="infobox-content"
               style="${style(`
                 direction: ltr;
-                padding: 24px 8px;
+                padding: 24px 16px;
                 text-align: left;
                 font-size: 16px;
                 color: #9096B6;
@@ -1082,7 +1079,7 @@ function textFooter() {
     your email notification settings, visit the Notifications section [2] of
     the Celeste Dashboard Settings
 
-    [1] https://1hive.org/
+    [1] https://wiki.1hive.org/
     [2] https://celeste-rinkeby.1hive.org/#/dashboard?preferences=notifications
   `
 }
