@@ -11,7 +11,7 @@ module.exports = function() {
     template: base(
       {
         title: 'Notification Settings',
-        subtitle: `You have received this email because you provided your email on anj.aragon.org`,
+        subtitle: `You have received this email because you provided your email`,
       },
       `
         <div style="font-size:16px;line-height:24px;color:#212B36">

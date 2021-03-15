@@ -26,9 +26,9 @@ module.exports = function() {
               { nowrap: true }
             )}`,
           secondary:
-            'You can start reviewing the arguments and then commit your vote',
+            'You can start reviewing the comments and then commit your vote',
         })}
-        ${action('Review the arguments and vote', '{{disputeUrl}}', {
+        ${action('Review the comments and vote', '{{disputeUrl}}', {
           padding: '16px 0 0',
         })}
       `
@@ -39,9 +39,9 @@ module.exports = function() {
       Your account {{account}} received a notification on {{date}}:
 
       You have been selected to arbitrate Dispute #{{disputeId}}. You can start
-      reviewing the arguments and then commit your vote.
+      reviewing the comments and then commit your vote.
 
-      Review the arguments and vote: {{disputeUrl}}
+      Review the comments and vote: {{disputeUrl}}
       ${textFooter()}
     `,
     mockData: {
