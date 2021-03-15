@@ -7,7 +7,7 @@ import { fromWei } from 'web3-utils'
 import { bigExp } from '@1hive/celeste-backend-shared/helpers/numbers'
 import getWalletFromPk from '@1hive/celeste-backend-shared/helpers/get-wallet-from-pk'
 
-const FROM = 'noreply@aragon.one'
+const FROM = 'noreply@1hive.org'
 const BALANCE_THRESHOLD = bigExp(1, 17) // 0.1 ETH
 
 export default async function (ctx) {
