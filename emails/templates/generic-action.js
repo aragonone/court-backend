@@ -48,8 +48,8 @@ module.exports = function() {
         losses incurred from your involvement in Dispute #0.
 
         Jurors drafted and slashed in Dispute #0 have been sent reimbursements for
-        their slashed amount. If you are an active juror, the ANJ has been added
-        to your Active Balance and if you are an inactive juror ANJ has been
+        their slashed amount. If you are an active juror, the HNY has been added
+        to your Active Balance and if you are an inactive juror HNY has been
         added to your Inactive Balance.
 
         Appealers can claim their collateral through the Dashboard now that the
@@ -70,8 +70,8 @@ module.exports = function() {
         <p>
           <strong>Jurors</strong> drafted and slashed in Dispute #0 have been
           sent reimbursements for their slashed amount. If you are an active
-          juror, the ANJ has been added to your Active Balance and if you are
-          an inactive juror ANJ has been added to your Inactive Balance.
+          juror, the HNY has been added to your Active Balance and if you are
+          an inactive juror HNY has been added to your Inactive Balance.
         </p>
 
         <p>

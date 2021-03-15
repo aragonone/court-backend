@@ -230,7 +230,7 @@ module.exports = class {
     const decimals = await anj.decimals()
     const registry = await this.registry()
     await this._approve(anj, bigExp(amount, decimals), registry.address)
-    logger.info(`Staking ANJ ${amount} for ${juror}...`)
+    logger.info(`Staking HNY ${amount} for ${juror}...`)
     return registry.stakeFor(juror, bigExp(amount, decimals), data)
   }
 
@@ -238,7 +238,7 @@ module.exports = class {
     const anj = await this.anj()
     const decimals = await anj.decimals()
     const registry = await this.registry()
-    logger.info(`Unstaking ANJ ${amount} for ${await this.environment.getSender()}...`)
+    logger.info(`Unstaking HNY ${amount} for ${await this.environment.getSender()}...`)
     return registry.unstake(bigExp(amount, decimals), data)
   }
 
@@ -246,7 +246,7 @@ module.exports = class {
     const anj = await this.anj()
     const decimals = await anj.decimals()
     const registry = await this.registry()
-    logger.info(`Activating ANJ ${amount} for ${await this.environment.getSender()}...`)
+    logger.info(`Activating HNY ${amount} for ${await this.environment.getSender()}...`)
     return registry.activate(bigExp(amount, decimals))
   }
 
@@ -256,7 +256,7 @@ module.exports = class {
     const registry = await this.registry()
     await this._approve(anj, bigExp(amount, decimals), registry.address)
     const ACTIVATE_DATA = sha3('activate(uint256)').slice(0, 10)
-    logger.info(`Activating ANJ ${amount} for ${address}...`)
+    logger.info(`Activating HNY ${amount} for ${address}...`)
     return registry.stakeFor(address, bigExp(amount, decimals), ACTIVATE_DATA)
   }
 
@@ -264,7 +264,7 @@ module.exports = class {
     const anj = await this.anj()
     const decimals = await anj.decimals()
     const registry = await this.registry()
-    logger.info(`Requesting ANJ ${amount} from ${await this.environment.getSender()} for deactivation...`)
+    logger.info(`Requesting HNY ${amount} from ${await this.environment.getSender()} for deactivation...`)
     return registry.deactivate(bigExp(amount, decimals))
   }
 

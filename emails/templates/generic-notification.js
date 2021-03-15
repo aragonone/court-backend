@@ -71,7 +71,7 @@ module.exports = function() {
       title: 'Claim your subscription rewards',
       content: trimMultiline(`
         Congratulations! You have been rewarded a portion of this month's
-        Subscription rewards because your ANJ was activated for a full Court
+        Subscription rewards because your HNY was activated for a full Court
         period. Claim them in the ‘Rewards’ section of the Dashboard.
       `),
       contentHtml: `
@@ -80,7 +80,7 @@ module.exports = function() {
         </h1>
         <p>
           Congratulations! You have been rewarded a portion of this month's
-          Subscription rewards because your ANJ was activated for a full Court
+          Subscription rewards because your HNY was activated for a full Court
           period. Claim them in the ‘Rewards’ section of the Dashboard.
         </p>
       `,

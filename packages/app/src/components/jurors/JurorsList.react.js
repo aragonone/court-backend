@@ -37,10 +37,10 @@ export default class JurorsList extends React.Component {
                 <tr>
                   <th>ID</th>
                   <th>Address</th>
-                  <th>Active ANJ</th>
-                  <th>Locked ANJ</th>
-                  <th>Staked ANJ</th>
-                  <th>Deactivating ANJ</th>
+                  <th>Active HNY</th>
+                  <th>Locked HNY</th>
+                  <th>Staked HNY</th>
+                  <th>Deactivating HNY</th>
                   <th>Created at</th>
                   <th>Actions</th>
                 </tr>

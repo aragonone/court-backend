@@ -25,7 +25,7 @@ module.exports = function() {
             { nowrap: true }
           )}`,
           secondary: `Some of your ${link(
-            'locked ANJ balance',
+            'locked HNY balance',
             '{{lockedAnjBalanceUrl}}'
           )} has been forfeit.`,
         })}
@@ -38,7 +38,7 @@ module.exports = function() {
       Your account {{account}} received a notification on {{date}}:
 
       Your vote wasn’t revealed on time for Dispute #{{disputeId}}.
-      Some of your locked ANJ balance has been forfeit.
+      Some of your locked HNY balance has been forfeit.
 
       Learn more: https://help.aragon.org/article/43-dispute-lifecycle#vote-reveal
       ${textFooter()}

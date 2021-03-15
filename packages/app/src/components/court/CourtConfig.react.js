@@ -73,7 +73,7 @@ export default class CourtConfig extends React.Component {
         <p>Modules governor: {modulesGovernor}</p>
 
         <h3>Registry</h3>
-        <p>ANJ token: {anjToken.id}</p>
+        <p>HNY token: {anjToken.id}</p>
         <p>Min active balance: {fromWei(minActiveBalance.toString())}</p>
 
         <h3>Disputes</h3>
