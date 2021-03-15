@@ -49,7 +49,6 @@ function table(attributes, content) {
       cellspacing: '0',
       role: 'presentation',
       width: '100%',
-      borderRadius: '16px',
       ...attributes,
     })}>
       <tbody>
