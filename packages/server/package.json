@@ -15,7 +15,7 @@
     "test": "npx mocha test --recursive --exit --require @babel/register"
   },
   "dependencies": {
-    "@aragon/court": "1.1.0",
+    "@1hive/celeste": "0.1.4",
     "@1hive/celeste-backend-shared": "^0.2.22",
     "@promster/express": "^4.0.0",
     "@promster/server": "^4.0.0",

@@ -38,7 +38,7 @@ module.exports = class {
   async registry() {
     if (!this._registry) {
       const address = await this.instance.getJurorsRegistry()
-      const JurorsRegistry = await this.environment.getArtifact('JurorsRegistry', '@aragon/court')
+      const JurorsRegistry = await this.environment.getArtifact('JurorsRegistry', '@1hive/celeste')
       this._registry = await JurorsRegistry.at(address)
     }
     return this._registry
@@ -47,7 +47,7 @@ module.exports = class {
   async disputeManager() {
     if (!this._disputeManager) {
       const address = await this.instance.getDisputeManager()
-      const DisputeManager = await this.environment.getArtifact('DisputeManager', '@aragon/court')
+      const DisputeManager = await this.environment.getArtifact('DisputeManager', '@1hive/celeste')
       this._disputeManager = await DisputeManager.at(address)
     }
     return this._disputeManager
@@ -56,7 +56,7 @@ module.exports = class {
   async voting() {
     if (!this._voting) {
       const address = await this.instance.getVoting()
-      const Voting = await this.environment.getArtifact('CRVoting', '@aragon/court')
+      const Voting = await this.environment.getArtifact('CRVoting', '@1hive/celeste')
       this._voting = await Voting.at(address)
     }
     return this._voting
@@ -65,7 +65,7 @@ module.exports = class {
   async subscriptions() {
     if (!this._subscriptions) {
       const address = await this.instance.getSubscriptions()
-      const Subscriptions = await this.environment.getArtifact('CourtSubscriptions', '@aragon/court')
+      const Subscriptions = await this.environment.getArtifact('CourtSubscriptions', '@1hive/celeste')
       this._subscriptions = await Subscriptions.at(address)
     }
     return this._subscriptions
@@ -271,7 +271,7 @@ module.exports = class {
   async donate(amount) {
     const subscriptions = await this.subscriptions()
     const feeToken = await subscriptions.currentFeeToken()
-    const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
+    const ERC20 = await this.environment.getArtifact('ERC20', '@1hive/celeste')
     const token = await ERC20.at(feeToken)
 
     logger.info(`Approving ${amount} fees for donation...`)
@@ -291,7 +291,7 @@ module.exports = class {
     const subscriptions = await this.subscriptions()
     const { feeToken, amountToPay } = await subscriptions.getPayFeesDetails(address, periods)
 
-    const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
+    const ERC20 = await this.environment.getArtifact('ERC20', '@1hive/celeste')
     const token = await ERC20.at(feeToken)
 
     logger.info(`Approving fees for ${periods} periods to ${subscriptions.address}, total amount ${fromWei(amountToPay.toString())}...`)
@@ -310,7 +310,7 @@ module.exports = class {
       ? (await arbitrable.createAndSubmit(rulings, utf8ToHex(metadata), submitters[0], submitters[1], utf8ToHex(evidence[0]), utf8ToHex(evidence[1])))
       : (await arbitrable.createDispute(rulings, utf8ToHex(metadata)))
 
-    const DisputeManager = await this.environment.getArtifact('DisputeManager', '@aragon/court')
+    const DisputeManager = await this.environment.getArtifact('DisputeManager', '@1hive/celeste')
     const { logs: rawLogs } = await this.environment.getTransaction(hash)
     const logs = decodeEventsOfType({ receipt: { rawLogs }}, DisputeManager.abi, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE)
     const disputeId = getEventArgument({ logs }, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE, 'disputeId')
