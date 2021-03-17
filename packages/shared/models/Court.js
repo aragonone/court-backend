@@ -1,9 +1,9 @@
 const logger = require('../helpers/logger')('Court')
 const { bn, bigExp } = require('../helpers/numbers')
-const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
+const { decodeEventsOfType } = require('@1hive/celeste/test/helpers/lib/decodeEvent')
 const { encodeVoteId, hashVote } = require('../helpers/voting')
-const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
-const { DISPUTE_MANAGER_ERRORS } = require('@aragon/court/test/helpers/utils/errors')
+const { DISPUTE_MANAGER_EVENTS } = require('@1hive/celeste/test/helpers/utils/events')
+const { DISPUTE_MANAGER_ERRORS } = require('@1hive/celeste/test/helpers/utils/errors')
 const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
 const { sha3, fromWei, utf8ToHex, soliditySha3, padLeft, toHex } = require('web3-utils')
 

@@ -12,7 +12,8 @@
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "dependencies": {
-    "@1hive/celeste": "0.1.4",
+    "@aragon/court": "1.1.0",
+    "@1hive/celeste": "0.1.5",
     "@aragon/minime": "1.0.0",
     "@aragon/test-helpers": "^2.1.0",
     "@aragon/truffle-config-v5": "^1.0.1",

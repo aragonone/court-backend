@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@1hive/celeste@0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@1hive/celeste/-/celeste-0.1.5.tgz#abcb811e7f0e23e1e8833334e5e06186d876a86e"
+  integrity sha512-MjUA9GafdiE8YxDsIE7eqGJLby5r4YAyjLcZExUfQRNQXl9RIjk0URbQKTeF1P0+Rr0eU4x6hwfr86hUVRlxNg==
+
 "@aragon/court@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@aragon/court/-/court-1.1.0.tgz#32bd7150d81946de26ed04b87fd730a98f63c741"
