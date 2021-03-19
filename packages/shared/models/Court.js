@@ -95,18 +95,20 @@ module.exports = class {
   async getConfigAt(termId = undefined) {
     if (!termId) termId = await this.currentTermId()
     const rawConfig = await this.instance.getConfig(termId)
-    const { feeToken, fees, roundStateDurations: rounds, pcts, roundParams, appealCollateralParams, minActiveBalance } = rawConfig
+    const { feeToken, fees, maxRulingOptions, roundParams, pcts, appealCollateralParams, jurorParams } = rawConfig
 
     return {
       feeToken,
       fees: { jurorFee: fees[0], draftFee: fees[1], settleFee: fees[2] },
-      roundParams: { firstRoundJurorsNumber: roundParams[0], appealStepFactor: roundParams[1], maxRegularAppealRounds: roundParams[2] },
-      roundDurations: { evidenceTerms: rounds[0], commitTerms: rounds[1], revealTerms: rounds[2], appealTerms: rounds[3], appealConfirmationTerms: rounds[4] },
+      maxRulingOptions,
+      roundDurations: { evidenceTerms: roundParams[0], commitTerms: roundParams[1], revealTerms: roundParams[2], appealTerms: roundParams[3], appealConfirmationTerms: roundParams[4] },
+      roundParams: { firstRoundJurorsNumber: roundParams[5], appealStepFactor: roundParams[6], maxRegularAppealRounds: roundParams[7], finalRoundLockTerms: roundParams[8] },
       appealCollateralParams: { appealCollateralFactor: appealCollateralParams[0], appealConfirmCollateralFactor: appealCollateralParams[1] },
       pcts: { penaltyPct: pcts[0], finalRoundReduction: pcts[1] },
-      minActiveBalance
+      jurorParams: { minActiveBalance: jurorParams[0], minMaxPctTotalSupply: jurorParams[1], maxMaxPctTotalSupply: jurorParams[2]}
     }
   }
+
 
   async getRevealStatus(disputeId, roundNumber) {
     const disputeManager = await this.disputeManager()
