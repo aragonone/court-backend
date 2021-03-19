@@ -684,7 +684,7 @@
       "repeatDirection": "h",
       "targets": [
         {
-          "expr": "sum by (service) (transaction_errors{service=\"$service\",type=\"executeRuling\"})",
+          "expr": "sum by (service) (transaction_errors{service=\"$service\",type=\"rule\"})",
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -692,7 +692,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "executeRuling",
+      "title": "rule",
       "type": "stat"
     },
     {

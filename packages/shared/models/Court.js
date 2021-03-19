@@ -420,7 +420,7 @@ module.exports = class {
 
   async execute(disputeId) {
     logger.info(`Executing ruling of dispute #${disputeId}...`)
-    return this.instance.executeRuling(disputeId)
+    return this.instance.rule(disputeId)
   }
 
   async settle(disputeId) {

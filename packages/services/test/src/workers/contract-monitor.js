@@ -22,7 +22,7 @@ describe('Contract Monitor worker', () => {
         { ...base, input: '0x82a8b3b0' },
         // settlePenalties
         { ...base, input: '0x859ba187' },
-        // executeRuling
+        // rule
         { ...base, input: '0x8bb04875' },
         // heartbeat
         { ...base, input: '0x9bf6fa57' },
@@ -54,7 +54,7 @@ describe('Contract Monitor worker', () => {
     expect(transactionErrors).to.have.been.calledWith('reveal', 1)
     expect(transactionErrors).to.have.been.calledWith('settleReward', 1)
     expect(transactionErrors).to.have.been.calledWith('settlePenalties', 1)
-    expect(transactionErrors).to.have.been.calledWith('executeRuling', 1)
+    expect(transactionErrors).to.have.been.calledWith('rule', 1)
     expect(transactionErrors).to.have.been.calledWith('heartbeat', 3)
   })
 })

@@ -17,8 +17,8 @@ const TRANSACTION_TYPES = [
     signature: 'settlePenalties(uint256,uint256,uint256)',
   },
   {
-    type: 'executeRuling',
-    signature: 'executeRuling(uint256)',
+    type: 'rule',
+    signature: 'rule(uint256)',
   },
   {
     type: 'heartbeat',
