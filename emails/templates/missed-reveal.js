@@ -13,7 +13,7 @@ module.exports = function() {
     subject: 'Your vote wasn’t revealed on time',
     template: base(
       {
-        title: 'Notifications',
+        title: 'Celeste',
         subtitle: `Your account ${addressBadge()} received a notification on {{date}}`,
       },
       `

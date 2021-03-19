@@ -52,9 +52,9 @@ module.exports = function() {
             The coming “mock” disputes will feature real parties and
             binding outcomes, rather than fictitious scenarios.
           </strong>
-          For example, jurors will be tasked with deciding whether various
+          For example, keepers will be tasked with deciding whether various
           Aragon apps should be eligible for App Mining rewards. For more
-          information about App Mining and how jurors can best prepare for the
+          information about App Mining and how keepers can best prepare for the
           upcoming disputes check out what’s next for the Precedence campaign
           below.
         </p>
@@ -63,10 +63,10 @@ module.exports = function() {
         The precedence campaign is restarting soon and there are important
         changes in expectations for the upcoming disputes than were announced
         previously. The coming “mock” disputes will feature real parties and
-        binding outcomes, rather than fictitious scenarios. For example, jurors
+        binding outcomes, rather than fictitious scenarios. For example, keepers
         will be tasked with deciding whether various Aragon apps should be
         eligible for App Mining rewards. For more information about App Mining
-        and how jurors can best prepare for the upcoming disputes check out
+        and how keepers can best prepare for the upcoming disputes check out
         what’s next for the Precedence campaign below.
       `),
     },

@@ -13,7 +13,7 @@ module.exports = function() {
     subject: 'Celeste email verification reminder',
     template: base(
       {
-        title: 'Notifications',
+        title: 'Celeste',
         subtitle: `Your account ${addressBadge()} received a notification on {{date}}`,
       },
       `

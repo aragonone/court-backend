@@ -13,7 +13,7 @@ module.exports = function() {
     subject: 'You have been selected to arbitrate Dispute #{{disputeId}} on Celeste',
     template: base(
       {
-        title: 'Notifications',
+        title: 'Celeste',
         subtitle: `Your account ${addressBadge()} received a notification on {{date}}`,
       },
       `

@@ -401,7 +401,7 @@ function base({ title, subtitle }, content) {
                                 To modify your email notification settings, visit the ${link(
                                   'Notifications section',
                                   'https://celeste-rinkeby.1hive.org/#/dashboard?preferences=notifications'
-                                )} of the Court Dashboard Settings
+                                )} of the Celeste Dashboard Settings
                               </div>
                             </td>
                           </tr>
@@ -783,7 +783,7 @@ function base2(
                                     To modify your email notification settings, visit the ${link(
                                       'Notifications section',
                                       'https://celeste-rinkeby.1hive.org/#/dashboard?preferences=notifications'
-                                    )} of the Court Dashboard Settings
+                                    )} of the Celeste Dashboard Settings
                                   </p>
                                 </div>
                               </td>

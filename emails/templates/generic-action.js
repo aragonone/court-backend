@@ -14,7 +14,7 @@ module.exports = function() {
     subject: '{{title}}',
     template: base(
       {
-        title: 'Notifications',
+        title: 'Celeste',
         subtitle: `Your account ${addressBadge()} received a notification on {{date}}`,
       },
       `
