@@ -1,4 +1,4 @@
-const Logger = require('@aragonone/court-backend-shared/helpers/logger')
+const Logger = require('@1hive/celeste-backend-shared/helpers/logger')
 
 class WorkerLogger {
   constructor(worker, logger) {

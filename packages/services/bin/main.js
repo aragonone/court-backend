@@ -2,7 +2,7 @@
 
 import { fork } from 'child_process'
 import { workers } from '../config'
-import Logger from '@aragonone/court-backend-shared/helpers/logger'
+import Logger from '@1hive/celeste-backend-shared/helpers/logger'
 
 require('dotenv').config()
 

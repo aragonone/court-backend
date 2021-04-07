@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { bn } from '@aragonone/court-backend-shared/helpers/numbers'
+import { bn } from '@1hive/celeste-backend-shared/helpers/numbers'
 
 const BASE_URL = 'https://<network>.etherscan.io/api?'
 const DEFAULT_API_KEY = process.env.ETHERSCAN_API_KEY

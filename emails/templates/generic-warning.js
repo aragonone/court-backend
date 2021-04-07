@@ -53,22 +53,22 @@ module.exports = function() {
       contentHtml: `
         <p>
           The Juror Playground is a separate instance of the Juror Dashboard and
-          Aragon Court on the Rinkeby testnet.
+          Celeste on the Rinkeby testnet.
         </p>
 
         <p>
-          We’re opening the Playground to existing jurors who wish to participate
+          We’re opening the Playground to existing keepers who wish to participate
           in stress-testing the Dashboard and Court.
         </p>
 
         <p>
-          This is a perfect opportunity for jurors looking to familiarize
+          This is a perfect opportunity for keepers looking to familiarize
           themselves with the Dashboard in a safe environment before adjudicating
           disputes on mainnet.
         </p>
 
         <p>
-          As always with testnets, the tokens will be valueless, so jurors are
+          As always with testnets, the tokens will be valueless, so keepers are
           not subject to real financial risks (or rewards) when using the
           Playground.
         </p>
@@ -83,16 +83,16 @@ module.exports = function() {
       `,
       content: trimMultiline(`
         The Juror Playground is a separate instance of the Juror Dashboard and
-        Aragon Court on the Rinkeby testnet.
+        Celeste on the Rinkeby testnet.
 
-        We’re opening the Playground to existing jurors who wish to participate
+        We’re opening the Playground to existing keepers who wish to participate
         in stress-testing the Dashboard and Court.
 
-        This is a perfect opportunity for jurors looking to familiarize
+        This is a perfect opportunity for keepers looking to familiarize
         themselves with the Dashboard in a safe environment before adjudicating
         disputes on mainnet.
 
-        As always with testnets, the tokens will be valueless, so jurors are
+        As always with testnets, the tokens will be valueless, so keepers are
         not subject to real financial risks (or rewards) when using the
         Playground.
 
@@ -101,14 +101,14 @@ module.exports = function() {
         Have fun, and break things!
       `),
       noticeHtml: `
-        This is an email from <strong>Aragon Court’s Rinkeby test environment</strong>. This
-        environment has been configured so jurors can have a playground to try
+        This is an email from <strong>Celeste’s Rinkeby test environment</strong>. This
+        environment has been configured so keepers can have a playground to try
         out the new dashboard and ensure that the system is working
         correctly.
       `,
       notice: trimMultiline(`
-        This is an email from Aragon Court’s Rinkeby test environment. This
-        environment has been configured so jurors can have a playground to try
+        This is an email from Celeste’s Rinkeby test environment. This
+        environment has been configured so keepers can have a playground to try
         out the new dashboard and ensure that the system is working
         correctly.
       `),

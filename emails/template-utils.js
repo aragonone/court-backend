@@ -69,7 +69,7 @@ function base({ title, subtitle }, content) {
       xmlns:o="urn:schemas-microsoft-com:office:office"
     >
       <head>
-        <title>Aragon Court ${title}</title>
+        <title>Celeste ${title}</title>
         <!--[if !mso]><!-- -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!--<![endif]-->
@@ -171,7 +171,7 @@ function base({ title, subtitle }, content) {
                     width: 744px;
                   `)}">
                     <img
-                      title="Aragon Court ${title}"
+                      title="Celeste ${title}"
                       src="${ASSETS_URL}/header-logo.png"
                       width="110"
                       height="110"
@@ -198,8 +198,6 @@ function base({ title, subtitle }, content) {
                     text-align: center;
                   `)}">
                     <div style="${style(`
-                      background: #dde4e9;
-                      background-color: #dde4e9;
                       margin: 0 auto;
                       border-radius: 4px;
                       max-width: 776px;
@@ -208,8 +206,6 @@ function base({ title, subtitle }, content) {
                         {
                           align: 'center',
                           style: style(`
-                            background: #dde4e9;
-                            background-color: #dde4e9;
                             width: 100%;
                             border-radius: 4px;
                           `),
@@ -228,13 +224,13 @@ function base({ title, subtitle }, content) {
                               display: inline-block;
                               vertical-align: top;
                               width: 100%;
+                              border-radius: 16px;
+                              border: 1px solid #DDE4E9;
                             `)}">
                               ${table(
                                 { width: '100%' },
                                 `<tr>
                                   <td style="${style(`
-                                    background-color: #ffffff;
-                                    border-radius: 4px;
                                     vertical-align: top;
                                     padding: 40px;
                                   `)}">
@@ -256,8 +252,8 @@ function base({ title, subtitle }, content) {
                                           `)}">
                                             <span style="${style(`
                                               font-weight: 400;
-                                              color: #FF9184;
-                                            `)}">Aragon Court</span> ${title}
+                                              color: #8854A7;
+                                            `)}">Celeste</span> ${title}
                                           </div>
                                         </td>
                                       </tr>
@@ -391,8 +387,8 @@ function base({ title, subtitle }, content) {
                                 color: #9096B6;
                               `)}">
                                 This service is provided by ${link(
-                                  'Aragon One AG',
-                                  'https://aragon.one/'
+                                  '1Hive',
+                                  'https://wiki.1hive.org/'
                                 )}.
                                 
                                 You are receiving this email because you are 
@@ -400,12 +396,12 @@ function base({ title, subtitle }, content) {
                                 <strong style="${style(`
                                   font-weight: 300;
                                   color: #637381
-                                `)}">Aragon Court Email Notifications</strong>.
+                                `)}">Celeste Email Notifications</strong>.
                                 
                                 To modify your email notification settings, visit the ${link(
                                   'Notifications section',
-                                  'https://court.aragon.org/dashboard?preferences=notifications'
-                                )} of the Court Dashboard Settings
+                                  'https://celeste-rinkeby.1hive.org/#/dashboard?preferences=notifications'
+                                )} of the Celeste Dashboard Settings
                               </div>
                             </td>
                           </tr>
@@ -775,8 +771,8 @@ function base2(
                                   <hr>
                                   <p class="ff align-center email-footer">
                                     This service is provided by ${link(
-                                      'Aragon One AG',
-                                      'https://aragon.one/'
+                                      '1Hive',
+                                      'https://wiki.1hive.org/'
                                     )}.
 
                                     You are receiving this email because you are
@@ -786,8 +782,8 @@ function base2(
 
                                     To modify your email notification settings, visit the ${link(
                                       'Notifications section',
-                                      'https://court.aragon.org/dashboard?preferences=notifications'
-                                    )} of the Court Dashboard Settings
+                                      'https://celeste-rinkeby.1hive.org/#/dashboard?preferences=notifications'
+                                    )} of the Celeste Dashboard Settings
                                   </p>
                                 </div>
                               </td>
@@ -876,9 +872,9 @@ function action(label, href, { padding = '0' } = {}) {
             line-height: 40px;
             font-size: 16px;
             background-color: #FF8888;
-            background-image: linear-gradient(184deg, #FFB36D -50%, #FF8888 90%);
+            background-image: linear-gradient(89.31deg, #6050B0 -42%, #8E54A5 117%);
             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
-            border-radius: 4px;
+            border-radius: 12px;
             text-decoration: none;
             color: #FFFFFF;
             white-space: nowrap;
@@ -907,7 +903,7 @@ function infobox({ mode, primary, secondary }) {
       class: 'infobox-table',
       style: style(`
         width: 100%;
-        border-radius: 4px;
+        border-radius: 12px;
         font-family: Overpass, sans-serif;
         background-color: ${background};
       `),
@@ -920,8 +916,8 @@ function infobox({ mode, primary, secondary }) {
             <td
               class="infobox-icon"
               style="${style(`
-                width: 75px;
-                padding: 8px 0 8px 8px;
+                width: 60px;
+                padding: 24px 0 24px 24px;
                 direction: ltr;
               `)}"
             >
@@ -934,8 +930,8 @@ function infobox({ mode, primary, secondary }) {
                   border: 0;
                   outline: none;
                   text-decoration: none;
-                  width: 75px;
-                  height: 80px;
+                  width: 60px;
+                  height: 60px;
                   font-size: 16px;
                 `)}"
               />
@@ -952,7 +948,7 @@ function infobox({ mode, primary, secondary }) {
               class="infobox-content"
               style="${style(`
                 direction: ltr;
-                padding: 24px 8px;
+                padding: 24px 16px;
                 text-align: left;
                 font-size: 16px;
                 color: #9096B6;
@@ -1077,13 +1073,13 @@ function dataTable(listName, headers) {
 
 function textFooter() {
   return `
-    This service is provided by Aragon One AG [1]. You are receiving this email
-    because you are subscribed to Aragon Court Email Notifications. To modify 
+    This service is provided by 1Hive [1]. You are receiving this email
+    because you are subscribed to Celeste Email Notifications. To modify 
     your email notification settings, visit the Notifications section [2] of
-    the Court Dashboard Settings
+    the Celeste Dashboard Settings
 
-    [1] https://aragon.one/
-    [2] https://court.aragon.org/dashboard?preferences=notifications
+    [1] https://wiki.1hive.org/
+    [2] https://celeste-rinkeby.1hive.org/#/dashboard?preferences=notifications
   `
 }
 

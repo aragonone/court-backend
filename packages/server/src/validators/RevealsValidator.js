@@ -1,7 +1,7 @@
 import { Reveal } from '../models/objection'
 import Network from '../web3/Network'
 import BaseValidator from './BaseValidator'
-const { hashVote } = require('@aragonone/court-backend-shared/helpers/voting')
+const { hashVote } = require('@1hive/celeste-backend-shared/helpers/voting')
 
 class RevealsValidator extends BaseValidator {
   async validateForCreate({ juror, voteId, outcome, salt }) {

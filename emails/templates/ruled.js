@@ -13,7 +13,7 @@ module.exports = function() {
     subject: 'The final ruling for Dispute #{{disputeId}} is “{{disputeResult}}”',
     template: base(
       {
-        title: 'Notifications',
+        title: 'Celeste',
         subtitle: `Your account ${addressBadge()} received a notification on {{date}}`,
       },
       `
@@ -32,7 +32,7 @@ module.exports = function() {
       `
     ),
     templateText: `
-      Aragon Court Notifications
+      Celeste Notifications
 
       Your account {{account}} received a notification on {{date}}:
 

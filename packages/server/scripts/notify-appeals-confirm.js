@@ -9,7 +9,7 @@
  * POSTMARK_SERVER_API_TOKEN=
  */
 import { User } from '../src/models/objection'
-import emailClient from '@aragonone/court-backend-shared/helpers/email-client'
+import emailClient from '@1hive/celeste-backend-shared/helpers/email-client'
 import dotenv from 'dotenv'
 import { accountData } from '../../../emails/helpers'
 dotenv.config()
@@ -24,10 +24,10 @@ async function main() {
     try {
       await emailClient.sendEmailWithTemplate({
         To: email,
-        From: 'notifications@court.aragon.org',
+        From: 'notifications@1hive.org',
         TemplateAlias: 'appeals-confirm',
         TemplateModel: {
-          subject: 'Aragon Court Dispute #20 and Dispute #21 have been APPEALED.',
+          subject: 'Celeste Dispute #20 and Dispute #21 have been APPEALED.',
           ...accountData(address),
           date: 'Tuesday, 8 Sep. 2020'
         },

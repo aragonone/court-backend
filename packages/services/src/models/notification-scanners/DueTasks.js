@@ -1,5 +1,5 @@
 import NotificationScannerBaseModel from './NotificationScannerBaseModel'
-import Network from '@aragonone/court-backend-server/build/web3/Network'
+import Network from '@1hive/celeste-backend-server/build/web3/Network'
 import { draftTermIdFor, dueDateFor } from '../../helpers/term-id-getter'
 import dateFormat from 'dateformat'
 

@@ -12,8 +12,8 @@
   "scripts": {
     "build": "./build-emails",
     "build:mock": "MOCK_DATA=1 yarn build",
-    "build:postmark": "ASSETS_URL=https://storage.googleapis.com/aragon/court-backend/emails/assets yarn build",
-    "sync:templates": "ASSETS_URL=https://storage.googleapis.com/aragon/court-backend/emails/assets SYNC_TEMPLATES=1 yarn build",
-    "sync:assets": "gsutil cp assets/* gs://aragon/court-backend/emails/assets/"
+    "build:postmark": "ASSETS_URL=https://storage.googleapis.com/1hive/celeste-backend/emails/assets yarn build",
+    "sync:templates": "ASSETS_URL=https://storage.googleapis.com/1hive/celeste-backend/emails/assets SYNC_TEMPLATES=1 yarn build",
+    "sync:assets": "gsutil cp assets/* gs://1hive/celeste-backend/emails/assets/"
   }
 }

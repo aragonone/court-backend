@@ -8,13 +8,13 @@ import { userDbCleanup, userNotificationTypeDbCleanup } from '../../helpers/dbCl
 import userNotificationTypeByModel from '../../helpers/userNotificationTypeByModel'
 import { tryRunScanner } from '../../../src/workers/notification-scanner'
 import { trySendNotification } from '../../../src/workers/notification-sender'
-import { User, UserEmail, UserNotification } from '@aragonone/court-backend-server/build/models/objection'
+import { User, UserEmail, UserNotification } from '@1hive/celeste-backend-server/build/models/objection'
 
 const { env: { CLIENT_URL } } = process
 const notificationTypeModel = 'SubscriptionReminder'
 const TEST_ADDR = '0xfc3771B19123F1f0237C737e92645BA6d628e2cB'
 const TEST_EMAIL = 'subscription@reminder.test'
-import { DAYS } from '@aragonone/court-backend-shared/helpers/times'
+import { DAYS } from '@1hive/celeste-backend-shared/helpers/times'
 
 
 describe('SubscriptionReminder notifications', () => {

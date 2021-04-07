@@ -1,5 +1,5 @@
 import NotificationScannerBaseModel from './NotificationScannerBaseModel'
-import Network from '@aragonone/court-backend-server/build/web3/Network'
+import Network from '@1hive/celeste-backend-server/build/web3/Network'
 const OUTCOMES = {
   0: 'Missing',
   1: 'Leaked',

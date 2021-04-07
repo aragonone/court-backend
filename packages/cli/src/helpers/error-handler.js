@@ -1,4 +1,4 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('Error Handler')
+const logger = require('@1hive/celeste-backend-shared/helpers/logger')('Error Handler')
 
 module.exports = error => {
   logger.error(`Process finished with error:`)

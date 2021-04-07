@@ -13,7 +13,7 @@ module.exports = function() {
     subject: 'Your vote wasn’t cast on time',
     template: base(
       {
-        title: 'Notifications',
+        title: 'Celeste',
         subtitle: `Your account ${addressBadge()} received a notification on {{date}}`,
       },
       `
@@ -25,22 +25,22 @@ module.exports = function() {
             { nowrap: true }
           )}`,
           secondary: `Some of your ${link(
-            'locked ANJ balance',
+            'locked HNY balance',
             '{{lockedAnjBalanceUrl}}'
           )} has been forfeit.`,
         })}
-        ${action('Learn more', 'https://help.aragon.org/article/43-dispute-lifecycle#voting-period', { padding: '16px 0 0' })}
+        ${action('Learn more', 'https://wiki.1hive.org/projects/celeste', { padding: '16px 0 0' })}
       `
     ),
     templateText: `
-      Aragon Court Notifications
+      Celeste Notifications
 
       Your account {{account}} received a notification on {{date}}:
 
       Your vote wasn’t cast on time for Dispute #{{disputeId}}. 
-      Some of your locked ANJ balance has been forfeit.
+      Some of your locked HNY balance has been forfeit.
 
-      Learn more: https://help.aragon.org/article/43-dispute-lifecycle#voting-period
+      Learn more: https://wiki.1hive.org/projects/celeste
       ${textFooter()}
     `,
     mockData: {

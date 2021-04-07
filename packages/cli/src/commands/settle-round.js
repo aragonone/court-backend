@@ -1,4 +1,4 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('settle-round')
+const logger = require('@1hive/celeste-backend-shared/helpers/logger')('settle-round')
 
 const command = 'settle-round'
 const describe = 'Settle penalties and appeals for a dispute'

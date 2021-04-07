@@ -1,5 +1,5 @@
 import NotificationScannerBaseModel from './NotificationScannerBaseModel'
-import { User } from '@aragonone/court-backend-server/build/models/objection'
+import { User } from '@1hive/celeste-backend-server/build/models/objection'
 
 class SubscriptionReminder extends NotificationScannerBaseModel {
   async scan() {

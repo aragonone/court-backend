@@ -8,10 +8,10 @@ const {
 
 module.exports = function() {
   return {
-    subject: 'Verify your email on Aragon Court',
+    subject: 'Verify your email on Celeste',
     template: base(
       {
-        title: 'Notifications',
+        title: 'Email Verification',
         subtitle: `
           Verify your email to receive email notifications about important news
           and upcoming tasks.
@@ -21,7 +21,7 @@ module.exports = function() {
         <div style="font-size:16px;line-height:24px;color:#212B36">
           To complete the verification process, please click on the button
           below. Please note that by completing this process you are agreeing
-          to receive email notifications from Aragon Court.
+          to receive email notifications from Celeste.
         </div>
 
         ${vspace(40)}
@@ -37,13 +37,13 @@ module.exports = function() {
       `
     ),
     templateText: `
-      Aragon Court Notifications
+      Celeste Notifications
 
       Verify your email to receive email notifications about important news
       and upcoming tasks.
 
       Please note that by completing this process you are agreeing to receive
-      email notifications from Aragon Court.
+      email notifications from Celeste.
 
       Verify your email by copying and pasting this URL into your browser:
       {{verifyEmailUrl}}

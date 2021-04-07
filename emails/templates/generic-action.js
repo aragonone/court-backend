@@ -14,7 +14,7 @@ module.exports = function() {
     subject: '{{title}}',
     template: base(
       {
-        title: 'Notifications',
+        title: 'Celeste',
         subtitle: `Your account ${addressBadge()} received a notification on {{date}}`,
       },
       `
@@ -22,13 +22,13 @@ module.exports = function() {
           primary: '{{{titleHtml}}}',
           secondary: '{{{actionTextHtml}}}',
         })}
-        ${action('Go to dashboard', 'https://court.aragon.org', {
+        ${action('Go to dashboard', 'https://celeste-rinkeby.1hive.org', {
           padding: '16px 0 0',
         })}
       `
     ),
     templateText: `
-      Aragon Court Notifications
+      Celeste Notifications
 
       Your account {{account}} received a notification on {{date}}:
 
@@ -36,7 +36,7 @@ module.exports = function() {
 
       {{actionText}}
 
-      Go to dashboard: https://court.aragon.org
+      Go to dashboard: https://celeste-rinkeby.1hive.org
       ${textFooter()}
     `,
     mockData: {
@@ -47,9 +47,9 @@ module.exports = function() {
         You are recieving this notification because you have been reimbursed for
         losses incurred from your involvement in Dispute #0.
 
-        Jurors drafted and slashed in Dispute #0 have been sent reimbursements for
-        their slashed amount. If you are an active juror, the ANJ has been added
-        to your Active Balance and if you are an inactive juror ANJ has been
+        Keepers drafted and slashed in Dispute #0 have been sent reimbursements for
+        their slashed amount. If you are an active keeper, the HNY has been added
+        to your Active Balance and if you are an inactive keeper HNY has been
         added to your Inactive Balance.
 
         Appealers can claim their collateral through the Dashboard now that the
@@ -57,7 +57,7 @@ module.exports = function() {
         your account.
       `),
       titleHtml: `
-        ${link('Dispute #0', 'https://court.aragon.org/disputes/0', {
+        ${link('Dispute #1', 'https://celeste-rinkeby.1hive.org/disputes/1', {
           nowrap: true,
         })} has been settled and fees reimbursements completed.
       `,
@@ -68,10 +68,10 @@ module.exports = function() {
         </p>
 
         <p>
-          <strong>Jurors</strong> drafted and slashed in Dispute #0 have been
+          <strong>Keepers</strong> drafted and slashed in Dispute #0 have been
           sent reimbursements for their slashed amount. If you are an active
-          juror, the ANJ has been added to your Active Balance and if you are
-          an inactive juror ANJ has been added to your Inactive Balance.
+          keeper, the HNY has been added to your Active Balance and if you are
+          an inactive keeper HNY has been added to your Inactive Balance.
         </p>
 
         <p>

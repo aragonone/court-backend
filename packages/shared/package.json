@@ -1,11 +1,11 @@
 {
-  "name": "@aragonone/court-backend-shared",
+  "name": "@1hive/celeste-backend-shared",
   "version": "0.2.22",
   "private": true,
   "workspaces": {
     "nohoist": [
       "@aragon/minime",
-      "@aragon/court",
+      "@1hive/celeste",
       "@aragonone/precedence-campaign-arbitrable"
     ]
   },
@@ -13,6 +13,7 @@
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "dependencies": {
     "@aragon/court": "1.1.0",
+    "@1hive/celeste": "0.1.5",
     "@aragon/minime": "1.0.0",
     "@aragon/test-helpers": "^2.1.0",
     "@aragon/truffle-config-v5": "^1.0.1",

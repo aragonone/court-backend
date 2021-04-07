@@ -1,4 +1,4 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('execute')
+const logger = require('@1hive/celeste-backend-shared/helpers/logger')('execute')
 
 const command = 'execute'
 const describe = 'Execute ruling for a dispute'

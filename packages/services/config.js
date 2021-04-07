@@ -7,7 +7,7 @@ const workers = [
     path: './src/workers/heartbeat',
     processes: 1,
     times: 0,
-    repeat: ONE_MINUTE * 10,
+    repeat: ONE_MINUTE * 4,
     metricsPort: process.env.SERVICE_PORT_HEARTBEAT
   },
   {

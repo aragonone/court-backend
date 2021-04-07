@@ -12,7 +12,7 @@ import {
 } from '../controllers'
 
 export default app => {
-  app.get('/', (request, response) => response.status(200).send({ message: 'Welcome to Aragon Court server' }))
+  app.get('/', (request, response) => response.status(200).send({ message: 'Welcome to Celeste server' }))
 
   /*********** Users routes ***********/
 

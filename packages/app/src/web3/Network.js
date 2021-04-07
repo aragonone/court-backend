@@ -1,5 +1,5 @@
-import Court from '@aragonone/court-backend-shared/models/Court'
-import Environment from '@aragonone/court-backend-shared/models/environments/BrowserEnvironment'
+import Court from '@1hive/celeste-backend-shared/models/Court'
+import Environment from '@1hive/celeste-backend-shared/models/environments/BrowserEnvironment'
 
 const FAUCET = {
   staging: '0x9a2F850C701b457b73c8dC8B1534Cc187B33F5FD',
@@ -10,7 +10,7 @@ const FAUCET = {
 const ANT = {
   staging: '0x245B220211b7D3C6dCB001Aa2C3bf48ac4CaA03E',
   ropsten: '0x0cb95D9537c8Fb0C947eD48FDafc66A7b72EfC86',
-  rinkeby: '0x8cf8196c14A654dc8Aceb3cbb3dDdfd16C2b652D',
+  rinkeby: '0x3050E20FAbE19f8576865811c9F28e85b96Fa4f9',
   mainnet: '0x960b236A07cf122663c4303350609A66A7B288C0'
 }
 
@@ -38,7 +38,7 @@ const Network = {
 
   async getCourt(address) {
     if (!this.court) {
-      const AragonCourt = await this.environment.getArtifact('AragonCourt', '@aragon/court')
+      const AragonCourt = await this.environment.getArtifact('AragonCourt', '@1hive/celeste')
       const court = await AragonCourt.at(address)
       this.court = new Court(court, this.environment)
     }

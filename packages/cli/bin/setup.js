@@ -1,9 +1,9 @@
 const yargs = require('yargs')
-const { bn } = require('@aragonone/court-backend-shared/helpers/numbers')
+const { bn } = require('@1hive/celeste-backend-shared/helpers/numbers')
 const { execSync } = require('child_process')
 const errorHandler = require('../src/helpers/error-handler')
-const Logger = require('@aragonone/court-backend-shared/helpers/logger')
-const Environment = require('@aragonone/court-backend-shared/models/environments/TruffleEnvironment')
+const Logger = require('@1hive/celeste-backend-shared/helpers/logger')
+const Environment = require('@1hive/celeste-backend-shared/models/environments/TruffleEnvironment')
 
 Logger.setDefaults(false, false)
 const logger = Logger('setup')

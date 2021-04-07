@@ -1,5 +1,5 @@
 import BaseModel from './BaseModel'
-import { HOURS } from '@aragonone/court-backend-shared/helpers/times'
+import { HOURS } from '@1hive/celeste-backend-shared/helpers/times'
 
 export default class UserNotification extends BaseModel {
   static get tableName() {

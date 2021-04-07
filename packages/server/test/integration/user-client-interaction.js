@@ -33,7 +33,7 @@ describe('Client user interaction', () => {
   it('should welcome user to the api', async () => {
     const res = await agent.get('/')
     expect(res).to.have.status(HttpStatus.OK)
-    expect(res.body.message).to.equal('Welcome to Aragon Court server')
+    expect(res.body.message).to.equal('Welcome to Celeste server')
   })
 
   it('should return session cookie', async () => {

@@ -17,15 +17,14 @@ export default class Navbar extends React.Component {
     return (
       <nav>
         <div className="logo">
-          <Link to="/">Aragon Court</Link>
+          <Link to="/">Celeste</Link>
         </div>
         <div className="links">
           <Link to="/disputes">Disputes</Link>
           <Link to="/jurors">Jurors</Link>
           <Link to="/drafts">Drafts</Link>
-          <Link to="/subscribers">Subscribers</Link>
           <Link to="/periods">Periods</Link>
-          <Link to="/anj-balances">ANJ</Link>
+          <Link to="/anj-balances">HNY</Link>
           { admin.id && this._buildLoggedInItems() }
         </div>
         <div className="account">

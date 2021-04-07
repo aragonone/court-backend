@@ -1,9 +1,9 @@
 const logger = require('../helpers/logger')('Court')
 const { bn, bigExp } = require('../helpers/numbers')
-const { decodeEventsOfType } = require('@aragon/court/test/helpers/lib/decodeEvent')
+const { decodeEventsOfType } = require('@1hive/celeste/test/helpers/lib/decodeEvent')
 const { encodeVoteId, hashVote } = require('../helpers/voting')
-const { DISPUTE_MANAGER_EVENTS } = require('@aragon/court/test/helpers/utils/events')
-const { DISPUTE_MANAGER_ERRORS } = require('@aragon/court/test/helpers/utils/errors')
+const { DISPUTE_MANAGER_EVENTS } = require('@1hive/celeste/test/helpers/utils/events')
+const { DISPUTE_MANAGER_ERRORS } = require('@1hive/celeste/test/helpers/utils/errors')
 const { getEventArgument, getEvents } = require('@aragon/test-helpers/events')
 const { sha3, fromWei, utf8ToHex, soliditySha3, padLeft, toHex } = require('web3-utils')
 
@@ -38,7 +38,7 @@ module.exports = class {
   async registry() {
     if (!this._registry) {
       const address = await this.instance.getJurorsRegistry()
-      const JurorsRegistry = await this.environment.getArtifact('JurorsRegistry', '@aragon/court')
+      const JurorsRegistry = await this.environment.getArtifact('JurorsRegistry', '@1hive/celeste')
       this._registry = await JurorsRegistry.at(address)
     }
     return this._registry
@@ -47,7 +47,7 @@ module.exports = class {
   async disputeManager() {
     if (!this._disputeManager) {
       const address = await this.instance.getDisputeManager()
-      const DisputeManager = await this.environment.getArtifact('DisputeManager', '@aragon/court')
+      const DisputeManager = await this.environment.getArtifact('DisputeManager', '@1hive/celeste')
       this._disputeManager = await DisputeManager.at(address)
     }
     return this._disputeManager
@@ -56,7 +56,7 @@ module.exports = class {
   async voting() {
     if (!this._voting) {
       const address = await this.instance.getVoting()
-      const Voting = await this.environment.getArtifact('CRVoting', '@aragon/court')
+      const Voting = await this.environment.getArtifact('CRVoting', '@1hive/celeste')
       this._voting = await Voting.at(address)
     }
     return this._voting
@@ -65,7 +65,7 @@ module.exports = class {
   async subscriptions() {
     if (!this._subscriptions) {
       const address = await this.instance.getSubscriptions()
-      const Subscriptions = await this.environment.getArtifact('CourtSubscriptions', '@aragon/court')
+      const Subscriptions = await this.environment.getArtifact('CourtSubscriptions', '@1hive/celeste')
       this._subscriptions = await Subscriptions.at(address)
     }
     return this._subscriptions
@@ -95,18 +95,20 @@ module.exports = class {
   async getConfigAt(termId = undefined) {
     if (!termId) termId = await this.currentTermId()
     const rawConfig = await this.instance.getConfig(termId)
-    const { feeToken, fees, roundStateDurations: rounds, pcts, roundParams, appealCollateralParams, minActiveBalance } = rawConfig
+    const { feeToken, fees, maxRulingOptions, roundParams, pcts, appealCollateralParams, jurorParams } = rawConfig
 
     return {
       feeToken,
       fees: { jurorFee: fees[0], draftFee: fees[1], settleFee: fees[2] },
-      roundParams: { firstRoundJurorsNumber: roundParams[0], appealStepFactor: roundParams[1], maxRegularAppealRounds: roundParams[2] },
-      roundDurations: { evidenceTerms: rounds[0], commitTerms: rounds[1], revealTerms: rounds[2], appealTerms: rounds[3], appealConfirmationTerms: rounds[4] },
+      maxRulingOptions,
+      roundDurations: { evidenceTerms: roundParams[0], commitTerms: roundParams[1], revealTerms: roundParams[2], appealTerms: roundParams[3], appealConfirmationTerms: roundParams[4] },
+      roundParams: { firstRoundJurorsNumber: roundParams[5], appealStepFactor: roundParams[6], maxRegularAppealRounds: roundParams[7], finalRoundLockTerms: roundParams[8] },
       appealCollateralParams: { appealCollateralFactor: appealCollateralParams[0], appealConfirmCollateralFactor: appealCollateralParams[1] },
       pcts: { penaltyPct: pcts[0], finalRoundReduction: pcts[1] },
-      minActiveBalance
+      jurorParams: { minActiveBalance: jurorParams[0], minMaxPctTotalSupply: jurorParams[1], maxMaxPctTotalSupply: jurorParams[2]}
     }
   }
+
 
   async getRevealStatus(disputeId, roundNumber) {
     const disputeManager = await this.disputeManager()
@@ -230,7 +232,7 @@ module.exports = class {
     const decimals = await anj.decimals()
     const registry = await this.registry()
     await this._approve(anj, bigExp(amount, decimals), registry.address)
-    logger.info(`Staking ANJ ${amount} for ${juror}...`)
+    logger.info(`Staking HNY ${amount} for ${juror}...`)
     return registry.stakeFor(juror, bigExp(amount, decimals), data)
   }
 
@@ -238,7 +240,7 @@ module.exports = class {
     const anj = await this.anj()
     const decimals = await anj.decimals()
     const registry = await this.registry()
-    logger.info(`Unstaking ANJ ${amount} for ${await this.environment.getSender()}...`)
+    logger.info(`Unstaking HNY ${amount} for ${await this.environment.getSender()}...`)
     return registry.unstake(bigExp(amount, decimals), data)
   }
 
@@ -246,7 +248,7 @@ module.exports = class {
     const anj = await this.anj()
     const decimals = await anj.decimals()
     const registry = await this.registry()
-    logger.info(`Activating ANJ ${amount} for ${await this.environment.getSender()}...`)
+    logger.info(`Activating HNY ${amount} for ${await this.environment.getSender()}...`)
     return registry.activate(bigExp(amount, decimals))
   }
 
@@ -256,7 +258,7 @@ module.exports = class {
     const registry = await this.registry()
     await this._approve(anj, bigExp(amount, decimals), registry.address)
     const ACTIVATE_DATA = sha3('activate(uint256)').slice(0, 10)
-    logger.info(`Activating ANJ ${amount} for ${address}...`)
+    logger.info(`Activating HNY ${amount} for ${address}...`)
     return registry.stakeFor(address, bigExp(amount, decimals), ACTIVATE_DATA)
   }
 
@@ -264,14 +266,14 @@ module.exports = class {
     const anj = await this.anj()
     const decimals = await anj.decimals()
     const registry = await this.registry()
-    logger.info(`Requesting ANJ ${amount} from ${await this.environment.getSender()} for deactivation...`)
+    logger.info(`Requesting HNY ${amount} from ${await this.environment.getSender()} for deactivation...`)
     return registry.deactivate(bigExp(amount, decimals))
   }
 
   async donate(amount) {
     const subscriptions = await this.subscriptions()
     const feeToken = await subscriptions.currentFeeToken()
-    const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
+    const ERC20 = await this.environment.getArtifact('ERC20', '@1hive/celeste')
     const token = await ERC20.at(feeToken)
 
     logger.info(`Approving ${amount} fees for donation...`)
@@ -291,7 +293,7 @@ module.exports = class {
     const subscriptions = await this.subscriptions()
     const { feeToken, amountToPay } = await subscriptions.getPayFeesDetails(address, periods)
 
-    const ERC20 = await this.environment.getArtifact('ERC20', '@aragon/court')
+    const ERC20 = await this.environment.getArtifact('ERC20', '@1hive/celeste')
     const token = await ERC20.at(feeToken)
 
     logger.info(`Approving fees for ${periods} periods to ${subscriptions.address}, total amount ${fromWei(amountToPay.toString())}...`)
@@ -310,7 +312,7 @@ module.exports = class {
       ? (await arbitrable.createAndSubmit(rulings, utf8ToHex(metadata), submitters[0], submitters[1], utf8ToHex(evidence[0]), utf8ToHex(evidence[1])))
       : (await arbitrable.createDispute(rulings, utf8ToHex(metadata)))
 
-    const DisputeManager = await this.environment.getArtifact('DisputeManager', '@aragon/court')
+    const DisputeManager = await this.environment.getArtifact('DisputeManager', '@1hive/celeste')
     const { logs: rawLogs } = await this.environment.getTransaction(hash)
     const logs = decodeEventsOfType({ receipt: { rawLogs }}, DisputeManager.abi, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE)
     const disputeId = getEventArgument({ logs }, DISPUTE_MANAGER_EVENTS.NEW_DISPUTE, 'disputeId')
@@ -418,7 +420,7 @@ module.exports = class {
 
   async execute(disputeId) {
     logger.info(`Executing ruling of dispute #${disputeId}...`)
-    return this.instance.executeRuling(disputeId)
+    return this.instance.rule(disputeId)
   }
 
   async settle(disputeId) {

@@ -3,7 +3,7 @@ import Store from '../../store/store'
 import Network from '../../web3/Network'
 import CourtActions from '../../actions/court'
 import { fromWei } from 'web3-utils'
-import { bn } from '@aragonone/court-backend-shared/helpers/numbers'
+import { bn } from '@1hive/celeste-backend-shared/helpers/numbers'
 
 export default class CourtConfig extends React.Component {
 
@@ -73,7 +73,7 @@ export default class CourtConfig extends React.Component {
         <p>Modules governor: {modulesGovernor}</p>
 
         <h3>Registry</h3>
-        <p>ANJ token: {anjToken.id}</p>
+        <p>HNY token: {anjToken.id}</p>
         <p>Min active balance: {fromWei(minActiveBalance.toString())}</p>
 
         <h3>Disputes</h3>
@@ -98,12 +98,7 @@ export default class CourtConfig extends React.Component {
         <h3>Subscriptions</h3>
         <p>Current period: {subscriptions.currentPeriod}</p>
         <p>Period duration: {subscriptions.periodDuration} court terms</p>
-        <p>Fee amount: {fromWei(subscriptions.feeAmount.toString())}</p>
         <p>Fee token: {subscriptions.feeToken}</p>
-        <p>Pre payment periods: {subscriptions.prePaymentPeriods}</p>
-        <p>Resume pre paid periods: {subscriptions.resumePrePaidPeriods}</p>
-        <p>Late payment penalty pct: % {subscriptions.latePaymentPenaltyPct}</p>
-        <p>Governor share pct: % {subscriptions.governorSharePct}</p>
 
         <h3>Modules</h3>
           {modules.map((module, index) => {

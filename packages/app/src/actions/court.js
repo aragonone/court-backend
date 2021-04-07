@@ -7,8 +7,8 @@ const HEARTBEAT_MAX_TRANSITIONS = 20
 const CourtActions = {
   async findCourt() {
     const result = await Network.query('{ courtConfigs { id } }')
-    if (result.courtConfigs.length === 0) throw Error('Missing Aragon Court deployment')
-    if (result.courtConfigs.length > 1) throw Error('Found more than Aragon Court deployment')
+    if (result.courtConfigs.length === 0) throw Error('Missing Celeste deployment')
+    if (result.courtConfigs.length > 1) throw Error('Found more than Celeste deployment')
     return result.courtConfigs[0].id
   },
 
@@ -50,19 +50,17 @@ const CourtActions = {
             appealCollateralFactor
             appealConfirmCollateralFactor
             minActiveBalance
+            minMaxPctTotalSupply
+            maxMaxPctTotalSupply
             fundsGovernor
             configGovernor
+            feesUpdater
             modulesGovernor
             subscriptions {
               id
               currentPeriod
-              feeAmount
               feeToken
               periodDuration
-              prePaymentPeriods
-              resumePrePaidPeriods
-              latePaymentPenaltyPct
-              governorSharePct
             }
             modules {
               id

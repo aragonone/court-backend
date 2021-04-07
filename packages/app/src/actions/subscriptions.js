@@ -11,8 +11,7 @@ const SubscriptionsActions = {
           subscriptionPeriod (id: "${id}") {
             id
             feeToken
-            feeAmount
-            collectedFees
+            donatedFees
             jurorClaims {
               id
               juror { id }
@@ -49,8 +48,7 @@ const SubscriptionsActions = {
           subscriptionPeriods (orderBy: createdAt, orderDirection: desc) {
             id
             feeToken
-            feeAmount
-            collectedFees
+            donatedFees
           }
         }`)
 
@@ -79,25 +77,6 @@ const SubscriptionsActions = {
     }
   },
 
-  findAllSubscribers() {
-    return async function(dispatch) {
-      try {
-        const result = await Network.query(`{
-          subscribers {
-            id
-            subscribed
-            paused
-            lastPaymentPeriodId
-            previousDelayedPeriods
-          }
-        }`)
-        dispatch(SubscriptionsActions.receiveAllSubscribers(result.subscribers))
-      } catch(error) {
-        dispatch(ErrorActions.show(error))
-      }
-    }
-  },
-
   findModule() {
     return async function(dispatch) {
       try {
@@ -105,17 +84,8 @@ const SubscriptionsActions = {
           subscriptionModules (first: 1) {
             id
             currentPeriod
-            feeAmount
             feeToken
             periodDuration
-            prePaymentPeriods
-            resumePrePaidPeriods
-            latePaymentPenaltyPct
-            governorSharePct
-            totalPaid
-            totalDonated
-            totalCollected
-            totalGovernorShares
           }
         }`)
         dispatch(SubscriptionsActions.receiveModule(result.subscriptionModules[0]))

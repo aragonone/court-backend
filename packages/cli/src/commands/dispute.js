@@ -1,4 +1,4 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('dispute')
+const logger = require('@1hive/celeste-backend-shared/helpers/logger')('dispute')
 
 const command = 'dispute'
 const describe = 'Create dispute submitting evidence'

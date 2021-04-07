@@ -2,8 +2,8 @@ import chai from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
 import revealWorker from '../../../src/workers/reveal'
-import Network from '@aragonone/court-backend-server/build/web3/Network'
-import { Reveal } from '@aragonone/court-backend-server/build/models/objection'
+import Network from '@1hive/celeste-backend-server/build/web3/Network'
+import { Reveal } from '@1hive/celeste-backend-server/build/models/objection'
 
 const { expect } = chai
 chai.use(sinonChai)

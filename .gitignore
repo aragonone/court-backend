@@ -9,3 +9,6 @@ lerna-debug.json
 # Dependencies
 node_modules
 package-lock.json
+
+# K8s
+deployment/

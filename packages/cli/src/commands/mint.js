@@ -1,5 +1,5 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('mint')
-const { bigExp } = require('@aragonone/court-backend-shared/helpers/numbers')
+const logger = require('@1hive/celeste-backend-shared/helpers/logger')('mint')
+const { bigExp } = require('@1hive/celeste-backend-shared/helpers/numbers')
 
 const command = 'mint'
 const describe = 'Mint tokens for a certain address'

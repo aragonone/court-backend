@@ -1,5 +1,5 @@
-import emailClient from '@aragonone/court-backend-shared/helpers/email-client'
-import { UserNotification } from '@aragonone/court-backend-server/build/models/objection'
+import emailClient from '@1hive/celeste-backend-shared/helpers/email-client'
+import { UserNotification } from '@1hive/celeste-backend-server/build/models/objection'
 import * as notificationScanners from '../models/notification-scanners'
 import { accountData } from '../../../../emails/helpers'
 

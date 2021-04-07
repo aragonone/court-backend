@@ -14,7 +14,7 @@ module.exports = function() {
     subject: 'Appeals are open for Dispute #{{disputeId}}',
     template: base(
       {
-        title: 'Notifications',
+        title: 'Celeste',
         subtitle: `Your account ${addressBadge()} received a notification on {{date}}`,
       },
       `
@@ -29,8 +29,8 @@ module.exports = function() {
           secondary: trimMultiline(`
             Now that voting has ended, preliminary rulings can be appealed by
             anyone, including you. If you disagree with the ruling made by your
-            fellow jurors and believe it will be overturned by a larger set of
-            jurors, you can appeal the dispute and earn a reward if your appeal
+            fellow keepers and believe it will be overturned by a larger set of
+            keepers, you can appeal the dispute and earn a reward if your appeal
             is successful.
           `),
         })}
@@ -40,7 +40,7 @@ module.exports = function() {
       `
     ),
     templateText: `
-      Aragon Court Notifications
+      Celeste Notifications
 
       Your account {{account}} received a notification on {{date}}:
 
@@ -48,8 +48,8 @@ module.exports = function() {
 
       Now that voting has ended, preliminary rulings can be appealed by
       anyone, including you. If you disagree with the ruling made by your
-      fellow jurors and believe it will be overturned by a larger set of
-      jurors, you can appeal the dispute and earn a reward if your appeal
+      fellow keepers and believe it will be overturned by a larger set of
+      keepers, you can appeal the dispute and earn a reward if your appeal
       is successful.
 
       Appeal ruling: {{disputeUrl}}

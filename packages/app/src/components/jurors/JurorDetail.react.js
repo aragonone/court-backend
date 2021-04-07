@@ -24,10 +24,10 @@ export default class JurorDetail extends React.Component {
           { !juror.id ? 'Loading...' :
             <div>
               <p>Id: {juror.treeId}</p>
-              <p>Active ANJ: {fromWei(juror.activeBalance)}</p>
-              <p>Locked ANJ: {fromWei(juror.lockedBalance)}</p>
-              <p>Staked ANJ: {fromWei(juror.availableBalance)}</p>
-              <p>Deactivating ANJ: {fromWei(juror.deactivationBalance)}</p>
+              <p>Active HNY: {fromWei(juror.activeBalance)}</p>
+              <p>Locked HNY: {fromWei(juror.lockedBalance)}</p>
+              <p>Staked HNY: {fromWei(juror.availableBalance)}</p>
+              <p>Deactivating HNY: {fromWei(juror.deactivationBalance)}</p>
               <p>Withdrawals lock term ID: {juror.withdrawalsLockTermId}</p>
               <p>Created at: {toDate(juror.createdAt)}</p>
               <p>See <Link to={`/jurors/${address}/drafts`}>drafts</Link></p>

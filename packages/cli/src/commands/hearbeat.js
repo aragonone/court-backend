@@ -1,4 +1,4 @@
-const logger = require('@aragonone/court-backend-shared/helpers/logger')('heartbeat')
+const logger = require('@1hive/celeste-backend-shared/helpers/logger')('heartbeat')
 
 const command = 'heartbeat'
 const describe = 'Call court hearbeat'

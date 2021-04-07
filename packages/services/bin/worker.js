@@ -4,7 +4,7 @@ import path from 'path'
 import Logger from '../src/helpers/worker-logger'
 import MetricsReporter from '../src/helpers/metrics-reporter'
 import errorHandler from '../src/helpers/error-handler'
-import sleep from '@aragonone/court-backend-shared/helpers/sleep'
+import sleep from '@1hive/celeste-backend-shared/helpers/sleep'
 
 let [workerPath, name, times, repeat, color, metricsPort] = process.argv.slice(2)
 if (!workerPath) throw Error('Cannot start worker with missing path')
