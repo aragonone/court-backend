@@ -11,7 +11,7 @@ class Environment {
 
   getSubgraph() {
     const base = this.network === 'rpc' ? SUBGRAPH_LOCAL : SUBGRAPH_REMOTE
-    const env = this.network === 'mainnet' ? '' : `-${this.network}`
+    const env = this.network === 'xdai' ? '' : `-${this.network}`
     return `${base}/subgraphs/name/1hive/celeste${env}`
   }
 
