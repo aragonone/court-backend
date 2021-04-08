@@ -23,7 +23,7 @@ describe('Contract Monitor worker', () => {
         // settlePenalties
         { ...base, input: '0x859ba187' },
         // rule
-        { ...base, input: '0x8bb04875' },
+        { ...base, input: '0xdb18af6c' }, 
         // heartbeat
         { ...base, input: '0x9bf6fa57' },
         { ...base, input: '0x9bf6fa57' },
