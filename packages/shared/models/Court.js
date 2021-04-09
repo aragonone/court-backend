@@ -95,8 +95,8 @@ module.exports = class {
   async getConfigAt(termId = undefined) {
     if (!termId) termId = await this.currentTermId()
     const rawConfig = await this.instance.getConfig(termId)
-    const { feeToken, fees, maxRulingOptions, roundParams, pcts, appealCollateralParams, jurorParams } = rawConfig
-
+    const { feeToken, fees, maxRulingOptions, roundParams, pcts, appealCollateralParams, jurorsParams } = rawConfig
+    
     return {
       feeToken,
       fees: { jurorFee: fees[0], draftFee: fees[1], settleFee: fees[2] },
@@ -105,7 +105,7 @@ module.exports = class {
       roundParams: { firstRoundJurorsNumber: roundParams[5], appealStepFactor: roundParams[6], maxRegularAppealRounds: roundParams[7], finalRoundLockTerms: roundParams[8] },
       appealCollateralParams: { appealCollateralFactor: appealCollateralParams[0], appealConfirmCollateralFactor: appealCollateralParams[1] },
       pcts: { penaltyPct: pcts[0], finalRoundReduction: pcts[1] },
-      jurorParams: { minActiveBalance: jurorParams[0], minMaxPctTotalSupply: jurorParams[1], maxMaxPctTotalSupply: jurorParams[2]}
+      jurorsParams: { minActiveBalance: jurorsParams[0], minMaxPctTotalSupply: jurorsParams[1], maxMaxPctTotalSupply: jurorsParams[2]}
     }
   }
 
