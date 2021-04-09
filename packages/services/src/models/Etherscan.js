@@ -37,7 +37,7 @@ export default class Etherscan {
   _getBaseUrl(network) {
     if (network === 'rinkeby' || network === 'ropsten') return BASE_URL.replace('<network>', `api-${network}`)
     else if (network === 'staging') return BASE_URL.replace('<network>', 'api-rinkeby')
-    else if (network == 'xdai') return 'https://blockscout.com/xdai/mainnet/api'
+    else if (network == 'xdai') return 'https://blockscout.com/xdai/mainnet/api?'
     return BASE_URL.replace('<network>', 'api')
   }
 }
