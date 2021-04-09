@@ -36,7 +36,7 @@ const AccountActions = {
       try {
         const ethBalance = await Network.getBalance(account)
         const balance = fromWei(ethBalance.toString())
-        dispatch(AccountActions.receiveEthBalance({ symbol: 'ETH', balance }))
+        dispatch(AccountActions.receiveEthBalance({ symbol: 'HNY', balance }))
       } catch(error) {
         dispatch(ErrorActions.show(error))
       }

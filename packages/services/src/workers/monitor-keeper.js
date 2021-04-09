@@ -50,10 +50,10 @@ async function monitorTransactions(logger, etherscan, keeper, network) {
 }
 
 async function monitorEthBalance(logger, etherscan, keeper, network) {
-  logger.info(`Checking Eth balance for keeper address ${keeper}`)
+  logger.info(`Checking Hny balance for keeper address ${keeper}`)
   const balance = await etherscan.getBalance(keeper)
-  if (balance.gt(BALANCE_THRESHOLD)) return logger.success(`Keeper balance is ETH ${fromWei(balance.toString())}`)
-  logger.warn(`Keeper balance low ETH ${fromWei(balance.toString())}`)
+  if (balance.gt(BALANCE_THRESHOLD)) return logger.success(`Keeper balance is HNY ${fromWei(balance.toString())}`)
+  logger.warn(`Keeper balance low HNY ${fromWei(balance.toString())}`)
   await sendNotification(logger, buildLowKeeperBalanceMessage(keeper, balance, network))
 }
 
@@ -70,18 +70,18 @@ function buildSuspiciousTransactionMessage(keeper, { to, value, blockNumber, has
     TextBody: `
       A transaction from keeper address ${keeper} has been found in block #${blockNumber}.
       Recipient: ${to}
-      Eth value: ${fromWei(value)}
+      HNY value: ${fromWei(value)}
       You can check it here: https://etherscan.io/tx/${hash}`
   }
 
-  if (value != '0') message.Subject = `(⚠️ ETH!) ${message.Subject}`
+  if (value != '0') message.Subject = `(⚠️ HNY!) ${message.Subject}`
   return message
 }
 
 function buildLowKeeperBalanceMessage(keeper, balance, network) {
   return {
-    Subject: `[${network}] Low Eth balance in keeper address ${keeper}`,
-    TextBody: `Keeper address ${keeper} has Eth ${fromWei(balance.toString())} balance below ${fromWei(BALANCE_THRESHOLD.toString())} threshold.`
+    Subject: `[${network}] Low HNY balance in keeper address ${keeper}`,
+    TextBody: `Keeper address ${keeper} has HNY ${fromWei(balance.toString())} balance below ${fromWei(BALANCE_THRESHOLD.toString())} threshold.`
   }
 }
 
