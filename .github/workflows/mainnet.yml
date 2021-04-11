@@ -49,7 +49,6 @@ jobs:
     - run: .github/scripts/test/run.sh ghcr.io/1hive/celeste-backend:${{ github.sha }}
 
   deploy:
-    if: github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
     needs: test
     steps:
