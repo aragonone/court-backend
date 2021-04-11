@@ -24,7 +24,7 @@ async function main() {
     try {
       await emailClient.sendEmailWithTemplate({
         To: email,
-        From: 'notifications@1hive.org',
+        From: 'celeste@1hive.org',
         TemplateAlias: 'appeals-confirm',
         TemplateModel: {
           subject: 'Celeste Dispute #20 and Dispute #21 have been APPEALED.',

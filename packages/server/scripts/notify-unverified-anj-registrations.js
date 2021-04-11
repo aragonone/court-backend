@@ -23,7 +23,7 @@ async function main() {
     try {
       await emailClient.sendEmailWithTemplate({
         To: email,
-        From: 'notifications@1hive.org',
+        From: 'celeste@1hive.org',
         TemplateAlias: 'notification-settings-announcement',
         TemplateModel: {
           dashboardUrl: 'https://celeste-rinkeby.1hive.org/#/dashboard',
