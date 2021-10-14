@@ -5,9 +5,9 @@
   "author": "Aragon One",
   "license": "(GPL-3.0-or-later OR AGPL-3.0-or-later)",
   "dependencies": {
+    "@aragon/contract-helpers-test": "^0.1.0",
     "@aragon/court": "1.2.0-rc.0",
     "@aragon/minime": "1.0.0",
-    "@aragon/contract-helpers-test": "^0.1.0",
     "@aragon/truffle-config-v5": "^1.0.1",
     "@aragonone/erc20-faucet": "^1.0.0",
     "@aragonone/precedence-campaign-arbitrable": "^1.0.0",
@@ -15,6 +15,7 @@
     "axios": "^0.19.0",
     "chalk": "^2.4.2",
     "dotenv": "^8.2.0",
+    "ethereumjs-wallet": "^1.0.2",
     "ethers": "^4.0.46",
     "graphql-request": "^1.8.2",
     "postmark": "^2.5.3",
