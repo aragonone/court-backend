@@ -56,12 +56,8 @@ const CourtActions = {
             subscriptions {
               id
               currentPeriod
-              feeAmount
               feeToken
               periodDuration
-              prePaymentPeriods
-              resumePrePaidPeriods
-              latePaymentPenaltyPct
               governorSharePct
             }
             modules {

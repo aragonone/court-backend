@@ -11,14 +11,14 @@ on:
     - 'emails/**'
 env:
   # This is a base repository and we use ${GITHUB_SHA} to set the version of the container
-  REPO: ghcr.io/aragonone/court-backend/testnet
+  REPO: docker.pkg.github.com/aragonone/court-backend/rinkeby
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: docker login ghcr.io -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}}
+    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}}
     - run: .github/scripts/docker-build.sh $REPO ${GITHUB_SHA}
 
   test:
@@ -26,7 +26,7 @@ jobs:
     needs: build
     steps:
     - uses: actions/checkout@v2
-    - run: docker login ghcr.io -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}}
+    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}}
     - run: .github/scripts/test/run.sh $REPO:${GITHUB_SHA}
 
   release:
@@ -35,5 +35,5 @@ jobs:
     needs: test
     steps:
     - uses: actions/checkout@v2
-    - run: docker login ghcr.io -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}}
+    - run: docker login docker.pkg.github.com -u $GITHUB_ACTOR -p ${{secrets.GITHUB_TOKEN}}
     - run: .github/scripts/docker-release.sh $REPO:${GITHUB_SHA} $REPO:latest

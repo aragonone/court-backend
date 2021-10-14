@@ -2,15 +2,6 @@ const ONE_MINUTE = 60
 
 const workers = [
   {
-    name: 'heartbeat',
-    color: 'yellow',
-    path: './src/workers/heartbeat',
-    processes: 1,
-    times: 0,
-    repeat: ONE_MINUTE * 10,
-    metricsPort: process.env.SERVICE_PORT_HEARTBEAT
-  },
-  {
     name: 'reveal',
     color: 'pink',
     path: './src/workers/reveal',
